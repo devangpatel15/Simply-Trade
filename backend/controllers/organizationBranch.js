@@ -9,16 +9,16 @@ const {
   
   exports.findAllOrganizationBranch = async (req, res) => {
     try {
-      const OrganizationBranchData = await findAllOrganizationBranchServices();
+      const organizationBranchData = await findAllOrganizationBranchServices();
   
-      if (!OrganizationBranchData) {
+      if (!organizationBranchData) {
         return res.status(404).json({ message: "No Organization Branch found" });
       }
   
       return res.status(200).json({
         message: "Organization Branch retrieved successfully",
         data: 
-          OrganizationBranchData,
+          organizationBranchData,
         
       });
     } catch (err) {
@@ -30,17 +30,17 @@ const {
 
   exports.findOneOrganizationBranch = async (req, res) => {
     try {
-      const OrganizationBranchId = req.params.id;
-      const OrganizationBranchData = await findOneOrganizationBranchServices(OrganizationBranchId);
+      const organizationBranchId = req.params.id;
+      const organizationBranchData = await findOneOrganizationBranchServices(organizationBranchId);
   
-      if (!OrganizationBranchData) {
+      if (!organizationBranchData) {
         return res.status(404).json({ message: "No Organization Branch found" });
       }
   
       return res.status(200).json({
         message: "Organization Branch retrieved successfully",
         data: 
-          OrganizationBranchData,
+          organizationBranchData,
         
       });
     } catch (err) {
@@ -53,16 +53,16 @@ const {
   exports.findUserOrganizationBranch = async (req, res) => {
     try {
       const userId =req?.user?.id;
-      const OrganizationBranchData = await findUserOrganizationBranchServices(userId);
+      const organizationBranchData = await findUserOrganizationBranchServices(userId);
   
-      if (!OrganizationBranchData) {
+      if (!organizationBranchData) {
         return res.status(404).json({ message: "No OrganizationBranch found" });
       }
   
       return res.status(200).json({
         message: "OrganizationBranch retrieved successfully",
         data: 
-          OrganizationBranchData,
+          organizationBranchData,
         
       });
     } catch (err) {
@@ -76,8 +76,8 @@ const {
     try {
   
       const data = req.body; 
-      const OrganizationBranchData = await createOrganizationBranchServices(data);
-      return res.status(200).json({ message: "OrganizationBranch created", data: OrganizationBranchData });
+      const organizationBranchData = await createOrganizationBranchServices({...data,userId:req.user.id});
+      return res.status(200).json({ message: "OrganizationBranch created", data: organizationBranchData });
     } catch (err) {
       return res
         .status(500)
@@ -87,15 +87,15 @@ const {
   
   exports.updateOrganizationBranch = async (req, res) => {
     try {
-      const OrganizationBranchId = req.params.id;
+      const organizationBranchId = req.params.id;
   
       const data = req.body;
-      const OrganizationBranchData = await updateOrganizationBranchServices(OrganizationBranchId, data);
-      if (!OrganizationBranchData) {
+      const organizationBranchData = await updateOrganizationBranchServices(organizationBranchId, data);
+      if (!organizationBranchData) {
         return res.status(404).json({ message: "OrganizationBranch not found" });
       }
   
-      return res.status(200).json({ message: "OrganizationBranch updated", data: OrganizationBranchData });
+      return res.status(200).json({ message: "OrganizationBranch updated", data: organizationBranchData });
     } catch (err) {
       return res
         .status(500)
@@ -105,12 +105,12 @@ const {
   
   exports.deleteOrganizationBranch = async (req, res) => {
     try {
-      const OrganizationBranchId = req.params.id;
-      const OrganizationBranchData = await deleteOrganizationBranchServices(OrganizationBranchId);
-      if (!OrganizationBranchData) {
+      const organizationBranchId = req.params.id;
+      const organizationBranchData = await deleteOrganizationBranchServices(organizationBranchId);
+      if (!organizationBranchData) {
         return res.status(404).json({ message: "OrganizationBranch not found" });
       }
-      return res.status(200).json({ message: "OrganizationBranch deleted", data: OrganizationBranchData });
+      return res.status(200).json({ message: "OrganizationBranch deleted", data: organizationBranchData });
     } catch (err) {
       return res
         .status(500)

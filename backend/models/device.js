@@ -7,4 +7,8 @@ const deviceSchema = new mongoose.Schema(
     },{timestamps: true}
 )
 
+<<<<<<< HEAD
 module.exports = mongoose.model("Device", deviceSchema);
+=======
+module.exports = mongoose.model("Device", deviceSchema);
+>>>>>>> be9e9958578d54aef75ddcd728c65f5524733671
