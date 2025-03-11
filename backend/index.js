@@ -4,6 +4,7 @@ const cors = require("cors");
 const app = express();
 const { connectMongoDB } = require("./config/db");
 const userRoute = require('./routes/user.js');
+const organizationBranchRoute = require("./routes/OrganizationBranch.js");
 
 const PORT = process.env.PORT;
 connectMongoDB();
@@ -11,6 +12,7 @@ connectMongoDB();
 app.use(express.json());
 app.use(cors());
 app.use('/api',userRoute)
+app.use('/api',organizationBranchRoute)
 
 app.get("/", (req, res) => {
   res.send("Hello World");
