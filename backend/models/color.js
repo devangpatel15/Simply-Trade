@@ -6,3 +6,5 @@ const colorSchema = new mongoose.Schema(
         deviceId : { type: mongoose.Schema.Types.ObjectId, ref: 'Device', required: true }, 
     },{timestamps: true}
 )
+
+module.exports = mongoose.model("Color", colorSchema);

@@ -7,3 +7,5 @@ const capacitySchema = new mongoose.Schema(
     },
     { timestamps: true}
 )
+
+module.exports = mongoose.model("Capacity", capacitySchema);

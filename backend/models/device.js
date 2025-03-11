@@ -6,3 +6,5 @@ const deviceSchema = new mongoose.Schema(
         modelId : { type: mongoose.Schema.Types.ObjectId, ref: 'Model', required: true },
     },{timestamps: true}
 )
+
+module.exports = mongoose.model("Device", deviceSchema);

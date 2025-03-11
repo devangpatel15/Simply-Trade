@@ -4,9 +4,20 @@ exports.getAllOrganization = async (req, res) => {
     try {
       
         const org = await getAllOrganizationService();
-        res.json(org);
+        if (!org) {
+            return res.status(404).json({ message: "No Organization found" });
+          }
+      
+          return res.status(200).json({
+            message: "Organization retrieved successfully",
+            data: 
+            org,
+            
+          });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        return res
+        .status(500)
+        .json({ message: "Internal server error", error: err.message });
     }
 }
 
@@ -14,9 +25,20 @@ exports.getOrganization= async (req, res) => {
     try {
         const orgId = req.params.id;
         const org = await getOrganizationService(orgId);
-        res.json(org);
+        if (!org) {
+            return res.status(404).json({ message: "No Organization found" });
+          }
+      
+          return res.status(200).json({
+            message: "Organization retrieved successfully",
+            data: 
+            org,
+            
+          });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        return res
+        .status(500)
+        .json({ message: "Internal server error", error: err.message });
     }
 }
 
@@ -25,9 +47,11 @@ exports.createOrganization = async (req, res) => {
         const newOrg = req.body;
         const createdOrg = await createOrganizationService(newOrg);
         
-        res.status(201).json(createdOrg); 
+        return res.status(200).json({ message: "Organization created", data: createdOrg });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        return res
+        .status(500)
+        .json({ message: "Internal server error", error: err.message });
     }
 }
 
@@ -36,10 +60,16 @@ exports.updateOrganization = async (req, res) => {
         const orgId = req.params.id;
         const org = req.body
        const updatedOrg =  await updateOrganizationService(orgId, org);
-        res.json(updatedOrg);
+       if (!updatedOrg) {
+        return res.status(404).json({ message: "Organization not found" });
+      }
+  
+      return res.status(200).json({ message: "Organization updated", data: updatedOrg });
     }
     catch (err) {
-        res.status(500).json({ error: err.message });
+        return res
+        .status(500)
+        .json({ message: "Internal server error", error: err.message });
     }
 
     
@@ -49,8 +79,13 @@ exports.deleteOrganization = async (req, res) => {
     try {
          const orgId = req.params.id;
         const org = await deleteOrganizationService(orgId);
-        res.send("organization deleted successfully");
+        if (!org) {
+            return res.status(404).json({ message: "Organization not found" });
+          }
+          return res.status(200).json({ message: "Organization deleted", data: org });
     } catch (err) {     
-        res.status(500).json({ error: err.message });
+        return res
+        .status(500)
+        .json({ message: "Internal server error", error: err.message });
     }   
 }
