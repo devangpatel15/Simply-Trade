@@ -13,3 +13,4 @@ route.post('/sendOtp',sendOtp)
 route.post('/verifyOtp',verifyOtp)
 
 module.exports =route
+ 
