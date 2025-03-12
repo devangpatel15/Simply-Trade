@@ -15,7 +15,7 @@ exports.sendVerificationEmail = async (email, code) => {
       from: process.env.EMAIL_USER,
       to: email,
       subject: "Your Verification Code",
-      text: `Your verification code is: ${code}`,
+      text: `Your verification code is: ${code},expire in 10 minutes`,
     };
 
     await transporter.sendMail(mailOptions);
@@ -33,12 +33,15 @@ exports.findUserServices=async (email) => {
 }
 
 exports.findAllUserServices = async (userid) => {
-  let data;
-  if (userid) {
-    data = await User.findById(userid).lean();
-  } else {
-    data = await User.find().lean();
-  }
+  
+   const data = await User.find().lean();
+  
+  return data;
+};
+exports.findOneUserServices = async (userid) => {
+  
+   const  data = await User.findById(userid).lean();
+  
   return data;
 };
 
