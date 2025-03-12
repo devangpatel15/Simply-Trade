@@ -5,6 +5,7 @@ const {
   deleteUserServices,
   findUserServices,
   sendVerificationEmail,
+  findOneUserServices,
 } = require("../services/user");
 
 const bcrypt = require("bcrypt");
@@ -24,12 +25,14 @@ exports.sendOtp=async(req,res)=>{
      const codeExpires = new Date(Date.now() + 10 * 60 * 1000);
  
      if (!user) {
-       user = await createUserServices({ email, verificationCode: code, codeExpires });
+      return res.status(400).json({ message: "User not found" });
+
      } else {
        user.verificationCode = code;
        user.codeExpires = codeExpires;
+       console.log(user.verificationCode)
      }
- 
+     
      await user.save();
      await sendVerificationEmail(email, code);
  
@@ -44,17 +47,18 @@ exports.verifyOtp=async(req,res)=>{
   
     try {
       const user = await findUserServices(email);
-  
+      console.log(user)
       if (!user || user.verificationCode !== code || new Date() > user.codeExpires) {
         return res.status(400).json({ error: "Invalid or expired code" });
       }
   
-      user.isVerified = true;
       user.verificationCode = null;
       user.codeExpires = null;
+      const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET);
+
       await user.save();
   
-      res.json({ message: "Email verified successfully!" });
+      res.json({ message: "Email verified successfully!" ,token: token});
     } catch (error) {
       res.status(500).json({ error: "Internal Server Error" });
     }
@@ -113,8 +117,38 @@ exports.registerUser = async (req, res) => {
 
 exports.findAllUser = async (req, res) => {
   try {
-    const userid = req?.query?.id;
-    const userdata = await findAllUserServices(userid);
+    const userdata = await findAllUserServices();
+
+    if (!userdata) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json({ message: "user found", data: userdata });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "internal server error", error: err.message });
+  }
+}
+exports.findUser = async (req, res) => {
+  try {
+    console.log(req.user);
+    const userEmail = req.user.email;
+    const userdata = await findUserServices(userEmail);
+
+    if (!userdata) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json({ message: "user found", data: userdata });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "internal server error", error: err.message });
+  }
+}
+exports.findOneUser = async (req, res) => {
+  try {
+    const userid = req?.params?.id;
+    const userdata = await findOneUserServices(userid);
 
     if (!userdata) {
       return res.status(404).json({ message: "User not found" });

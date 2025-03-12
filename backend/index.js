@@ -3,12 +3,12 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const { connectMongoDB } = require("./config/db");
-const userRoute = require('./routes/user.js');
 const organizationBranchRoute = require("./routes/OrganizationBranch.js");
 const orgRouter = require("./routes/organization.js");
 const colorRoute = require("./routes/color.js");
 const deviceRoute = require("./routes/device.js");
 const modelRoute = require("./routes/model.js");
+const userRoute = require("./routes/user.js");
 
 const PORT = process.env.PORT;
 connectMongoDB();
