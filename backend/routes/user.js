@@ -1,16 +1,18 @@
 const express =require('express')
-const {  findAllUser, deleteUser, updateUser, registerUser, loginUser, sendOtp, verifyOtp } = require('../controllers/user')
-const { validateCreateData, validateDeleteUserData, validateGetOneUserData, validateUpdateUserData } = require('../middleware/user')
-const route=express.Router()
+const {  findAllUser, deleteUser, updateUser, registerUser, loginUser, sendOtp, verifyOtp, findUser, findOneUser } = require('../controllers/user')
+const { validateCreateData, validateDeleteUserData, validateGetOneUserData, validateUpdateUserData, AuthUser } = require('../middleware/user')
+const userRoute=express.Router()
 
-route.get('/findUser',validateGetOneUserData,findAllUser)
-route.post('/userSignUp',validateCreateData,registerUser)
-route.post('/userLogIn',loginUser)
-route.put('/updateUser',validateUpdateUserData,updateUser)
-route.delete('/deleteUser',validateDeleteUserData,deleteUser)
+userRoute.get('/findUser',AuthUser,findUser)
+userRoute.get('/findAllUser',findAllUser)
+userRoute.get('/findOneUser/:id',validateGetOneUserData,findOneUser)
+userRoute.post('/userSignUp',validateCreateData,registerUser)
+userRoute.post('/userLogIn',loginUser)
+userRoute.put('/updateUser',validateUpdateUserData,updateUser)
+userRoute.delete('/deleteUser',validateDeleteUserData,deleteUser)
 
-route.post('/sendOtp',sendOtp)
-route.post('/verifyOtp',verifyOtp)
+userRoute.post('/sendOtp',sendOtp)
+userRoute.post('/verifyOtp',verifyOtp)
 
-module.exports =route
+module.exports =userRoute
  
