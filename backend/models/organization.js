@@ -14,10 +14,12 @@ const organizationSchema = new mongoose.Schema(
     telePhone: { type: String, require: true },
     email: { type: String, require: true },
     upload:{type:String},
-    gstApplicable: { type: Boolean, require: true },
+    gstApplicable: { type: String, enum :["yes" , "no"] ,require: true },
     gstNumber: { type: String },
+    gstType : { type: String , enum : ["regular", "composite"]},
     companyType: { type: String, require: true },
     userId : { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    isDeleted: { type: Boolean, default: false }
   },
   { timestamps: true }
 );

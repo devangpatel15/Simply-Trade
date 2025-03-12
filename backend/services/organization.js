@@ -1,7 +1,7 @@
 const Organization = require("../models/organization");
 
 exports.getAllOrganizationService = async () => {
-  return await Organization.find().populate("userId").lean();
+  return await Organization.find({ isDeleted: false }).populate("userId").lean();
 };
 
 exports.getAllUserOrganizationService = async (userId) => {
@@ -18,6 +18,11 @@ exports.createOrganizationService = async (newOrg) => {
 
 exports.updateOrganizationService = async (orgId, org) => {
   return await Organization.findByIdAndUpdate(orgId, org, { new: true }).lean();
+};
+
+exports.softDeleteOrganizationService = async (orgId) => {
+  return await Organization.findByIdAndUpdate(orgId, { isDeleted: true});
+ 
 };
 
 exports.deleteOrganizationService = async (orgId) => {
