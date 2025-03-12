@@ -9,6 +9,8 @@ const orgRouter = require("./routes/organization.js");
 const colorRoute = require("./routes/color.js");
 const deviceRoute = require("./routes/device.js");
 const modelRoute = require("./routes/model.js");
+const catRouter = require("./routes/category.js");
+const capRouter = require("./routes/capacity.js");
 
 const PORT = process.env.PORT;
 connectMongoDB();
@@ -21,11 +23,14 @@ app.use("/api",orgRouter)
 app.use("/api",colorRoute)
 app.use("/api",deviceRoute)
 app.use("/api",modelRoute)
+app.use("/api",catRouter)
+app.use("/api",capRouter)
 
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
 app.listen(PORT, () => {
-  console.log("Server is running on port 3000");
+  console.log("Server is running on port 4000");
 });
+
