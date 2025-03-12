@@ -36,7 +36,7 @@
 
 // export default Sidebar;
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Drawer,
   List,
@@ -72,14 +72,49 @@ import SegmentIcon from "@mui/icons-material/Segment";
 import userImage from "../assets/Ellipse 2332.png";
 import { useNavigate } from "react-router-dom";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import axios from "axios";
 
 const iconColor = "#5C4E89"; // Custom icon color
 
 const Sidebar = () => {
   const [openMaster, setOpenMaster] = useState(false);
   const [openReport, setOpenReport] = useState(false);
+  const [userData, setUserData] = useState({});
 
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:4000/api/findUser", {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       });
+
+  //       setUserData(response.data.data);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   })();
+  // }, []);
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/findUser", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        console.log(response.data.data);
+        setUserData(response.data.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    })();
+  }, []);
 
   return (
     <Drawer
@@ -151,12 +186,11 @@ const Sidebar = () => {
               )}
             </ListItemButton>
             <Collapse in={openMaster} timeout="auto" unmountOnExit>
-              <List
-                component="div"
-                disablePadding
-                onClick={() => navigate("/organizationPage")}
-              >
-                <ListItemButton sx={{ pl: 4 }}>
+              <List component="div" disablePadding>
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  onClick={() => navigate("/organizationPage")}
+                >
                   <ListItemIcon>
                     <Business sx={{ color: iconColor }} />
                   </ListItemIcon>
@@ -230,10 +264,10 @@ const Sidebar = () => {
             <Avatar src={userImage} alt="Anita Cruz" />
             <Box sx={{ width: 100 }}>
               <Typography variant="body1" fontWeight="bold">
-                Anita Cruz
+                {userData.name}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Anitacruz123@gmail.com
+                {userData.email}
               </Typography>
             </Box>
           </Box>

@@ -94,7 +94,6 @@ const OrganizationPage = () => {
               </Button>
             </Box>
           </Box>
-
           {/* Organization Card */}
           {orgData.map((org) => {
             return (
@@ -155,7 +154,6 @@ const OrganizationPage = () => {
               </Box>
             );
           })}
-
           {/* Organization Details Dialog */}
           <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
             <DialogTitle

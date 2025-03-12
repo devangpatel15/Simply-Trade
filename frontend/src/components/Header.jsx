@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -12,8 +12,45 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import userImage from "../assets/Ellipse 2332.png";
 import moment from "moment";
+import axios from "axios";
 
 const Header = () => {
+  const [userData, setUserData] = useState({});
+
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:4000/api/findUser", {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       });
+
+  //       setUserData(response.data.data);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   })();
+  // }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/findUser", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        console.log(response.data.data);
+        setUserData(response.data.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    })();
+  }, []);
+
   const formattedDate = moment().format("DD MMM. YYYY");
 
   return (
@@ -54,6 +91,7 @@ const Header = () => {
             <CalendarMonthIcon sx={{ color: "#5C4E89" }} />
             {formattedDate}
           </Button>
+
           <Button
             variant="outlined"
             sx={{
@@ -69,7 +107,7 @@ const Header = () => {
             <Box>
               <Typography variant="body2">Welcome</Typography>
               <Typography variant="body2" fontWeight="bold" color=" #5C4E89">
-                Rushit!
+                {userData.name}!
               </Typography>
             </Box>
             <Avatar src={userImage} sx={{ width: 32, height: 32 }} />
