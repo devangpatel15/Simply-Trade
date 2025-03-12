@@ -1,9 +1,30 @@
-const { getAllOrganizationService, getOrganizationService, createOrganizationService, updateOrganizationService, deleteOrganizationService } = require("../services/organization");
+const { getAllOrganizationService, getOrganizationService, createOrganizationService, updateOrganizationService, deleteOrganizationService ,getAllUserOrganizationService} = require("../services/organization");
 
 exports.getAllOrganization = async (req, res) => {
     try {
       
         const org = await getAllOrganizationService();
+        if (!org) {
+            return res.status(404).json({ message: "No Organization found" });
+          }
+      
+          return res.status(200).json({
+            message: "Organization retrieved successfully",
+            data: 
+            org,
+            
+          });
+    } catch (err) {
+        return res
+        .status(500)
+        .json({ message: "Internal server error", error: err.message });
+    }
+}
+
+exports.getAllUserOrganization = async (req, res) => {
+    try {
+        const userId=req.user.id;
+        const org = await getAllUserOrganizationService(userId);
         if (!org) {
             return res.status(404).json({ message: "No Organization found" });
           }
@@ -45,7 +66,8 @@ exports.getOrganization= async (req, res) => {
 exports.createOrganization = async (req, res) => {
     try {
         const newOrg = req.body;
-        const createdOrg = await createOrganizationService(newOrg);
+        const userId=req.user.id;
+        const createdOrg = await createOrganizationService({...newOrg,userId});
         
         return res.status(200).json({ message: "Organization created", data: createdOrg });
     } catch (err) {
