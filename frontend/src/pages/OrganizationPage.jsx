@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -19,8 +19,32 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import OrganizationForm from "../components/OrganizationForm";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import moment from "moment";
 
 const OrganizationPage = () => {
+  const [orgData, setOrgData] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:4000/api/allUserOrg",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        console.log(response.data.data);
+        setOrgData(response.data.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    })();
+  }, []);
+
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -72,60 +96,65 @@ const OrganizationPage = () => {
           </Box>
 
           {/* Organization Card */}
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              backgroundColor: "white",
-              borderRadius: 10,
-              boxShadow: 1,
-              padding: 2,
-              marginTop: 3,
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <Avatar
-                src="/path/to/avatar.jpg"
-                alt="User Avatar"
-                sx={{ width: 50, height: 50 }}
-              />
-              <Box>
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-                >
-                  Navkar Sales
-                </Typography>
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <Typography
-                    variant="body2"
-                    sx={{ color: "green", fontWeight: "bold" }}
-                  >
-                    Created At:{" "}
-                    <span style={{ color: "black", fontWeight: "normal" }}>
-                      07-03-2024
-                    </span>
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{ color: "brown", fontWeight: "bold" }}
-                  >
-                    Update At:{" "}
-                    <span style={{ color: "black", fontWeight: "normal" }}>
-                      07-03-2024
-                    </span>
-                  </Typography>
+          {orgData.map((org) => {
+            return (
+              <Box
+                key={org._id}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  backgroundColor: "white",
+                  borderRadius: 10,
+                  boxShadow: 1,
+                  padding: 2,
+                  marginTop: 3,
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  <Avatar
+                    src="/path/to/avatar.jpg"
+                    alt="User Avatar"
+                    sx={{ width: 50, height: 50 }}
+                  />
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+                    >
+                      {org.organizationName}
+                    </Typography>
+                    <Box sx={{ display: "flex", gap: 2 }}>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: "green", fontWeight: "bold" }}
+                      >
+                        Created At:{" "}
+                        <span style={{ color: "black", fontWeight: "normal" }}>
+                          {moment(org.createdAt).format("DD-MM-YYYY")}
+                        </span>
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: "brown", fontWeight: "bold" }}
+                      >
+                        Update At:{" "}
+                        <span style={{ color: "black", fontWeight: "normal" }}>
+                          {moment(org.updatedAt).format("DD-MM-YYYY")}
+                        </span>
+                      </Typography>
+                    </Box>
+                  </Box>
                 </Box>
+                <IconButton
+                  sx={{ backgroundColor: "#f5f5f5" }}
+                  onClick={handleOpen}
+                >
+                  <VisibilityIcon sx={{ color: "#6c5ce7" }} />
+                </IconButton>
               </Box>
-            </Box>
-            <IconButton
-              sx={{ backgroundColor: "#f5f5f5" }}
-              onClick={handleOpen}
-            >
-              <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-            </IconButton>
-          </Box>
+            );
+          })}
 
           {/* Organization Details Dialog */}
           <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>

@@ -30,7 +30,7 @@ const OrganizationForm = () => {
     telePhone: "",
     email: "",
     upload: "",
-    gstApplicable: "yes",
+    gstApplicable: "true",
     gstNumber: "",
     companyType: "",
   });
@@ -45,17 +45,23 @@ const OrganizationForm = () => {
   };
 
   const handleSubmit = async () => {
-    // try {
-    //   const response = await axios.post(
-    //     "http://localhost:4000/api/createOrg",
-    //     formData
-    //   );
-    //   console.log("Response:", response.data);
-    //   // Redirect or show success message
-    // } catch (error) {
-    //   console.error("Error submitting form:", error);
-    // }
-    console.log(formData);
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/createOrg",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log("Response:", response.data);
+      // Redirect or show success message
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("error");
+    }
   };
 
   return (
@@ -227,11 +233,15 @@ const OrganizationForm = () => {
                   onChange={handleChange}
                 >
                   <FormControlLabel
-                    value="yes"
+                    value="true"
                     control={<Radio />}
                     label="Yes"
                   />
-                  <FormControlLabel value="no" control={<Radio />} label="No" />
+                  <FormControlLabel
+                    value="false"
+                    control={<Radio />}
+                    label="No"
+                  />
                 </RadioGroup>
               </FormControl>
             </Grid>
