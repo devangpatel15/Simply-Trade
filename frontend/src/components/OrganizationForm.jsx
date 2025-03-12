@@ -30,10 +30,12 @@ const OrganizationForm = () => {
     telePhone: "",
     email: "",
     upload: "",
-    gstApplicable: "true",
+    gstApplicable: "no",
     gstNumber: "",
     companyType: "",
   });
+
+  const [gstApplicable, setGstApplicable] = useState("no");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -202,26 +204,6 @@ const OrganizationForm = () => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                type="file"
-                variant="outlined"
-                name="upload"
-                value={formData.upload}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="GST Number"
-                variant="outlined"
-                name="gstNumber"
-                value={formData.gstNumber}
-                onChange={handleChange}
-              />
-            </Grid>
 
             <Grid item xs={6}>
               <FormControl>
@@ -233,18 +215,44 @@ const OrganizationForm = () => {
                   onChange={handleChange}
                 >
                   <FormControlLabel
-                    value="true"
+                    value="yes"
                     control={<Radio />}
                     label="Yes"
+                    onChange={(e) => setGstApplicable(e.target.value)}
                   />
                   <FormControlLabel
-                    value="false"
+                    value="no"
                     control={<Radio />}
                     label="No"
+                    onChange={(e) => setGstApplicable(e.target.value)}
                   />
                 </RadioGroup>
               </FormControl>
             </Grid>
+
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                type="file"
+                variant="outlined"
+                name="upload"
+                value={formData.upload}
+                onChange={handleChange}
+              />
+            </Grid>
+
+            {gstApplicable == "yes" && (
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="GST Number"
+                  variant="outlined"
+                  name="gstNumber"
+                  value={formData.gstNumber}
+                  onChange={handleChange}
+                />
+              </Grid>
+            )}
 
             <Grid
               item

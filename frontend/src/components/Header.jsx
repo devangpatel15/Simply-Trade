@@ -11,8 +11,11 @@ import {
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import userImage from "../assets/Ellipse 2332.png";
+import moment from "moment";
 
 const Header = () => {
+  const formattedDate = moment().format("DD MMM. YYYY");
+
   return (
     <AppBar
       position="fixed"
@@ -35,7 +38,7 @@ const Header = () => {
             color="inherit"
             sx={{ border: "1px solid #ddd", borderRadius: "50%" }}
           >
-            <NotificationsIcon sx={{ color: "#6c5ce7" }} />
+            <NotificationsIcon sx={{ color: "#5C4E89" }} />
           </IconButton>
           <Button
             variant="outlined"
@@ -43,20 +46,20 @@ const Header = () => {
               display: "flex",
               alignItems: "center",
               gap: 1,
-              borderColor: "#ddd",
+              borderColor: "#5C4E89",
               color: "#6c5ce7",
               textTransform: "none",
             }}
           >
-            <CalendarMonthIcon sx={{ color: "#6c5ce7" }} />
-            21 Dec. 2024
+            <CalendarMonthIcon sx={{ color: "#5C4E89" }} />
+            {formattedDate}
           </Button>
           <Button
             variant="outlined"
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: 1,
+              gap: 4,
               borderColor: "#ddd",
               color: "black",
               textTransform: "none",
@@ -65,7 +68,7 @@ const Header = () => {
           >
             <Box>
               <Typography variant="body2">Welcome</Typography>
-              <Typography variant="body2" fontWeight="bold" color="#6c5ce7">
+              <Typography variant="body2" fontWeight="bold" color=" #5C4E89">
                 Rushit!
               </Typography>
             </Box>
