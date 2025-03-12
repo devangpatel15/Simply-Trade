@@ -11,58 +11,95 @@ const {
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const generateVerificationCode = () => Math.floor(100000 + Math.random() * 900000).toString();
+const generateVerificationCode = () => {
+  Math.floor(100000 + Math.random() * 900000).toString();
+};
 
+exports.sendOtp = async (req, res) => {
+  const { email } = req.body;
 
-exports.sendOtp=async(req,res)=>{
- const { email } = req.body;
- 
-   try {
-     let user = await findUserServices(email);
- 
-     // Generate code and expiration time (10 min)
-     const code = generateVerificationCode();
-     const codeExpires = new Date(Date.now() + 10 * 60 * 1000);
- 
-     if (!user) {
+  try {
+    let user = await findUserServices(email);
+
+    // Generate code and expiration time (10 min)
+    const code = generateVerificationCode();
+    const codeExpires = new Date(Date.now() + 10 * 60 * 1000);
+
+    if (!user) {
       return res.status(400).json({ message: "User not found" });
-
-     } else {
-       user.verificationCode = code;
-       user.codeExpires = codeExpires;
-       console.log(user.verificationCode)
-     }
-     
-     await user.save();
-     await sendVerificationEmail(email, code);
- 
-     res.json({ message: "Verification code sent!" });
-   } catch (error) {
-     res.status(500).json({ error: "Internal Server Error" });
-   }
-}
-
-exports.verifyOtp=async(req,res)=>{
-   const { email, code } = req.body;
-  
-    try {
-      const user = await findUserServices(email);
-      console.log(user)
-      if (!user || user.verificationCode !== code || new Date() > user.codeExpires) {
-        return res.status(400).json({ error: "Invalid or expired code" });
-      }
-  
-      user.verificationCode = null;
-      user.codeExpires = null;
-      const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET);
-
-      await user.save();
-  
-      res.json({ message: "Email verified successfully!" ,token: token});
-    } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      user.verificationCode = code;
+      user.codeExpires = codeExpires;
+      console.log(user.verificationCode);
     }
-}
+
+    await user.save();
+    await sendVerificationEmail(email, code);
+
+    res.json({ message: "Verification code sent!" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.verifyOtp = async (req, res) => {
+  const { email, code } = req.body;
+
+  try {
+    const user = await findUserServices(email);
+    console.log(user);
+    if (
+      !user ||
+      user.verificationCode !== code ||
+      new Date() > user.codeExpires
+    ) {
+      return res.status(400).json({ error: "Invalid or expired code" });
+    }
+
+    user.verificationCode = null;
+    user.codeExpires = null;
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET
+    );
+
+    await user.save();
+
+    res.json({ message: "Email verified successfully!", token: token });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+
+  await user.save();
+  await sendVerificationEmail(email, code);
+
+  res.json({ message: "Verification code sent!" });
+};
+
+exports.verifyOtp = async (req, res) => {
+  const { email, code } = req.body;
+
+  try {
+    const user = await findUserServices(email);
+
+    if (
+      !user ||
+      user.verificationCode !== code ||
+      new Date() > user.codeExpires
+    ) {
+      return res.status(400).json({ error: "Invalid or expired code" });
+    }
+
+    user.isVerified = true;
+    user.verificationCode = null;
+    user.codeExpires = null;
+    await user.save();
+
+    res.json({ message: "Email verified successfully!" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -75,7 +112,10 @@ exports.loginUser = async (req, res) => {
     const isRightPassword = await bcrypt.compare(password, user.password);
 
     if (isRightPassword) {
-      const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { id: user._id, email: user.email },
+        process.env.JWT_SECRET
+      );
       return res
         .status(200)
         .json({ message: "login successfully", token: token });
@@ -128,7 +168,7 @@ exports.findAllUser = async (req, res) => {
       .status(500)
       .json({ message: "internal server error", error: err.message });
   }
-}
+};
 exports.findUser = async (req, res) => {
   try {
     console.log(req.user);
@@ -144,7 +184,7 @@ exports.findUser = async (req, res) => {
       .status(500)
       .json({ message: "internal server error", error: err.message });
   }
-}
+};
 exports.findOneUser = async (req, res) => {
   try {
     const userid = req?.params?.id;
@@ -159,7 +199,7 @@ exports.findOneUser = async (req, res) => {
       .status(500)
       .json({ message: "internal server error", error: err.message });
   }
-}
+};
 exports.createUser = async (req, res) => {
   try {
     const data = req.body;

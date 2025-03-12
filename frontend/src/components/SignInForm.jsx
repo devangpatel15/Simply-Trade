@@ -42,7 +42,7 @@ const SigninForm = () => {
 
       // Assuming the API returns a token
       const token = response.data.token;
-      localStorage.setItem("authToken", token); // Store token for authentication
+      localStorage.setItem("token", token); // Store token for authentication
 
       setMessage("Login successful! Redirecting...");
       setTimeout(() => {
