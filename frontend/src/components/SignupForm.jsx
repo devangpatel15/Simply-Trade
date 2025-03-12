@@ -9,8 +9,10 @@ import {
   Box,
   Alert,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -38,11 +40,13 @@ const SignupForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/userSignIn",
+        "http://localhost:4000/api/userSignUp",
         formData
       );
       setMessage("Registration successful! Please log in.");
       console.log(response);
+      navigate("/signIn");
+
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong!");
     }
@@ -142,7 +146,7 @@ const SignupForm = () => {
       </form>
 
       <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-        Already have an account? <a href="/login">Login</a>
+        Already have an account? <a href="/signIn">Login</a>
       </Typography>
     </Box>
   );
