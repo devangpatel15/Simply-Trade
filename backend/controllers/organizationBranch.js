@@ -76,7 +76,8 @@ const {
     try {
   
       const data = req.body; 
-      const organizationBranchData = await createOrganizationBranchServices({...data,userId:req.user.id});
+      const userId=req.user.id
+      const organizationBranchData = await createOrganizationBranchServices({...data,userId});
       return res.status(200).json({ message: "OrganizationBranch created", data: organizationBranchData });
     } catch (err) {
       return res

@@ -4,7 +4,7 @@ const { validateCreateData, validateDeleteUserData, validateGetOneUserData, vali
 const route=express.Router()
 
 route.get('/findUser',validateGetOneUserData,findAllUser)
-route.post('/userSignIn',validateCreateData,registerUser)
+route.post('/userSignUp',validateCreateData,registerUser)
 route.post('/userLogIn',loginUser)
 route.put('/updateUser',validateUpdateUserData,updateUser)
 route.delete('/deleteUser',validateDeleteUserData,deleteUser)
