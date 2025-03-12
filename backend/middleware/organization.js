@@ -16,7 +16,7 @@ exports.createValidation = [
   body("country").isString().notEmpty().withMessage("country in string"),
   body("telePhone").isString().notEmpty().withMessage("telePhone in string"),
   body("email").isString().notEmpty().withMessage("email in string"),
-  body("upload").isString().notEmpty().withMessage("upload in string"),
+  body("upload").isString().optional().withMessage("upload in string"),
   body("gstApplicable").isBoolean().notEmpty().withMessage("gstApplicable in boolean"),
   body("gstNumber").isString().notEmpty().withMessage("gstNumber in string"),
   body("companyType").isString().notEmpty().withMessage("companyType in string"),
