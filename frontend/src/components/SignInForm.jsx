@@ -63,7 +63,7 @@ const SigninForm = () => {
         borderRadius: 2,
       }}
     >
-      <Typography variant="h5" textAlign="center">
+      <Typography variant="h5" textAlign="center" sx={{ color: " #4C2D85" }}>
         Sign In
       </Typography>
       <Typography
@@ -111,13 +111,7 @@ const SigninForm = () => {
           label="Remember Me"
         />
 
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          sx={{ mt: 2 }}
-        >
+        <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
           Sign In
         </Button>
       </form>

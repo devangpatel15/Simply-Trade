@@ -1,4 +1,10 @@
-const { getAllCapacityService, getCapacityService, createCapacityService, updateCapacityService, deleteCapacityService } = require("../services/capacity");
+const {
+  getAllCapacityService,
+  getCapacityService,
+  createCapacityService,
+  updateCapacityService,
+  deleteCapacityService,
+} = require("../services/capacity");
 
 exports.getAllCapacity = async (req, res) => {
   try {

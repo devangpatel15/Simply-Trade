@@ -70,51 +70,20 @@ import {
 import logo from "../assets/Group 18763.png";
 import SegmentIcon from "@mui/icons-material/Segment";
 import userImage from "../assets/Ellipse 2332.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import axios from "axios";
 
 const iconColor = "#5C4E89"; // Custom icon color
 
 const Sidebar = () => {
-  const [openMaster, setOpenMaster] = useState(false);
-  const [openReport, setOpenReport] = useState(false);
-  const [userData, setUserData] = useState({});
-
+  const location = useLocation();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const response = await axios.get("http://localhost:4000/api/findUser", {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       });
+  console.log("location", location);
 
-  //       setUserData(response.data.data);
-  //     } catch (error) {
-  //       console.log(error.message);
-  //     }
-  //   })();
-  // }, []);
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get("http://localhost:4000/api/findUser", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        console.log(response.data.data);
-        setUserData(response.data.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    })();
-  }, []);
+  const [openMaster, setOpenMaster] = useState(false);
+  const [openReport, setOpenReport] = useState(false);
 
   return (
     <Drawer
@@ -247,30 +216,6 @@ const Sidebar = () => {
             </ListItemIcon>
             <ListItemText primary="Settings" />
           </ListItemButton>
-
-          {/* User Profile */}
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-              background: "#EFEAF5",
-              borderRadius: 2,
-              p: 1,
-              mt: 2,
-              width: 220,
-            }}
-          >
-            <Avatar src={userImage} alt="Anita Cruz" />
-            <Box sx={{ width: 100 }}>
-              <Typography variant="body1" fontWeight="bold">
-                {userData.name}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {userData.email}
-              </Typography>
-            </Box>
-          </Box>
         </Box>
       </Box>
     </Drawer>

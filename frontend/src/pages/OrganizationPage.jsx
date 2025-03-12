@@ -47,7 +47,12 @@ const OrganizationPage = () => {
 
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (data) => {
+    console.log(data, "data-----");
+
+    setOpen(true);
+  };
+
   const handleClose = () => setOpen(false);
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -95,65 +100,70 @@ const OrganizationPage = () => {
             </Box>
           </Box>
           {/* Organization Card */}
-          {orgData.map((org) => {
-            return (
-              <Box
-                key={org._id}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  backgroundColor: "white",
-                  borderRadius: 10,
-                  boxShadow: 1,
-                  padding: 2,
-                  marginTop: 3,
-                }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  <Avatar
-                    src="/path/to/avatar.jpg"
-                    alt="User Avatar"
-                    sx={{ width: 50, height: 50 }}
-                  />
-                  <Box>
-                    <Typography
-                      variant="h6"
-                      sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-                    >
-                      {org.organizationName}
-                    </Typography>
-                    <Box sx={{ display: "flex", gap: 2 }}>
+          {orgData &&
+            orgData.map((org) => {
+              return (
+                <Box
+                  key={org._id}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    backgroundColor: "white",
+                    borderRadius: 10,
+                    boxShadow: 1,
+                    padding: 2,
+                    marginTop: 3,
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    <Avatar
+                      src="/path/to/avatar.jpg"
+                      alt="User Avatar"
+                      sx={{ width: 50, height: 50 }}
+                    />
+                    <Box>
                       <Typography
-                        variant="body2"
-                        sx={{ color: "green", fontWeight: "bold" }}
+                        variant="h6"
+                        sx={{ fontWeight: "bold", color: "#6c5ce7" }}
                       >
-                        Created At:{" "}
-                        <span style={{ color: "black", fontWeight: "normal" }}>
-                          {moment(org.createdAt).format("DD-MM-YYYY")}
-                        </span>
+                        {org.organizationName}
                       </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{ color: "brown", fontWeight: "bold" }}
-                      >
-                        Update At:{" "}
-                        <span style={{ color: "black", fontWeight: "normal" }}>
-                          {moment(org.updatedAt).format("DD-MM-YYYY")}
-                        </span>
-                      </Typography>
+                      <Box sx={{ display: "flex", gap: 2 }}>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "green", fontWeight: "bold" }}
+                        >
+                          Created At:{" "}
+                          <span
+                            style={{ color: "black", fontWeight: "normal" }}
+                          >
+                            {moment(org.createdAt).format("DD-MM-YYYY")}
+                          </span>
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "brown", fontWeight: "bold" }}
+                        >
+                          Update At:{" "}
+                          <span
+                            style={{ color: "black", fontWeight: "normal" }}
+                          >
+                            {moment(org.updatedAt).format("DD-MM-YYYY")}
+                          </span>
+                        </Typography>
+                      </Box>
                     </Box>
                   </Box>
+                  <IconButton
+                    sx={{ backgroundColor: "#f5f5f5" }}
+                    onClick={() => handleOpen(org)}
+                  >
+                    <VisibilityIcon sx={{ color: "#6c5ce7" }} />
+                  </IconButton>
                 </Box>
-                <IconButton
-                  sx={{ backgroundColor: "#f5f5f5" }}
-                  onClick={handleOpen}
-                >
-                  <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-                </IconButton>
-              </Box>
-            );
-          })}
+              );
+            })}
           {/* Organization Details Dialog */}
           <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
             <DialogTitle

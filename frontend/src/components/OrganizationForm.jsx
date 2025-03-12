@@ -79,7 +79,7 @@ const OrganizationForm = () => {
             margin: "auto",
           }}
         >
-          <Typography variant="h5" sx={{ mb: 2 }}>
+          <Typography variant="h5" sx={{ mb: 2, color: " #4C2D85" }}>
             Organizations
           </Typography>
 

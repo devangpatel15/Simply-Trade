@@ -7,8 +7,8 @@ const userSchema = new mongoose.Schema(
     mobileNo: { type: String, require: true },
     password: { type: String, require: true },
     // role : { type: String , enum : ['admin','customer'], default : 'admin'},
-    verificationCode:{type:String},
-    codeExpires:{type:Date}
+    verificationCode: { type: String },
+    codeExpires: { type: Date },
   },
   {
     timestamps: true,
