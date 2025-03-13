@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -11,12 +11,15 @@ import {
   Radio,
   Box,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import axios from "axios";
 
 const OrganizationForm = () => {
+  const { id } = useParams();
+  console.log("======id", id);
+
   const [formData, setFormData] = useState({
     organizationName: "",
     primaryAddress: "",
@@ -35,6 +38,7 @@ const OrganizationForm = () => {
     companyType: "",
   });
 
+  const [updatedForm, setUpdatedForm] = useState();
   const [gstApplicable, setGstApplicable] = useState("no");
 
   const handleChange = (e) => {
@@ -65,6 +69,21 @@ const OrganizationForm = () => {
       alert("error");
     }
   };
+
+  const callApi = async () => {
+    const response = await axios.get(`http://localhost:4000/api/org/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    console.log("response", response.data.data);
+    setUpdatedForm(response.data.data);
+  };
+
+  useEffect(() => {
+    callApi();
+  }, []);
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>

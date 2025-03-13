@@ -13,6 +13,7 @@ import {
 
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const DialogBox = ({ handleClose, open, data, callApi }) => {
   const {
@@ -33,14 +34,20 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
   } = data;
 
   const handleDelete = async () => {
+    console.log("_id --", _id);
+
     try {
-      await axios.delete(`http://localhost:4000/api/deleteOrg/${_id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      alert("deleted successfully");
+      await axios.put(
+        `http://localhost:4000/api/deleteOrg/${_id}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      alert("deleted");
       handleClose();
       callApi();
     } catch (error) {
@@ -119,9 +126,11 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" color="success">
-          Edit
-        </Button>
+        <Link to={`/organizationForm/${_id}`}>
+          <Button variant="outlined" color="success">
+            Edit
+          </Button>
+        </Link>
         <Button variant="outlined" color="error" onClick={handleDelete}>
           Delete
         </Button>

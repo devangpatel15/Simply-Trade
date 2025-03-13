@@ -14,44 +14,46 @@ import { useNavigate } from "react-router-dom";
 const SignInByOtp = () => {
   const navigate = useNavigate();
 
-  //   const [formData, setFormData] = useState({
-  //     email: "",
+  const [formData, setFormData] = useState({
+    email: "",
+    rememberMe: false,
+  });
 
-  //     rememberMe: false,
-  //   });
+  const [message, setMessage] = useState(null);
+  const [error, setError] = useState(null);
 
-  //   const [message, setMessage] = useState(null);
-  //   const [error, setError] = useState(null);
-
-  //   const handleChange = (e) => {
-  //     const { name, value, type, checked } = e.target;
-  //     setFormData({
-  //       ...formData,
-  //       [name]: type === "checkbox" ? checked : value,
-  //     });
-  //   };
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
-    // setMessage(null);
-    // setError(null);
-    // console.log(formData);
-    navigate("/otpPage");
-    //     try {
-    //       const response = await axios.post(
-    //         "http://localhost:4000/api/userLogIn",
-    //         formData
-    //       );
-    //       // Assuming the API returns a token
-    //       const token = response.data.token;
-    //       localStorage.setItem("token", token); // Store token for authentication
-    //       setMessage("Login successful! Redirecting...");
-    //       setTimeout(() => {
-    //         window.location.href = "/dashboard"; // Redirect after login
-    //       }, 1500);
-    //     } catch (err) {
-    //       setError(err.response?.data?.message || "Invalid credentials!");
-    //     }
+    e.preventDefault();
+    setMessage(null);
+    setError(null);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/sendOtp",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setMessage(response.data.message);
+      setTimeout(() => {
+        navigate("/otpPage");
+      }, 1500);
+      localStorage.setItem("email", formData.email);
+    } catch (err) {
+      setError(err.response?.data?.message || "Something went wrong!");
+    }
   };
 
   return (
@@ -68,8 +70,8 @@ const SignInByOtp = () => {
         Sign In
       </Typography>
 
-      {/* {message && <Alert severity="success">{message}</Alert>}
-      {error && <Alert severity="error">{error}</Alert>} */}
+      {message && <Alert severity="success">{message}</Alert>}
+      {error && <Alert severity="error">{error}</Alert>}
 
       <form onSubmit={handleSubmit}>
         <TextField
@@ -79,16 +81,16 @@ const SignInByOtp = () => {
           variant="outlined"
           name="email"
           type="email"
-          //   value={formData.email}
-          //   onChange={handleChange}
+          value={formData.email}
+          onChange={handleChange}
         />
 
         <FormControlLabel
           control={
             <Checkbox
               name="rememberMe"
-              //   checked={formData.rememberMe}
-              //   onChange={handleChange}
+              checked={formData.rememberMe}
+              onChange={handleChange}
             />
           }
           label="Remember Me"
@@ -96,7 +98,7 @@ const SignInByOtp = () => {
         />
 
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
-          Get Otp
+          Get OTP
         </Button>
       </form>
 

@@ -6,7 +6,7 @@ exports.AuthUser = (req, res, next) => {
   // const token = req.headers("Authorization");
   const token = req.headers["authorization"];
 
-  console.log(token);
+  console.log("token -----------", token);
 
   if (!token) {
     return res.status(401).json({ message: "token is required" });
