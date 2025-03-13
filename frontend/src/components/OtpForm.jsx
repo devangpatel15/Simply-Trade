@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import OtpInput from "react-otp-input";
 import {
   TextField,

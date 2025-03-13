@@ -36,7 +36,7 @@
 
 // export default Sidebar;
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Drawer,
   List,
@@ -52,10 +52,6 @@ import {
 import {
   Dashboard,
   People,
-  AccountCircle,
-  Store,
-  Report,
-  QueryStats,
   ExpandLess,
   ExpandMore,
   Business,
@@ -70,13 +66,11 @@ import {
 
 import logo from "../assets/Group 18763.png";
 import SegmentIcon from "@mui/icons-material/Segment";
-import userImage from "../assets/Ellipse 2332.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import LogoutIcon from '@mui/icons-material/Logout';
-import SupportAgentIcon from '@mui/icons-material/SupportAgent';
-import axios from "axios";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import LogoutIcon from "@mui/icons-material/Logout";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 
 const iconColor = "#5C4E89"; // Custom icon color
 
@@ -90,12 +84,10 @@ const Sidebar = () => {
   const [openReport, setOpenReport] = useState(false);
 
   const handleLogout = () => {
-    
-    const logout = localStorage.removeItem("token");
+    localStorage.removeItem("token");
     console.log("logout");
     navigate("/signIn");
-
-  }
+  };
 
   return (
     <Drawer
@@ -185,13 +177,12 @@ const Sidebar = () => {
                   <ListItemText primary="Org. Branch" />
                 </ListItemButton>
 
-                <ListItemButton sx={{ pl: 4 , gap: "2rem" }}>
+                <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
                   <PeopleAltIcon>
                     <Business sx={{ color: iconColor }} />
                   </PeopleAltIcon>
                   <ListItemText primary="Users" />
                 </ListItemButton>
-
 
                 <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
                   <AccountCircleRoundedIcon>
@@ -216,14 +207,14 @@ const Sidebar = () => {
         <Box sx={{ px: 2, pb: 2 }}>
           <ListItemButton>
             <ListItemIcon>
-              <Badge  color="primary">
+              <Badge color="primary">
                 <Notifications sx={{ color: iconColor }} />
               </Badge>
             </ListItemIcon>
             <ListItemText primary="Notification" />
           </ListItemButton>
 
-          <ListItemButton sx={{ gap: "2rem"}}>
+          <ListItemButton sx={{ gap: "2rem" }}>
             <SupportAgentIcon>
               <Support sx={{ color: iconColor }} />
             </SupportAgentIcon>
@@ -237,13 +228,12 @@ const Sidebar = () => {
             <ListItemText primary="Settings" />
           </ListItemButton>
 
-          <ListItemButton sx={{ gap: "2rem"}} onClick={handleLogout}>
+          <ListItemButton sx={{ gap: "2rem" }} onClick={handleLogout}>
             <LogoutIcon>
               <Logout sx={{ color: iconColor }} />
             </LogoutIcon>
             <ListItemText primary="Logout" />
           </ListItemButton>
-
         </Box>
       </Box>
     </Drawer>
