@@ -109,6 +109,7 @@ const SigninForm = () => {
             />
           }
           label="Remember Me"
+          sx={{ display: "flex", justifyContent: "center" }}
         />
 
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
@@ -118,8 +119,17 @@ const SigninForm = () => {
 
       <Typography variant="body2" align="center" sx={{ mt: 2 }}>
         Don't have an account?{" "}
-        <a href="/signup" style={{ textDecoration: "none", color: "#3f51b5" }}>
+        <a href="/" style={{ textDecoration: "none", color: "#3f51b5" }}>
           Sign Up
+        </a>
+      </Typography>
+      <Typography variant="body2" align="center" sx={{ mt: 2 }}>
+        SignIn with Otp?{" "}
+        <a
+          href="/signInByOtp"
+          style={{ textDecoration: "none", color: "#3f51b5" }}
+        >
+          otp
         </a>
       </Typography>
     </Box>

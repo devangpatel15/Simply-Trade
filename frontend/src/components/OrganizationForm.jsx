@@ -259,7 +259,12 @@ const OrganizationForm = () => {
               xs={12}
               sx={{ display: "flex", justifyContent: "space-between" }}
             >
-              <Button variant="contained" color="error">
+              <Button
+                variant="contained"
+                color="error"
+                component={Link}
+                to="/organizationPage"
+              >
                 Cancel
               </Button>
               <Button

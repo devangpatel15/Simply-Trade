@@ -65,7 +65,6 @@ const OtpPage = () => {
           }}
         >
           <Logo />
-          {/* <SigninForm /> */}
           <OtpForm />
         </Grid>
 

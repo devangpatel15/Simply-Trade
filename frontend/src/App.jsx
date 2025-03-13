@@ -7,6 +7,7 @@ import DashboardPage from "./pages/DashboardPage";
 import OrganizationPage from "./pages/OrganizationPage";
 import OrganizationForm from "./components/OrganizationForm";
 import OtpPage from "./pages/Otp";
+import SignInByOtpPage from "./pages/SignInByOtpPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/organizationPage" element={<OrganizationPage />} />
         <Route path="/organizationForm" element={<OrganizationForm />} />
+        <Route path="/signInByOtp" element={<SignInByOtpPage />} />
         <Route path="/otpPage" element={<OtpPage />} />
       </Routes>
     </ThemeProvider>

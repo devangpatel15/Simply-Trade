@@ -7,10 +7,10 @@ import {
   InputAdornment,
   Avatar,
   IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
+  // Dialog,
+  // DialogTitle,
+  // DialogContent,
+  // DialogActions,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -21,35 +21,32 @@ import OrganizationForm from "../components/OrganizationForm";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
+import DialogBox from "../components/DialogBox";
 
 const OrganizationPage = () => {
   const [orgData, setOrgData] = useState([]);
 
+  const callApi = async () => {
+    const response = await axios.get("http://localhost:4000/api/allUserOrg", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    console.log(response.data.data);
+    setOrgData(response.data.data);
+  };
+
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/api/allUserOrg",
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        console.log(response.data.data);
-        setOrgData(response.data.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    })();
+    callApi();
   }, []);
 
   const [open, setOpen] = useState(false);
+  const [data, setData] = useState({});
 
   const handleOpen = (data) => {
     console.log(data, "data-----");
-
+    setData(data);
     setOpen(true);
   };
 
@@ -165,7 +162,7 @@ const OrganizationPage = () => {
               );
             })}
           {/* Organization Details Dialog */}
-          <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+          {/* <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
             <DialogTitle
               sx={{
                 backgroundColor: " #F8F8FF",
@@ -242,7 +239,14 @@ const OrganizationPage = () => {
                 <CloseIcon />
               </IconButton>
             </DialogActions>
-          </Dialog>
+          </Dialog> */}
+
+          <DialogBox
+            handleClose={handleClose}
+            open={open}
+            data={data}
+            callApi={callApi}
+          />
         </Box>
       </Box>
     </Box>

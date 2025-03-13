@@ -78,7 +78,6 @@ const OtpForm = () => {
             <input
               {...props}
               style={{
-                padding: "16px",
                 width: "40px", // Increased width
                 height: "40px", // Increased height
                 fontSize: "1.5rem", // Increased font size
@@ -95,7 +94,7 @@ const OtpForm = () => {
         Verify
       </Button>
       <Button type="submit" fullWidth sx={{ mt: 2 }}>
-        Reset Otp
+        Resend Otp
       </Button>
     </Box>
   );

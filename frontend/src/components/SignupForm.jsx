@@ -46,7 +46,6 @@ const SignupForm = () => {
       setMessage("Registration successful! Please log in.");
       console.log(response);
       navigate("/signIn");
-
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong!");
     }
@@ -146,7 +145,7 @@ const SignupForm = () => {
       </form>
 
       <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-        Already have an account? <a href="/signIn">Login</a>
+        Already have an account? <a href="/signIn">Sign in</a>
       </Typography>
     </Box>
   );
