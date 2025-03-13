@@ -170,7 +170,10 @@ const Sidebar = () => {
                   <ListItemText primary="Organization" />
                 </ListItemButton>
 
-                <ListItemButton sx={{ pl: 4 }}>
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  onClick={() => navigate("/organizationBranchPage")}
+                >
                   <ListItemIcon>
                     <Business sx={{ color: iconColor }} />
                   </ListItemIcon>

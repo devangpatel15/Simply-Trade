@@ -8,6 +8,7 @@ import OrganizationPage from "./pages/OrganizationPage";
 import OrganizationForm from "./components/OrganizationForm";
 import OtpPage from "./pages/Otp";
 import SignInByOtpPage from "./pages/SignInByOtpPage";
+import OrganizationBranchPage from "./pages/OrganizationBranchPage";
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
         <Route path="/organizationForm" element={<OrganizationForm />} />
         <Route path="/signInByOtp" element={<SignInByOtpPage />} />
         <Route path="/otpPage" element={<OtpPage />} />
+        <Route
+          path="/organizationBranchPage"
+          element={<OrganizationBranchPage />}
+        />
       </Routes>
     </ThemeProvider>
   );
