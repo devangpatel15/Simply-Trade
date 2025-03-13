@@ -45,6 +45,8 @@ const OrganizationPage = () => {
     })();
   }, []);
 
+  
+
   const [open, setOpen] = useState(false);
 
   const handleOpen = (data) => {
