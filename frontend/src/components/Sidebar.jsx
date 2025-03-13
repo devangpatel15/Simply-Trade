@@ -65,6 +65,7 @@ import {
   Notifications,
   Support,
   Settings,
+  Logout,
 } from "@mui/icons-material";
 
 import logo from "../assets/Group 18763.png";
@@ -72,6 +73,9 @@ import SegmentIcon from "@mui/icons-material/Segment";
 import userImage from "../assets/Ellipse 2332.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import LogoutIcon from '@mui/icons-material/Logout';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import axios from "axios";
 
 const iconColor = "#5C4E89"; // Custom icon color
@@ -84,6 +88,14 @@ const Sidebar = () => {
 
   const [openMaster, setOpenMaster] = useState(false);
   const [openReport, setOpenReport] = useState(false);
+
+  const handleLogout = () => {
+    
+    const logout = localStorage.removeItem("token");
+    console.log("logout");
+    navigate("/signIn");
+
+  }
 
   return (
     <Drawer
@@ -173,6 +185,14 @@ const Sidebar = () => {
                   <ListItemText primary="Org. Branch" />
                 </ListItemButton>
 
+                <ListItemButton sx={{ pl: 4 , gap: "2rem" }}>
+                  <PeopleAltIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </PeopleAltIcon>
+                  <ListItemText primary="Users" />
+                </ListItemButton>
+
+
                 <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
                   <AccountCircleRoundedIcon>
                     <Business sx={{ color: iconColor }} />
@@ -196,17 +216,17 @@ const Sidebar = () => {
         <Box sx={{ px: 2, pb: 2 }}>
           <ListItemButton>
             <ListItemIcon>
-              <Badge badgeContent={4} color="primary">
+              <Badge  color="primary">
                 <Notifications sx={{ color: iconColor }} />
               </Badge>
             </ListItemIcon>
             <ListItemText primary="Notification" />
           </ListItemButton>
 
-          <ListItemButton>
-            <ListItemIcon>
+          <ListItemButton sx={{ gap: "2rem"}}>
+            <SupportAgentIcon>
               <Support sx={{ color: iconColor }} />
-            </ListItemIcon>
+            </SupportAgentIcon>
             <ListItemText primary="Support" />
           </ListItemButton>
 
@@ -216,6 +236,14 @@ const Sidebar = () => {
             </ListItemIcon>
             <ListItemText primary="Settings" />
           </ListItemButton>
+
+          <ListItemButton sx={{ gap: "2rem"}} onClick={handleLogout}>
+            <LogoutIcon>
+              <Logout sx={{ color: iconColor }} />
+            </LogoutIcon>
+            <ListItemText primary="Logout" />
+          </ListItemButton>
+
         </Box>
       </Box>
     </Drawer>

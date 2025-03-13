@@ -41,6 +41,8 @@ const OrganizationPage = () => {
     callApi();
   }, []);
 
+  
+
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
 
