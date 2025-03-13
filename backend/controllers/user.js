@@ -76,30 +76,30 @@ exports.verifyOtp = async (req, res) => {
   res.json({ message: "Verification code sent!" });
 };
 
-exports.verifyOtp = async (req, res) => {
-  const { email, code } = req.body;
+// exports.verifyOtp = async (req, res) => {
+//   const { email, code } = req.body;
 
-  try {
-    const user = await findUserServices(email);
+//   try {
+//     const user = await findUserServices(email);
 
-    if (
-      !user ||
-      user.verificationCode !== code ||
-      new Date() > user.codeExpires
-    ) {
-      return res.status(400).json({ error: "Invalid or expired code" });
-    }
+//     if (
+//       !user ||
+//       user.verificationCode !== code ||
+//       new Date() > user.codeExpires
+//     ) {
+//       return res.status(400).json({ error: "Invalid or expired code" });
+//     }
 
-    user.isVerified = true;
-    user.verificationCode = null;
-    user.codeExpires = null;
-    await user.save();
+//     user.isVerified = true;
+//     user.verificationCode = null;
+//     user.codeExpires = null;
+//     await user.save();
 
-    res.json({ message: "Email verified successfully!" });
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
+//     res.json({ message: "Email verified successfully!" });
+//   } catch (error) {
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;

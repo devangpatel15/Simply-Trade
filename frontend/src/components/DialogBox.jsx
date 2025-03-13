@@ -48,6 +48,13 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
     }
   };
 
+  const handleEdit = () => {
+
+    
+    console.log("22222222");
+    
+  }
+
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
       <DialogTitle
@@ -119,7 +126,7 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" color="success">
+        <Button variant="outlined" color="success" onClick={handleEdit}>
           Edit
         </Button>
         <Button variant="outlined" color="error" onClick={handleDelete}>
