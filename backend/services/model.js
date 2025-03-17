@@ -1,4 +1,4 @@
-const Model = require("../models/Model");
+const Model = require("../models/model");
 
 exports.findAllModelServices = async () => {
     const data = await Model.find().lean();
@@ -31,6 +31,11 @@ exports.updateModelServices = async (
     ).lean();
     return data;
 };
+
+exports.softDeleteModelService = async (modelId) => {
+    return await Model.findByIdAndUpdate(modelId, { isDeleted: true });
+  };
+  
 
 exports.deleteModelServices = async (modelId) => {
     const data = await Model.findByIdAndDelete(

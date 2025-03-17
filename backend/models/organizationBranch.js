@@ -22,7 +22,8 @@ const organizationBranchSchema = new mongoose.Schema(
     companyType: { type: String, required: true },
     userId:{type: mongoose.Schema.Types.ObjectId,
       require: true,
-      ref: "User",}
+      ref: "User"},
+    isDeleted: { type: Boolean, default: false },
   },
   {
     timestamps: true,
