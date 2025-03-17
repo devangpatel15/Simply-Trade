@@ -8,6 +8,6 @@ stockRouter.get("/allStock",getAllStock)
 stockRouter.get("/stock/:id",getStockValidation,getStock)
 stockRouter.post("/createStock",createValidation,createStock)
 stockRouter.put("/updateStock/:id",updateStockValidation,updateStock)
-stockRouter.delete("/deleteStock/:id",deleteStockValidation,softDeleteStock)
+stockRouter.put("/deleteStock/:id",deleteStockValidation,softDeleteStock)
 
 module.exports = stockRouter

@@ -8,6 +8,6 @@ capRouter.get("/allCapacity",getAllCapacity)
 capRouter.get("/capacity/:id",capacityIdValidation,getCapacity)
 capRouter.post("/createCapacity",createCapacityValidation,createCapacity)
 capRouter.put("/updateCapacity/:id",updateCapacityValidation,updateCapacity)
-capRouter.delete("/deleteCapacity/:id",capacityIdValidation,softDeleteCapacity)
+capRouter.put("/deleteCapacity/:id",capacityIdValidation,softDeleteCapacity)
 
 module.exports = capRouter

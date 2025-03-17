@@ -7,6 +7,6 @@ deviceRoute.get('/findAllDevice',findAllDevice)
 deviceRoute.get('/findOneDevice/:id',validateGetOneDeviceData,findOneDevice)
 deviceRoute.post('/createDevice',validateCreateDeviceData,createDevice)
 deviceRoute.put('/updateDevice/:id',validateUpdateDeviceData,updateDevice)
-deviceRoute.delete('/deleteDevice/:id',validateDeleteDeviceData,softDeleteDevice)
+deviceRoute.put('/deleteDevice/:id',validateDeleteDeviceData,softDeleteDevice)
 
 module.exports =deviceRoute

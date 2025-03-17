@@ -7,6 +7,6 @@ colorRoute.get('/findAllColor',findAllColor)
 colorRoute.get('/findOneColor/:id',validateGetOneColorData,findOneColor)
 colorRoute.post('/createColor',validateCreateColorData,createColor)
 colorRoute.put('/updateColor/:id',validateUpdateColorData,updateColor)
-colorRoute.delete('/deleteColor/:id',validateDeleteColorData,softDeleteColor)
+colorRoute.put('/deleteColor/:id',validateDeleteColorData,softDeleteColor)
 
 module.exports =colorRoute

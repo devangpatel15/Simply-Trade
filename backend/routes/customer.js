@@ -8,6 +8,6 @@ cusRouter.get("/allCustomer",getAllCustomer)
 cusRouter.get("/customer/:id",customerIdValidation,getCustomer)
 cusRouter.post("/createCustomer",createCustomerValidation,createCustomer)
 cusRouter.put("/updateCustomer/:id",updateCustomerValidation,updateCustomer)
-cusRouter.delete("/deleteCustomer/:id",customerIdValidation,softDeleteCustomer)
+cusRouter.put("/deleteCustomer/:id",customerIdValidation,softDeleteCustomer)
 
 module.exports = cusRouter

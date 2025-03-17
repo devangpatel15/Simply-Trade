@@ -7,6 +7,6 @@ modelRoute.get('/findAllModel',findAllModel)
 modelRoute.get('/findOneModel/:id',validateGetOneModelData,findOneModel)
 modelRoute.post('/createModel',validateCreateModelData,createModel)
 modelRoute.put('/updateModel/:id',validateUpdateModelData,updateModel)
-modelRoute.delete('/deleteModel/:id',validateDeleteModelData,softDeleteModel)
+modelRoute.put('/deleteModel/:id',validateDeleteModelData,softDeleteModel)
 
 module.exports =modelRoute

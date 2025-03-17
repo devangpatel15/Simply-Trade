@@ -8,6 +8,6 @@ organizationBranchRoute.get('/findAllOrganizationBranch',AuthUser,findAllOrganiz
 organizationBranchRoute.get('/findOneOrganizationBranch/:id',AuthUser,validateGetOneOrganizationBranchData,findOneOrganizationBranch)
 organizationBranchRoute.post('/createOrganizationBranch',AuthUser,validateCreateOrganizationBranchData,createOrganizationBranch)
 organizationBranchRoute.put('/updateOrganizationBranch/:id',AuthUser,validateUpdateOrganizationBranchData,updateOrganizationBranch)
-organizationBranchRoute.delete('/deleteOrganizationBranch/:id',AuthUser,validateDeleteOrganizationBranchData,softDeleteOrganizationBranch)
+organizationBranchRoute.put('/deleteOrganizationBranch/:id',AuthUser,validateDeleteOrganizationBranchData,softDeleteOrganizationBranch)
 
 module.exports =organizationBranchRoute
