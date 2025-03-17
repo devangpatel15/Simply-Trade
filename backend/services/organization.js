@@ -16,6 +16,9 @@ exports.getAllUserOrganizationService = async (userId) => {
 exports.getOrganizationService = async (orgId) => {
   return await Organization.findById(orgId).populate("userId").lean();
 };
+exports.findOrgService = async (newOrgName) => {
+  return await Organization.find({organizationName:newOrgName}).populate("userId").lean();
+};
 
 exports.createOrganizationService = async (newOrg) => {
   return await Organization.create(newOrg);
@@ -32,3 +35,4 @@ exports.softDeleteOrganizationService = async (orgId) => {
 exports.deleteOrganizationService = async (orgId) => {
   return await Organization.findByIdAndDelete(orgId);
 };
+
