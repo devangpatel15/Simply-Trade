@@ -71,6 +71,11 @@ import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import CategoryIcon from '@mui/icons-material/Category';
+import DevicesIcon from '@mui/icons-material/Devices';
+import ColorizeIcon from '@mui/icons-material/Colorize';
+import OnDeviceTrainingIcon from '@mui/icons-material/OnDeviceTraining';
+import InventoryIcon from '@mui/icons-material/Inventory';
 
 const iconColor = "#5C4E89"; // Custom icon color
 
@@ -182,6 +187,41 @@ const Sidebar = () => {
                     <Business sx={{ color: iconColor }} />
                   </PeopleAltIcon>
                   <ListItemText primary="Users" />
+                </ListItemButton>
+
+                <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
+                  <CategoryIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </CategoryIcon>
+                  <ListItemText primary="Category" />
+                </ListItemButton>
+
+                <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
+                  <DevicesIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </DevicesIcon>
+                  <ListItemText primary="Device" />
+                </ListItemButton>
+
+                <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
+                  <OnDeviceTrainingIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </OnDeviceTrainingIcon>
+                  <ListItemText primary="Model" />
+                </ListItemButton>
+
+                <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
+                  <ColorizeIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </ColorizeIcon>
+                  <ListItemText primary="Color" />
+                </ListItemButton>
+
+                <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
+                  <InventoryIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </InventoryIcon>
+                  <ListItemText primary="Stock" />
                 </ListItemButton>
 
                 <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
