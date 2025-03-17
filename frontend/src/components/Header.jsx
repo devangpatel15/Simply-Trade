@@ -7,32 +7,28 @@ import {
   Box,
   Button,
   Avatar,
+  List,
+  ListItem,
+  Popper,
+  Paper,
+  ClickAwayListener,
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import userImage from "../assets/Ellipse 2332.png";
 import moment from "moment";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Business, Logout } from "@mui/icons-material";
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState({});
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const response = await axios.get("http://localhost:4000/api/findUser", {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       });
-
-  //       setUserData(response.data.data);
-  //     } catch (error) {
-  //       console.log(error.message);
-  //     }
-  //   })();
-  // }, []);
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -52,6 +48,21 @@ const Header = () => {
   }, []);
 
   const formattedDate = moment().format("DD MMM. YYYY");
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen((prev) => !prev);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    console.log("logout");
+    navigate("/signIn");
+  };
 
   return (
     <AppBar
@@ -103,15 +114,42 @@ const Header = () => {
               textTransform: "none",
               padding: "5px 10px",
             }}
+            onClick={handleClick}
           >
             <Box>
               <Typography variant="body2">Welcome</Typography>
-              <Typography variant="body2" fontWeight="bold" color=" #5C4E89">
+              <Typography variant="body2" fontWeight="bold" color="#5C4E89">
                 {userData.name}!
               </Typography>
             </Box>
             <Avatar src={userImage} sx={{ width: 32, height: 32 }} />
           </Button>
+
+          <Popper
+            open={open}
+            anchorEl={anchorEl}
+            placement="bottom-end"
+            disablePortal
+          >
+            <ClickAwayListener onClickAway={handleClose}>
+              <Paper sx={{ mt: 1, borderRadius: 2, boxShadow: 3 }}>
+                <List>
+                  <ListItem button>
+                    <AccountCircleRoundedIcon>
+                      <Business sx={{ color: "primary" }} />
+                    </AccountCircleRoundedIcon>
+                    Profile
+                  </ListItem>
+                  <ListItem onClick={handleLogout} button>
+                    <LogoutIcon>
+                      <Logout sx={{ color: "primary" }} />
+                    </LogoutIcon>
+                    Logout
+                  </ListItem>
+                </List>
+              </Paper>
+            </ClickAwayListener>
+          </Popper>
         </Box>
       </Toolbar>
     </AppBar>

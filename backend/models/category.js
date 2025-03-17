@@ -8,6 +8,11 @@ const categorySchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    orgBranchId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "OrganizationBranch",
+      required: true,
+    },
   },
   { timestamps: true }
 );
