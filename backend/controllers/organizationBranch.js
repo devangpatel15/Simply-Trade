@@ -33,9 +33,8 @@ exports.findAllOrganizationBranch = async (req, res) => {
 exports.findOneOrganizationBranch = async (req, res) => {
   try {
     const organizationBranchId = req.params.id;
-    const organizationBranchData = await findOneOrganizationBranchServices(
-      organizationBranchId
-    );
+
+    const organizationBranchData = await findOneOrganizationBranchServices(organizationBranchId);
 
     if (!organizationBranchData) {
       return res.status(404).json({ message: "No Organization Branch found" });

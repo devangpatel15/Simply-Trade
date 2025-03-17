@@ -1,19 +1,26 @@
 const OrganizationBranch = require("../models/organizationBranch");
 
 exports.findAllOrganizationBranchServices = async () => {
-  const data = await OrganizationBranch.find({ isDeleted: false }).populate("userId" , 'branchName').lean();
+  const data = await OrganizationBranch.find({ isDeleted: false })
+    .populate("userId", "branchName")
+    .lean();
 
   return data;
 };
-exports.findOneOrganizationBranchServices = async (OrganizationBranchId) => {
-  const data = await OrganizationBranch.findById({OrganizationBranchId , isDeleted: false})
-    .populate("userId"  , 'branchName')
+exports.findOneOrganizationBranchServices = async (id) => {
+  const data = await OrganizationBranch.findById(id)
+    .populate("userId", "branchName")
     .lean();
 
   return data;
 };
 exports.findUserOrganizationBranchServices = async (userId) => {
-  const data = await OrganizationBranch.find({userId : userId , isDeleted : false }).populate("userId"  , 'branchName').lean();
+  const data = await OrganizationBranch.find({
+    userId: userId,
+    isDeleted: false,
+  })
+    .populate("userId", "branchName")
+    .lean();
   return data;
 };
 
