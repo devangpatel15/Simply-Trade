@@ -14,8 +14,10 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { deleteOrg } from "../apis/OrganizationApi";
+import { deleteOrgBranch } from "../apis/OrganizationBranchApi";
 
-const DialogBox = ({ handleClose, open, data, callApi }) => {
+const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
   const {
     primaryAddress,
     organizationName,
@@ -31,6 +33,7 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
     gstNumber,
     companyType,
     _id,
+    organization,
   } = data;
 
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -46,23 +49,11 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
   const handleDelete = async () => {
     console.log("_id --", _id);
 
-    try {
-      await axios.put(
-        `http://localhost:4000/api/deleteOrg/${_id}`,
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      alert("deleted");
-      handleClose();
-      callApi();
-    } catch (error) {
-      console.log(error.message);
-    }
+    fieldName == "organizationForm" ? deleteOrg(_id) : deleteOrgBranch(_id);
+
+    alert("deleted");
+    handleClose();
+    callApi();
   };
 
   return (
@@ -87,9 +78,16 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
           <Typography variant="body1">
             <b>Primary Address :</b> {primaryAddress}
           </Typography>
-          <Typography variant="body1">
-            <b>Organization Name :</b> {organizationName}
-          </Typography>
+          {organizationName && (
+            <Typography variant="body1">
+              <b>Organization Name :</b> {organizationName}
+            </Typography>
+          )}
+          {organization && (
+            <Typography variant="body1">
+              <b>Organization :</b> {data.userId.name}
+            </Typography>
+          )}
           <Typography variant="body1">
             <b>Address Line 1 :</b> {addressLine1}
           </Typography>
@@ -136,7 +134,13 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Link to={`/organizationForm/${_id}`}>
+        <Link
+          to={
+            fieldName == "organizationForm"
+              ? `/organizationForm/${_id}`
+              : `/organizationBranchForm/${_id}`
+          }
+        >
           <Button variant="outlined" color="success">
             Edit
           </Button>
