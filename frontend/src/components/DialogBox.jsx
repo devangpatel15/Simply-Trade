@@ -34,6 +34,7 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
     companyType,
     _id,
     organization,
+    branchName,
   } = data;
 
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -85,7 +86,7 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
           )}
           {organization && (
             <Typography variant="body1">
-              <b>Organization :</b> {data.userId.name}
+              <b>Organization :</b> {branchName}
             </Typography>
           )}
           <Typography variant="body1">
