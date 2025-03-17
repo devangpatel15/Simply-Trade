@@ -70,11 +70,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-import CategoryIcon from '@mui/icons-material/Category';
-import DevicesIcon from '@mui/icons-material/Devices';
-import ColorizeIcon from '@mui/icons-material/Colorize';
-import OnDeviceTrainingIcon from '@mui/icons-material/OnDeviceTraining';
-import InventoryIcon from '@mui/icons-material/Inventory';
+import CategoryIcon from "@mui/icons-material/Category";
+import DevicesIcon from "@mui/icons-material/Devices";
+import ColorizeIcon from "@mui/icons-material/Colorize";
+import OnDeviceTrainingIcon from "@mui/icons-material/OnDeviceTraining";
+import InventoryIcon from "@mui/icons-material/Inventory";
 
 const iconColor = "#5C4E89"; // Custom icon color
 
