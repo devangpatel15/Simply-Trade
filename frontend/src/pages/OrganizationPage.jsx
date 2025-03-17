@@ -41,8 +41,6 @@ const OrganizationPage = () => {
     callApi();
   }, []);
 
-  
-
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
 
@@ -163,85 +161,6 @@ const OrganizationPage = () => {
                 </Box>
               );
             })}
-          {/* Organization Details Dialog */}
-          {/* <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-            <DialogTitle
-              sx={{
-                backgroundColor: " #F8F8FF",
-                color: "#4C2D85",
-                fontWeight: "bold",
-                borderBottom: "2px solid gray",
-              }}
-            >
-              ORGANIZATIONS
-            </DialogTitle>
-            <DialogContent>
-              <Box display="grid" gridTemplateColumns="repeat(2, 1fr)" gap={2}>
-                <Typography variant="body1">
-                  <b>GST IN :</b> 25AASCA8384QIZM
-                </Typography>
-                <Typography variant="body1">
-                  <b>Primary Address :</b> Laboris Labore Numqu
-                </Typography>
-                <Typography variant="body1">
-                  <b>Organization Name :</b> Maxwell Pate Co
-                </Typography>
-                <Typography variant="body1">
-                  <b>Address Line 1 :</b> Irure Voluptates Com
-                </Typography>
-                <Typography variant="body1">
-                  <b>City :</b> Ahmedabad
-                </Typography>
-                <Typography variant="body1">
-                  <b>Address Line 2 :</b> Ea Ut Consequuntur U
-                </Typography>
-                <Typography variant="body1">
-                  <b>District :</b> Ahmedabad
-                </Typography>
-                <Typography variant="body1">
-                  <b>Zip Code :</b> 3800015
-                </Typography>
-                <Typography variant="body1">
-                  <b>State :</b> Gujarat
-                </Typography>
-                <Typography variant="body1">
-                  <b>Mobile :</b> 9601128557
-                </Typography>
-                <Typography variant="body1">
-                  <b>Country :</b> India
-                </Typography>
-                <Typography variant="body1">
-                  <b>Email :</b> mithilshah12@gmail.com
-                </Typography>
-                <Typography variant="body1">
-                  <b>Company Reg. Type :</b> Collab Sof Tech
-                </Typography>
-                <Typography variant="body1">
-                  <b>Dealing Currency :</b> Rupee's
-                </Typography>
-                <Typography variant="body1">
-                  <b>Financial Year :</b> 2024
-                </Typography>
-                <Typography variant="body1">
-                  <b>Default Stock Method :</b> mithilshah12@gmail.com
-                </Typography>
-              </Box>
-            </DialogContent>
-            <DialogActions>
-              <Button variant="outlined" color="success">
-                Edit
-              </Button>
-              <Button variant="outlined" color="error">
-                Delete
-              </Button>
-              <IconButton
-                onClick={handleClose}
-                sx={{ position: "absolute", top: 8, right: 8 }}
-              >
-                <CloseIcon />
-              </IconButton>
-            </DialogActions>
-          </Dialog> */}
 
           <DialogBox
             handleClose={handleClose}

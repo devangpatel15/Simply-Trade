@@ -9,9 +9,34 @@ import {
   Box,
   Alert,
 } from "@mui/material";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const OtpForm = () => {
+  const navigate = useNavigate();
   const [otp, setOtp] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/verifyOtp",
+        { email: localStorage.getItem("email"), code: otp },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("response =========================== ", response);
+      // localStorage.setItem(`Bearer ${response}`);
+
+      navigate("/dashboard");
+    } catch (err) {
+      console.log(err.response?.data?.message || "Something went wrong!");
+    }
+  };
 
   return (
     <Box
@@ -27,40 +52,6 @@ const OtpForm = () => {
         ENTER OTP
       </Typography>
 
-      {/* <form>
-        <TextField
-          label="Email"
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Password"
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="rememberMe"
-              checked={formData.rememberMe}
-              onChange={handleChange}
-            />
-          }
-          label="Remember Me"
-        />
-
-        </form> */}
       <Box
         sx={{
           display: "flex",
@@ -89,7 +80,13 @@ const OtpForm = () => {
         />
       </Box>
 
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        sx={{ mt: 2 }}
+        onClick={handleSubmit}
+      >
         Verify
       </Button>
       <Button type="submit" fullWidth sx={{ mt: 2 }}>

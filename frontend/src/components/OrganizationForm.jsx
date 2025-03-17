@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -11,12 +11,18 @@ import {
   Radio,
   Box,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import axios from "axios";
+import { createOrg, updateOrg } from "../apis/OrganizationApi";
 
 const OrganizationForm = () => {
+  const { id } = useParams();
+  console.log("======id", id);
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     organizationName: "",
     primaryAddress: "",
@@ -39,6 +45,7 @@ const OrganizationForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value, "name", "value");
 
     setFormData((prev) => ({
       ...prev,
@@ -48,23 +55,36 @@ const OrganizationForm = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/createOrg",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      console.log("Response:", response.data);
-      // Redirect or show success message
+      if (id) {
+        updateOrg(formData, id);
+        navigate("/organizationPage");
+      } else {
+        createOrg(formData);
+        navigate("/organizationPage");
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("error");
     }
   };
+
+  const callApi = async () => {
+    if (id) {
+      const response = await axios.get(`http://localhost:4000/api/org/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      console.log("response", response.data.data);
+      setFormData(response.data.data);
+    }
+  };
+
+  console.log("formData", formData);
+  useEffect(() => {
+    callApi();
+  }, []);
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -90,8 +110,9 @@ const OrganizationForm = () => {
                 label="Organization Name"
                 variant="outlined"
                 name="organizationName"
-                value={formData.organizationName}
+                value={formData.organizationName || ""}
                 onChange={handleChange}
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -100,8 +121,9 @@ const OrganizationForm = () => {
                 label="Address Line 1"
                 variant="outlined"
                 name="addressLine1"
-                value={formData.addressLine1}
+                value={formData.addressLine1 || ""}
                 onChange={handleChange}
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -110,8 +132,9 @@ const OrganizationForm = () => {
                 label="Primary Address"
                 variant="outlined"
                 name="primaryAddress"
-                value={formData.primaryAddress}
+                value={formData.primaryAddress || ""}
                 onChange={handleChange}
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -120,8 +143,9 @@ const OrganizationForm = () => {
                 label="City"
                 variant="outlined"
                 name="city"
-                value={formData.city}
+                value={formData.city || ""}
                 onChange={handleChange}
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -130,7 +154,7 @@ const OrganizationForm = () => {
                 label="Address Line 2"
                 variant="outlined"
                 name="addressLine2"
-                value={formData.addressLine2}
+                value={formData.addressLine2 || ""}
                 onChange={handleChange}
               />
             </Grid>
@@ -140,8 +164,9 @@ const OrganizationForm = () => {
                 label="State"
                 variant="outlined"
                 name="state"
-                value={formData.state}
+                value={formData.state || ""}
                 onChange={handleChange}
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -150,8 +175,9 @@ const OrganizationForm = () => {
                 label="District"
                 variant="outlined"
                 name="district"
-                value={formData.district}
+                value={formData.district || ""}
                 onChange={handleChange}
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -160,8 +186,9 @@ const OrganizationForm = () => {
                 label="Zip Code"
                 variant="outlined"
                 name="zipCode"
-                value={formData.zipCode}
+                value={formData.zipCode || ""}
                 onChange={handleChange}
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -170,8 +197,9 @@ const OrganizationForm = () => {
                 label="Country"
                 variant="outlined"
                 name="country"
-                value={formData.country}
+                value={formData.country || ""}
                 onChange={handleChange}
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -180,8 +208,9 @@ const OrganizationForm = () => {
                 label="Email"
                 variant="outlined"
                 name="email"
-                value={formData.email}
+                value={formData.email || ""}
                 onChange={handleChange}
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -190,8 +219,9 @@ const OrganizationForm = () => {
                 label="Telephone"
                 variant="outlined"
                 name="telePhone"
-                value={formData.telePhone}
+                value={formData.telePhone || ""}
                 onChange={handleChange}
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -200,8 +230,9 @@ const OrganizationForm = () => {
                 label="Company Registration Type"
                 variant="outlined"
                 name="companyType"
-                value={formData.companyType}
+                value={formData.companyType || ""}
                 onChange={handleChange}
+                required
               />
             </Grid>
 
@@ -211,7 +242,7 @@ const OrganizationForm = () => {
                 <RadioGroup
                   row
                   name="gstApplicable"
-                  value={formData.gstApplicable}
+                  value={formData.gstApplicable || ""}
                   onChange={handleChange}
                 >
                   <FormControlLabel
@@ -236,7 +267,6 @@ const OrganizationForm = () => {
                 type="file"
                 variant="outlined"
                 name="upload"
-                value={formData.upload}
                 onChange={handleChange}
               />
             </Grid>
@@ -248,8 +278,9 @@ const OrganizationForm = () => {
                   label="GST Number"
                   variant="outlined"
                   name="gstNumber"
-                  value={formData.gstNumber}
+                  value={formData.gstNumber || ""}
                   onChange={handleChange}
+                  required
                 />
               </Grid>
             )}
@@ -271,8 +302,6 @@ const OrganizationForm = () => {
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
-                component={Link}
-                to="/organizationPage"
               >
                 Submit
               </Button>

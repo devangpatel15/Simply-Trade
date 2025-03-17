@@ -12,7 +12,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const generateVerificationCode = () => {
-  Math.floor(100000 + Math.random() * 900000).toString();
+  return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
 exports.sendOtp = async (req, res) => {
@@ -69,37 +69,8 @@ exports.verifyOtp = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
-
-  await user.save();
-  await sendVerificationEmail(email, code);
-
-  res.json({ message: "Verification code sent!" });
 };
 
-exports.verifyOtp = async (req, res) => {
-  const { email, code } = req.body;
-
-  try {
-    const user = await findUserServices(email);
-
-    if (
-      !user ||
-      user.verificationCode !== code ||
-      new Date() > user.codeExpires
-    ) {
-      return res.status(400).json({ error: "Invalid or expired code" });
-    }
-
-    user.isVerified = true;
-    user.verificationCode = null;
-    user.codeExpires = null;
-    await user.save();
-
-    res.json({ message: "Email verified successfully!" });
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
