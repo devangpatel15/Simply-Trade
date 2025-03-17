@@ -32,6 +32,11 @@ exports.updateColorServices = async (
     return data;
 };
 
+exports.softDeleteColorService = async (colorId) => {
+    return await Color.findByIdAndUpdate(colorId, { isDeleted: true });
+  };
+  
+
 exports.deleteColorServices = async (colorId) => {
     const data = await Color.findByIdAndDelete(
         colorId

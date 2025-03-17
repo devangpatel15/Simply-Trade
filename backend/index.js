@@ -11,20 +11,22 @@ const modelRoute = require("./routes/model.js");
 const userRoute = require("./routes/user.js");
 const catRouter = require("./routes/category.js");
 const capRouter = require("./routes/capacity.js");
+const cusRouter = require("./routes/customer.js");
 
 const PORT = process.env.PORT;
 connectMongoDB();
 
 app.use(express.json());
 app.use(cors());
-app.use("/api", userRoute);
-app.use("/api", organizationBranchRoute);
-app.use("/api", orgRouter);
-app.use("/api", colorRoute);
-app.use("/api", deviceRoute);
-app.use("/api", modelRoute);
-app.use("/api", catRouter);
-app.use("/api", capRouter);
+app.use("/api", userRoute , organizationBranchRoute, orgRouter, colorRoute, deviceRoute, modelRoute, catRouter, capRouter, cusRouter);
+// app.use("/api", organizationBranchRoute);
+// app.use("/api", orgRouter);
+// app.use("/api", colorRoute);
+// app.use("/api", deviceRoute);
+// app.use("/api", modelRoute);
+// app.use("/api", catRouter);
+// app.use("/api", capRouter);
+// app.use("/api", cusRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World");

@@ -32,6 +32,11 @@ exports.updateOrganizationBranchServices = async (
     return data;
 };
 
+exports.softDeleteOrganizationBranchService = async (branchId) => {
+    return await OrganizationBranch.findByIdAndUpdate(branchId, { isDeleted: true });
+  };
+  
+
 exports.deleteOrganizationBranchServices = async (OrganizationBranchId) => {
     const data = await OrganizationBranch.findByIdAndDelete(
         OrganizationBranchId

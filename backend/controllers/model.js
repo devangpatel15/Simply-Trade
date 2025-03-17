@@ -5,6 +5,7 @@ const {
   updateModelServices,
   deleteModelServices,
   findUserModelServices,
+  softDeleteModelService,
 } = require("../services/Model");
 
 exports.findAllModel = async (req, res) => {
@@ -93,6 +94,24 @@ exports.updateModel = async (req, res) => {
 
     return res.status(200).json({ message: "Model updated", data: modelData });
   } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.softDeleteModel = async (req, res) => {
+  try {
+    const modelId = req.params.id;
+    const data = await softDeleteModelService(modelId);
+    if (!data) {
+      return res.status(404).json({ message: "Model not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Model soft deleted", data: org });
+  } catch (error) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

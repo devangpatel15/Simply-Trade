@@ -16,6 +16,11 @@ exports.updateStockService = async (stockId, stock) => {
   return await Stock.findByIdAndUpdate(stockId, stock,{new:true}).lean();
 };
 
+exports.softDeleteStockService = async (stockId) => {
+  return await Stock.findByIdAndUpdate(stockId, { isDeleted: true });
+};
+
+
 exports.deleteStockService = async (stockId) => {
   return await Stock.findByIdAndDelete(stockId);
 };

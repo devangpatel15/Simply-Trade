@@ -5,6 +5,7 @@ const {
   updateColorServices,
   deleteColorServices,
   findUserColorServices,
+  softDeleteColorService,
 } = require("../services/Color");
 
 exports.findAllColor = async (req, res) => {
@@ -93,6 +94,24 @@ exports.updateColor = async (req, res) => {
 
     return res.status(200).json({ message: "Color updated", data: colorData });
   } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.softDeleteColor = async (req, res) => {
+  try {
+    const colorId = req.params.id;
+    const color = await softDeleteColorService(colorId);
+    if (!color) {
+      return res.status(404).json({ message: "Color not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Color soft deleted", data: org });
+  } catch (error) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

@@ -4,6 +4,7 @@ const {
   createCategoryService,
   updateCategoryService,
   deleteCategoryService,
+  softDeleteCategoryService,
 } = require("../services/category");
 
 exports.getAllCategory = async (req, res) => {
@@ -65,6 +66,24 @@ exports.updateCategory = async (req, res) => {
       .status(200)
       .json({ message: "category updated", data: updatedOrg });
   } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.softDeleteCategory = async (req, res) => {
+  try {
+    const catId = req.params.id;
+    const cat = await softDeleteCategoryService(catId);
+    if (!cat) {
+      return res.status(404).json({ message: "category not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "category soft deleted", data: org });
+  } catch (error) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

@@ -16,6 +16,10 @@ exports.updateCategoryService = async (catId, cat) => {
   return await Category.findByIdAndUpdate(catId, cat,{new:true}).lean();
 };
 
+exports.softDeleteCategoryService = async (catId) => {
+  return await Category.findByIdAndUpdate(catId, { isDeleted: true });
+};
+
 exports.deleteCategoryService = async (catId) => {
   return await Category.findByIdAndDelete(catId);
 };

@@ -1,13 +1,13 @@
 const express = require('express')
-const { getAllCapacity, getCapacity, createCapacity, updateCapacity, deleteCapacity } = require('../controllers/capacity')
+const { getAllCapacity, getCapacity, createCapacity, updateCapacity, deleteCapacity, softDeleteCapacity } = require('../controllers/capacity')
 const { createCapacityValidation, capacityIdValidation, updateCapacityValidation } = require('../middleware/capacity')
 
 const capRouter = express.Router()
 
-capRouter.get("/allCap",getAllCapacity)
-capRouter.get("/cap/:id",capacityIdValidation,getCapacity)
-capRouter.post("/createCap",createCapacityValidation,createCapacity)
-capRouter.put("/updateCap/:id",updateCapacityValidation,updateCapacity)
-capRouter.delete("/deleteCap/:id",capacityIdValidation,deleteCapacity)
+capRouter.get("/allCapacity",getAllCapacity)
+capRouter.get("/capacity/:id",capacityIdValidation,getCapacity)
+capRouter.post("/createCapacity",createCapacityValidation,createCapacity)
+capRouter.put("/updateCapacity/:id",updateCapacityValidation,updateCapacity)
+capRouter.delete("/deleteCapacity/:id",capacityIdValidation,softDeleteCapacity)
 
 module.exports = capRouter
