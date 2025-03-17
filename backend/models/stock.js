@@ -35,6 +35,7 @@ const stockSchema = new mongoose.Schema({
   totalAmount: { type: Number, required: true },
   paidToCustomer: { type: Number, required: true },
   remainingAmount: { type: Number, required: true },
+  isDeleted: { type: Boolean, default: false },
   // upload : { type: String, required: true },
 });
 

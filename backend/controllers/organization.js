@@ -1,4 +1,7 @@
 const {
+  validateCreateOrganizationBranchData,
+} = require("../middleware/organizationBranch");
+const {
   getAllOrganizationService,
   getOrganizationService,
   createOrganizationService,
@@ -6,7 +9,11 @@ const {
   deleteOrganizationService,
   getAllUserOrganizationService,
   softDeleteOrganizationService,
+  findOrgService,
 } = require("../services/organization");
+const {
+  createOrganizationBranchServices,
+} = require("../services/OrganizationBranch");
 
 exports.getAllOrganization = async (req, res) => {
   try {
@@ -67,12 +74,66 @@ exports.getOrganization = async (req, res) => {
 exports.createOrganization = async (req, res) => {
   try {
     const newOrg = req.body;
+    const newOrgName = req.body.organizationName;
     const userId = req.user.id;
+
+    // Step 1: Create the organization
     const createdOrg = await createOrganizationService({ ...newOrg, userId });
 
-    return res
-      .status(200)
-      .json({ message: "Organization created", data: createdOrg });
+    const {
+      _id,
+      organizationName,
+      primaryAddress,
+      addressLine1,
+      addressLine2,
+      city,
+      district,
+      state,
+      zipCode,
+      country,
+      telePhone,
+      email,
+      companyType,
+    } = createdOrg;
+    console.log(createdOrg)
+
+    const branchData = {
+      organization:_id ,
+      branchName: organizationName, // Default branch name to organization name
+      primaryAddress,
+      addressLine1,
+      addressLine2,
+      city,
+      district,
+      state,
+      zipCode,
+      country,
+      telePhone,
+      mobile: telePhone, // Reuse telephone for mobile
+      email,
+      companyType,
+    };
+    console.log(branchData);
+    
+
+    // Step 3: Validate and create the branch
+
+    const branchCreated = await createOrganizationBranchServices({
+      ...branchData,
+      userId,
+    });
+
+    if (!branchCreated) {
+      return res
+        .status(500)
+        .json({ message: "Failed to create branch for the organization." });
+    }
+
+    return res.status(200).json({
+      message: "Organization and branch created successfully",
+      organization: createdOrg,
+      branch: branchCreated,
+    });
   } catch (err) {
     return res
       .status(500)

@@ -1,12 +1,12 @@
 const Color = require("../models/color");
 
 exports.findAllColorServices = async () => {
-    const data = await Color.find().lean();
+    const data = await Color.find({ isDeleted: false }).lean();
 
     return data;
 };
 exports.findOneColorServices = async (colorId) => {
-    const data = await Color.findById(colorId).lean();
+    const data = await Color.findById({colorId , isDeleted: false }).lean();
 
     return data;
 };
@@ -31,6 +31,11 @@ exports.updateColorServices = async (
     ).lean();
     return data;
 };
+
+exports.softDeleteColorService = async (colorId) => {
+    return await Color.findByIdAndUpdate(colorId, { isDeleted: true });
+  };
+  
 
 exports.deleteColorServices = async (colorId) => {
     const data = await Color.findByIdAndDelete(

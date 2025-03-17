@@ -5,11 +5,15 @@ const {
   updateOrganizationBranchServices,
   deleteOrganizationBranchServices,
   findUserOrganizationBranchServices,
-} = require("../services/OrganizationBranch");
+  softDeleteOrganizationBranchService,
+} = require("../services/organizationBranch");
 
 exports.findAllOrganizationBranch = async (req, res) => {
+  const userId = req.user.id;
   try {
-    const organizationBranchData = await findAllOrganizationBranchServices();
+    const organizationBranchData = await findAllOrganizationBranchServices(
+      userId
+    );
 
     if (!organizationBranchData) {
       return res.status(404).json({ message: "No Organization Branch found" });
@@ -29,9 +33,8 @@ exports.findAllOrganizationBranch = async (req, res) => {
 exports.findOneOrganizationBranch = async (req, res) => {
   try {
     const organizationBranchId = req.params.id;
-    const organizationBranchData = await findOneOrganizationBranchServices(
-      organizationBranchId
-    );
+
+    const organizationBranchData = await findOneOrganizationBranchServices(organizationBranchId);
 
     if (!organizationBranchData) {
       return res.status(404).json({ message: "No Organization Branch found" });
@@ -110,6 +113,29 @@ exports.updateOrganizationBranch = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.softDeleteOrganizationBranch = async (req, res) => {
+  try {
+    const organizationBranchId = req.params.id;
+    const organizationBranchData = await softDeleteOrganizationBranchService(
+      organizationBranchId
+    );
+    if (!organizationBranchData) {
+      return res.status(404).json({ message: "OrganizationBranch not found" });
+    }
+
+    return res
+      .status(200)
+      .json({
+        message: "OrganizationBranch soft deleted",
+        data: organizationBranchData,
+      });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 

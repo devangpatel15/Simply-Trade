@@ -8,6 +8,7 @@ const colorSchema = new mongoose.Schema(
       ref: "Device",
       required: true,
     },
+    isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

@@ -34,13 +34,13 @@ exports.findUserServices=async (email) => {
 
 exports.findAllUserServices = async (userid) => {
   
-   const data = await User.find().lean();
+   const data = await User.find({ isDeleted: false }).lean();
   
   return data;
 };
 exports.findOneUserServices = async (userid) => {
   
-   const  data = await User.findById(userid).lean();
+   const  data = await User.findById({userid , isDeleted : false}).lean();
   
   return data;
 };
@@ -57,6 +57,11 @@ exports.updateUserServices = async (userID,data) => {
 
   return userData;
 };
+
+exports.softDeleteUserService = async (userID) => {
+  return await User.findByIdAndUpdate(userID, { isDeleted: true });
+};
+
 
 exports.deleteUserServices = async (userID) => {
   const userData = await User.findByIdAndDelete(userID).lean();

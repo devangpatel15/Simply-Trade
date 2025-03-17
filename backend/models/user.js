@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema(
     // role : { type: String , enum : ['admin','customer'], default : 'admin'},
     verificationCode: { type: String },
     codeExpires: { type: Date },
+    isDeleted: { type: Boolean, default: false },
   },
   {
     timestamps: true,

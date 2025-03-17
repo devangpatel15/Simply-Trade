@@ -167,6 +167,7 @@ const OrganizationPage = () => {
             open={open}
             data={data}
             callApi={callApi}
+            fieldName="organizationForm"
           />
         </Box>
       </Box>

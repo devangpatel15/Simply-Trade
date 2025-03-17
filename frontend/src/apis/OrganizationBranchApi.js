@@ -1,9 +1,10 @@
 import axios from "axios";
 
-const createOrg = async (formData) => {
+const createOrgBranch = async (formData) => {
   try {
+    console.log(formData);
     const response = await axios.post(
-      "http://localhost:4000/api/createOrg",
+      "http://localhost:4000/api/createOrganizationBranch",
       formData,
       {
         headers: {
@@ -17,10 +18,26 @@ const createOrg = async (formData) => {
   }
 };
 
-const updateOrg = async (formData, id) => {
+const getAllUserOrgBranch = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:4000/api/findAllUserOrganizationBranch",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(error, "createOrg error");
+  }
+};
+const updateOrgBranch = async (formData, id) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/updateOrg/${id}`,
+      `http://localhost:4000/api/updateOrganizationBranch/${id}`,
       formData,
       {
         headers: {
@@ -29,30 +46,16 @@ const updateOrg = async (formData, id) => {
         },
       }
     );
-    alert(response.data.message);
-  } catch (error) {
-    console.log(error, "createOrg error");
-  }
-};
-
-const allUserOrg = async () => {
-  try {
-    const response = await axios.get("http://localhost:4000/api/allUserOrg", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
     return response;
   } catch (error) {
     console.log(error, "createOrg error");
   }
 };
 
-const deleteOrg = async (_id) => {
+const deleteOrgBranch = async (_id) => {
   try {
     await axios.put(
-      `http://localhost:4000/api/deleteOrg/${_id}`,
+      `http://localhost:4000/api/deleteOrganizationBranch/${_id}`,
       {},
       {
         headers: {
@@ -66,4 +69,9 @@ const deleteOrg = async (_id) => {
   }
 };
 
-export { createOrg, updateOrg, allUserOrg, deleteOrg };
+export {
+  createOrgBranch,
+  getAllUserOrgBranch,
+  updateOrgBranch,
+  deleteOrgBranch,
+};

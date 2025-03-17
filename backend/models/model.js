@@ -7,6 +7,8 @@ const modelSchema = new mongoose.Schema({
     ref: "Category",
     required: true,
   },
+  isDeleted: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("Model", modelSchema);
+//model == brand of category

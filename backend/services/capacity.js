@@ -1,21 +1,26 @@
 const Capacity = require("../models/capacity");
 
 exports.getAllCapacityService = async () => {
-  return await Capacity.find().lean();
+  return await Capacity.find({ isDeleted: false }).lean();
 };
 
-exports.getCapacityService = async (catId) => {
-  return await Capacity.findById(catId).lean();
+exports.getCapacityService = async (capId) => {
+  return await Capacity.findById({capId , isDeleted: false }).lean();
 };
 
-exports.createCapacityService = async (newCat) => {
-  return await Capacity.create(newCat)
+exports.createCapacityService = async (newCap) => {
+  return await Capacity.create(newCap)
 };
 
-exports.updateCapacityService = async (catId, cat) => {
-  return await Capacity.findByIdAndUpdate(catId, cat,{new:true}).lean();
+exports.updateCapacityService = async (capId, cap) => {
+  return await Capacity.findByIdAndUpdate(capId, cap,{new:true}).lean();
 };
 
-exports.deleteCapacityService = async (catId) => {
-  return await Capacity.findByIdAndDelete(catId);
+exports.softDeleteCapacityService = async (capId) => {
+  return await Capacity.findByIdAndUpdate(capId, { isDeleted: true });
+};
+
+
+exports.deleteCapacityService = async (capId) => {
+  return await Capacity.findByIdAndDelete(capId);
 };

@@ -5,7 +5,8 @@ const {
   updateDeviceServices,
   deleteDeviceServices,
   findUserDeviceServices,
-} = require("../services/Device");
+  softDeleteDeviceService,
+} = require("../services/device");
 
 exports.findAllDevice = async (req, res) => {
   try {
@@ -97,6 +98,24 @@ exports.updateDevice = async (req, res) => {
       .status(200)
       .json({ message: "Device updated", data: deviceData });
   } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.softDeleteDevice = async (req, res) => {
+  try {
+    const deviceId = req.params.id;
+    const data = await softDeleteDeviceService(deviceId);
+    if (!data) {
+      return res.status(404).json({ message: "Device not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Device soft deleted", data: org });
+  } catch (error) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

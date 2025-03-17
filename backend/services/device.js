@@ -1,12 +1,12 @@
 const Device = require("../models/device");
 
 exports.findAllDeviceServices = async () => {
-    const data = await Device.find().lean();
+    const data = await Device.find({ isDeleted: false }).lean();
 
     return data;
 };
 exports.findOneDeviceServices = async (deviceId) => {
-    const data = await Device.findById(deviceId).lean();
+    const data = await Device.findById({deviceId , isDeleted: false}).lean();
 
     return data;
 };
@@ -31,6 +31,11 @@ exports.updateDeviceServices = async (
     ).lean();
     return data;
 };
+
+exports.softDeleteDeviceService = async (deviceId) => {
+    return await Device.findByIdAndUpdate(deviceId, { isDeleted: true });
+  };
+  
 
 exports.deleteDeviceServices = async (deviceId) => {
     const data = await Device.findByIdAndDelete(
