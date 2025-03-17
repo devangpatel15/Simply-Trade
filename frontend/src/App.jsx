@@ -99,6 +99,8 @@ function App() {
             </PrivateRoute>
           }
         />
+<<<<<<< HEAD
+=======
         <Route
           path="/organizationBranchForm"
           element={
@@ -115,6 +117,7 @@ function App() {
             </PrivateRoute>
           }
         />
+>>>>>>> e496d90f5523db35ab330bf3d58c1c8f82a8f06e
 
         <Route path="*" element={<NotFound404 />} />
       </Routes>

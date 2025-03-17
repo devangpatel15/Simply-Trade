@@ -7,6 +7,10 @@ import {
   InputAdornment,
   Avatar,
   IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -87,7 +91,7 @@ const OrganizationBranchPage = () => {
               </Button>
             </Box>
           </Box>
-          {/* Organization Card */}
+
           {orgData &&
             orgData.map((org) => {
               return (
@@ -117,6 +121,7 @@ const OrganizationBranchPage = () => {
                       >
                         {org.branchName}
                       </Typography>
+
                       <Box sx={{ display: "flex", gap: 2 }}>
                         <Typography
                           variant="body2"
