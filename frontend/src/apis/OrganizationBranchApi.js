@@ -21,7 +21,7 @@ const createOrgBranch = async (formData) => {
 const getAllUserOrgBranch = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:4000/api/findAllOrganizationBranch",
+      "http://localhost:4000/api/findAllUserOrganizationBranch",
       {
         headers: {
           "Content-Type": "application/json",
