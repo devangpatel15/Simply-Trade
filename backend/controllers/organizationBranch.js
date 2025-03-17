@@ -9,8 +9,11 @@ const {
 } = require("../services/organizationBranch");
 
 exports.findAllOrganizationBranch = async (req, res) => {
+  const userId = req.user.id;
   try {
-    const organizationBranchData = await findAllOrganizationBranchServices();
+    const organizationBranchData = await findAllOrganizationBranchServices(
+      userId
+    );
 
     if (!organizationBranchData) {
       return res.status(404).json({ message: "No Organization Branch found" });
