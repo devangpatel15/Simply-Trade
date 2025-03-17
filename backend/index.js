@@ -17,14 +17,14 @@ connectMongoDB();
 
 app.use(express.json());
 app.use(cors());
-app.use('/api',userRoute)
-app.use('/api',organizationBranchRoute)
-app.use("/api",orgRouter)
-app.use("/api",colorRoute)
-app.use("/api",deviceRoute)
-app.use("/api",modelRoute)
-app.use("/api",catRouter)
-app.use("/api",capRouter)
+app.use("/api", userRoute);
+app.use("/api", organizationBranchRoute);
+app.use("/api", orgRouter);
+app.use("/api", colorRoute);
+app.use("/api", deviceRoute);
+app.use("/api", modelRoute);
+app.use("/api", catRouter);
+app.use("/api", capRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
@@ -33,4 +33,3 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
