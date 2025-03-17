@@ -69,7 +69,6 @@ import SegmentIcon from "@mui/icons-material/Segment";
 import { useLocation, useNavigate } from "react-router-dom";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import LogoutIcon from "@mui/icons-material/Logout";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 
 const iconColor = "#5C4E89"; // Custom icon color
@@ -82,12 +81,6 @@ const Sidebar = () => {
 
   const [openMaster, setOpenMaster] = useState(false);
   const [openReport, setOpenReport] = useState(false);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    console.log("logout");
-    navigate("/signIn");
-  };
 
   return (
     <Drawer
@@ -226,13 +219,6 @@ const Sidebar = () => {
               <Settings sx={{ color: iconColor }} />
             </ListItemIcon>
             <ListItemText primary="Settings" />
-          </ListItemButton>
-
-          <ListItemButton sx={{ gap: "2rem" }} onClick={handleLogout}>
-            <LogoutIcon>
-              <Logout sx={{ color: iconColor }} />
-            </LogoutIcon>
-            <ListItemText primary="Logout" />
           </ListItemButton>
         </Box>
       </Box>
