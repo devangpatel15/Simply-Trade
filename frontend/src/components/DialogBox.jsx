@@ -145,11 +145,7 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
             Edit
           </Button>
         </Link>
-<<<<<<< HEAD
         <Button variant="outlined" color="error" onClick={openDeleteDialog}>
-=======
-        <Button variant="outlined" color="error" onClick={handleDelete}>
->>>>>>> a58678508f6e1a5ea8a89e1202f13062110845bb
           Delete
         </Button>
         <Dialog
