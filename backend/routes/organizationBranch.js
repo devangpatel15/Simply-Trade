@@ -1,6 +1,6 @@
 const express =require('express')
-const {  findAllOrganizationBranch, deleteOrganizationBranch, updateOrganizationBranch, findOneOrganizationBranch, createOrganizationBranch, softDeleteOrganizationBranch} = require('../controllers/OrganizationBranch')
-const { validateGetOneOrganizationBranchData, validateCreateOrganizationBranchData, validateUpdateOrganizationBranchData, validateDeleteOrganizationBranchData } = require('../middleware/OrganizationBranch')
+const {  findAllOrganizationBranch, deleteOrganizationBranch, updateOrganizationBranch, findOneOrganizationBranch, createOrganizationBranch, softDeleteOrganizationBranch} = require('../controllers/organizationBranch')
+const { validateGetOneOrganizationBranchData, validateCreateOrganizationBranchData, validateUpdateOrganizationBranchData, validateDeleteOrganizationBranchData } = require('../middleware/organizationBranch')
 const { AuthUser } = require('../middleware/user')
 const organizationBranchRoute=express.Router()
 

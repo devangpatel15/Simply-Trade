@@ -1,11 +1,11 @@
 const Category = require("../models/category");
 
 exports.getAllCategoryService = async () => {
-  return await Category.find().lean();
+  return await Category.find({ isDeleted: false }).lean();
 };
 
 exports.getCategoryService = async (catId) => {
-  return await Category.findById(catId).lean();
+  return await Category.findById({catId , isDeleted: false }).lean();
 };
 
 exports.createCategoryService = async (newCat) => {

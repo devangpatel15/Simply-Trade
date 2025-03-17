@@ -127,7 +127,7 @@ exports.softDeleteOrganizationBranch = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "OrganizationBranch soft deleted", data: org });
+      .json({ message: "OrganizationBranch soft deleted", data: organizationBranchData });
   } catch (error) {
     return res
       .status(500)

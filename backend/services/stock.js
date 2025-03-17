@@ -1,11 +1,11 @@
 const Stock = require('../models/stock');
 
 exports.getAllStockService = async () => {
-  return await Stock.find().lean();
+  return await Stock.find({ isDeleted: false }).lean();
 };
 
 exports.getStockService = async (stockId) => {
-  return await Stock.findById(stockId).lean();
+  return await Stock.findById({stockId , isDeleted: false}).lean();
 };
 
 exports.createStockService = async (newStock) => {

@@ -1,11 +1,11 @@
 const Customer = require("../models/customer");
 
 exports.getAllCustomerService = async () => {
-  return await Customer.find().lean();
+  return await Customer.find({ isDeleted: false }).lean();
 };
 
 exports.getCustomerService = async (cusId) => {
-  return await Customer.findById(cusId).lean();
+  return await Customer.findById({cusId , isDeleted: false}).lean();
 };
 
 exports.createCustomerService = async (newCus) => {

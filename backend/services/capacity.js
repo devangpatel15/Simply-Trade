@@ -1,11 +1,11 @@
 const Capacity = require("../models/capacity");
 
 exports.getAllCapacityService = async () => {
-  return await Capacity.find().lean();
+  return await Capacity.find({ isDeleted: false }).lean();
 };
 
 exports.getCapacityService = async (capId) => {
-  return await Capacity.findById(capId).lean();
+  return await Capacity.findById({capId , isDeleted: false }).lean();
 };
 
 exports.createCapacityService = async (newCap) => {

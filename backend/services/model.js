@@ -1,12 +1,12 @@
 const Model = require("../models/model");
 
 exports.findAllModelServices = async () => {
-    const data = await Model.find().lean();
+    const data = await Model.find({ isDeleted: false }).lean();
 
     return data;
 };
 exports.findOneModelServices = async (modelId) => {
-    const data = await Model.findById(modelId).lean();
+    const data = await Model.findById({modelId , isDeleted: false }).lean();
 
     return data;
 };
