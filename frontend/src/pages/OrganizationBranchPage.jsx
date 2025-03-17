@@ -18,24 +18,17 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import DialogBox from "../components/DialogBox";
+import { getAllUserOrgBranch } from "../apis/OrganizationBranchApi";
 
 const OrganizationBranchPage = () => {
   const [orgData, setOrgData] = useState([]);
 
   const callApi = async () => {
-    const response = await axios.get(
-      "http://localhost:4000/api/findAllOrganizationBranch",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    console.log(response.data.data);
+    const response = await getAllUserOrgBranch();
     setOrgData(response.data.data);
   };
 
+  console.log("orgData ", orgData);
   useEffect(() => {
     callApi();
   }, []);
@@ -89,7 +82,7 @@ const OrganizationBranchPage = () => {
                   textTransform: "none",
                 }}
                 component={Link}
-                to="/organizationForm"
+                to="/organizationBranchForm"
               >
                 Add Organization Branch
               </Button>
@@ -123,7 +116,7 @@ const OrganizationBranchPage = () => {
                         variant="h6"
                         sx={{ fontWeight: "bold", color: "#6c5ce7" }}
                       >
-                        {org.organizationName}
+                        {org.branchName}
                       </Typography>
                       <Box sx={{ display: "flex", gap: 2 }}>
                         <Typography
@@ -166,6 +159,7 @@ const OrganizationBranchPage = () => {
             open={open}
             data={data}
             callApi={callApi}
+            fieldName="organizationBranchForm"
           />
         </Box>
       </Box>
