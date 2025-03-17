@@ -6,7 +6,7 @@ const {
   deleteOrganizationBranchServices,
   findUserOrganizationBranchServices,
   softDeleteOrganizationBranchService,
-} = require("../services/OrganizationBranch");
+} = require("../services/organizationBranch");
 
 exports.findAllOrganizationBranch = async (req, res) => {
   try {
