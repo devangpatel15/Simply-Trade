@@ -98,6 +98,7 @@ function App() {
             </PrivateRoute>
           }
         />
+
         <Route path="*" element={<NotFound404 />} />
       </Routes>
     </ThemeProvider>
