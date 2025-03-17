@@ -9,6 +9,7 @@ import OrganizationForm from "./components/OrganizationForm";
 import OtpPage from "./pages/Otp";
 import SignInByOtpPage from "./pages/SignInByOtpPage";
 import NotFound404 from "./pages/NotFound404";
+import OrganizationBranchPage from "./pages/OrganizationBranchPage";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -85,6 +86,15 @@ function App() {
           element={
             <PrivateRoute>
               <OrganizationForm />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/organizationBranchPage"
+          element={
+            <PrivateRoute>
+              <OrganizationBranchPage />
             </PrivateRoute>
           }
         />
