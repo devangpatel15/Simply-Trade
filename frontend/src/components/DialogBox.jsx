@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Box,
@@ -33,6 +33,16 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
     _id,
   } = data;
 
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
+  const openDeleteDialog = () => {
+    setDeleteOpen(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteOpen(false);
+  };
+
   const handleDelete = async () => {
     console.log("_id --", _id);
 
@@ -56,11 +66,8 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
   };
 
   const handleEdit = () => {
-
-    
     console.log("22222222");
-    
-  }
+  };
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
@@ -133,20 +140,26 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
         </Box>
       </DialogContent>
       <DialogActions>
-<<<<<<< HEAD
-        <Button variant="outlined" color="success" onClick={handleEdit}>
-          Edit
-        </Button>
-=======
         <Link to={`/organizationForm/${_id}`}>
           <Button variant="outlined" color="success">
             Edit
           </Button>
         </Link>
->>>>>>> e3a5b89dd6123dcb00026366176d49b0f22b79ed
-        <Button variant="outlined" color="error" onClick={handleDelete}>
+        <Button variant="outlined" color="error" onClick={openDeleteDialog}>
           Delete
         </Button>
+        <Dialog
+          open={deleteOpen}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle>Are Sure Delete</DialogTitle>
+          <DialogActions>
+            <Button onClick={handleDelete}>Yes</Button>
+            <Button onClick={closeDeleteDialog}>No</Button>
+          </DialogActions>
+        </Dialog>
         <IconButton
           onClick={handleClose}
           sx={{ position: "absolute", top: 8, right: 8 }}

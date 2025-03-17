@@ -71,33 +71,6 @@ exports.verifyOtp = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-// exports.verifyOtp = async (req, res) => {
-//   const { email, code } = req.body;
-
-//   try {
-//     const user = await findUserServices(email);
-
-//     if (
-//       !user ||
-//       user.verificationCode !== code ||
-//       new Date() > user.codeExpires
-//     ) {
-//       return res.status(400).json({ error: "Invalid or expired code" });
-//     }
-
-//     user.isVerified = true;
-//     user.verificationCode = null;
-//     user.codeExpires = null;
-//     await user.save();
-
-//     res.json({ message: "Email verified successfully!" });
-//   } catch (error) {
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
-=======
->>>>>>> e3a5b89dd6123dcb00026366176d49b0f22b79ed
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
