@@ -87,13 +87,7 @@ const OrganizationBranchForm = () => {
     }
   };
 
-  //   const callGetAllOrgApi = async () => {
-  //     console.log("Fetching organizations...");
-  //
-  //   };
-
   const callGetAllOrg = async () => {
-    console.log("Hello");
     const response = await allUserOrg();
     console.log("response", response.data.data);
     setOrganizationOptions(response.data.data);
