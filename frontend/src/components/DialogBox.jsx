@@ -55,6 +55,13 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
     }
   };
 
+  const handleEdit = () => {
+
+    
+    console.log("22222222");
+    
+  }
+
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
       <DialogTitle
@@ -126,11 +133,17 @@ const DialogBox = ({ handleClose, open, data, callApi }) => {
         </Box>
       </DialogContent>
       <DialogActions>
+<<<<<<< HEAD
+        <Button variant="outlined" color="success" onClick={handleEdit}>
+          Edit
+        </Button>
+=======
         <Link to={`/organizationForm/${_id}`}>
           <Button variant="outlined" color="success">
             Edit
           </Button>
         </Link>
+>>>>>>> e3a5b89dd6123dcb00026366176d49b0f22b79ed
         <Button variant="outlined" color="error" onClick={handleDelete}>
           Delete
         </Button>
