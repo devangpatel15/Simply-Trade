@@ -120,18 +120,21 @@ exports.updateOrganizationBranch = async (req, res) => {
 exports.softDeleteOrganizationBranch = async (req, res) => {
   try {
     const organizationBranchId = req.params.id;
-    const organizationBranchData = await softDeleteOrganizationBranchService(organizationBranchId);
+    const organizationBranchData = await softDeleteOrganizationBranchService(
+      organizationBranchId
+    );
     if (!organizationBranchData) {
       return res.status(404).json({ message: "OrganizationBranch not found" });
     }
 
-    return res
-      .status(200)
-      .json({ message: "OrganizationBranch soft deleted", data: org });
+    return res.status(200).json({
+      message: "OrganizationBranch soft deleted",
+      data: organizationBranchData,
+    });
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "Internal server error", error: err.message });
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 

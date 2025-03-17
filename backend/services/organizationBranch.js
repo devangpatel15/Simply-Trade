@@ -1,13 +1,15 @@
 const OrganizationBranch = require("../models/organizationBranch");
 
 exports.findAllOrganizationBranchServices = async () => {
-  const data = await OrganizationBranch.find().populate("userId").lean();
+  const data = await OrganizationBranch.find()
+    .populate("userId", "branchName")
+    .lean();
 
   return data;
 };
 exports.findOneOrganizationBranchServices = async (OrganizationBranchId) => {
   const data = await OrganizationBranch.findById(OrganizationBranchId)
-    .populate("userId")
+    .populate("userId", "branchName")
     .lean();
 
   return data;
