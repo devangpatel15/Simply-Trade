@@ -188,7 +188,15 @@ exports.updateUser = async (req, res) => {
     const userId = req.query.id;
 
     const data = req.body;
-    const userData = await updateUserServices(userId, data);
+    const { name, password, email, mobileNo } = data;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const uData =  {
+      name,
+      email,
+      mobileNo,
+      password: hashedPassword,
+    }
+    const userData = await updateUserServices(userId, uData);
 
     if (!userData) {
       res.status(404).json({ message: "User not found" });
