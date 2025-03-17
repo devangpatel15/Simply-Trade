@@ -1,9 +1,7 @@
 const OrganizationBranch = require("../models/organizationBranch");
 
-exports.findAllOrganizationBranchServices = async (userId) => {
-  const data = await OrganizationBranch.find({ userId })
-    .populate("userId")
-    .lean();
+exports.findAllOrganizationBranchServices = async () => {
+  const data = await OrganizationBranch.find().populate("userId").lean();
 
   return data;
 };
@@ -31,6 +29,12 @@ exports.updateOrganizationBranchServices = async (branchId, branchData) => {
     { new: true }
   ).lean();
   return data;
+};
+
+exports.softDeleteOrganizationBranchService = async (branchId) => {
+  return await OrganizationBranch.findByIdAndUpdate(branchId, {
+    isDeleted: true,
+  });
 };
 
 exports.deleteOrganizationBranchServices = async (OrganizationBranchId) => {

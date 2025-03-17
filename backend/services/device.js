@@ -32,6 +32,11 @@ exports.updateDeviceServices = async (
     return data;
 };
 
+exports.softDeleteDeviceService = async (deviceId) => {
+    return await Device.findByIdAndUpdate(deviceId, { isDeleted: true });
+  };
+  
+
 exports.deleteDeviceServices = async (deviceId) => {
     const data = await Device.findByIdAndDelete(
         deviceId

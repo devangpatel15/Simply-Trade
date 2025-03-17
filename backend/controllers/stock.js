@@ -4,6 +4,7 @@ const {
   createStockService,
   updateStockService,
   deleteStockService,
+  softDeleteStockService,
 } = require("../services/stock");
 
 exports.getAllStock = async (req, res) => {
@@ -71,6 +72,24 @@ exports.updateStock = async (req, res) => {
       .status(200)
       .json({ message: "Stock updated", data: updatedStock });
   } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.softDeleteStock = async (req, res) => {
+  try {
+    const stockId = req.params.id;
+    const stock = await softDeleteStockService(stockId);
+    if (!stock) {
+      return res.status(404).json({ message: "Stock not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Stock soft deleted", data: org });
+  } catch (error) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

@@ -58,6 +58,11 @@ exports.updateUserServices = async (userID,data) => {
   return userData;
 };
 
+exports.softDeleteUserService = async (userID) => {
+  return await User.findByIdAndUpdate(userID, { isDeleted: true });
+};
+
+
 exports.deleteUserServices = async (userID) => {
   const userData = await User.findByIdAndDelete(userID).lean();
   return userData;

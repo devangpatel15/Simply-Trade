@@ -4,6 +4,7 @@ const {
   createCapacityService,
   updateCapacityService,
   deleteCapacityService,
+  softDeleteCapacityService,
 } = require("../services/capacity");
 
 exports.getAllCapacity = async (req, res) => {
@@ -65,6 +66,24 @@ exports.updateCapacity = async (req, res) => {
       .status(200)
       .json({ message: "Capacity updated", data: updatedOrg });
   } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.softDeleteCapacity = async (req, res) => {
+  try {
+    const capId = req.params.id;
+    const cap = await softDeleteCapacityService(capId);
+    if (!cap) {
+      return res.status(404).json({ message: "Capacity not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Capacity soft deleted", data: cap });
+  } catch (error) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

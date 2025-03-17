@@ -5,6 +5,7 @@ const {
   updateOrganizationBranchServices,
   deleteOrganizationBranchServices,
   findUserOrganizationBranchServices,
+  softDeleteOrganizationBranchService,
 } = require("../services/OrganizationBranch");
 
 exports.findAllOrganizationBranch = async (req, res) => {
@@ -110,6 +111,24 @@ exports.updateOrganizationBranch = async (req, res) => {
       data: organizationBranchData,
     });
   } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.softDeleteOrganizationBranch = async (req, res) => {
+  try {
+    const organizationBranchId = req.params.id;
+    const organizationBranchData = await softDeleteOrganizationBranchService(organizationBranchId);
+    if (!organizationBranchData) {
+      return res.status(404).json({ message: "OrganizationBranch not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "OrganizationBranch soft deleted", data: org });
+  } catch (error) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });
