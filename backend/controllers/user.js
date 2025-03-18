@@ -191,13 +191,15 @@ exports.updateUser = async (req, res) => {
     const userId = req.query.id;
 
     const data = req.body;
-    const { name, password, email, mobileNo } = data;
+    const { name, email, mobileNo , organization,orgBranch} = data;
     const hashedPassword = await bcrypt.hash(password, 10);
     const uData = {
       name,
       email,
       mobileNo,
-      password: hashedPassword,
+      // password: hashedPassword,
+      organization,
+      orgBranch
     };
     const userData = await updateUserServices(userId, uData);
 
