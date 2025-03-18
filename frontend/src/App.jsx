@@ -118,6 +118,14 @@ function App() {
           }
         />
         <Route
+          path="/organizationBranchForm"
+          element={
+            <PrivateRoute>
+              <OrganizationBranchForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/organizationBranchForm/:id"
           element={
             <PrivateRoute>
@@ -152,6 +160,14 @@ function App() {
 
         <Route
           path="/categoryForm"
+          element={
+            <PrivateRoute>
+              <CategoryForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/categoryForm/:id"
           element={
             <PrivateRoute>
               <CategoryForm />

@@ -15,27 +15,35 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import { getAllCategory } from "../apis/CategoryApi";
+import DialogBox from "../components/DialogBox";
+import moment from "moment";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Category = () => {
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState([]);
 
-  const handleChange = (event) => {
-    setCategory(event.target.value);
-  };
-
-  const getCategory = async () => {
-    const response = await axios.get("http://localhost:4000/api/allCat", {
-      headers: { "Content-Type ": "application/json" },
-    });
-
-    console.log(response.data.data);
+  const callApi = async () => {
+    const response = await getAllCategory();
+    setCategory(response.data.data);
+    console.log("category=====", category);
   };
 
   useEffect(() => {
-    getCategory();
+    callApi();
   }, []);
+
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState({});
+
+  const handleOpen = (data) => {
+    console.log(data, "data-----");
+    setData(data);
+    setOpen(true);
+  };
+
+  const handleClose = () => setOpen(false);
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -54,7 +62,6 @@ const Category = () => {
             >
               CATEGORY
             </Typography>
-
             <Box display="flex" gap={2}>
               <TextField
                 variant="outlined"
@@ -64,7 +71,7 @@ const Category = () => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      {/* <SearchIcon sx={{ color: "#6c5ce7" }} /> */}
+                      <SearchIcon sx={{ color: "#6c5ce7" }} />
                     </InputAdornment>
                   ),
                 }}
@@ -84,45 +91,79 @@ const Category = () => {
             </Box>
           </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              backgroundColor: "white",
-              borderRadius: 10,
-              boxShadow: 1,
-              padding: 2,
-              marginTop: 3,
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <Avatar
-                src="/path/to/avatar.jpg"
-                alt="User Avatar"
-                sx={{ width: 50, height: 50 }}
-              />
-              <Box>
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+          {category &&
+            category.map((category) => {
+              return (
+                <Box
+                  key={category._id}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    backgroundColor: "white",
+                    borderRadius: 10,
+                    boxShadow: 1,
+                    padding: 2,
+                    marginTop: 3,
+                  }}
                 >
-                  Electronics
-                </Typography>
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <Typography
-                    variant="body2"
-                    sx={{ color: "green", fontWeight: "bold" }}
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    <Avatar
+                      src="/path/to/avatar.jpg"
+                      alt="User Avatar"
+                      sx={{ width: 50, height: 50 }}
+                    />
+                    <Box>
+                      <Typography
+                        variant="h6"
+                        sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+                      >
+                        {category.categoryName}
+                      </Typography>
+
+                      <Box sx={{ display: "flex", gap: 2 }}>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "green", fontWeight: "bold" }}
+                        >
+                          Created At:{" "}
+                          <span
+                            style={{ color: "black", fontWeight: "normal" }}
+                          >
+                            {moment(category.createdAt).format("DD-MM-YYYY")}
+                          </span>
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "brown", fontWeight: "bold" }}
+                        >
+                          Update At:{" "}
+                          <span
+                            style={{ color: "black", fontWeight: "normal" }}
+                          >
+                            {moment(category.updatedAt).format("DD-MM-YYYY")}
+                          </span>
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                  <IconButton
+                    sx={{ backgroundColor: "#f5f5f5" }}
+                    onClick={() => handleOpen(category)}
                   >
-                    Branch Name :
-                  </Typography>
+                    <VisibilityIcon sx={{ color: "#6c5ce7" }} />
+                  </IconButton>
                 </Box>
-              </Box>
-            </Box>
-            <IconButton sx={{ backgroundColor: "#f5f5f5" }}>
-              <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-            </IconButton>
-          </Box>
+              );
+            })}
+
+          <DialogBox
+            handleClose={handleClose}
+            open={open}
+            data={data}
+            callApi={callApi}
+            fieldName="categoryForm"
+          />
         </Box>
       </Box>
     </Box>
