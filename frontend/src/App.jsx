@@ -117,6 +117,7 @@ function App() {
             </PrivateRoute>
           }
         />
+<<<<<<< HEAD
         <Route
           path="/userPage"
           element={
@@ -133,6 +134,8 @@ function App() {
             </PrivateRoute>
           }
         />
+=======
+>>>>>>> 6c6e276287ab21e9ca25c823282aef84c44644af
 
         <Route path="*" element={<NotFound404 />} />
       </Routes>
