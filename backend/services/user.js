@@ -38,9 +38,9 @@ exports.findAllUserServices = async (userid) => {
   
   return data;
 };
-exports.findOneUserServices = async (userid) => {
+exports.findOneUserServices = async (id) => {
   
-   const  data = await User.findById({userid , isDeleted : false}).lean();
+   const  data = await User.findById(id).lean();
   
   return data;
 };

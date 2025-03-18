@@ -17,10 +17,10 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import axios from "axios";
 import { allUserOrg } from "../apis/OrganizationApi";
-import { createUser, updateUser } from "../apis/UserApi";
+import { createUser, getOneUser, updateUser } from "../apis/UserApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
 
-const userForm = () => {
+const UserForm = () => {
   const { id } = useParams();
 
   console.log("======id", id);
@@ -66,13 +66,9 @@ const userForm = () => {
 
   const callApi = async () => {
     if (id) {
-      const response = await axios.get(`http://localhost:4000/api/org/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      console.log("response", response.data.data);
+      console.log("65555555555555555");
+      const response = await getOneUser(id);
+      console.log("response========", response.data.data);
       setFormData(response.data.data);
     }
   };
@@ -94,6 +90,7 @@ const userForm = () => {
 
   useEffect(() => {
     callApi();
+    console.log("==================================================");
     callGetAllOrg();
   }, []);
 
@@ -191,17 +188,19 @@ const userForm = () => {
                 required
               />
             </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Enter Password"
-                variant="outlined"
-                name="password"
-                value={formData.password || ""}
-                onChange={handleChange}
-                required
-              />
-            </Grid>
+            {!id && (
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Enter Password"
+                  variant="outlined"
+                  name="password"
+                  value={formData.password || ""}
+                  onChange={handleChange}
+                  required
+                />
+              </Grid>
+            )}
 
             <Grid
               item
@@ -231,4 +230,4 @@ const userForm = () => {
   );
 };
 
-export default userForm;
+export default UserForm;

@@ -21,18 +21,17 @@ import OrganizationForm from "../components/OrganizationForm";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import DialogBox from "../components/DialogBox";
-import { getAllUserOrgBranch } from "../apis/OrganizationBranchApi";
+import { getAllUsers } from "../apis/UserApi";
 
 const UserPage = () => {
-  const [userData, setuserData] = useState([]);
+  const [userData, setUserData] = useState([]);
 
   const callApi = async () => {
-    // const response = await getAllUserOrgBranch();
-    // setuserData(response.data.data);
-    console.log("hello");
+    const response = await getAllUsers();
+    console.log("response", response);
+    setUserData(response.data.data);
   };
 
-  console.log("userData ", userData);
   useEffect(() => {
     callApi();
   }, []);
@@ -45,6 +44,8 @@ const UserPage = () => {
     setData(data);
     setOpen(true);
   };
+
+  console.log("usrData", userData);
 
   const handleClose = () => setOpen(false);
   return (
@@ -94,10 +95,10 @@ const UserPage = () => {
           </Box>
 
           {userData &&
-            userData.map((org) => {
+            userData.map((user) => {
               return (
                 <Box
-                  key={org._id}
+                  key={user._id}
                   sx={{
                     display: "flex",
                     alignItems: "center",
@@ -120,7 +121,7 @@ const UserPage = () => {
                         variant="h6"
                         sx={{ fontWeight: "bold", color: "#6c5ce7" }}
                       >
-                        {org.branchName}
+                        {user.name}
                       </Typography>
 
                       <Box sx={{ display: "flex", gap: 2 }}>
@@ -132,7 +133,7 @@ const UserPage = () => {
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(org.createdAt).format("DD-MM-YYYY")}
+                            {moment(user.createdAt).format("DD-MM-YYYY")}
                           </span>
                         </Typography>
                         <Typography
@@ -143,7 +144,7 @@ const UserPage = () => {
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(org.updatedAt).format("DD-MM-YYYY")}
+                            {moment(user.updatedAt).format("DD-MM-YYYY")}
                           </span>
                         </Typography>
                       </Box>
@@ -151,7 +152,7 @@ const UserPage = () => {
                   </Box>
                   <IconButton
                     sx={{ backgroundColor: "#f5f5f5" }}
-                    onClick={() => handleOpen(org)}
+                    onClick={() => handleOpen(user)}
                   >
                     <VisibilityIcon sx={{ color: "#6c5ce7" }} />
                   </IconButton>
@@ -164,7 +165,7 @@ const UserPage = () => {
             open={open}
             data={data}
             callApi={callApi}
-            fieldName="organizationBranchForm"
+            fieldName="userForm"
           />
         </Box>
       </Box>

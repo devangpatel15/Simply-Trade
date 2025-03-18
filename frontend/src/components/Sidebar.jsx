@@ -188,28 +188,40 @@ const Sidebar = () => {
                   <ListItemText primary="Users" />
                 </ListItemButton>
 
-                <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
+                <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/category")}
+                >
                   <CategoryIcon>
                     <Business sx={{ color: iconColor }} />
                   </CategoryIcon>
                   <ListItemText primary="Category" />
                 </ListItemButton>
 
-                <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
+                <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/devicePage")}
+                >
                   <DevicesIcon>
                     <Business sx={{ color: iconColor }} />
                   </DevicesIcon>
                   <ListItemText primary="Device" />
                 </ListItemButton>
 
-                <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
+                <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/modelPage")}
+                >
                   <OnDeviceTrainingIcon>
                     <Business sx={{ color: iconColor }} />
                   </OnDeviceTrainingIcon>
                   <ListItemText primary="Model" />
                 </ListItemButton>
 
-                <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
+                <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/colorPage")}
+                >
                   <ColorizeIcon>
                     <Business sx={{ color: iconColor }} />
                   </ColorizeIcon>

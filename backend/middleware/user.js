@@ -1,4 +1,4 @@
-const { body, query, validationResult } = require("express-validator");
+const { body, param, validationResult } = require("express-validator");
 
 const jwt = require("jsonwebtoken");
 
@@ -37,7 +37,7 @@ exports.validateCreateData = [
 ];
 
 exports.validateGetOneUserData = [
-  query("id").optional().isMongoId().withMessage("valid id required"),
+  param("id").optional().isMongoId().withMessage("valid id required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -48,7 +48,7 @@ exports.validateGetOneUserData = [
   },
 ];
 exports.validateDeleteUserData = [
-  query("id").isMongoId().withMessage("valid id required"),
+  param("id").isMongoId().withMessage("valid id required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
