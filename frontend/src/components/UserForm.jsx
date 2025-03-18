@@ -188,17 +188,19 @@ const userForm = () => {
                 required
               />
             </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Enter Password"
-                variant="outlined"
-                name="password"
-                value={formData.password || ""}
-                onChange={handleChange}
-                required
-              />
-            </Grid>
+            {!id && (
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Enter Password"
+                  variant="outlined"
+                  name="password"
+                  value={formData.password || ""}
+                  onChange={handleChange}
+                  required
+                />
+              </Grid>
+            )}
 
             <Grid
               item
