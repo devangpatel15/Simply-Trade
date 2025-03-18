@@ -10,6 +10,11 @@ exports.findOneDeviceServices = async (deviceId) => {
 
     return data;
 };
+exports.selectDeviceByModelServices = async (modelId) => {
+    const data = await Device.find({modelId , isDeleted: false}).lean();
+
+    return data;
+};
 exports.findUserDeviceServices = async (userId) => {
     const data = await Device.find().populate().lean();
     return data;

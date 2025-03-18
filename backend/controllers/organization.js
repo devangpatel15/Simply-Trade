@@ -13,7 +13,7 @@ const {
 } = require("../services/organization");
 const {
   createOrganizationBranchServices,
-} = require("../services/OrganizationBranch");
+} = require("../services/organizationBranch");
 
 exports.getAllOrganization = async (req, res) => {
   try {

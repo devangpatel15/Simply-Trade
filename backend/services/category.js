@@ -8,6 +8,10 @@ exports.getCategoryService = async (catId) => {
   return await Category.findById({catId , isDeleted: false }).lean();
 };
 
+exports.selectCategoryByBranchService = async (branchId) => {
+  return await Category.find({orgBranchId:branchId, isDeleted: false }).lean();
+};
+
 exports.createCategoryService = async (newCat) => {
   return await Category.create(newCat)
 };

@@ -6,6 +6,7 @@ const {
   deleteModelServices,
   findUserModelServices,
   softDeleteModelService,
+  selectModelByCatServices,
 } = require("../services/Model");
 
 exports.findAllModel = async (req, res) => {
@@ -46,6 +47,25 @@ exports.findOneModel = async (req, res) => {
       .json({ message: "Internal server error", error: err.message });
   }
 };
+exports.selectModelByCat = async (req, res) => {
+  try {
+    const catId = req.params.id;
+    const modelData = await selectModelByCatServices(catId);
+
+    if (!modelData) {
+      return res.status(404).json({ message: "No Model found" });
+    }
+
+    return res.status(200).json({
+      message: "Model retrieved successfully",
+      data: modelData,
+    });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
 
 exports.findUserModel = async (req, res) => {
   try {
@@ -70,10 +90,11 @@ exports.findUserModel = async (req, res) => {
 exports.createModel = async (req, res) => {
   try {
     const data = req.body;
-    const modelData = await createModelServices({
-      ...data,
-      userId: req.user.id,
-    });
+    console.log(data);
+    const modelData = await createModelServices(data);
+    if (!modelData) {
+      return res.status(404).json({ message: "No Model found" });
+    }
     return res.status(200).json({ message: "Model created", data: modelData });
   } catch (err) {
     return res
@@ -108,9 +129,7 @@ exports.softDeleteModel = async (req, res) => {
       return res.status(404).json({ message: "Model not found" });
     }
 
-    return res
-      .status(200)
-      .json({ message: "Model soft deleted", data: org });
+    return res.status(200).json({ message: "Model soft deleted", data: org });
   } catch (error) {
     return res
       .status(500)

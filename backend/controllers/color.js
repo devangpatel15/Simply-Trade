@@ -6,6 +6,7 @@ const {
   deleteColorServices,
   findUserColorServices,
   softDeleteColorService,
+  selectColorByDeviceServices,
 } = require("../services/Color");
 
 exports.findAllColor = async (req, res) => {
@@ -31,6 +32,25 @@ exports.findOneColor = async (req, res) => {
   try {
     const colorId = req.params.id;
     const colorData = await findOneColorServices(colorId);
+
+    if (!colorData) {
+      return res.status(404).json({ message: "No Color found" });
+    }
+
+    return res.status(200).json({
+      message: "Color retrieved successfully",
+      data: colorData,
+    });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+exports.selectColorByDevice = async (req, res) => {
+  try {
+    const deviceId = req.params.id;
+    const colorData = await selectColorByDeviceServices(deviceId);
 
     if (!colorData) {
       return res.status(404).json({ message: "No Color found" });

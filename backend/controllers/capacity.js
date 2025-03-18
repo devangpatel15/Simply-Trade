@@ -5,6 +5,7 @@ const {
   updateCapacityService,
   deleteCapacityService,
   softDeleteCapacityService,
+  selectCapacityByDeviceService,
 } = require("../services/capacity");
 
 exports.getAllCapacity = async (req, res) => {
@@ -28,6 +29,21 @@ exports.getCapacity = async (req, res) => {
   try {
     const capId = req.params.id;
     const cap = await getCapacityService(capId);
+    if (!cap) {
+      return res.status(404).json({ message: "No Capacity found" });
+    }
+    return res.status(200).json({
+      message: "Capacity retrieved successfully",
+      data: cap,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+exports.selectCapacityByDevice = async (req, res) => {
+  try {
+    const deviceId = req.params.id;
+    const cap = await selectCapacityByDeviceService(deviceId);
     if (!cap) {
       return res.status(404).json({ message: "No Capacity found" });
     }

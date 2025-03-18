@@ -5,6 +5,7 @@ const {
   updateCategoryService,
   deleteCategoryService,
   softDeleteCategoryService,
+  selectCategoryByBranchService,
 } = require("../services/category");
 
 exports.getAllCategory = async (req, res) => {
@@ -28,6 +29,21 @@ exports.getCategory = async (req, res) => {
   try {
     const catId = req.params.id;
     const cat = await getCategoryService(catId);
+    if (!cat) {
+      return res.status(404).json({ message: "No category found" });
+    }
+    return res.status(200).json({
+      message: "category retrieved successfully",
+      data: cat,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+exports.selectCategoryByBranch= async (req, res) => {
+  try {
+    const branchId = req.params.id;
+    const cat = await selectCategoryByBranchService(branchId);
     if (!cat) {
       return res.status(404).json({ message: "No category found" });
     }

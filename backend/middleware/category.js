@@ -7,10 +7,7 @@ exports.createCategoryValidation = [
     .notEmpty()
     .withMessage("Category name is required"),
 
-  body("userId")
-    .isMongoId()
-    .notEmpty()
-    .withMessage("Valid user ID is required"),
+ 
 
 
   (req, res, next) => {
