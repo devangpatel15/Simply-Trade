@@ -17,7 +17,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import axios from "axios";
 import { allUserOrg } from "../apis/OrganizationApi";
-import { createUser, getOneUSer, updateUser } from "../apis/UserApi";
+import { createUser, getOneUser, updateUser } from "../apis/UserApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
 
 const userForm = () => {
@@ -67,7 +67,7 @@ const userForm = () => {
   const callApi = async () => {
     if (id) {
       console.log("65555555555555555");
-      const response = await getOneUSer(id);
+      const response = await getOneUser(id);
       console.log("response========", response.data.data);
       setFormData(response.data.data);
     }

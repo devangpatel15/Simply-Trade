@@ -21,7 +21,6 @@ import OrganizationForm from "../components/OrganizationForm";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import DialogBox from "../components/DialogBox";
-import { getAllUserOrgBranch } from "../apis/OrganizationBranchApi";
 import { getAllUsers } from "../apis/UserApi";
 
 const UserPage = () => {
