@@ -10,9 +10,20 @@ import OtpPage from "./pages/Otp";
 import SignInByOtpPage from "./pages/SignInByOtpPage";
 import NotFound404 from "./pages/NotFound404";
 import OrganizationBranchPage from "./pages/OrganizationBranchPage";
+<<<<<<< HEAD
+import Category from "./pages/Category";
+import CategoryForm from "./components/CategoryForm";
+import ModelPage from "./pages/ModelPage";
+import ModelForm from "./components/ModelForm";
+import DevicePage from "./pages/DevicePage";
+import DeviceForm from "./components/DeviceForm";
+import ColorForm from "./components/ColorForm";
+import ColorPage from "./pages/ColorPage";
+=======
 import OrganizationBranchForm from "./components/OrganizationBranchForm";
 import UserPage from "./pages/UserPage";
 import UserForm from "./components/UserForm";
+>>>>>>> 2cfd3b132ced5c1b6b4883d28c6b84aa69e23fb0
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -102,13 +113,15 @@ function App() {
           }
         />
         <Route
-          path="/organizationBranchForm"
+          path="/category"
           element={
             <PrivateRoute>
-              <OrganizationBranchForm />
+              <Category />
             </PrivateRoute>
           }
         />
+<<<<<<< HEAD
+=======
         <Route
           path="/organizationBranchForm/:id"
           element={
@@ -141,7 +154,70 @@ function App() {
             </PrivateRoute>
           }
         />
+>>>>>>> 2cfd3b132ced5c1b6b4883d28c6b84aa69e23fb0
 
+        <Route
+          path="/categoryForm"
+          element={
+            <PrivateRoute>
+              <CategoryForm />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/modelPage"
+          element={
+            <PrivateRoute>
+              <ModelPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/modelForm"
+          element={
+            <PrivateRoute>
+              <ModelForm />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/devicePage"
+          element={
+            <PrivateRoute>
+              <DevicePage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/deviceForm"
+          element={
+            <PrivateRoute>
+              <DeviceForm />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/colorPage"
+          element={
+            <PrivateRoute>
+              <ColorPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/colorForm"
+          element={
+            <PrivateRoute>
+              <ColorForm />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
     </ThemeProvider>
