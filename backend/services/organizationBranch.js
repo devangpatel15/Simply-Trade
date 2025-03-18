@@ -7,16 +7,8 @@ exports.findAllOrganizationBranchServices = async () => {
 
   return data;
 };
-<<<<<<< HEAD
-exports.findOneOrganizationBranchServices = async (OrganizationBranchId) => {
-  const data = await OrganizationBranch.findById({
-    OrganizationBranchId,
-    isDeleted: false,
-  })
-=======
 exports.findOneOrganizationBranchServices = async (id) => {
   const data = await OrganizationBranch.findById(id)
->>>>>>> 809b1f1a7027e4a9b1cb2902e0c78af5b09de4ff
     .populate("userId", "branchName")
     .lean();
 
@@ -25,6 +17,16 @@ exports.findOneOrganizationBranchServices = async (id) => {
 exports.findUserOrganizationBranchServices = async (userId) => {
   const data = await OrganizationBranch.find({
     userId: userId,
+    isDeleted: false,
+  })
+    .populate("userId", "branchName")
+    .lean();
+  return data;
+};
+
+exports.selectOrganizationBranchServices = async (orgId) => {
+  const data = await OrganizationBranch.find({
+    organization: orgId,
     isDeleted: false,
   })
     .populate("userId", "branchName")
