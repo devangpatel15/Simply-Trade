@@ -53,7 +53,7 @@ const getAllUsers = async () => {
   }
 };
 
-const getOneUSer = async (id) => {
+const getOneUser = async (id) => {
   try {
     const response = await axios.get(
       `http://localhost:4000/api/findOneUser/${id}`,
@@ -70,4 +70,4 @@ const getOneUSer = async (id) => {
   }
 };
 
-export { createUser, updateUser, getAllUsers, getOneUSer };
+export { createUser, updateUser, getAllUsers, getOneUser };
