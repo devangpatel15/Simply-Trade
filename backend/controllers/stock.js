@@ -88,8 +88,8 @@ exports.softDeleteStock = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "Stock soft deleted", data: org });
-  } catch (error) {
+      .json({ message: "Stock soft deleted", data: stock });
+  } catch (err) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

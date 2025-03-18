@@ -134,8 +134,8 @@ exports.softDeleteDevice = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "Device soft deleted", data: org });
-  } catch (error) {
+      .json({ message: "Device soft deleted", data: data });
+  } catch (err) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

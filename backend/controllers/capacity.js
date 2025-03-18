@@ -99,7 +99,7 @@ exports.softDeleteCapacity = async (req, res) => {
     return res
       .status(200)
       .json({ message: "Capacity soft deleted", data: cap });
-  } catch (error) {
+  } catch (err) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

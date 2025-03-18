@@ -130,8 +130,8 @@ exports.softDeleteColor = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "Color soft deleted", data: org });
-  } catch (error) {
+      .json({ message: "Color soft deleted", data: color });
+  } catch (err) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });
