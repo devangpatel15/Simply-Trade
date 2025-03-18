@@ -104,7 +104,7 @@ exports.loginUser = async (req, res) => {
 exports.registerUser = async (req, res) => {
   try {
     const data = req.body;
-    const { name, password, email, mobileNo } = data;
+    const { name, password, email, mobileNo, organization, orgBranch } = data;
     const hashedPassword = await bcrypt.hash(password, 10);
     const isExistsUser = await findUserServices(email);
     if (isExistsUser) {
@@ -115,8 +115,8 @@ exports.registerUser = async (req, res) => {
       email,
       mobileNo,
       password: hashedPassword,
-      organization ,
-      orgBranch
+      organization,
+      orgBranch,
     };
     const user = await createUserServices(userData);
     return res
@@ -193,12 +193,12 @@ exports.updateUser = async (req, res) => {
     const data = req.body;
     const { name, password, email, mobileNo } = data;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const uData =  {
+    const uData = {
       name,
       email,
       mobileNo,
       password: hashedPassword,
-    }
+    };
     const userData = await updateUserServices(userId, uData);
 
     if (!userData) {
@@ -220,9 +220,7 @@ exports.softDeleteUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    return res
-      .status(200)
-      .json({ message: "User soft deleted", data: org });
+    return res.status(200).json({ message: "User soft deleted", data: org });
   } catch (error) {
     return res
       .status(500)

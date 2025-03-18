@@ -17,7 +17,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import axios from "axios";
 import { allUserOrg } from "../apis/OrganizationApi";
-import { createUser, updateUser } from "../apis/UserApi";
+import { createUser, getOneUSer, updateUser } from "../apis/UserApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
 
 const userForm = () => {
@@ -66,13 +66,9 @@ const userForm = () => {
 
   const callApi = async () => {
     if (id) {
-      const response = await axios.get(`http://localhost:4000/api/org/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      console.log("response", response.data.data);
+      console.log("65555555555555555");
+      const response = await getOneUSer(id);
+      console.log("response========", response.data.data);
       setFormData(response.data.data);
     }
   };
@@ -94,6 +90,7 @@ const userForm = () => {
 
   useEffect(() => {
     callApi();
+    console.log("==================================================");
     callGetAllOrg();
   }, []);
 

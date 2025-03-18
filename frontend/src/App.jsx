@@ -133,6 +133,14 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/userForm/:id"
+          element={
+            <PrivateRoute>
+              <UserForm />
+            </PrivateRoute>
+          }
+        />
 
         <Route path="*" element={<NotFound404 />} />
       </Routes>
