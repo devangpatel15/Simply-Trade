@@ -58,5 +58,28 @@ const deleteCategory = async (id) => {
     console.log(error.message);
   }
 };
+const updateCategory = async (formData, id) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:4000/api/updateCategory/${id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
-export { createCategory, getAllCategory, getOneCategory, deleteCategory };
+export {
+  createCategory,
+  getAllCategory,
+  getOneCategory,
+  deleteCategory,
+  updateCategory,
+};

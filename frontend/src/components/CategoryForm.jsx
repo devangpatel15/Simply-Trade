@@ -10,7 +10,11 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { createCategory, getOneCategory } from "../apis/CategoryApi";
+import {
+  createCategory,
+  getOneCategory,
+  updateCategory,
+} from "../apis/CategoryApi";
 import { allUserOrg } from "../apis/OrganizationApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
 
@@ -42,7 +46,7 @@ const CategoryForm = () => {
   const handleSubmit = async () => {
     try {
       if (id) {
-        // upda(formData, id);
+        updateCategory(formData, id);
         navigate("/category");
       } else {
         createCategory(formData);
@@ -56,7 +60,6 @@ const CategoryForm = () => {
 
   const callApi = async () => {
     if (id) {
-      console.log("65555555555555555");
       const response = await getOneCategory(id);
       console.log("response========", response.data.data);
       setFormData(response.data.data);
@@ -159,6 +162,7 @@ const CategoryForm = () => {
             label="Category"
             variant="outlined"
             name="categoryName"
+            value={formData.categoryName || ""}
             onChange={handleChange}
             required
           />
