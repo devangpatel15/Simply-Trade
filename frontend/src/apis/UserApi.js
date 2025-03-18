@@ -17,7 +17,7 @@ const createUser = async (formData) => {
     console.log(error, "createUser error");
   }
 };
-const UpdateUser = async (formData, id) => {
+const updateUser = async (formData, id) => {
   try {
     console.log(formData);
     const response = await axios.put(

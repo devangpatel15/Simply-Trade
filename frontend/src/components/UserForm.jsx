@@ -18,6 +18,7 @@ import Header from "./Header";
 import axios from "axios";
 import { allUserOrg } from "../apis/OrganizationApi";
 import { createUser, updateUser } from "../apis/UserApi";
+import { getOrgBranch } from "../apis/OrganizationBranchApi";
 
 const userForm = () => {
   const { id } = useParams();
@@ -36,6 +37,7 @@ const userForm = () => {
   });
 
   const [organizationOptions, setOrganizationOptions] = useState([]);
+  const [branchOptions, setBranchOptions] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,10 +53,10 @@ const userForm = () => {
     try {
       if (id) {
         updateUser(formData, id);
-        navigate("/organizationPage");
+        navigate("/userPage");
       } else {
         createUser(formData);
-        navigate("/organizationPage");
+        navigate("/userPage");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -81,12 +83,26 @@ const userForm = () => {
     setOrganizationOptions(response.data.data);
   };
 
+  const callGetOrgBranch = async () => {
+    console.log("hello");
+    const response = await getOrgBranch(formData.organization);
+    console.log("response of branch", response.data.data);
+    setBranchOptions(response.data.data);
+  };
+
   console.log("formData", formData);
 
   useEffect(() => {
     callApi();
     callGetAllOrg();
   }, []);
+
+  useEffect(() => {
+    callGetOrgBranch();
+    console.log("called");
+  }, [formData.organization]);
+
+  console.log("branchOption", branchOptions);
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -135,11 +151,11 @@ const userForm = () => {
                 onChange={handleChange}
                 required
               >
-                {/* {organizationOptions.map((option) => (
+                {branchOptions.map((option) => (
                   <MenuItem key={option._id} value={option._id}>
-                    {option.organizationName}
+                    {option.branchName}
                   </MenuItem>
-                ))} */}
+                ))}
               </TextField>
             </Grid>
             <Grid item xs={6}>
