@@ -11,6 +11,8 @@ import SignInByOtpPage from "./pages/SignInByOtpPage";
 import NotFound404 from "./pages/NotFound404";
 import OrganizationBranchPage from "./pages/OrganizationBranchPage";
 import OrganizationBranchForm from "./components/OrganizationBranchForm";
+import UserPage from "./pages/UserPage";
+import UserForm from "./components/UserForm";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -115,6 +117,25 @@ function App() {
             </PrivateRoute>
           }
         />
+<<<<<<< HEAD
+        <Route
+          path="/userPage"
+          element={
+            <PrivateRoute>
+              <UserPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/userForm"
+          element={
+            <PrivateRoute>
+              <UserForm />
+            </PrivateRoute>
+          }
+        />
+=======
+>>>>>>> 6c6e276287ab21e9ca25c823282aef84c44644af
 
         <Route path="*" element={<NotFound404 />} />
       </Routes>
