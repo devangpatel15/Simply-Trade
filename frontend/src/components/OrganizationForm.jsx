@@ -54,6 +54,7 @@ const OrganizationForm = () => {
   };
 
   const handleSubmit = async () => {
+    console.log("callaed");
     try {
       if (id) {
         updateOrg(formData, id);
@@ -81,7 +82,6 @@ const OrganizationForm = () => {
     }
   };
 
-  console.log("formData", formData);
   useEffect(() => {
     callApi();
   }, []);
