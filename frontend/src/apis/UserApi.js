@@ -4,7 +4,7 @@ const createUser = async (formData) => {
   try {
     console.log(formData);
     const response = await axios.post(
-      "http://localhost:4000/api/createUser",
+      "http://localhost:4000/api/userSignUp",
       formData,
       {
         headers: {
