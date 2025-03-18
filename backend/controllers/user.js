@@ -115,6 +115,8 @@ exports.registerUser = async (req, res) => {
       email,
       mobileNo,
       password: hashedPassword,
+      organization ,
+      orgBranch
     };
     const user = await createUserServices(userData);
     return res
