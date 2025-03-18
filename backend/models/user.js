@@ -9,16 +9,11 @@ const userSchema = new mongoose.Schema(
     // role : { type: String , enum : ['admin','customer'], default : 'admin'},
     verificationCode: { type: String },
     codeExpires: { type: Date },
-<<<<<<< HEAD
     organization: { type: mongoose.Schema.Types.ObjectId, ref: "Organization" },
     orgBranch: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "OrganizationBranch",
     },
-=======
-    organization : { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
-    orgBranch : { type: mongoose.Schema.Types.ObjectId, ref: 'OrganizationBranch'},
->>>>>>> 13973e3f18dc829fb3babf7c1aa6a0918906f537
     isDeleted: { type: Boolean, default: false },
   },
   {

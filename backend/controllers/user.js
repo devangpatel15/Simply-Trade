@@ -104,11 +104,7 @@ exports.loginUser = async (req, res) => {
 exports.registerUser = async (req, res) => {
   try {
     const data = req.body;
-<<<<<<< HEAD
     const { name, password, email, mobileNo, organization, orgBranch } = data;
-=======
-    const { name, password, email, mobileNo, organization,orgBranch } = data;
->>>>>>> 13973e3f18dc829fb3babf7c1aa6a0918906f537
     const hashedPassword = await bcrypt.hash(password, 10);
     const isExistsUser = await findUserServices(email);
     if (isExistsUser) {
@@ -192,29 +188,28 @@ exports.createUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const userId = req.query.id;
+    const userId = req.params.id;
 
     const data = req.body;
-    const { name, email, mobileNo , organization,orgBranch} = data;
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const { name, email, mobileNo, organization, orgBranch } = data;
     const uData = {
       name,
       email,
       mobileNo,
       // password: hashedPassword,
       organization,
-      orgBranch
+      orgBranch,
     };
     const userData = await updateUserServices(userId, uData);
 
     if (!userData) {
-      res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
     return res.status(200).json({ message: "User updated", data: userData });
-  } catch (err) {
+  } catch (error) {
     return res
       .status(500)
-      .json({ message: "internal server error", error: err.message });
+      .json({ message: "internal server error", error: error.message });
   }
 };
 
@@ -226,11 +221,11 @@ exports.softDeleteUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    return res.status(200).json({ message: "User soft deleted", data: org });
+    return res.status(200).json({ message: "User soft deleted" });
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "Internal server error", error: err.message });
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 

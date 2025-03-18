@@ -16,6 +16,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { deleteOrg } from "../apis/OrganizationApi";
 import { deleteOrgBranch } from "../apis/OrganizationBranchApi";
+import { deleteUser } from "../apis/UserApi";
 
 const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
   const {
@@ -52,7 +53,13 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
   const handleDelete = async () => {
     console.log("_id --", _id);
 
-    fieldName == "organizationForm" ? deleteOrg(_id) : deleteOrgBranch(_id);
+    fieldName == "organizationForm"
+      ? deleteOrg(_id)
+      : fieldName == "organizationBranchForm"
+      ? deleteOrgBranch(_id)
+      : fieldName == "userForm"
+      ? deleteUser(_id)
+      : "";
 
     alert("deleted");
     setDeleteOpen(false);

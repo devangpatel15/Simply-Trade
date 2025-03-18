@@ -32,7 +32,6 @@ const UserPage = () => {
     setUserData(response.data.data);
   };
 
-  console.log("userData ", userData);
   useEffect(() => {
     callApi();
   }, []);
