@@ -112,6 +112,7 @@ exports.createOrganization = async (req, res) => {
       mobile: telePhone, // Reuse telephone for mobile
       email,
       companyType,
+      isDeleted:false,
     };
     console.log(branchData);
     

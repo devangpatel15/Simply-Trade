@@ -178,7 +178,10 @@ const Sidebar = () => {
                   <ListItemText primary="Org. Branch" />
                 </ListItemButton>
 
-                <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
+                <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/userPage")}
+                >
                   <PeopleAltIcon>
                     <Business sx={{ color: iconColor }} />
                   </PeopleAltIcon>

@@ -7,6 +7,7 @@ const {
   createOrganizationBranch,
   findUserOrganizationBranch,
   softDeleteOrganizationBranch,
+  selectOrganizationBranch,
 } = require("../controllers/organizationBranch");
 const {
   validateGetOneOrganizationBranchData,
@@ -31,6 +32,11 @@ organizationBranchRoute.get(
   "/findOneOrganizationBranch/:id",
   AuthUser,
   findOneOrganizationBranch
+);
+organizationBranchRoute.get(
+  "/selectOrganizationBranch/:id",
+  AuthUser,
+  selectOrganizationBranch
 );
 organizationBranchRoute.post(
   "/createOrganizationBranch",

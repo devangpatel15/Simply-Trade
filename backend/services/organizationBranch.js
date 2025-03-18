@@ -24,6 +24,16 @@ exports.findUserOrganizationBranchServices = async (userId) => {
   return data;
 };
 
+exports.selectOrganizationBranchServices = async (orgId) => {
+  const data = await OrganizationBranch.find({
+    organization: orgId,
+    isDeleted: false,
+  })
+    .populate("userId", "branchName")
+    .lean();
+  return data;
+};
+
 exports.createOrganizationBranchServices = async (branchData) => {
   const data = await OrganizationBranch.create(branchData);
   return data;
