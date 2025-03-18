@@ -53,6 +53,7 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
     fieldName == "organizationForm" ? deleteOrg(_id) : deleteOrgBranch(_id);
 
     alert("deleted");
+    setDeleteOpen(false);
     handleClose();
     callApi();
   };
