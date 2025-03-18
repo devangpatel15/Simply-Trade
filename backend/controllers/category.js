@@ -98,8 +98,8 @@ exports.softDeleteCategory = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "category soft deleted", data: org });
-  } catch (error) {
+      .json({ message: "category soft deleted", data: cat });
+  } catch (err) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

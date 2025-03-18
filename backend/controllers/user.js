@@ -221,11 +221,11 @@ exports.softDeleteUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    return res.status(200).json({ message: "User soft deleted" });
-  } catch (error) {
+    return res.status(200).json({ message: "User soft deleted" ,data:user});
+  } catch (err) {
     return res
       .status(500)
-      .json({ message: "Internal server error", error: error.message });
+      .json({ message: "Internal server error", error: err.message });
   }
 };
 
