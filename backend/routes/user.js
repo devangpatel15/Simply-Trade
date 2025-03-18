@@ -13,6 +13,6 @@ userRoute.put('/deleteUser',validateDeleteUserData,softDeleteUser)
 
 userRoute.post('/sendOtp',sendOtp)
 userRoute.post('/verifyOtp',verifyOtp)
-
+ 
 module.exports =userRoute
  
