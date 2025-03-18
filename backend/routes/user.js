@@ -8,7 +8,7 @@ userRoute.get('/findAllUser',findAllUser)
 userRoute.get('/findOneUser/:id',validateGetOneUserData,findOneUser)
 userRoute.post('/userSignUp',validateCreateData,registerUser)
 userRoute.post('/userLogIn',loginUser)
-userRoute.put('/updateUser',validateUpdateUserData,updateUser)
+userRoute.put('/updateUser/:id',validateUpdateUserData,updateUser)
 userRoute.put('/deleteUser',validateDeleteUserData,softDeleteUser)
 
 userRoute.post('/sendOtp',sendOtp)
