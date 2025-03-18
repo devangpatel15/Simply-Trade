@@ -40,7 +40,7 @@ exports.findAllUserServices = async (userid) => {
 };
 exports.findOneUserServices = async (userid) => {
   
-   const  data = await User.findById({userid , isDeleted : false}).lean();
+   const  data = await User.find({userid , isDeleted : false}).lean();
   
   return data;
 };
