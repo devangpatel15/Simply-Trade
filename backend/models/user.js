@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
     verificationCode: { type: String },
     codeExpires: { type: Date },
     organization : { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
-    orgBranch : { type: mongoose.Schema.Types.ObjectId, ref: 'Org'},
+    orgBranch : { type: mongoose.Schema.Types.ObjectId, ref: 'OrganizationBranch'},
     isDeleted: { type: Boolean, default: false },
   },
   {
