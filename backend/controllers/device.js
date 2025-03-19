@@ -90,10 +90,10 @@ exports.findUserDevice = async (req, res) => {
 exports.createDevice = async (req, res) => {
   try {
     const data = req.body;
-    const deviceData = await createDeviceServices({
-      ...data,
-      userId: req.user.id,
-    });
+    const deviceData = await createDeviceServices(
+      data,
+      // userId: req.user.id,
+    );
     return res
       .status(200)
       .json({ message: "Device created", data: deviceData });
