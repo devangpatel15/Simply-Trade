@@ -7,6 +7,10 @@ exports.getAllCategoryService = async () => {
 exports.getCategoryService = async (catId) => {
   return await Category.findById(catId).lean();
 };
+// FIXME:
+exports.getUserCategoryService = async (userId) => {
+  return await Category.find({isDeleted: false,orgId:userId}).lean();
+};
 
 exports.selectCategoryByBranchService = async (branchId) => {
   return await Category.find({
