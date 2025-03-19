@@ -34,7 +34,7 @@ exports.findUserServices=async (email) => {
 
 exports.findAllUserServices = async (userid) => {
   
-   const data = await User.find({ isDeleted: false }).lean();
+   const data = await User.findById(userid).lean();
   
   return data;
 };

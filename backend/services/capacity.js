@@ -5,7 +5,7 @@ exports.getAllCapacityService = async () => {
 };
 
 exports.getCapacityService = async (capId) => {
-  return await Capacity.findById({capId , isDeleted: false }).lean();
+  return await Capacity.findById(capId).lean();
 };
 exports.selectCapacityByDeviceService = async (deviceId) => {
   return await Capacity.find({deviceId , isDeleted: false }).lean();
