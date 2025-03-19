@@ -6,7 +6,7 @@ exports.findAllModelServices = async () => {
     return data;
 };
 exports.findOneModelServices = async (modelId) => {
-    const data = await Model.findById({modelId , isDeleted: false }).lean();
+    const data = await Model.findById(modelId).lean();
 
     return data;
 };
