@@ -212,7 +212,7 @@ const ModelForm = () => {
               variant="contained"
               color="error"
               component={Link}
-              to="/category"
+              to="/modelPage"
             >
               Cancel
             </Button>
