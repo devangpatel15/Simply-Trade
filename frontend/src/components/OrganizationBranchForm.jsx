@@ -103,7 +103,7 @@ const OrganizationBranchForm = () => {
   console.log("organizationOptions", organizationOptions);
 
   return (
-    <Box sx={{ display: "flex", marginTop: "4rem" }}>
+    <Box sx={{ display: "flex" }}>
       <Sidebar />
       <Box sx={{ flexGrow: 1 }}>
         <Header />
@@ -113,6 +113,7 @@ const OrganizationBranchForm = () => {
             backgroundColor: "#f9f9f9",
             borderRadius: 2,
             margin: "auto",
+            marginTop: "4rem",
           }}
         >
           <Typography variant="h5" sx={{ mb: 2, color: " #4C2D85" }}>

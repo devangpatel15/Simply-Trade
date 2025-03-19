@@ -9,6 +9,7 @@ const {
   deleteOrganizationService,
   getAllUserOrganizationService,
   softDeleteOrganizationService,
+  searchOrganizationService,
   findOrgService,
 } = require("../services/organization");
 const {
@@ -183,6 +184,20 @@ exports.deleteOrganization = async (req, res) => {
   try {
     const orgId = req.params.id;
     const org = await deleteOrganizationService(orgId);
+    if (!org) {
+      return res.status(404).json({ message: "Organization not found" });
+    }
+    return res.status(200).json({ message: "Organization deleted", data: org });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+exports.searchOrganization = async (req, res) => {
+  try {
+    const orgText = req.params.text;
+    const org = await searchOrganizationService(orgText);
     if (!org) {
       return res.status(404).json({ message: "Organization not found" });
     }

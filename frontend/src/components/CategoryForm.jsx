@@ -93,7 +93,7 @@ const CategoryForm = () => {
   console.log("branchOption", branchOptions);
 
   return (
-    <Box sx={{ display: "flex", marginTop: "4rem" }}>
+    <Box sx={{ display: "flex" }}>
       <Sidebar />
       <Box sx={{ flexGrow: 1 }}>
         <Header />
@@ -104,6 +104,7 @@ const CategoryForm = () => {
             display: "flex",
             flexDirection: "column",
             gap: 2,
+            marginTop: "4rem",
           }}
         >
           <Typography

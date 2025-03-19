@@ -37,3 +37,13 @@ exports.softDeleteOrganizationService = async (orgId) => {
 exports.deleteOrganizationService = async (orgId) => {
   return await Organization.findByIdAndDelete(orgId);
 };
+exports.searchOrganizationService = async (orgText) => {
+
+  return await Organization.find({organizationName:{ $regex: orgText}}).limit(5);
+
+      // const allOrganizations = await Organization.find(); // Load all data
+      // return allOrganizations
+      //   .filter((org) => org.organizationName.toLowerCase().includes(orgText.toLowerCase())) // Filter in JS
+      //   .slice(0, 5); // Limit results to 5
+   
+};

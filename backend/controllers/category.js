@@ -6,6 +6,7 @@ const {
   deleteCategoryService,
   softDeleteCategoryService,
   selectCategoryByBranchService,
+  getUserCategoryService,
 } = require("../services/category");
 
 exports.getAllCategory = async (req, res) => {
@@ -33,6 +34,24 @@ exports.getCategory = async (req, res) => {
 
     const catId = req.params.id;
     const cat = await getCategoryService(catId);
+    if (!cat) {
+      return res.status(404).json({ message: "No category found" });
+    }
+    return res.status(200).json({
+      message: "category retrieved successfully",
+      data: cat,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+// FIXME: 
+exports.getUserCategory = async (req, res) => {
+  try {
+
+    const userId = req.user.id;
+    console.log(userId)
+    const cat = await getUserCategoryService(userId);
     if (!cat) {
       return res.status(404).json({ message: "No category found" });
     }
