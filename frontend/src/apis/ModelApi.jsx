@@ -29,7 +29,6 @@ const updateModel = async (formData, id) => {
         },
       }
     );
-    alert(response.data.message);
   } catch (error) {
     console.log(error, "createOrg error");
   }
@@ -45,7 +44,7 @@ const getBranchCategory = async (branchId) => {
         },
       }
     );
-    alert(response.data.message);
+    return response;
   } catch (error) {
     console.log(error, "createOrg error");
   }

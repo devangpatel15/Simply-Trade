@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import DialogBox from "../components/DialogBox";
+import moment from "moment";
 
 const ModelPage = () => {
   const [modelData, setModelData] = useState([]);
@@ -123,7 +124,23 @@ const ModelPage = () => {
                           variant="body2"
                           sx={{ color: "green", fontWeight: "bold" }}
                         >
-                          {model.categoryId}
+                          Created At:{" "}
+                          <span
+                            style={{ color: "black", fontWeight: "normal" }}
+                          >
+                            {moment(model.createdAt).format("DD-MM-YYYY")}
+                          </span>
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "brown", fontWeight: "bold" }}
+                        >
+                          Update At:{" "}
+                          <span
+                            style={{ color: "black", fontWeight: "normal" }}
+                          >
+                            {moment(model.updatedAt).format("DD-MM-YYYY")}
+                          </span>
                         </Typography>
                       </Box>
                     </Box>

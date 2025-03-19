@@ -40,6 +40,7 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
     name,
     orgBranch,
     categoryName,
+    modelName,
   } = data;
 
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -186,8 +187,15 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
               <b>Category Name :</b> {categoryName}
             </Typography>
           )}
+          {modelName && (
+            <Typography variant="body1">
+              <b>Model Name :</b> {modelName}
+            </Typography>
+          )}
 
-          {fieldName == "userForm" || fieldName == "categoryForm" ? (
+          {fieldName == "userForm" ||
+          fieldName == "categoryForm" ||
+          fieldName == "modelForm" ? (
             ""
           ) : (
             <>
@@ -213,6 +221,8 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
               ? `/userForm/${_id}`
               : fieldName == "categoryForm"
               ? `/categoryForm/${_id}`
+              : fieldName == "modelForm"
+              ? `/modelForm/${_id}`
               : `/organizationBranchForm/${_id}`
           }
         >
