@@ -13,7 +13,7 @@ const {
 } = require("../services/organization");
 const {
   createOrganizationBranchServices,
-} = require("../services/OrganizationBranch");
+} = require("../services/organizationBranch");
 
 exports.getAllOrganization = async (req, res) => {
   try {
@@ -172,7 +172,7 @@ exports.softDeleteOrganization = async (req, res) => {
     return res
       .status(200)
       .json({ message: "Organization soft deleted", data: org });
-  } catch (error) {
+  } catch (err) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

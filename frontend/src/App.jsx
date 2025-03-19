@@ -10,7 +10,7 @@ import OtpPage from "./pages/Otp";
 import SignInByOtpPage from "./pages/SignInByOtpPage";
 import NotFound404 from "./pages/NotFound404";
 import OrganizationBranchPage from "./pages/OrganizationBranchPage";
-<<<<<<< HEAD
+import OrganizationBranchForm from "./components/OrganizationBranchForm";
 import Category from "./pages/Category";
 import CategoryForm from "./components/CategoryForm";
 import ModelPage from "./pages/ModelPage";
@@ -19,11 +19,8 @@ import DevicePage from "./pages/DevicePage";
 import DeviceForm from "./components/DeviceForm";
 import ColorForm from "./components/ColorForm";
 import ColorPage from "./pages/ColorPage";
-=======
-import OrganizationBranchForm from "./components/OrganizationBranchForm";
 import UserPage from "./pages/UserPage";
 import UserForm from "./components/UserForm";
->>>>>>> 2cfd3b132ced5c1b6b4883d28c6b84aa69e23fb0
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -120,8 +117,14 @@ function App() {
             </PrivateRoute>
           }
         />
-<<<<<<< HEAD
-=======
+        <Route
+          path="/organizationBranchForm"
+          element={
+            <PrivateRoute>
+              <OrganizationBranchForm />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/organizationBranchForm/:id"
           element={
@@ -154,10 +157,17 @@ function App() {
             </PrivateRoute>
           }
         />
->>>>>>> 2cfd3b132ced5c1b6b4883d28c6b84aa69e23fb0
 
         <Route
           path="/categoryForm"
+          element={
+            <PrivateRoute>
+              <CategoryForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/categoryForm/:id"
           element={
             <PrivateRoute>
               <CategoryForm />

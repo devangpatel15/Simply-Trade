@@ -10,6 +10,11 @@ exports.findOneColorServices = async (colorId) => {
 
     return data;
 };
+exports.selectColorByDeviceServices = async (deviceId) => {
+    const data = await Color.findById({deviceId , isDeleted: false }).lean();
+
+    return data;
+};
 exports.findUserColorServices = async (userId) => {
     const data = await Color.find().populate().lean();
     return data;

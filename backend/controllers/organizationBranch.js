@@ -154,10 +154,10 @@ exports.softDeleteOrganizationBranch = async (req, res) => {
         message: "OrganizationBranch soft deleted",
         data: organizationBranchData,
       });
-  } catch (error) {
+  } catch (err) {
     return res
       .status(500)
-      .json({ message: "Internal server error", error: error.message });
+      .json({ message: "Internal server error", error: err.message });
   }
 };
 
