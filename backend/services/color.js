@@ -6,7 +6,7 @@ exports.findAllColorServices = async () => {
     return data;
 };
 exports.findOneColorServices = async (colorId) => {
-    const data = await Color.findById({colorId , isDeleted: false }).lean();
+    const data = await Color.findById(colorId).lean();
 
     return data;
 };
