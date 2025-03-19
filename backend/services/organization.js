@@ -7,7 +7,7 @@ exports.getAllOrganizationService = async () => {
 };
 
 exports.getAllUserOrganizationService = async (userId) => {
-  return await Organization.find(userId)
+  return await Organization.find({ userId, isDeleted: false })
     .sort({ createdAt: -1 })
     .populate("userId")
     .lean();
