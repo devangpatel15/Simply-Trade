@@ -96,10 +96,9 @@ exports.createOrganization = async (req, res) => {
       email,
       companyType,
     } = createdOrg;
-    console.log(createdOrg)
 
     const branchData = {
-      organization:_id ,
+      organization: _id,
       branchName: organizationName, // Default branch name to organization name
       primaryAddress,
       addressLine1,
@@ -113,10 +112,8 @@ exports.createOrganization = async (req, res) => {
       mobile: telePhone, // Reuse telephone for mobile
       email,
       companyType,
-      isDeleted:false,
+      isDeleted: false,
     };
-    console.log(branchData);
-    
 
     // Step 3: Validate and create the branch
 
@@ -194,14 +191,16 @@ exports.deleteOrganization = async (req, res) => {
       .json({ message: "Internal server error", error: err.message });
   }
 };
+
 exports.searchOrganization = async (req, res) => {
   try {
-    const orgText = req.params.text;
+    const orgText = req.query.text || "";
+
     const org = await searchOrganizationService(orgText);
-    if (!org) {
-      return res.status(404).json({ message: "Organization not found" });
-    }
-    return res.status(200).json({ message: "Organization deleted", data: org });
+
+    return res
+      .status(200)
+      .json({ message: "Organizations fetched", data: org });
   } catch (err) {
     return res
       .status(500)

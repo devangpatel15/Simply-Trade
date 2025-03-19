@@ -90,7 +90,6 @@ exports.findUserModel = async (req, res) => {
 exports.createModel = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     const modelData = await createModelServices(data);
     if (!modelData) {
       return res.status(404).json({ message: "No Model found" });
