@@ -12,7 +12,7 @@ exports.getAllUserOrganizationService = async (userId) => {
     .populate("userId")
     .lean();
 };
-
+ 
 exports.getOrganizationService = async (orgId) => {
   return await Organization.findById(orgId).populate("userId").lean();
 };
