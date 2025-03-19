@@ -48,3 +48,16 @@ exports.deleteDeviceServices = async (deviceId) => {
     ).lean();
     return data;
 };
+
+exports.searchDeviceService = async (orgText) => {
+  let findObject = { isDeleted: false };
+
+  if (orgText.trim() !== "") {
+    findObject.$or = [
+      { deviceName: { $regex: `^${orgText}`, $options: "i" } },
+    ];
+  }
+
+  return await Device.find(findObject).limit(5); // Increase limit if needed
+};
+

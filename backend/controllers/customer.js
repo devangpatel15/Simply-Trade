@@ -1,4 +1,4 @@
-const { getAllCustomerService, getCustomerService, createCustomerService, updateCustomerService, deleteCustomerService, softDeleteCustomerService } = require("../services/customer");
+const { getAllCustomerService, getCustomerService, createCustomerService, updateCustomerService, deleteCustomerService, softDeleteCustomerService, searchCustomerServices } = require("../services/customer");
 
 exports.getAllCustomer = async (req, res) => {
   try {
@@ -92,6 +92,25 @@ exports.deleteCustomer = async (req, res) => {
     }
 
     return res.status(200).json({ message: "Customer deleted", data: cus });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.searchCustomer = async (req, res) => {
+  try {
+    const orgText = req.query.text || "";
+
+    const org = await searchCustomerServices(orgText);
+
+    if (!org) {
+      return res.status(404).json({ message: "searchCustomer not found" });
+    }
+    return res
+      .status(200)
+      .json({ message: "searchCustomer searched successfully", data: org });
   } catch (err) {
     return res
       .status(500)

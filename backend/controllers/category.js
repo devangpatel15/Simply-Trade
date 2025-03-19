@@ -7,6 +7,7 @@ const {
   softDeleteCategoryService,
   selectCategoryByBranchService,
   getUserCategoryService,
+  searchCategoryService,
 } = require("../services/category");
 
 exports.getAllCategory = async (req, res) => {
@@ -28,10 +29,6 @@ exports.getAllCategory = async (req, res) => {
 
 exports.getCategory = async (req, res) => {
   try {
-
-    console.log(req.params);
-    
-
     const catId = req.params.id;
     const cat = await getCategoryService(catId);
     if (!cat) {
@@ -45,12 +42,10 @@ exports.getCategory = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-// FIXME: 
+// FIXME:
 exports.getUserCategory = async (req, res) => {
   try {
-
     const userId = req.user.id;
-    console.log(userId)
     const cat = await getUserCategoryService(userId);
     if (!cat) {
       return res.status(404).json({ message: "No category found" });
@@ -82,7 +77,7 @@ exports.selectCategoryByBranch = async (req, res) => {
 exports.createCategory = async (req, res) => {
   try {
     const newCat = req.body;
-    
+
     const createdCat = await createCategoryService(newCat);
     return res
       .status(200)
@@ -143,5 +138,26 @@ exports.deleteCategory = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Internal server error", error: error.message });
+  }
+};
+
+
+exports.searchCategory = async (req, res) => {
+  try {
+    const orgText = req.query.text || "";
+
+    const org = await searchCategoryService(orgText);
+
+   
+    if (!org) {
+      return res.status(404).json({ message: "searchCategory not found" });
+    }
+    return res
+      .status(200)
+      .json({ message: "searchCategory searched successfully", data: org });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
   }
 };

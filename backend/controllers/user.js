@@ -31,7 +31,6 @@ exports.sendOtp = async (req, res) => {
     } else {
       user.verificationCode = code;
       user.codeExpires = codeExpires;
-      console.log(user.verificationCode);
     }
 
     await user.save();
@@ -48,7 +47,6 @@ exports.verifyOtp = async (req, res) => {
 
   try {
     const user = await findUserServices(email);
-    console.log(user);
     if (
       !user ||
       user.verificationCode !== code ||
@@ -145,7 +143,6 @@ exports.findAllUser = async (req, res) => {
 };
 exports.findUser = async (req, res) => {
   try {
-    console.log(req.user);
     const userEmail = req.user.email;
     const userdata = await findUserServices(userEmail);
 
