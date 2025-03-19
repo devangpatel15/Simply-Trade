@@ -7,7 +7,7 @@ const {
   findUserModelServices,
   softDeleteModelService,
   selectModelByCatServices,
-} = require("../services/Model");
+} = require("../services/model");
 
 exports.findAllModel = async (req, res) => {
   try {

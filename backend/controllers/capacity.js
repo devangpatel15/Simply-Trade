@@ -80,7 +80,7 @@ exports.updateCapacity = async (req, res) => {
     }
     return res
       .status(200)
-      .json({ message: "Capacity updated", data: updatedOrg });
+      .json({ message: "Capacity updated", data: updatedCap });
   } catch (err) {
     return res
       .status(500)

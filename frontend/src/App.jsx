@@ -192,6 +192,14 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/modelForm/:id"
+          element={
+            <PrivateRoute>
+              <ModelForm />
+            </PrivateRoute>
+          }
+        />
 
         <Route
           path="/devicePage"

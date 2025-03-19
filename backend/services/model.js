@@ -6,12 +6,12 @@ exports.findAllModelServices = async () => {
     return data;
 };
 exports.findOneModelServices = async (modelId) => {
-    const data = await Model.findById({modelId , isDeleted: false }).lean();
+    const data = await Model.findById(modelId).populate("categoryId organization branchName").lean();
 
     return data;
 };
 exports.selectModelByCatServices = async (catId) => {
-    const data = await Model.find({categoryId:catId , isDeleted: false }).lean();
+    const data = await Model.findById(catId ).lean();
 
     return data;
 };

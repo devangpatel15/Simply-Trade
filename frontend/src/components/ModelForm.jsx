@@ -13,7 +13,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import { allUserOrg } from "../apis/OrganizationApi";
-import { createModel, getBranchCategory, updateModel } from "../apis/ModelApi";
+import {
+  createModel,
+  findOneModel,
+  getBranchCategory,
+  updateModel,
+} from "../apis/ModelApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
 
 const ModelForm = () => {
@@ -26,7 +31,7 @@ const ModelForm = () => {
     organization: "",
     branchName: "",
     modelName: "",
-    categoryId: "",
+    categoryName: "",
   });
 
   const [organizationOptions, setOrganizationOptions] = useState([]);
@@ -48,10 +53,10 @@ const ModelForm = () => {
     try {
       if (id) {
         updateModel(formData, id);
-        navigate("/category");
+        navigate("/modelPage");
       } else {
         createModel(formData);
-        navigate("/category");
+        navigate("/modelPage");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -61,16 +66,8 @@ const ModelForm = () => {
 
   const callApi = async () => {
     if (id) {
-      const response = await axios.get(
-        `http://localhost:4000/api/findOneModel/${id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      console.log("response", response.data.data);
+      const response = await findOneModel(id);
+      console.log("response======================", response.data.data);
       setFormData(response.data.data);
     }
   };
@@ -88,7 +85,7 @@ const ModelForm = () => {
   };
   const callGetSelectedCategory = async () => {
     const response = await getBranchCategory(formData.branchName);
-    console.log("response of branch", response.data.data);
+    console.log("response of category ", response.data.data);
     setCategoryOptions(response.data.data);
   };
 
@@ -178,13 +175,13 @@ const ModelForm = () => {
                   label="Category"
                   variant="outlined"
                   name="categoryId"
-                  value={formData.categoryId || ""}
+                  value={formData.categoryName || ""}
                   onChange={handleChange}
                   required
                 >
                   {categoryOptions.map((option) => (
                     <MenuItem key={option._id} value={option._id}>
-                      {option.categoryId}
+                      {option.categoryName}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -196,6 +193,7 @@ const ModelForm = () => {
                   variant="outlined"
                   name="modelName"
                   value={formData.modelName || ""}
+                  onChange={handleChange}
                   required
                 />
               </Grid>
@@ -211,7 +209,7 @@ const ModelForm = () => {
               variant="contained"
               color="error"
               component={Link}
-              to="/category"
+              to="/modelPage"
             >
               Cancel
             </Button>

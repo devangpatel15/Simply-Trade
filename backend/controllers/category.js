@@ -98,13 +98,13 @@ exports.updateCategory = async (req, res) => {
   try {
     const catId = req.params.id;
     const cat = req.body;
-    const updatedOrg = await updateCategoryService(catId, cat);
-    if (!updatedOrg) {
+    const updatedCat = await updateCategoryService(catId, cat);
+    if (!updatedCat) {
       return res.status(404).json({ message: "category not found" });
     }
     return res
       .status(200)
-      .json({ message: "category updated", data: updatedOrg });
+      .json({ message: "category updated", data: updatedCat });
   } catch (error) {
     return res
       .status(500)
