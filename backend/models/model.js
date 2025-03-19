@@ -5,7 +5,6 @@ const modelSchema = new mongoose.Schema({
   categoryId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
-    required: true,
   },
   isDeleted: { type: Boolean, default: false },
 });
