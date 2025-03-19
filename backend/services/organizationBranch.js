@@ -2,14 +2,14 @@ const OrganizationBranch = require("../models/organizationBranch");
 
 exports.findAllOrganizationBranchServices = async () => {
   const data = await OrganizationBranch.find({ isDeleted: false })
-    .populate("userId", "branchName")
+    .populate("userId branchName")
     .lean();
 
   return data;
 };
 exports.findOneOrganizationBranchServices = async (id) => {
   const data = await OrganizationBranch.findById(id)
-    .populate("userId", "branchName")
+    .populate("userId branchName")
     .lean();
 
   return data;
@@ -19,7 +19,7 @@ exports.findUserOrganizationBranchServices = async (userId) => {
     userId: userId,
     isDeleted: false,
   })
-    .populate("userId", "branchName")
+    .populate("userId branchName")
     .lean();
   return data;
 };
@@ -29,7 +29,7 @@ exports.selectOrganizationBranchServices = async (orgId) => {
     organization: orgId,
     isDeleted: false,
   })
-    .populate("userId", "branchName")
+    .populate("userId branchName")
     .lean();
   return data;
 };
