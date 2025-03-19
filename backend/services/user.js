@@ -32,9 +32,9 @@ exports.findUserServices=async (email) => {
   return userData
 }
 
-exports.findAllUserServices = async (userid) => {
+exports.findAllUserServices = async () => {
   
-   const data = await User.findById(userid).lean();
+   const data = await User.find({isDeleted : false}).lean();
   
   return data;
 };
