@@ -27,6 +27,10 @@ exports.getAllCategory = async (req, res) => {
 
 exports.getCategory = async (req, res) => {
   try {
+
+    console.log(req.params);
+    
+
     const catId = req.params.id;
     const cat = await getCategoryService(catId);
     if (!cat) {
@@ -40,7 +44,7 @@ exports.getCategory = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-exports.selectCategoryByBranch= async (req, res) => {
+exports.selectCategoryByBranch = async (req, res) => {
   try {
     const branchId = req.params.id;
     const cat = await selectCategoryByBranchService(branchId);
@@ -59,6 +63,7 @@ exports.selectCategoryByBranch= async (req, res) => {
 exports.createCategory = async (req, res) => {
   try {
     const newCat = req.body;
+    
     const createdCat = await createCategoryService(newCat);
     return res
       .status(200)

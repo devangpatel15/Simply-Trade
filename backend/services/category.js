@@ -5,7 +5,7 @@ exports.getAllCategoryService = async () => {
 };
 
 exports.getCategoryService = async (catId) => {
-  return await Category.findById({catId , isDeleted: false }).lean();
+  return await Category.findById(catId).lean();
 };
 
 exports.selectCategoryByBranchService = async (branchId) => {
