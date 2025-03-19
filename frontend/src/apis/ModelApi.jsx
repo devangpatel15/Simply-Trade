@@ -29,6 +29,7 @@ const updateModel = async (formData, id) => {
         },
       }
     );
+    return response;
   } catch (error) {
     console.log(error, "createOrg error");
   }

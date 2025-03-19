@@ -20,6 +20,7 @@ import ColorForm from "./components/ColorForm";
 import ColorPage from "./pages/ColorPage";
 import UserPage from "./pages/UserPage";
 import UserForm from "./components/UserForm";
+import OrganizationBranchForm from "./components/OrganizationBranchForm";
 
 function App() {
   const PrivateRoute = ({ children }) => {
