@@ -6,7 +6,7 @@ exports.findAllModelServices = async () => {
     return data;
 };
 exports.findOneModelServices = async (modelId) => {
-    const data = await Model.findById(modelId).populate("categoryName" , "organization" , "branchName").lean();
+    const data = await Model.findById(modelId).populate("categoryId" , "organization" , "branchName").lean();
 
     return data;
 };
