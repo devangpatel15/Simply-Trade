@@ -104,11 +104,7 @@ exports.loginUser = async (req, res) => {
 exports.registerUser = async (req, res) => {
   try {
     const data = req.body;
-<<<<<<< HEAD
     const { name, password, email, mobileNo, organization, orgBranch } = data;
-=======
-    const { name, password, email, mobileNo, organization,orgBranch } = data;
->>>>>>> 13973e3f18dc829fb3babf7c1aa6a0918906f537
     const hashedPassword = await bcrypt.hash(password, 10);
     const isExistsUser = await findUserServices(email);
     if (isExistsUser) {
@@ -195,7 +191,7 @@ exports.updateUser = async (req, res) => {
     const userId = req.query.id;
 
     const data = req.body;
-    const { name, email, mobileNo , organization,orgBranch} = data;
+    const { name, email, mobileNo, organization, orgBranch } = data;
     const hashedPassword = await bcrypt.hash(password, 10);
     const uData = {
       name,
@@ -203,7 +199,7 @@ exports.updateUser = async (req, res) => {
       mobileNo,
       // password: hashedPassword,
       organization,
-      orgBranch
+      orgBranch,
     };
     const userData = await updateUserServices(userId, uData);
 
