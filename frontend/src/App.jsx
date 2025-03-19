@@ -18,7 +18,6 @@ import DevicePage from "./pages/DevicePage";
 import DeviceForm from "./components/DeviceForm";
 import ColorForm from "./components/ColorForm";
 import ColorPage from "./pages/ColorPage";
-import OrganizationBranchForm from "./components/OrganizationBranchForm";
 import UserPage from "./pages/UserPage";
 import UserForm from "./components/UserForm";
 
@@ -118,6 +117,14 @@ function App() {
           }
         />
         <Route
+          path="/organizationBranchForm"
+          element={
+            <PrivateRoute>
+              <OrganizationBranchForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/organizationBranchForm/:id"
           element={
             <PrivateRoute>
@@ -152,6 +159,14 @@ function App() {
 
         <Route
           path="/categoryForm"
+          element={
+            <PrivateRoute>
+              <CategoryForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/categoryForm/:id"
           element={
             <PrivateRoute>
               <CategoryForm />

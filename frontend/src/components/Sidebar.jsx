@@ -75,6 +75,7 @@ import DevicesIcon from "@mui/icons-material/Devices";
 import ColorizeIcon from "@mui/icons-material/Colorize";
 import OnDeviceTrainingIcon from "@mui/icons-material/OnDeviceTraining";
 import InventoryIcon from "@mui/icons-material/Inventory";
+import StorageIcon from '@mui/icons-material/Storage';
 
 const iconColor = "#5C4E89"; // Custom icon color
 
@@ -198,15 +199,6 @@ const Sidebar = () => {
                   <ListItemText primary="Category" />
                 </ListItemButton>
 
-                <ListItemButton
-                  sx={{ pl: 4, gap: "2rem" }}
-                  onClick={() => navigate("/devicePage")}
-                >
-                  <DevicesIcon>
-                    <Business sx={{ color: iconColor }} />
-                  </DevicesIcon>
-                  <ListItemText primary="Device" />
-                </ListItemButton>
 
                 <ListItemButton
                   sx={{ pl: 4, gap: "2rem" }}
@@ -220,6 +212,16 @@ const Sidebar = () => {
 
                 <ListItemButton
                   sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/devicePage")}
+                >
+                  <DevicesIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </DevicesIcon>
+                  <ListItemText primary="Device" />
+                </ListItemButton>
+
+                <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
                   onClick={() => navigate("/colorPage")}
                 >
                   <ColorizeIcon>
@@ -228,11 +230,14 @@ const Sidebar = () => {
                   <ListItemText primary="Color" />
                 </ListItemButton>
 
-                <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
-                  <InventoryIcon>
+               <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/colorPage")}
+                >
+                  <StorageIcon>
                     <Business sx={{ color: iconColor }} />
-                  </InventoryIcon>
-                  <ListItemText primary="Stock" />
+                  </StorageIcon>
+                  <ListItemText primary="Capacity" />
                 </ListItemButton>
 
                 <ListItemButton sx={{ pl: 4, gap: "2rem" }}>

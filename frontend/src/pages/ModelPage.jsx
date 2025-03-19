@@ -11,8 +11,39 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import DialogBox from "../components/DialogBox";
 
 const ModelPage = () => {
+  const [modelData, setModelData] = useState([]);
+
+  const callApi = async () => {
+    const response = await axios.get("http://localhost:4000/api/findAllModel", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    console.log(response.data.data);
+    setModelData(response.data.data);
+  };
+
+  useEffect(() => {
+    callApi();
+  }, []);
+
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState({});
+
+  const handleOpen = (data) => {
+    console.log(data, "data-----");
+    setData(data);
+    setOpen(true);
+  };
+
+  const handleClose = () => setOpen(false);
+
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
@@ -59,46 +90,61 @@ const ModelPage = () => {
               </Button>
             </Box>
           </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              backgroundColor: "white",
-              borderRadius: 10,
-              boxShadow: 1,
-              padding: 2,
-              marginTop: 3,
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <Avatar
-                src="/path/to/avatar.jpg"
-                alt="User Avatar"
-                sx={{ width: 50, height: 50 }}
-              />
-              <Box>
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+          {modelData &&
+            modelData.map((model) => {
+              return (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    backgroundColor: "white",
+                    borderRadius: 10,
+                    boxShadow: 1,
+                    padding: 2,
+                    marginTop: 3,
+                  }}
                 >
-                  Tv
-                </Typography>
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <Typography
-                    variant="body2"
-                    sx={{ color: "green", fontWeight: "bold" }}
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    <Avatar
+                      src="/path/to/avatar.jpg"
+                      alt="User Avatar"
+                      sx={{ width: 50, height: 50 }}
+                    />
+                    <Box>
+                      <Typography
+                        variant="h6"
+                        sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+                      >
+                        {model.modelName}
+                      </Typography>
+                      <Box sx={{ display: "flex", gap: 2 }}>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "green", fontWeight: "bold" }}
+                        >
+                          {model.categoryId}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                  <IconButton
+                    sx={{ backgroundColor: "#f5f5f5" }}
+                    onClick={() => handleOpen(model)}
                   >
-                    Branch Name :
-                  </Typography>
+                    <VisibilityIcon sx={{ color: "#6c5ce7" }} />
+                  </IconButton>
                 </Box>
-              </Box>
-            </Box>
-            <IconButton sx={{ backgroundColor: "#f5f5f5" }}>
-              <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-            </IconButton>
-          </Box>
+              );
+            })}
+
+          <DialogBox
+            handleClose={handleClose}
+            open={open}
+            data={data}
+            callApi={callApi}
+            fieldName="modelForm"
+          />
         </Box>
       </Box>
     </Box>
