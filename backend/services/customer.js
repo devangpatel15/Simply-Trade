@@ -23,3 +23,16 @@ exports.softDeleteCustomerService = async (cusId) => {
 exports.deleteCustomerService = async (cusId) => {
   return await Customer.findByIdAndDelete(cusId).lean();
 };
+
+exports.searchCustomerServices = async (orgText) => {
+  let findObject = { isDeleted: false };
+
+  if (orgText.trim() !== "") {
+    findObject.$or = [
+      { customerName: { $regex: `^${orgText}`, $options: "i" } },
+    ];
+  }
+
+  return await Customer.find(findObject).limit(5); // Increase limit if needed
+};
+

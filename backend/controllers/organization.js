@@ -198,9 +198,7 @@ exports.searchOrganization = async (req, res) => {
 
     const org = await searchOrganizationService(orgText);
 
-    return res
-      .status(200)
-      .json({ message: "Organizations fetched", data: org });
+   
     if (!org) {
       return res.status(404).json({ message: "Organization not found" });
     }

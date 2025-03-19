@@ -7,6 +7,7 @@ const {
   softDeleteCategoryService,
   selectCategoryByBranchService,
   getUserCategoryService,
+  searchCategoryService,
 } = require("../services/category");
 
 exports.getAllCategory = async (req, res) => {
@@ -137,5 +138,26 @@ exports.deleteCategory = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Internal server error", error: error.message });
+  }
+};
+
+
+exports.searchCategory = async (req, res) => {
+  try {
+    const orgText = req.query.text || "";
+
+    const org = await searchCategoryService(orgText);
+
+   
+    if (!org) {
+      return res.status(404).json({ message: "searchCategory not found" });
+    }
+    return res
+      .status(200)
+      .json({ message: "searchCategory searched successfully", data: org });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
   }
 };

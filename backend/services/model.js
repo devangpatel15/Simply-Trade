@@ -50,3 +50,15 @@ exports.deleteModelServices = async (modelId) => {
     ).lean();
     return data;
 };
+
+exports.searchModelService = async (orgText) => {
+  let findObject = { isDeleted: false };
+
+  if (orgText.trim() !== "") {
+    findObject.$or = [
+      { modelName: { $regex: `^${orgText}`, $options: "i" } },
+    ];
+  }
+
+  return await Model.find(findObject).limit(5); // Increase limit if needed
+};

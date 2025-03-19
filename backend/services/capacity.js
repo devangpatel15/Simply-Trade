@@ -27,3 +27,15 @@ exports.softDeleteCapacityService = async (capId) => {
 exports.deleteCapacityService = async (capId) => {
   return await Capacity.findByIdAndDelete(capId);
 };
+
+exports.searchCapacityService = async (orgText) => {
+  let findObject = { isDeleted: false };
+
+  if (orgText.trim() !== "") {
+    findObject.$or = [
+      { capacityName: { $regex: `^${orgText}`, $options: "i" } },
+    ];
+  }
+
+  return await Capacity.find(findObject).limit(5); // Increase limit if needed
+};
