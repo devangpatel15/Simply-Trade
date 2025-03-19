@@ -39,7 +39,7 @@ exports.deleteOrganizationService = async (orgId) => {
 };
 exports.searchOrganizationService = async (orgText) => {
 
-  return await Organization.find({organizationName:{ $regex: orgText}}).limit(5);
+  return await Organization.find({organizationName:{ $regex: orgText , $options : "i"} , isDeleted:false }).limit(5);
 
       // const allOrganizations = await Organization.find(); // Load all data
       // return allOrganizations

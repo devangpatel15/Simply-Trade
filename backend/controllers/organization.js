@@ -201,7 +201,7 @@ exports.searchOrganization = async (req, res) => {
     if (!org) {
       return res.status(404).json({ message: "Organization not found" });
     }
-    return res.status(200).json({ message: "Organization deleted", data: org });
+    return res.status(200).json({ message: "Organization searched successfully", data: org });
   } catch (err) {
     return res
       .status(500)
