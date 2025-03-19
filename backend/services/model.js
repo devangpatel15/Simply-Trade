@@ -10,13 +10,20 @@ exports.findOneModelServices = async (modelId) => {
 
     return data;
 };
+exports.selectModelByCatServices = async (catId) => {
+    const data = await Model.find({categoryId:catId , isDeleted: false }).lean();
+
+    return data;
+};
 exports.findUserModelServices = async (userId) => {
     const data = await Model.find().populate().lean();
     return data;
 };
 
 exports.createModelServices = async (modelData) => {
+    console.log("in servise::::::::::",modelData);
     const data = await Model.create(modelData);
+    
     return data;
 };
 

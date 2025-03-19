@@ -20,7 +20,7 @@ import { allUserOrg } from "../apis/OrganizationApi";
 import { createUser, getOneUser, updateUser } from "../apis/UserApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
 
-const userForm = () => {
+const UserForm = () => {
   const { id } = useParams();
 
   console.log("======id", id);
@@ -230,4 +230,4 @@ const userForm = () => {
   );
 };
 
-export default userForm;
+export default UserForm;

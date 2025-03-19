@@ -75,8 +75,8 @@ exports.softDeleteCustomer = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "Customer soft deleted", data: org });
-  } catch (error) {
+      .json({ message: "Customer soft deleted", data: cus });
+  } catch (err) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

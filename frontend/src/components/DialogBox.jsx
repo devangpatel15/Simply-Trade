@@ -16,6 +16,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { deleteOrg } from "../apis/OrganizationApi";
 import { deleteOrgBranch } from "../apis/OrganizationBranchApi";
+import { deleteUser } from "../apis/UserApi";
+import { deleteCategory } from "../apis/CategoryApi";
 
 const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
   const {
@@ -37,6 +39,7 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
     branchName,
     name,
     orgBranch,
+    categoryName,
   } = data;
 
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -52,9 +55,16 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
   const handleDelete = async () => {
     console.log("_id --", _id);
 
-    fieldName == "organizationForm" ? deleteOrg(_id) : deleteOrgBranch(_id);
+    fieldName == "organizationForm"
+      ? deleteOrg(_id)
+      : fieldName == "organizationBranchForm"
+      ? deleteOrgBranch(_id)
+      : fieldName == "userForm"
+      ? deleteUser(_id)
+      : fieldName == "categoryForm"
+      ? deleteCategory(_id)
+      : "";
 
-    alert("deleted");
     setDeleteOpen(false);
     handleClose();
     callApi();
@@ -76,6 +86,8 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
           ? "ORGANIZATIONS BRANCH"
           : fieldName == "userForm"
           ? "USER"
+          : fieldName == "categoryForm"
+          ? "CATEGORY"
           : ""}
       </DialogTitle>
       <DialogContent>
@@ -169,8 +181,13 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
               <b>Name :</b> {name}
             </Typography>
           )}
+          {categoryName && (
+            <Typography variant="body1">
+              <b>Category Name :</b> {categoryName}
+            </Typography>
+          )}
 
-          {fieldName == "userForm" ? (
+          {fieldName == "userForm" || fieldName == "categoryForm" ? (
             ""
           ) : (
             <>
@@ -194,6 +211,8 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
               ? `/organizationForm/${_id}`
               : fieldName == "userForm"
               ? `/userForm/${_id}`
+              : fieldName == "categoryForm"
+              ? `/categoryForm/${_id}`
               : `/organizationBranchForm/${_id}`
           }
         >

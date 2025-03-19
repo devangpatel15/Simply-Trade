@@ -1,35 +1,33 @@
-import React, { useEffect, useState } from "react";
 import {
-  Box,
-  Typography,
-  TextField,
-  Button,
-  InputAdornment,
   Avatar,
-  IconButton,
+  Box,
+  Button,
   FormControl,
+  IconButton,
+  InputAdornment,
   InputLabel,
-  Select,
   MenuItem,
+  Select,
+  TextField,
+  Typography,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import CloseIcon from "@mui/icons-material/Close";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import OrganizationForm from "../components/OrganizationForm";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import moment from "moment";
+import { getAllCategory } from "../apis/CategoryApi";
 import DialogBox from "../components/DialogBox";
-import { getAllUsers } from "../apis/UserApi";
+import moment from "moment";
+import SearchIcon from "@mui/icons-material/Search";
 
-const UserPage = () => {
-  const [userData, setUserData] = useState([]);
+const Category = () => {
+  const [category, setCategory] = useState([]);
 
   const callApi = async () => {
-    const response = await getAllUsers();
-    console.log("response", response);
-    setUserData(response.data.data);
+    const response = await getAllCategory();
+    setCategory(response.data.data);
+    console.log("category=====", category);
   };
 
   useEffect(() => {
@@ -45,9 +43,8 @@ const UserPage = () => {
     setOpen(true);
   };
 
-  console.log("usrData", userData);
-
   const handleClose = () => setOpen(false);
+
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
@@ -63,7 +60,7 @@ const UserPage = () => {
               variant="h4"
               sx={{ fontWeight: "bold", color: "#6c5ce7" }}
             >
-              Users
+              CATEGORY
             </Typography>
             <Box display="flex" gap={2}>
               <TextField
@@ -87,18 +84,18 @@ const UserPage = () => {
                   textTransform: "none",
                 }}
                 component={Link}
-                to="/userForm"
+                to="/categoryForm"
               >
-                Add User
+                Add Category
               </Button>
             </Box>
           </Box>
 
-          {userData &&
-            userData.map((user) => {
+          {category &&
+            category.map((category) => {
               return (
                 <Box
-                  key={user._id}
+                  key={category._id}
                   sx={{
                     display: "flex",
                     alignItems: "center",
@@ -121,7 +118,7 @@ const UserPage = () => {
                         variant="h6"
                         sx={{ fontWeight: "bold", color: "#6c5ce7" }}
                       >
-                        {user.name}
+                        {category.categoryName}
                       </Typography>
 
                       <Box sx={{ display: "flex", gap: 2 }}>
@@ -133,7 +130,7 @@ const UserPage = () => {
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(user.createdAt).format("DD-MM-YYYY")}
+                            {moment(category.createdAt).format("DD-MM-YYYY")}
                           </span>
                         </Typography>
                         <Typography
@@ -144,7 +141,7 @@ const UserPage = () => {
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(user.updatedAt).format("DD-MM-YYYY")}
+                            {moment(category.updatedAt).format("DD-MM-YYYY")}
                           </span>
                         </Typography>
                       </Box>
@@ -152,7 +149,7 @@ const UserPage = () => {
                   </Box>
                   <IconButton
                     sx={{ backgroundColor: "#f5f5f5" }}
-                    onClick={() => handleOpen(user)}
+                    onClick={() => handleOpen(category)}
                   >
                     <VisibilityIcon sx={{ color: "#6c5ce7" }} />
                   </IconButton>
@@ -165,7 +162,7 @@ const UserPage = () => {
             open={open}
             data={data}
             callApi={callApi}
-            fieldName="userForm"
+            fieldName="categoryForm"
           />
         </Box>
       </Box>
@@ -173,4 +170,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default Category;
