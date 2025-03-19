@@ -48,10 +48,10 @@ const ModelForm = () => {
     try {
       if (id) {
         updateModel(formData, id);
-        navigate("/category");
+        navigate("/modelPage");
       } else {
         createModel(formData);
-        navigate("/category");
+        navigate("/modelPage");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -88,7 +88,7 @@ const ModelForm = () => {
   };
   const callGetSelectedCategory = async () => {
     const response = await getBranchCategory(formData.branchName);
-    console.log("response of branch", response.data.data);
+    console.log("response of category ", response.data.data);
     setCategoryOptions(response.data.data);
   };
 
@@ -184,7 +184,7 @@ const ModelForm = () => {
                 >
                   {categoryOptions.map((option) => (
                     <MenuItem key={option._id} value={option._id}>
-                      {option.categoryId}
+                      {option.categoryName}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -196,6 +196,7 @@ const ModelForm = () => {
                   variant="outlined"
                   name="modelName"
                   value={formData.modelName || ""}
+                  onChange={handleChange}
                   required
                 />
               </Grid>
