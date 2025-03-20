@@ -39,7 +39,6 @@ const Header = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        console.log(response.data.data);
         setUserData(response.data.data);
       } catch (error) {
         console.log(error.message);
@@ -59,8 +58,7 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    console.log("logout");
+    localStorage.removeItem("token");;
     navigate("/signIn");
   };
 

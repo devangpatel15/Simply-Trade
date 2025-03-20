@@ -46,7 +46,6 @@ const OrganizationBranchForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value, "name", "value");
 
     setFormData((prev) => ({
       ...prev,
@@ -85,7 +84,6 @@ const OrganizationBranchForm = () => {
           },
         }
       );
-      console.log("response=========", response.data.data);
       setFormData({
         ...response.data.data,
         organization: {
@@ -101,14 +99,11 @@ const OrganizationBranchForm = () => {
   }, []);
 
   const handleOrganizationChange = (selectedOrg) => {
-    console.log("selectedOrg", selectedOrg);
     setFormData((prev) => ({
       ...prev,
       organization: selectedOrg,
     }));
   };
-
-  console.log("finallllllll form data==", formData);
 
   return (
     <Box sx={{ display: "flex" }}>

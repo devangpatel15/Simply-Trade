@@ -20,7 +20,6 @@ import OrgInput from "./common/OrgInput";
 
 const ModelForm = () => {
   const { id } = useParams();
-  console.log("======id", id);
 
   const navigate = useNavigate();
 
@@ -37,7 +36,6 @@ const ModelForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value, "name", "value");
 
     setFormData((prev) => ({
       ...prev,
@@ -46,7 +44,6 @@ const ModelForm = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("callaed");
     try {
       if (id) {
         updateModel(formData, id);
@@ -64,25 +61,21 @@ const ModelForm = () => {
   const callApi = async () => {
     if (id) {
       const response = await findOneModel(id);
-      console.log("response====modellll", response.data.data);
       setFormData(response.data.data);
     }
   };
 
   const callGetAllOrg = async () => {
     const response = await allUserOrg();
-    console.log("response", response.data.data);
     setOrganizationOptions(response.data.data);
   };
 
   const callGetOrgBranch = async () => {
     const response = await getOrgBranch(formData.organization);
-    console.log("response of branch", response.data.data);
     setBranchOptions(response.data.data);
   };
   const callGetSelectedCategory = async () => {
     const response = await getBranchCategory(formData.orgBranch);
-    console.log("response of category ", response.data.data);
     setCategoryOptions(response.data.data);
   };
 
@@ -98,8 +91,6 @@ const ModelForm = () => {
   useEffect(() => {
     callGetSelectedCategory();
   }, [formData.orgBranch]);
-
-  console.log("cat options", categoryOptions);
 
   return (
     <Box sx={{ display: "flex" }}>

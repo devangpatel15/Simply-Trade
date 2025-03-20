@@ -18,8 +18,7 @@ import axios from "axios";
 import { createOrg, updateOrg } from "../apis/OrganizationApi";
 
 const OrganizationForm = () => {
-  const { id } = useParams();
-  console.log("======id", id);
+  const { id } = useParams()
 
   const navigate = useNavigate();
 
@@ -45,7 +44,6 @@ const OrganizationForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value, "name", "value");
 
     setFormData((prev) => ({
       ...prev,
@@ -54,7 +52,6 @@ const OrganizationForm = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("callaed");
     try {
       if (id) {
         updateOrg(formData, id);
@@ -77,7 +74,6 @@ const OrganizationForm = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log("response", response.data.data);
       setFormData(response.data.data);
     }
   };
