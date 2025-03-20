@@ -9,7 +9,7 @@ exports.findAllOrganizationBranchServices = async () => {
 };
 exports.findOneOrganizationBranchServices = async (id) => {
   const data = await OrganizationBranch.findById(id)
-    .populate("userId", "branchName")
+    .populate("userId branchName organization")
     .lean();
 
   return data;

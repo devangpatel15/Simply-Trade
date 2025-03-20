@@ -5,11 +5,10 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const OrgInput = () => {
+const OrgInput = ({ onChange, value }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedOrg, setSelectedOrg] = useState(null);
 
   // Debounced API call
   const fetchOrganizations = useMemo(
@@ -48,13 +47,17 @@ const OrgInput = () => {
     fetchOrganizations(""); // Load default data when component mounts
   }, [fetchOrganizations]);
 
+  console.log("valueeeeeeeeeeeee", value);
   return (
     <Autocomplete
       options={options}
       getOptionLabel={(option) => option.label}
       loading={loading}
+      value={value}
       onInputChange={(_, newInputValue) => setInputValue(newInputValue)}
-      onChange={(_, newValue) => setSelectedOrg(newValue)}
+      onChange={(_, newValue) => {
+        if (onChange) onChange(newValue); // Call parent function with selected value
+      }}
       renderInput={(params) => (
         <TextField
           {...params}

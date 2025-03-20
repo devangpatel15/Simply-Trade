@@ -16,11 +16,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import axios from "axios";
-import { allUserOrg, updateOrg } from "../apis/OrganizationApi";
 import {
   createOrgBranch,
   updateOrgBranch,
 } from "../apis/OrganizationBranchApi";
+import OrgInput from "./common/OrgInput";
 
 const OrganizationBranchForm = () => {
   const { id } = useParams();
@@ -44,8 +44,6 @@ const OrganizationBranchForm = () => {
     companyType: "",
   });
 
-  const [organizationOptions, setOrganizationOptions] = useState([]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log(name, value, "name", "value");
@@ -59,15 +57,17 @@ const OrganizationBranchForm = () => {
   const handleSubmit = async () => {
     try {
       if (id) {
-        updateOrgBranch(formData, id);
-        navigate("/organizationBranchPage");
+        await updateOrgBranch(
+          { ...formData, organization: formData.organization.value },
+          id
+        );
       } else {
-        createOrgBranch(formData);
-        navigate("/organizationBranchPage");
+        await createOrgBranch(formData);
       }
+      navigate("/organizationBranchPage");
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("error");
+      alert("Error submitting form");
     }
   };
 
@@ -82,25 +82,30 @@ const OrganizationBranchForm = () => {
           },
         }
       );
-      console.log("response", response.data.data);
-      setFormData(response.data.data);
+      console.log("response=========", response.data.data);
+      setFormData({
+        ...response.data.data,
+        organization: {
+          label: response.data.data.organization.organizationName,
+          value: response.data.data.organization._id || "",
+        },
+      });
     }
-  };
-
-  const callGetAllOrg = async () => {
-    const response = await allUserOrg();
-    console.log("response", response.data.data);
-    setOrganizationOptions(response.data.data);
   };
 
   useEffect(() => {
     callApi();
-    callGetAllOrg();
   }, []);
 
-  console.log(formData, "=====formData");
+  const handleOrganizationChange = (selectedOrg) => {
+    console.log("selectedOrg", selectedOrg);
+    setFormData((prev) => ({
+      ...prev,
+      organization: selectedOrg ? selectedOrg.value : "",
+    }));
+  };
 
-  console.log("organizationOptions", organizationOptions);
+  console.log("finallllllll form data==", formData);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -122,7 +127,7 @@ const OrganizationBranchForm = () => {
 
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField
+              {/* <TextField
                 select
                 fullWidth
                 label="Organization Name"
@@ -137,7 +142,11 @@ const OrganizationBranchForm = () => {
                     {option.organizationName}
                   </MenuItem>
                 ))}
-              </TextField>
+              </TextField> */}
+              <OrgInput
+                onChange={handleOrganizationChange}
+                value={formData.organization}
+              />
             </Grid>
             <Grid item xs={6}>
               <TextField

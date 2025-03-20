@@ -12,7 +12,7 @@ exports.getAllUserOrganizationService = async (userId) => {
     .populate("userId")
     .lean();
 };
- 
+
 exports.getOrganizationService = async (orgId) => {
   return await Organization.findById(orgId).populate("userId").lean();
 };
@@ -41,15 +41,10 @@ exports.deleteOrganizationService = async (orgId) => {
 exports.searchOrganizationService = async (orgText) => {
   let findObject = { isDeleted: false };
 
-<<<<<<< HEAD
-  if (orgText.trim() !== "") {
-    findObject.$or = [
-      { organizationName: { $regex: `^${orgText}`, $options: "i" } },
-    ];
-  }
-=======
-  return await Organization.find({organizationName:{ $regex: orgText , $options : "i"} , isDeleted:false }).limit(5);
->>>>>>> 6634a93bc03d463254297719c4f0047243cf4e42
+  return await Organization.find({
+    organizationName: { $regex: orgText, $options: "i" },
+    isDeleted: false,
+  }).limit(5);
 
   return await Organization.find(findObject).limit(5); // Increase limit if needed
 };
