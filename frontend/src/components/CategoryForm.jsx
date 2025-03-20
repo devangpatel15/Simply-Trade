@@ -22,7 +22,6 @@ import OrgBranchInput from "./common/OrgBranchInput";
 const CategoryForm = () => {
   const { id } = useParams();
 
-  console.log("======id", id);
 
   const navigate = useNavigate();
 

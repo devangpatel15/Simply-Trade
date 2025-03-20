@@ -18,8 +18,6 @@ import { getBranchModel } from "../apis/ModelApi";
 const DeviceForm = () => {
   const { id } = useParams();
 
-  console.log("======id", id);
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -60,31 +58,25 @@ const DeviceForm = () => {
   const callApi = async () => {
     if (id) {
       const response = await getOneDevice(id);
-      console.log("response========", response.data.data);
       setFormData(response.data.data);
     }
   };
 
   const callGetAllOrg = async () => {
     const response = await allUserOrg();
-    console.log("response", response.data.data);
     setOrganizationOptions(response.data.data);
   };
 
   const callGetOrgBranch = async () => {
-    console.log("hello");
     const response = await getOrgBranch(formData.organization);
-    console.log("response of branch", response.data.data);
     setBranchOptions(response.data.data);
   };
 
   const callGetSelectedModel = async () => {
     const response = await getBranchModel(formData.branchName);
-    console.log("response of model", response.data.data);
     setCategoryOptions(response.data.data);
   };
 
-  console.log("formData", formData);
 
   useEffect(() => {
     callApi();

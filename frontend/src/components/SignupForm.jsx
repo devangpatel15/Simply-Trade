@@ -36,7 +36,6 @@ const SignupForm = () => {
     e.preventDefault();
     setMessage(null);
     setError(null);
-    console.log(formData);
 
     try {
       const response = await axios.post(

@@ -29,7 +29,6 @@ const OtpForm = () => {
           },
         }
       );
-      console.log("response =========================== ", response);
       // localStorage.setItem(`Bearer ${response}`);
 
       navigate("/dashboard");

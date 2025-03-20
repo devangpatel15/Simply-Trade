@@ -55,7 +55,7 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
   };
 
   const handleDelete = async () => {
-    console.log("_id --", _id);
+   
 
     fieldName == "organizationForm"
       ? deleteOrg(_id)

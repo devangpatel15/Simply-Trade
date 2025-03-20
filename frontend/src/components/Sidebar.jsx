@@ -83,8 +83,6 @@ const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  console.log("location", location);
-
   const [openMaster, setOpenMaster] = useState(false);
   const [openReport, setOpenReport] = useState(false);
 
