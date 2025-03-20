@@ -5,7 +5,7 @@ exports.getAllCategoryService = async () => {
 };
 
 exports.getCategoryService = async (catId) => {
-  return await Category.findById(catId).populate("organization branchName").lean();
+  return await Category.findById(catId).populate("orgId orgBranchId").lean();
 };
 // FIXME:
 exports.getUserCategoryService = async (userId) => {
