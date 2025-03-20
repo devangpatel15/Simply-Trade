@@ -85,7 +85,7 @@ const CapacityPage = () => {
                   textTransform: "none",
                 }}
                 component={Link}
-                to="/categoryForm"
+                to="/capacityForm"
               >
                 Add Category
               </Button>
