@@ -97,7 +97,7 @@ const OrganizationForm = () => {
             backgroundColor: "#f9f9f9",
             borderRadius: 2,
             margin: "auto",
-            marginTop: "4rem",
+            marginTop: "3rem",
           }}
         >
           <Typography variant="h5" sx={{ mb: 2, color: " #4C2D85" }}>
