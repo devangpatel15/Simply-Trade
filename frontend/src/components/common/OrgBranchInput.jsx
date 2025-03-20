@@ -10,20 +10,11 @@ const OrgBranchInput = ({ onChange, value, selectedOrganization }) => {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // const callGetOrgBranch = async () => {
-  //   const response = await getOrgBranch(value);
-  //   console.log("response of branch", response.data.data);
-  //   setBranchOptions(response.data.data);
-  // };
-
-  // useEffect(() => {
-  //   callGetOrgBranch();
-  // }, [value]);
-
   // Debounced API call wrapped in useCallback to avoid unnecessary recreations
   const fetchOrganizations = useCallback(
-    debounce(async (query) => {
+    debounce(async () => {
       setLoading(true);
+
       try {
         const response = await axios.get(
           `http://localhost:4000/api/selectOrganizationBranch/${selectedOrganization}`,
@@ -48,7 +39,7 @@ const OrgBranchInput = ({ onChange, value, selectedOrganization }) => {
         setLoading(false);
       }
     }, 500),
-    []
+    [selectedOrganization]
   );
 
   // Fetch organizations when inputValue changes
@@ -74,7 +65,7 @@ const OrgBranchInput = ({ onChange, value, selectedOrganization }) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Search Organization"
+          label="Search Organization Branch"
           variant="outlined"
           InputProps={{
             ...params.InputProps,

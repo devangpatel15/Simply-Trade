@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const CategoryInput = ({ onChange, value }) => {
+const CategoryInput = ({ onChange, value, branchId }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,14 +16,11 @@ const CategoryInput = ({ onChange, value }) => {
       setLoading(true);
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/searchCategory",
-          {
-            params: { text: query },
-          }
+          `http://localhost:4000/api/selectCategoryByBranch/${branchId}`
         );
 
         const formattedOptions = (response.data.data || []).map((org) => ({
-          label: org.branchName,
+          label: org.categoryName,
           value: org._id,
         }));
 
@@ -35,7 +32,7 @@ const CategoryInput = ({ onChange, value }) => {
         setLoading(false);
       }
     }, 500),
-    []
+    [branchId]
   );
 
   // Fetch organizations when inputValue changes
@@ -61,7 +58,7 @@ const CategoryInput = ({ onChange, value }) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Search Organization"
+          label="Search Category"
           variant="outlined"
           InputProps={{
             ...params.InputProps,
