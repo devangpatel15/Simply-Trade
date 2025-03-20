@@ -15,11 +15,8 @@ import axios from "axios";
 import { allUserOrg } from "../apis/OrganizationApi";
 import { createModel, findOneModel, updateModel } from "../apis/ModelApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
-<<<<<<< HEAD
 import { getBranchCategory } from "../apis/CategoryApi";
-=======
 import OrgInput from "./common/OrgInput";
->>>>>>> b0d737063a32c0f54908a2b535fd8f64993fc6f4
 
 const ModelForm = () => {
   const { id } = useParams();
@@ -67,35 +64,8 @@ const ModelForm = () => {
   const callApi = async () => {
     if (id) {
       const response = await findOneModel(id);
-<<<<<<< HEAD
       console.log("response====modellll", response.data.data);
       setFormData(response.data.data);
-=======
-
-      console.log(response.data, "data============");
-
-      if (response && response.data) {
-        let finalData = {
-          organization:
-            response &&
-            response.data &&
-            response.data.organization &&
-            response.data.organization._id,
-          categoryId:
-            response &&
-            response.data &&
-            response.data.categoryId &&
-            response.data.categoryId._id,
-          modelName: response && response.data && response.data.modelName,
-        };
-
-        setFormData(finalData);
-      } else {
-        setFormData(null);
-      }
-
-      // setFormData(response.data.data { organization : response.data.data. , branchName:branchName , });
->>>>>>> b0d737063a32c0f54908a2b535fd8f64993fc6f4
     }
   };
 
