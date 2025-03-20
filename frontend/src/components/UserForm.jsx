@@ -37,6 +37,7 @@ const UserForm = () => {
     mobileNo: "",
     password: "",
   });
+  const [selectedOrganization, setSelectedOrganization] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,6 +100,7 @@ const UserForm = () => {
   }, []);
 
   const handleOrganizationChange = (selectedOrg) => {
+    setSelectedOrganization(selectedOrg.value);
     setFormData((prev) => ({
       ...prev,
       organization: selectedOrg,
@@ -172,6 +174,7 @@ const UserForm = () => {
               <OrgBranchInput
                 onChange={handleOrganizationBranchChange}
                 value={formData.orgBranch}
+                selectedOrganization={selectedOrganization}
               />
             </Grid>
             <Grid item xs={6}>

@@ -101,10 +101,10 @@ const OrganizationBranchForm = () => {
   }, []);
 
   const handleOrganizationChange = (selectedOrg) => {
-    console.log("selectedOrg", selectedOrg);
     setFormData((prev) => ({
       ...prev,
       organization: selectedOrg,
+      orgId: selectedOrg.value,
     }));
   };
 
