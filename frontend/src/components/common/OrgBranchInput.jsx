@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { debounce } from "lodash";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const OrgInput = ({ onChange, value }) => {
+const OrgBranchInput = ({ onChange, value }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,14 +16,14 @@ const OrgInput = ({ onChange, value }) => {
       setLoading(true);
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/searchOrg",
+          "http://localhost:4000/api/searchOrgBranch",
           {
             params: { text: query },
           }
         );
 
         const formattedOptions = (response.data.data || []).map((org) => ({
-          label: org.organizationName,
+          label: org.branchName,
           value: org._id,
         }));
 
@@ -80,4 +80,4 @@ const OrgInput = ({ onChange, value }) => {
   );
 };
 
-export default OrgInput;
+export default OrgBranchInput;
