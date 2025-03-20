@@ -41,18 +41,11 @@ exports.deleteOrganizationService = async (orgId) => {
 exports.searchOrganizationService = async (orgText) => {
   let findObject = { isDeleted: false };
 
-<<<<<<< HEAD
-  return await Organization.find({
-    organizationName: { $regex: orgText, $options: "i" },
-    isDeleted: false,
-  }).limit(5);
-=======
   if (orgText.trim() !== "") {
     findObject.$or = [
       { organizationName: { $regex: `^${orgText}`, $options: "i" } },
     ];
   }
->>>>>>> 5490163386ab6474c0abec6acd305f9f2c666969
 
   return await Organization.find(findObject).limit(5); // Increase limit if needed
 };

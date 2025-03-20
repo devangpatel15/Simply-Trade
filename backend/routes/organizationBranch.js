@@ -44,10 +44,7 @@ organizationBranchRoute.get(
 
 organizationBranchRoute.get("/searchOrg", searchOrganization);
 
-organizationBranchRoute.get(
-  "/searchOrgBranch",
-  searchOrgBranch
-);
+organizationBranchRoute.get("/searchOrgBranch", searchOrgBranch);
 organizationBranchRoute.get(
   "/selectOrganizationBranch/:id",
   AuthUser,
