@@ -15,7 +15,11 @@ import axios from "axios";
 import { allUserOrg } from "../apis/OrganizationApi";
 import { createModel, findOneModel, updateModel } from "../apis/ModelApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
+<<<<<<< HEAD
 import { getBranchCategory } from "../apis/CategoryApi";
+=======
+import OrgInput from "./common/OrgInput";
+>>>>>>> b0d737063a32c0f54908a2b535fd8f64993fc6f4
 
 const ModelForm = () => {
   const { id } = useParams();
@@ -25,7 +29,7 @@ const ModelForm = () => {
 
   const [formData, setFormData] = useState({
     organization: "",
-    branchName: "",
+    orgBranch: "",
     modelName: "",
     categoryId: "",
   });
@@ -63,8 +67,35 @@ const ModelForm = () => {
   const callApi = async () => {
     if (id) {
       const response = await findOneModel(id);
+<<<<<<< HEAD
       console.log("response====modellll", response.data.data);
       setFormData(response.data.data);
+=======
+
+      console.log(response.data, "data============");
+
+      if (response && response.data) {
+        let finalData = {
+          organization:
+            response &&
+            response.data &&
+            response.data.organization &&
+            response.data.organization._id,
+          categoryId:
+            response &&
+            response.data &&
+            response.data.categoryId &&
+            response.data.categoryId._id,
+          modelName: response && response.data && response.data.modelName,
+        };
+
+        setFormData(finalData);
+      } else {
+        setFormData(null);
+      }
+
+      // setFormData(response.data.data { organization : response.data.data. , branchName:branchName , });
+>>>>>>> b0d737063a32c0f54908a2b535fd8f64993fc6f4
     }
   };
 
@@ -80,7 +111,7 @@ const ModelForm = () => {
     setBranchOptions(response.data.data);
   };
   const callGetSelectedCategory = async () => {
-    const response = await getBranchCategory(formData.branchName);
+    const response = await getBranchCategory(formData.orgBranch);
     console.log("response of category ", response.data.data);
     setCategoryOptions(response.data.data);
   };
@@ -96,12 +127,12 @@ const ModelForm = () => {
 
   useEffect(() => {
     callGetSelectedCategory();
-  }, [formData.branchName]);
+  }, [formData.orgBranch]);
 
   console.log("cat options", categoryOptions);
 
   return (
-    <Box sx={{ display: "flex", marginTop: "4rem" }}>
+    <Box sx={{ display: "flex" }}>
       <Sidebar />
       <Box sx={{ flexGrow: 1 }}>
         <Header />
@@ -112,6 +143,7 @@ const ModelForm = () => {
             display: "flex",
             flexDirection: "column",
             gap: 2,
+            marginTop: "4rem",
           }}
         >
           <Typography
@@ -127,10 +159,11 @@ const ModelForm = () => {
           >
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <TextField
+                <OrgInput />
+                {/* <TextField
                   select
                   fullWidth
-                  label="Organization Name"
+                  label="Organization Branch"
                   variant="outlined"
                   name="organization"
                   value={formData.organization || ""}
@@ -142,17 +175,16 @@ const ModelForm = () => {
                       {option.organizationName}
                     </MenuItem>
                   ))}
-                </TextField>
+                </TextField> */}
               </Grid>
-
               <Grid item xs={6}>
                 <TextField
                   select
                   fullWidth
-                  label="OrganizationBranch Name"
+                  label="Organization Branch"
                   variant="outlined"
-                  name="branchName"
-                  value={formData.branchName || ""}
+                  name="orgBranch"
+                  value={formData.orgBranch || ""}
                   onChange={handleChange}
                   required
                 >

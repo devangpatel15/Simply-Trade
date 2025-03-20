@@ -87,7 +87,7 @@ const OrganizationForm = () => {
   }, []);
 
   return (
-    <Box sx={{ display: "flex", marginTop: "4rem" }}>
+    <Box sx={{ display: "flex" }}>
       <Sidebar />
       <Box sx={{ flexGrow: 1 }}>
         <Header />

@@ -48,3 +48,15 @@ exports.deleteColorServices = async (colorId) => {
     ).lean();
     return data;
 };
+
+exports.searchColorServices = async (orgText) => {
+  let findObject = { isDeleted: false };
+
+  if (orgText.trim() !== "") {
+    findObject.$or = [
+      { colorName: { $regex: `^${orgText}`, $options: "i" } },
+    ];
+  }
+
+  return await Color.find(findObject).limit(5); // Increase limit if needed
+};

@@ -7,6 +7,10 @@ exports.getAllCategoryService = async () => {
 exports.getCategoryService = async (catId) => {
   return await Category.findById(catId).lean();
 };
+// FIXME:
+exports.getUserCategoryService = async (userId) => {
+  return await Category.find({isDeleted: false,orgId:userId}).lean();
+};
 
 exports.selectCategoryByBranchService = async (branchId) => {
   return await Category.find({
@@ -29,4 +33,16 @@ exports.softDeleteCategoryService = async (catId) => {
 
 exports.deleteCategoryService = async (catId) => {
   return await Category.findByIdAndDelete(catId);
+};
+
+exports.searchCategoryService = async (orgText) => {
+  let findObject = { isDeleted: false };
+
+  if (orgText.trim() !== "") {
+    findObject.$or = [
+      { categoryName: { $regex: `^${orgText}`, $options: "i" } },
+    ];
+  }
+
+  return await Category.find(findObject).limit(5); // Increase limit if needed
 };

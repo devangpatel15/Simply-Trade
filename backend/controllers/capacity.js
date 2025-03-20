@@ -6,6 +6,7 @@ const {
   deleteCapacityService,
   softDeleteCapacityService,
   selectCapacityByDeviceService,
+  searchCapacityService,
 } = require("../services/capacity");
 
 exports.getAllCapacity = async (req, res) => {
@@ -115,6 +116,26 @@ exports.deleteCapacity = async (req, res) => {
     }
 
     return res.status(200).json({ message: "Capacity deleted", data: cat });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+
+exports.searchCapacity = async (req, res) => {
+  try {
+    const orgText = req.query.text || "";
+
+    const org = await searchCapacityService(orgText);
+
+    if (!org) {
+      return res.status(404).json({ message: "searchCapacity not found" });
+    }
+    return res
+      .status(200)
+      .json({ message: "searchCapacity searched successfully", data: org });
   } catch (err) {
     return res
       .status(500)

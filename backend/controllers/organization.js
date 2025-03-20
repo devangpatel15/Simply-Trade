@@ -9,6 +9,7 @@ const {
   deleteOrganizationService,
   getAllUserOrganizationService,
   softDeleteOrganizationService,
+  searchOrganizationService,
   findOrgService,
 } = require("../services/organization");
 const {
@@ -95,10 +96,9 @@ exports.createOrganization = async (req, res) => {
       email,
       companyType,
     } = createdOrg;
-    console.log(createdOrg)
 
     const branchData = {
-      organization:_id ,
+      organization: _id,
       branchName: organizationName, // Default branch name to organization name
       primaryAddress,
       addressLine1,
@@ -112,10 +112,8 @@ exports.createOrganization = async (req, res) => {
       mobile: telePhone, // Reuse telephone for mobile
       email,
       companyType,
-      isDeleted:false,
+      isDeleted: false,
     };
-    console.log(branchData);
-    
 
     // Step 3: Validate and create the branch
 
@@ -187,6 +185,29 @@ exports.deleteOrganization = async (req, res) => {
       return res.status(404).json({ message: "Organization not found" });
     }
     return res.status(200).json({ message: "Organization deleted", data: org });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.searchOrganization = async (req, res) => {
+  try {
+    const orgText = req.query.text || "";
+
+    const org = await searchOrganizationService(orgText);
+<<<<<<< HEAD
+=======
+
+   
+>>>>>>> 5490163386ab6474c0abec6acd305f9f2c666969
+    if (!org) {
+      return res.status(404).json({ message: "Organization not found" });
+    }
+    return res
+      .status(200)
+      .json({ message: "Organization searched successfully", data: org });
   } catch (err) {
     return res
       .status(500)

@@ -25,35 +25,36 @@ exports.sendVerificationEmail = async (email, code) => {
   }
 };
 
-
-
-exports.findUserServices=async (email) => {
+exports.findUserServices = async (email) => {
   const userData = await User.findOne({ email });
-  return userData
+  return userData;
+};
+
+exports.findAllUserServices = async () => {
+  const data = await User.find({ isDeleted: false }).lean();
 }
 
-exports.findAllUserServices = async (userid) => {
+exports.findAllUserServices = async () => {
   
-   const data = await User.findById(userid).lean();
+   const data = await User.find({isDeleted : false}).lean();
   
   return data;
 };
 exports.findOneUserServices = async (id) => {
-  
-   const  data = await User.findById(id).lean();
-  
+  const data = await User.findById(id).lean();
+
   return data;
 };
-
 
 exports.createUserServices = async (data) => {
   const userData = await User.create(data);
   return userData;
 };
 
-exports.updateUserServices = async (userID,data) => {
-
-  const userData = await User.findByIdAndUpdate(userID,data,{new:true}).lean();
+exports.updateUserServices = async (userID, data) => {
+  const userData = await User.findByIdAndUpdate(userID, data, {
+    new: true,
+  }).lean();
 
   return userData;
 };
@@ -61,7 +62,6 @@ exports.updateUserServices = async (userID,data) => {
 exports.softDeleteUserService = async (userID) => {
   return await User.findByIdAndUpdate(userID, { isDeleted: true });
 };
-
 
 exports.deleteUserServices = async (userID) => {
   const userData = await User.findByIdAndDelete(userID).lean();
