@@ -22,7 +22,6 @@ import OrgBranchInput from "./common/OrgBranchInput";
 const CategoryForm = () => {
   const { id } = useParams();
 
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -30,6 +29,8 @@ const CategoryForm = () => {
     orgBranchId: null,
     orgId: null,
   });
+
+  const [selectedOrganization, setSelectedOrganization] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -88,6 +89,7 @@ const CategoryForm = () => {
   }, []);
 
   const handleOrganizationChange = (selectedOrg) => {
+    setSelectedOrganization(selectedOrg.value);
     setFormData((prev) => ({
       ...prev,
       orgId: selectedOrg,
@@ -169,6 +171,7 @@ const CategoryForm = () => {
                 <OrgBranchInput
                   onChange={handleOrganizationBranchChange}
                   value={formData.orgBranchId}
+                  selectedOrganization={selectedOrganization}
                 />
               </Grid>
             </Grid>
