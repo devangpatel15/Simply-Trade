@@ -17,6 +17,7 @@ const {
   validateDeleteOrganizationBranchData,
 } = require("../middleware/organizationBranch");
 const { AuthUser } = require("../middleware/user");
+const { searchOrganization } = require("../controllers/organization");
 const organizationBranchRoute = express.Router();
 
 organizationBranchRoute.get(
@@ -37,10 +38,7 @@ organizationBranchRoute.get(
 
 organizationBranchRoute.get("/searchOrg", searchOrganization);
 
-organizationBranchRoute.get(
-  "/searchOrgBranch",
-  searchOrgBranch
-);
+organizationBranchRoute.get("/searchOrgBranch", searchOrgBranch);
 organizationBranchRoute.get(
   "/selectOrganizationBranch/:id",
   AuthUser,

@@ -9,11 +9,7 @@ exports.findAllOrganizationBranchServices = async () => {
 };
 exports.findOneOrganizationBranchServices = async (id) => {
   const data = await OrganizationBranch.findById(id)
-<<<<<<< HEAD
     .populate("userId branchName organization")
-=======
-    .populate("userId branchName")
->>>>>>> 5490163386ab6474c0abec6acd305f9f2c666969
     .lean();
 
   return data;
@@ -69,9 +65,7 @@ exports.searchOrgBranchService = async (orgText) => {
   let findObject = { isDeleted: false };
 
   if (orgText.trim() !== "") {
-    findObject.$or = [
-      { branchName: { $regex: `^${orgText}`, $options: "i" } },
-    ];
+    findObject.$or = [{ branchName: { $regex: `^${orgText}`, $options: "i" } }];
   }
 
   return await OrganizationBranch.find(findObject).limit(5); // Increase limit if needed
