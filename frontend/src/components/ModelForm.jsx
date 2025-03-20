@@ -10,7 +10,6 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import { allUserOrg } from "../apis/OrganizationApi";
 import { createModel, findOneModel, updateModel } from "../apis/ModelApi";
@@ -92,6 +91,24 @@ const ModelForm = () => {
     callGetSelectedCategory();
   }, [formData.orgBranch]);
 
+<<<<<<< HEAD
+  console.log("cat options", categoryOptions);
+
+  const handleOrganizationChange = (selectedOrg) => {
+    setFormData((prev) => ({
+      ...prev,
+      orgId: selectedOrg,
+    }));
+  };
+  const handleOrganizationBranchChange = (selectedOrgBranch) => {
+    setFormData((prev) => ({
+      ...prev,
+      orgBranchId: selectedOrgBranch,
+    }));
+  };
+
+=======
+>>>>>>> eb76992da73ff57fd520b468e7fbbb476cd0d3b5
   return (
     <Box sx={{ display: "flex" }}>
       <Sidebar />
@@ -120,23 +137,7 @@ const ModelForm = () => {
           >
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <OrgInput />
-                {/* <TextField
-                  select
-                  fullWidth
-                  label="Organization Branch"
-                  variant="outlined"
-                  name="organization"
-                  value={formData.organization || ""}
-                  onChange={handleChange}
-                  required
-                >
-                  {organizationOptions.map((option) => (
-                    <MenuItem key={option._id} value={option._id}>
-                      {option.organizationName}
-                    </MenuItem>
-                  ))}
-                </TextField> */}
+                {/* <OrgInput onChange={} /> */}
               </Grid>
               <Grid item xs={6}>
                 <TextField

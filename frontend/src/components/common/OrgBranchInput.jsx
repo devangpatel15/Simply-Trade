@@ -5,20 +5,24 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const OrgBranchInput = ({ onChange, value }) => {
+const OrgBranchInput = ({ onChange, value, selectedOrganization }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // Debounced API call wrapped in useCallback to avoid unnecessary recreations
   const fetchOrganizations = useCallback(
-    debounce(async (query) => {
+    debounce(async () => {
       setLoading(true);
+
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/searchOrgBranch",
+          `http://localhost:4000/api/selectOrganizationBranch/${selectedOrganization}`,
           {
-            params: { text: query },
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
           }
         );
 
@@ -35,7 +39,7 @@ const OrgBranchInput = ({ onChange, value }) => {
         setLoading(false);
       }
     }, 500),
-    []
+    [selectedOrganization]
   );
 
   // Fetch organizations when inputValue changes
@@ -61,7 +65,7 @@ const OrgBranchInput = ({ onChange, value }) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Search Organization"
+          label="Search Organization Branch"
           variant="outlined"
           InputProps={{
             ...params.InputProps,

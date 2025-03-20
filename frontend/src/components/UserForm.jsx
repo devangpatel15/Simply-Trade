@@ -15,17 +15,12 @@ import {
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import axios from "axios";
-import { allUserOrg } from "../apis/OrganizationApi";
 import { createUser, getOneUser, updateUser } from "../apis/UserApi";
-import { getOrgBranch } from "../apis/OrganizationBranchApi";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 
 const UserForm = () => {
   const { id } = useParams();
-
-  console.log("======id", id);
 
   const navigate = useNavigate();
 
@@ -37,6 +32,7 @@ const UserForm = () => {
     mobileNo: "",
     password: "",
   });
+  const [selectedOrganization, setSelectedOrganization] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,7 +47,7 @@ const UserForm = () => {
   const handleSubmit = async () => {
     try {
       if (id) {
-        updateUser(
+        await updateUser(
           {
             ...formData,
             organization: formData.organization.value,
@@ -61,7 +57,7 @@ const UserForm = () => {
         );
         navigate("/userPage");
       } else {
-        createUser({
+        await createUser({
           ...formData,
           organization: formData.organization.value,
           orgBranch: formData.orgBranch.value,
@@ -103,12 +99,13 @@ const UserForm = () => {
       ...prev,
       organization: selectedOrg,
     }));
+    setSelectedOrganization(selectedOrg.value);
   };
 
   const handleOrganizationBranchChange = (selectedOrgBranch) => {
     setFormData((prev) => ({
       ...prev,
-      orgBranchId: selectedOrgBranch,
+      orgBranch: selectedOrgBranch,
     }));
   };
 
@@ -131,47 +128,16 @@ const UserForm = () => {
 
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              {/* <TextField
-                select
-                fullWidth
-                label="Organization Name"
-                variant="outlined"
-                name="organization"
-                value={formData.organization || ""}
-                onChange={handleChange}
-                required
-              >
-                {organizationOptions.map((option) => (
-                  <MenuItem key={option._id} value={option._id}>
-                    {option.organizationName}
-                  </MenuItem>
-                ))}
-              </TextField> */}
               <OrgInput
                 onChange={handleOrganizationChange}
                 value={formData.organization}
               />
             </Grid>
             <Grid item xs={6}>
-              {/* <TextField
-                select
-                fullWidth
-                label="Organization Branch"
-                variant="outlined"
-                name="orgBranch"
-                value={formData.orgBranch || ""}
-                onChange={handleChange}
-                required
-              >
-                {branchOptions.map((option) => (
-                  <MenuItem key={option._id} value={option._id}>
-                    {option.branchName}
-                  </MenuItem>
-                ))}
-              </TextField> */}
               <OrgBranchInput
                 onChange={handleOrganizationBranchChange}
                 value={formData.orgBranch}
+                selectedOrganization={selectedOrganization}
               />
             </Grid>
             <Grid item xs={6}>

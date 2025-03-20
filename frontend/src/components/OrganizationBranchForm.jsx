@@ -102,6 +102,7 @@ const OrganizationBranchForm = () => {
     setFormData((prev) => ({
       ...prev,
       organization: selectedOrg,
+      orgId: selectedOrg.value,
     }));
   };
 
