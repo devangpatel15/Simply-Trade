@@ -17,6 +17,7 @@ const {
   validateDeleteOrganizationBranchData,
 } = require("../middleware/organizationBranch");
 const { AuthUser } = require("../middleware/user");
+const { searchOrganization } = require("../controllers/organization");
 const organizationBranchRoute = express.Router();
 
 organizationBranchRoute.get(
