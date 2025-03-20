@@ -4,18 +4,20 @@ const jwt = require("jsonwebtoken");
 
 exports.AuthUser = (req, res, next) => {
   // const token = req.headers("Authorization");
-  const token = req.headers["authorization"];
+  const token = req.headers["authorization"] || req.headers["Authorization"];
 
   if (!token) {
-    return res.status(401).json({ message: "token is required" });
+    return res.status(401).json({ message: "Unauthorized" });
   }
   try {
     const jwtToken = token.split(" ")[1];
     const decoded = jwt.verify(jwtToken, process.env.JWT_SECRET);
+    console.log(decoded, "decode----");
+
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({ message: "token invalid" });
+    return res.status(500).json({ message: "Middleware error" });
   }
 };
 
