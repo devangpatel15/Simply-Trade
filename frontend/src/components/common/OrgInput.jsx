@@ -18,7 +18,11 @@ const OrgInput = ({ onChange, value }) => {
         const response = await axios.get(
           "http://localhost:4000/api/searchOrg",
           {
-            params: { text: query },
+            params: { text: query }, // Query parameters
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }, // Request headers
           }
         );
 

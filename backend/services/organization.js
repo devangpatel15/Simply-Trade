@@ -38,8 +38,8 @@ exports.deleteOrganizationService = async (orgId) => {
   return await Organization.findByIdAndDelete(orgId);
 };
 
-exports.searchOrganizationService = async (orgText) => {
-  let findObject = { isDeleted: false };
+exports.searchOrganizationService = async (orgText,userId) => {
+  let findObject = { userId, isDeleted: false };
 
   if (orgText.trim() !== "") {
     findObject.$or = [
