@@ -28,7 +28,7 @@ const OrganizationBranchForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    organization: "",
+    organization: null,
     branchName: "",
     primaryAddress: "",
     addressLine1: "",
@@ -62,7 +62,10 @@ const OrganizationBranchForm = () => {
           id
         );
       } else {
-        await createOrgBranch(formData);
+        await createOrgBranch({
+          ...formData,
+          organization: formData.organization.value,
+        });
       }
       navigate("/organizationBranchPage");
     } catch (error) {
@@ -101,7 +104,7 @@ const OrganizationBranchForm = () => {
     console.log("selectedOrg", selectedOrg);
     setFormData((prev) => ({
       ...prev,
-      organization: selectedOrg ? selectedOrg.value : "",
+      organization: selectedOrg,
     }));
   };
 

@@ -17,6 +17,8 @@ import {
 } from "../apis/CategoryApi";
 import { allUserOrg } from "../apis/OrganizationApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
+import OrgInput from "./common/OrgInput";
+import OrgBranchInput from "./common/OrgBranchInput";
 
 const CategoryForm = () => {
   const { id } = useParams();
@@ -27,12 +29,9 @@ const CategoryForm = () => {
 
   const [formData, setFormData] = useState({
     categoryName: "",
-    orgBranchId: "",
-    orgId: "",
+    orgBranchId: null,
+    orgId: null,
   });
-
-  const [organizationOptions, setOrganizationOptions] = useState([]);
-  const [branchOptions, setBranchOptions] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,10 +45,21 @@ const CategoryForm = () => {
   const handleSubmit = async () => {
     try {
       if (id) {
-        updateCategory(formData, id);
+        await updateCategory(
+          {
+            ...formData,
+            orgId: formData.orgId.value,
+            orgBranchId: formData.orgBranchId.value,
+          },
+          id
+        );
         navigate("/category");
       } else {
-        createCategory(formData);
+        await createCategory({
+          ...formData,
+          orgId: formData.orgId.value,
+          orgBranchId: formData.orgBranchId.value,
+        });
         navigate("/category");
       }
     } catch (error) {
@@ -61,37 +71,37 @@ const CategoryForm = () => {
   const callApi = async () => {
     if (id) {
       const response = await getOneCategory(id);
-      console.log("response========", response.data.data);
-      setFormData(response.data.data);
+      console.log("categryyyy========", response.data.data);
+      setFormData({
+        ...response.data.data,
+        organization: {
+          label: response.data.data.organization.organizationName,
+          value: response.data.data.organization._id || "",
+        },
+      });
     }
   };
 
-  const callGetAllOrg = async () => {
-    const response = await allUserOrg();
-    console.log("response", response.data.data);
-    setOrganizationOptions(response.data.data);
-  };
-
-  const callGetOrgBranch = async () => {
-    console.log("hello");
-    const response = await getOrgBranch(formData.orgId);
-    console.log("response of branch", response.data.data);
-    setBranchOptions(response.data.data);
-  };
-
-  console.log("formData", formData);
-
   useEffect(() => {
     callApi();
-    callGetAllOrg();
   }, []);
 
-  useEffect(() => {
-    callGetOrgBranch();
-  }, [formData.orgId]);
+  const handleOrganizationChange = (selectedOrg) => {
+    console.log("selectedOrg=======", selectedOrg);
+    setFormData((prev) => ({
+      ...prev,
+      orgId: selectedOrg,
+    }));
+  };
+  const handleOrganizationBranchChange = (selectedOrgBranch) => {
+    console.log("selectedOrgBranch", selectedOrgBranch);
+    setFormData((prev) => ({
+      ...prev,
+      orgBranchId: selectedOrgBranch,
+    }));
+  };
 
-  console.log("branchOption", branchOptions);
-
+  console.log("formData========", formData);
   return (
     <Box sx={{ display: "flex" }}>
       <Sidebar />
@@ -120,7 +130,7 @@ const CategoryForm = () => {
           >
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <TextField
+                {/* <TextField
                   select
                   fullWidth
                   label="Organization Name"
@@ -135,10 +145,14 @@ const CategoryForm = () => {
                       {option.organizationName}
                     </MenuItem>
                   ))}
-                </TextField>
+                </TextField> */}
+                <OrgInput
+                  onChange={handleOrganizationChange}
+                  value={formData.orgId}
+                />
               </Grid>
               <Grid item xs={6}>
-                <TextField
+                {/* <TextField
                   select
                   fullWidth
                   label="Organization Branch"
@@ -153,7 +167,11 @@ const CategoryForm = () => {
                       {option.branchName}
                     </MenuItem>
                   ))}
-                </TextField>
+                </TextField> */}
+                <OrgBranchInput
+                  onChange={handleOrganizationBranchChange}
+                  value={formData.orgBranchId}
+                />
               </Grid>
             </Grid>
           </Box>
