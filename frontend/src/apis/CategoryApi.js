@@ -76,10 +76,28 @@ const updateCategory = async (formData, id) => {
   }
 };
 
+const getBranchCategory = async (branchId) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:4000/api/selectCategoryByBranch/${branchId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(error, "createOrg error");
+  }
+};
+
 export {
   createCategory,
   getAllCategory,
   getOneCategory,
   deleteCategory,
   updateCategory,
+  getBranchCategory,
 };

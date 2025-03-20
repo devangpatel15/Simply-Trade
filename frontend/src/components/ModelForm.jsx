@@ -13,14 +13,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import { allUserOrg } from "../apis/OrganizationApi";
-import {
-  createModel,
-  findOneModel,
-  getBranchCategory,
-  updateModel,
-} from "../apis/ModelApi";
+import { createModel, findOneModel, updateModel } from "../apis/ModelApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
+<<<<<<< HEAD
+import { getBranchCategory } from "../apis/CategoryApi";
+=======
 import OrgInput from "./common/OrgInput";
+>>>>>>> b0d737063a32c0f54908a2b535fd8f64993fc6f4
 
 const ModelForm = () => {
   const { id } = useParams();
@@ -68,6 +67,10 @@ const ModelForm = () => {
   const callApi = async () => {
     if (id) {
       const response = await findOneModel(id);
+<<<<<<< HEAD
+      console.log("response====modellll", response.data.data);
+      setFormData(response.data.data);
+=======
 
       console.log(response.data, "data============");
 
@@ -92,6 +95,7 @@ const ModelForm = () => {
       }
 
       // setFormData(response.data.data { organization : response.data.data. , branchName:branchName , });
+>>>>>>> b0d737063a32c0f54908a2b535fd8f64993fc6f4
     }
   };
 

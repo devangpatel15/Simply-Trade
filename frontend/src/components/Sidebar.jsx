@@ -75,7 +75,7 @@ import DevicesIcon from "@mui/icons-material/Devices";
 import ColorizeIcon from "@mui/icons-material/Colorize";
 import OnDeviceTrainingIcon from "@mui/icons-material/OnDeviceTraining";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import StorageIcon from '@mui/icons-material/Storage';
+import StorageIcon from "@mui/icons-material/Storage";
 
 const iconColor = "#5C4E89"; // Custom icon color
 
@@ -199,7 +199,6 @@ const Sidebar = () => {
                   <ListItemText primary="Category" />
                 </ListItemButton>
 
-
                 <ListItemButton
                   sx={{ pl: 4, gap: "2rem" }}
                   onClick={() => navigate("/modelPage")}
@@ -230,9 +229,9 @@ const Sidebar = () => {
                   <ListItemText primary="Color" />
                 </ListItemButton>
 
-               <ListItemButton
+                <ListItemButton
                   sx={{ pl: 4, gap: "2rem" }}
-                  onClick={() => navigate("/colorPage")}
+                  onClick={() => navigate("/capacityPage")}
                 >
                   <StorageIcon>
                     <Business sx={{ color: iconColor }} />

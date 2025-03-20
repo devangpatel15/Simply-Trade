@@ -21,6 +21,7 @@ import ColorPage from "./pages/ColorPage";
 import UserPage from "./pages/UserPage";
 import UserForm from "./components/UserForm";
 import OrganizationBranchForm from "./components/OrganizationBranchForm";
+import CapacityPage from "./pages/CapacityPage";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -233,6 +234,15 @@ function App() {
           element={
             <PrivateRoute>
               <ColorForm />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/capacityPage"
+          element={
+            <PrivateRoute>
+              <CapacityPage />
             </PrivateRoute>
           }
         />

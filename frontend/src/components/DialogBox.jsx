@@ -18,6 +18,7 @@ import { deleteOrg } from "../apis/OrganizationApi";
 import { deleteOrgBranch } from "../apis/OrganizationBranchApi";
 import { deleteUser } from "../apis/UserApi";
 import { deleteCategory } from "../apis/CategoryApi";
+import { deleteModel } from "../apis/ModelApi";
 
 const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
   const {
@@ -64,6 +65,8 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
       ? deleteUser(_id)
       : fieldName == "categoryForm"
       ? deleteCategory(_id)
+      : fieldName == "modelForm"
+      ? deleteModel(_id)
       : "";
 
     setDeleteOpen(false);
@@ -89,6 +92,8 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
           ? "USER"
           : fieldName == "categoryForm"
           ? "CATEGORY"
+          : fieldName == "modelForm"
+          ? "MODEL"
           : ""}
       </DialogTitle>
       <DialogContent>

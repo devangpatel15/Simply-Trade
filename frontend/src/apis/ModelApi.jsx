@@ -34,22 +34,6 @@ const updateModel = async (formData, id) => {
     console.log(error, "createOrg error");
   }
 };
-const getBranchCategory = async (branchId) => {
-  try {
-    const response = await axios.get(
-      `http://localhost:4000/api/selectCategoryByBranch/${branchId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    return response;
-  } catch (error) {
-    console.log(error, "createOrg error");
-  }
-};
 
 const findOneModel = async (id) => {
   try {
@@ -68,4 +52,21 @@ const findOneModel = async (id) => {
   }
 };
 
-export { createModel, updateModel, getBranchCategory, findOneModel };
+const deleteModel = async (_id) => {
+  try {
+    await axios.put(
+      `http://localhost:4000/api/deleteModel/${_id}`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export { createModel, updateModel, findOneModel, deleteModel };
