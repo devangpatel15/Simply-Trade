@@ -15,8 +15,7 @@ import {
   getOneCategory,
   updateCategory,
 } from "../apis/CategoryApi";
-import { allUserOrg } from "../apis/OrganizationApi";
-import { getOrgBranch } from "../apis/OrganizationBranchApi";
+
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 
@@ -71,12 +70,15 @@ const CategoryForm = () => {
   const callApi = async () => {
     if (id) {
       const response = await getOneCategory(id);
-      console.log("categryyyy========", response.data.data);
       setFormData({
         ...response.data.data,
-        organization: {
-          label: response.data.data.organization.organizationName,
-          value: response.data.data.organization._id || "",
+        orgId: {
+          label: response.data.data.orgId.organizationName,
+          value: response.data.data.orgId._id || "",
+        },
+        orgBranchId: {
+          label: response.data.data.orgBranchId.branchName,
+          value: response.data.data.orgBranchId._id || "",
         },
       });
     }
@@ -87,21 +89,18 @@ const CategoryForm = () => {
   }, []);
 
   const handleOrganizationChange = (selectedOrg) => {
-    console.log("selectedOrg=======", selectedOrg);
     setFormData((prev) => ({
       ...prev,
       orgId: selectedOrg,
     }));
   };
   const handleOrganizationBranchChange = (selectedOrgBranch) => {
-    console.log("selectedOrgBranch", selectedOrgBranch);
     setFormData((prev) => ({
       ...prev,
       orgBranchId: selectedOrgBranch,
     }));
   };
 
-  console.log("formData========", formData);
   return (
     <Box sx={{ display: "flex" }}>
       <Sidebar />
@@ -200,7 +199,7 @@ const CategoryForm = () => {
               Cancel
             </Button>
             <Button variant="contained" color="primary" onClick={handleSubmit}>
-              Add
+              {id ? "Update" : "Add"}
             </Button>
           </Grid>
         </Box>

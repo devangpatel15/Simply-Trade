@@ -19,6 +19,8 @@ import axios from "axios";
 import { allUserOrg } from "../apis/OrganizationApi";
 import { createUser, getOneUser, updateUser } from "../apis/UserApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
+import OrgInput from "./common/OrgInput";
+import OrgBranchInput from "./common/OrgBranchInput";
 
 const UserForm = () => {
   const { id } = useParams();
@@ -28,16 +30,13 @@ const UserForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    organization: "",
-    orgBranch: "",
+    organization: null,
+    orgBranch: null,
     name: "",
     email: "",
     mobileNo: "",
     password: "",
   });
-
-  const [organizationOptions, setOrganizationOptions] = useState([]);
-  const [branchOptions, setBranchOptions] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,10 +51,21 @@ const UserForm = () => {
   const handleSubmit = async () => {
     try {
       if (id) {
-        updateUser(formData, id);
+        updateUser(
+          {
+            ...formData,
+            organization: formData.organization.value,
+            orgBranch: formData.orgBranch.value,
+          },
+          id
+        );
         navigate("/userPage");
       } else {
-        createUser(formData);
+        createUser({
+          ...formData,
+          organization: formData.organization.value,
+          orgBranch: formData.orgBranch.value,
+        });
         navigate("/userPage");
       }
     } catch (error) {
@@ -66,40 +76,41 @@ const UserForm = () => {
 
   const callApi = async () => {
     if (id) {
-      console.log("65555555555555555");
       const response = await getOneUser(id);
-      console.log("response========", response.data.data);
-      setFormData(response.data.data);
+      console.log("response=========", response.data.data);
+      setFormData({
+        ...response.data.data,
+        organization: {
+          label: response.data.data.organization.organizationName,
+          value: response.data.data.organization._id || "",
+        },
+        orgBranch: {
+          label: response.data.data.orgBranch.branchName,
+          value: response.data.data.orgBranch._id || "",
+        },
+      });
     }
-  };
-
-  const callGetAllOrg = async () => {
-    const response = await allUserOrg();
-    console.log("response", response.data.data);
-    setOrganizationOptions(response.data.data);
-  };
-
-  const callGetOrgBranch = async () => {
-    console.log("hello");
-    const response = await getOrgBranch(formData.organization);
-    console.log("response of branch", response.data.data);
-    setBranchOptions(response.data.data);
   };
 
   console.log("formData", formData);
 
   useEffect(() => {
     callApi();
-    console.log("==================================================");
-    callGetAllOrg();
   }, []);
 
-  useEffect(() => {
-    callGetOrgBranch();
-    console.log("called");
-  }, [formData.organization]);
+  const handleOrganizationChange = (selectedOrg) => {
+    setFormData((prev) => ({
+      ...prev,
+      organization: selectedOrg,
+    }));
+  };
 
-  console.log("branchOption", branchOptions);
+  const handleOrganizationBranchChange = (selectedOrgBranch) => {
+    setFormData((prev) => ({
+      ...prev,
+      orgBranchId: selectedOrgBranch,
+    }));
+  };
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -120,7 +131,7 @@ const UserForm = () => {
 
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField
+              {/* <TextField
                 select
                 fullWidth
                 label="Organization Name"
@@ -135,10 +146,14 @@ const UserForm = () => {
                     {option.organizationName}
                   </MenuItem>
                 ))}
-              </TextField>
+              </TextField> */}
+              <OrgInput
+                onChange={handleOrganizationChange}
+                value={formData.organization}
+              />
             </Grid>
             <Grid item xs={6}>
-              <TextField
+              {/* <TextField
                 select
                 fullWidth
                 label="Organization Branch"
@@ -153,7 +168,11 @@ const UserForm = () => {
                     {option.branchName}
                   </MenuItem>
                 ))}
-              </TextField>
+              </TextField> */}
+              <OrgBranchInput
+                onChange={handleOrganizationBranchChange}
+                value={formData.orgBranch}
+              />
             </Grid>
             <Grid item xs={6}>
               <TextField

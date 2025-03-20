@@ -32,16 +32,17 @@ exports.findUserServices = async (email) => {
 
 exports.findAllUserServices = async () => {
   const data = await User.find({ isDeleted: false }).lean();
-}
+};
 
 exports.findAllUserServices = async () => {
-  
-   const data = await User.find({isDeleted : false}).lean();
-  
+  const data = await User.find({ isDeleted: false }).lean();
+
   return data;
 };
 exports.findOneUserServices = async (id) => {
-  const data = await User.findById(id).lean();
+  const data = await User.findById(id)
+    .populate("orgBranch organization")
+    .lean();
 
   return data;
 };
