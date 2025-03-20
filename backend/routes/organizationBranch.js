@@ -36,6 +36,12 @@ organizationBranchRoute.get(
   findUserOrganizationBranch
 );
 
+organizationBranchRoute.get(
+  "/findOneOrganizationBranch/:id",
+  AuthUser,
+  findOneOrganizationBranch
+);
+
 organizationBranchRoute.get("/searchOrg", searchOrganization);
 
 organizationBranchRoute.get(
