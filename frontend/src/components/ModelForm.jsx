@@ -13,13 +13,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import { allUserOrg } from "../apis/OrganizationApi";
-import {
-  createModel,
-  findOneModel,
-  getBranchCategory,
-  updateModel,
-} from "../apis/ModelApi";
+import { createModel, findOneModel, updateModel } from "../apis/ModelApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
+import { getBranchCategory } from "../apis/CategoryApi";
 
 const ModelForm = () => {
   const { id } = useParams();
@@ -31,7 +27,7 @@ const ModelForm = () => {
     organization: "",
     branchName: "",
     modelName: "",
-    categoryName: "",
+    categoryId: "",
   });
 
   const [organizationOptions, setOrganizationOptions] = useState([]);
@@ -67,7 +63,7 @@ const ModelForm = () => {
   const callApi = async () => {
     if (id) {
       const response = await findOneModel(id);
-      console.log("response======================", response.data.data);
+      console.log("response====modellll", response.data.data);
       setFormData(response.data.data);
     }
   };
@@ -175,7 +171,7 @@ const ModelForm = () => {
                   label="Category"
                   variant="outlined"
                   name="categoryId"
-                  value={formData.categoryName || ""}
+                  value={formData.categoryId || ""}
                   onChange={handleChange}
                   required
                 >
