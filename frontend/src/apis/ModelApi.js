@@ -69,4 +69,21 @@ const deleteModel = async (_id) => {
   }
 };
 
-export { createModel, updateModel, findOneModel, deleteModel };
+const getBranchModel = async (branchId) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:4000/api/selectDeviceByModel/${branchId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(error, "createOrg error");
+  }
+};
+
+export { createModel, updateModel, findOneModel, deleteModel, getBranchModel };

@@ -10,12 +10,16 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { createDevice, getOneDevice, updateDevice } from "../apis/DeviceApi";
 import { allUserOrg } from "../apis/OrganizationApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
-import { getBranchModel } from "../apis/ModelApi";
+import {
+  createCapacity,
+  getOneCapacity,
+  updateCapacity,
+} from "../apis/CapacityApi";
+import { getAllDevice } from "../apis/DeviceApi";
 
-const DeviceForm = () => {
+const CapacityForm = () => {
   const { id } = useParams();
 
   console.log("======id", id);
@@ -27,11 +31,12 @@ const DeviceForm = () => {
     branchName: "",
     deviceName: "",
     modelId: "",
+    capacityName: "",
   });
 
   const [organizationOptions, setOrganizationOptions] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
-  const [modelOptions, setCategoryOptions] = useState([]);
+  const [deviceOptions, setDeviceOptions] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,11 +50,11 @@ const DeviceForm = () => {
   const handleSubmit = async () => {
     try {
       if (id) {
-        updateDevice(formData, id);
-        navigate("/devicePage");
+        updateCapacity(formData, id);
+        navigate("/capacityPage");
       } else {
-        createDevice(formData);
-        navigate("/devicePage");
+        createCapacity(formData);
+        navigate("/capacityPage");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -59,7 +64,7 @@ const DeviceForm = () => {
 
   const callApi = async () => {
     if (id) {
-      const response = await getOneDevice(id);
+      const response = await getOneCapacity(id);
       console.log("response========", response.data.data);
       setFormData(response.data.data);
     }
@@ -78,10 +83,10 @@ const DeviceForm = () => {
     setBranchOptions(response.data.data);
   };
 
-  const callGetSelectedModel = async () => {
-    const response = await getBranchModel(formData.branchName);
-    console.log("response of model", response.data.data);
-    setCategoryOptions(response.data.data);
+  const callGetAllDevice = async () => {
+    const response = await getAllDevice(formData.branchName);
+    console.log("Response device", response.data.data);
+    setDeviceOptions(response.data.data);
   };
 
   console.log("formData", formData);
@@ -96,7 +101,7 @@ const DeviceForm = () => {
   }, [formData.organization]);
 
   useEffect(() => {
-    callGetSelectedModel();
+    callGetAllDevice();
   }, [formData.branchName]);
 
   return (
@@ -118,7 +123,7 @@ const DeviceForm = () => {
             variant="h4"
             sx={{ fontWeight: "bold", color: "#6c5ce7" }}
           >
-            DEVICE
+            CAPACITY
           </Typography>
           <Box
             display="flex"
@@ -168,18 +173,30 @@ const DeviceForm = () => {
                 <TextField
                   select
                   fullWidth
-                  label="Model"
+                  label="Device"
                   variant="outlined"
-                  name="modelId"
-                  value={formData.modelId}
+                  name="deviceName"
+                  value={formData.deviceName || ""}
                   onChange={handleChange}
                   required
                 >
-                  {modelOptions.map((option) => (
+                  {deviceOptions.map((option) => {
                     <MenuItem key={option._id} value={option._id}>
-                      {option.modelId}
-                    </MenuItem>
-                  ))}
+                      {option.deviceName}
+                    </MenuItem>;
+                  })}
+                </TextField>
+              </Grid>
+
+              <Grid item xs={6}>
+                <TextField
+                  select
+                  fullWidth
+                  label="Model"
+                  variant="outlined"
+                  required
+                >
+                  <MenuItem></MenuItem>
                 </TextField>
               </Grid>
 
@@ -188,8 +205,8 @@ const DeviceForm = () => {
                   fullWidth
                   label="Device"
                   variant="outlined"
-                  name="deviceName"
-                  value={formData.deviceName || ""}
+                  name="capacityName"
+                  value={formData.capacityName || ""}
                   onChange={handleChange}
                   required
                 />
@@ -206,7 +223,7 @@ const DeviceForm = () => {
               variant="contained"
               color="error"
               component={Link}
-              to="/devicePage"
+              to="/capacityPage"
             >
               Cancel
             </Button>
@@ -220,4 +237,4 @@ const DeviceForm = () => {
   );
 };
 
-export default DeviceForm;
+export default CapacityForm;

@@ -22,6 +22,7 @@ import UserPage from "./pages/UserPage";
 import UserForm from "./components/UserForm";
 import OrganizationBranchForm from "./components/OrganizationBranchForm";
 import CapacityPage from "./pages/CapacityPage";
+import CapacityForm from "./components/CapacityForm";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -243,6 +244,15 @@ function App() {
           element={
             <PrivateRoute>
               <CapacityPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/capacityForm"
+          element={
+            <PrivateRoute>
+              <CapacityForm />
             </PrivateRoute>
           }
         />
