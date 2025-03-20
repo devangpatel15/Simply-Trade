@@ -197,6 +197,11 @@ exports.searchOrganization = async (req, res) => {
     const orgText = req.query.text || "";
 
     const org = await searchOrganizationService(orgText);
+<<<<<<< HEAD
+=======
+
+   
+>>>>>>> 5490163386ab6474c0abec6acd305f9f2c666969
     if (!org) {
       return res.status(404).json({ message: "Organization not found" });
     }

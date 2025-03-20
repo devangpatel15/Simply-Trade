@@ -1,9 +1,10 @@
 const express =require('express')
-const {  findAllModel, deleteModel, updateModel, findOneModel, createModel, softDeleteModel, selectModelByCat} = require('../controllers/model')
+const {  findAllModel, deleteModel, updateModel, findOneModel, createModel, softDeleteModel, selectModelByCat, searchModel} = require('../controllers/model')
 const { validateGetOneModelData, validateCreateModelData, validateUpdateModelData, validateDeleteModelData } = require('../middleware/model')
 const modelRoute=express.Router()
 
 modelRoute.get('/findAllModel',findAllModel)
+modelRoute.get('/searchModel',searchModel)
 modelRoute.get('/findOneModel/:id',validateGetOneModelData,findOneModel)
 modelRoute.get('/selectModelByCat/:id',validateGetOneModelData,selectModelByCat)
 modelRoute.post('/createModel',validateCreateModelData,createModel)

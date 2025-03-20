@@ -34,3 +34,15 @@ exports.softDeleteCategoryService = async (catId) => {
 exports.deleteCategoryService = async (catId) => {
   return await Category.findByIdAndDelete(catId);
 };
+
+exports.searchCategoryService = async (orgText) => {
+  let findObject = { isDeleted: false };
+
+  if (orgText.trim() !== "") {
+    findObject.$or = [
+      { categoryName: { $regex: `^${orgText}`, $options: "i" } },
+    ];
+  }
+
+  return await Category.find(findObject).limit(5); // Increase limit if needed
+};
