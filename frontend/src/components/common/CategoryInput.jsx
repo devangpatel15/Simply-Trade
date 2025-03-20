@@ -58,7 +58,7 @@ const CategoryInput = ({ onChange, value, branchId }) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Search Category"
+          label="Category"
           variant="outlined"
           InputProps={{
             ...params.InputProps,
