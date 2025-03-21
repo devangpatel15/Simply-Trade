@@ -1,5 +1,5 @@
 const express =require('express')
-const {  findAllColor, deleteColor, updateColor, findOneColor, createColor, softDeleteColor, selectColorByDevice, searchColor} = require('../controllers/color')
+const {  findAllColor, updateColor, findOneColor, createColor, softDeleteColor, selectColorByDevice, searchColor} = require('../controllers/color')
 const { validateGetOneColorData, validateCreateColorData, validateUpdateColorData, validateDeleteColorData } = require('../middleware/Color')
 const colorRoute=express.Router()
 
