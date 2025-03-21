@@ -19,7 +19,7 @@ import { deleteOrgBranch } from "../apis/OrganizationBranchApi";
 import { deleteUser } from "../apis/UserApi";
 import { deleteCategory } from "../apis/CategoryApi";
 import { deleteModel } from "../apis/ModelApi";
-import { deleteDevice } from "../../../backend/controllers/device";
+import { deleteDevice } from "../apis/DeviceApi";
 
 const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
   const {

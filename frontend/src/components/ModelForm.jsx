@@ -16,6 +16,8 @@ import { createModel, findOneModel, updateModel } from "../apis/ModelApi";
 import { getOrgBranch } from "../apis/OrganizationBranchApi";
 import { getBranchCategory } from "../apis/CategoryApi";
 import OrgInput from "./common/OrgInput";
+import OrgBranchInput from "./common/OrgBranchInput";
+import CategoryInput from "./common/CategoryInput";
 
 const ModelForm = () => {
   const { id } = useParams();
@@ -23,15 +25,14 @@ const ModelForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    organization: "",
-    orgBranch: "",
+    organization: null,
+    orgBranch: null,
     modelName: "",
-    categoryId: "",
+    categoryId: null,
   });
 
-  const [organizationOptions, setOrganizationOptions] = useState([]);
-  const [branchOptions, setBranchOptions] = useState([]);
-  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [selectedOrganization, setSelectedOrganization] = useState("");
+  const [branchId, setBranchId] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,10 +46,23 @@ const ModelForm = () => {
   const handleSubmit = async () => {
     try {
       if (id) {
-        updateModel(formData, id);
+        updateModel(
+          {
+            ...formData,
+            organization: formData.organization.value,
+            orgBranch: formData.orgBranch.value,
+            categoryId: formData.categoryId.value,
+          },
+          id
+        );
         navigate("/modelPage");
       } else {
-        createModel(formData);
+        createModel({
+          ...formData,
+          organization: formData.organization.value,
+          orgBranch: formData.orgBranch.value,
+          categoryId: formData.categoryId.value,
+        });
         navigate("/modelPage");
       }
     } catch (error) {
@@ -60,49 +74,47 @@ const ModelForm = () => {
   const callApi = async () => {
     if (id) {
       const response = await findOneModel(id);
-      setFormData(response.data.data);
+      setFormData({
+        ...response.data.data,
+        organization: {
+          label: response.data.data.organization.organizationName,
+          value: response.data.data.organization._id || "",
+        },
+        orgBranch: {
+          label: response.data.data.orgBranch.branchName,
+          value: response.data.data.orgBranch._id || "",
+        },
+        categoryId: {
+          label: response.data.data.categoryId.categoryName,
+          value: response.data.data.categoryId._id || "",
+        },
+      });
     }
-  };
-
-  const callGetAllOrg = async () => {
-    const response = await allUserOrg();
-    setOrganizationOptions(response.data.data);
-  };
-
-  const callGetOrgBranch = async () => {
-    const response = await getOrgBranch(formData.organization);
-    setBranchOptions(response.data.data);
-  };
-  const callGetSelectedCategory = async () => {
-    const response = await getBranchCategory(formData.orgBranch);
-    setCategoryOptions(response.data.data);
   };
 
   useEffect(() => {
     callApi();
-    callGetAllOrg();
   }, []);
 
-  useEffect(() => {
-    callGetOrgBranch();
-  }, [formData.organization]);
-
-  useEffect(() => {
-    callGetSelectedCategory();
-  }, [formData.orgBranch]);
-
-  console.log("cat options", categoryOptions);
-
   const handleOrganizationChange = (selectedOrg) => {
+    setSelectedOrganization(selectedOrg.value);
     setFormData((prev) => ({
       ...prev,
-      orgId: selectedOrg,
+      organization: selectedOrg,
     }));
   };
   const handleOrganizationBranchChange = (selectedOrgBranch) => {
+    setBranchId(selectedOrgBranch.value);
     setFormData((prev) => ({
       ...prev,
-      orgBranchId: selectedOrgBranch,
+      orgBranch: selectedOrgBranch,
+    }));
+  };
+
+  const handleCategoryChange = (selectedCategory) => {
+    setFormData((prev) => ({
+      ...prev,
+      categoryId: selectedCategory,
     }));
   };
 
@@ -134,10 +146,7 @@ const ModelForm = () => {
           >
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                {/* <OrgInput onChange={} /> */}
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
+                {/* <TextField
                   select
                   fullWidth
                   label="Organization Branch"
@@ -152,11 +161,15 @@ const ModelForm = () => {
                       {option.branchName}
                     </MenuItem>
                   ))}
-                </TextField>
+                </TextField> */}
+                <OrgInput
+                  onChange={handleOrganizationChange}
+                  value={formData.organization}
+                />
               </Grid>
 
               <Grid item xs={6}>
-                <TextField
+                {/* <TextField
                   select
                   fullWidth
                   label="Category"
@@ -171,7 +184,19 @@ const ModelForm = () => {
                       {option.categoryName}
                     </MenuItem>
                   ))}
-                </TextField>
+                </TextField> */}
+                <OrgBranchInput
+                  onChange={handleOrganizationBranchChange}
+                  value={formData.orgBranch}
+                  selectedOrganization={selectedOrganization}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CategoryInput
+                  onChange={handleCategoryChange}
+                  value={formData.categoryId}
+                  branchId={branchId}
+                />
               </Grid>
               <Grid item xs={6}>
                 <TextField
@@ -201,7 +226,7 @@ const ModelForm = () => {
               Cancel
             </Button>
             <Button variant="contained" color="primary" onClick={handleSubmit}>
-              {id ? "Update" : "Add"}
+              Add
             </Button>
           </Grid>
         </Box>
