@@ -34,7 +34,7 @@ const DeviceForm = () => {
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
-  const [selectCategoryId, setSelectCategoryId] = useState("");
+  const [catId, setSelectCatId] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,7 +58,7 @@ const DeviceForm = () => {
           },
           id
         );
-        navigate("/modelPage");
+        navigate("/devicePage");
       } else {
         createDevice({
           ...formData,
@@ -67,7 +67,7 @@ const DeviceForm = () => {
           categoryId: formData.categoryId.value,
           modelId: formData.modelId.value,
         });
-        navigate("/modelPage");
+        navigate("/devicePage");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -78,6 +78,7 @@ const DeviceForm = () => {
   const callApi = async () => {
     if (id) {
       const response = await getOneDevice(id);
+
       setFormData({
         ...response.data.data,
         organization: {
@@ -120,7 +121,7 @@ const DeviceForm = () => {
   };
 
   const handleCategoryChange = (selectedCategory) => {
-    setSelectCategoryId(selectedCategory.value);
+    setSelectCatId(selectedCategory.value);
     setFormData((prev) => ({
       ...prev,
       categoryId: selectedCategory,
@@ -236,7 +237,7 @@ const DeviceForm = () => {
                 <ModelInput
                   onChange={handleModelChange}
                   value={formData.modelId}
-                  selectCategoryId={selectCategoryId}
+                  catId={catId}
                 />
               </Grid>
 

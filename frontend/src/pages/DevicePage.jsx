@@ -7,6 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
@@ -14,6 +15,7 @@ import { Link } from "react-router-dom";
 import DialogBox from "../components/DialogBox";
 import { useEffect, useState } from "react";
 import { getAllDevice } from "../apis/DeviceApi";
+import moment from "moment";
 
 const DevicePage = () => {
   const [device, setDevice] = useState([]);
@@ -66,7 +68,7 @@ const DevicePage = () => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      {/* <SearchIcon sx={{ color: "#6c5ce7" }} /> */}
+                      <SearchIcon sx={{ color: "#6c5ce7" }} />
                     </InputAdornment>
                   ),
                 }}
@@ -86,56 +88,79 @@ const DevicePage = () => {
             </Box>
           </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              backgroundColor: "white",
-              borderRadius: 10,
-              boxShadow: 1,
-              padding: 2,
-              marginTop: 3,
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <Avatar
-                src="/path/to/avatar.jpg"
-                alt="User Avatar"
-                sx={{ width: 50, height: 50 }}
-              />
-              <Box>
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+          {device &&
+            device.map((device) => {
+              return (
+                <Box
+                  key={device._id}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    backgroundColor: "white",
+                    borderRadius: 10,
+                    boxShadow: 1,
+                    padding: 2,
+                    marginTop: 3,
+                  }}
                 >
-                  Tv
-                </Typography>
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <Typography
-                    variant="body2"
-                    sx={{ color: "green", fontWeight: "bold" }}
-                  >
-                    Branch Name :
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-            <IconButton
-              sx={{ backgroundColor: "#f5f5f5" }}
-              onClick={() => handleOpen(device)}
-            >
-              <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-            </IconButton>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    <Avatar
+                      src="/path/to/avatar.jpg"
+                      alt="User Avatar"
+                      sx={{ width: 50, height: 50 }}
+                    />
+                    <Box>
+                      <Typography
+                        variant="h6"
+                        sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+                      >
+                        {device.deviceName}
+                      </Typography>
 
-            <DialogBox
-              handleClose={handleClose}
-              open={open}
-              data={data}
-              callApi={callApi}
-              fieldName="deviceForm"
-            />
-          </Box>
+                      <Box sx={{ display: "flex", gap: 2 }}>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "green", fontWeight: "bold" }}
+                        >
+                          Created At:{" "}
+                          <span
+                            style={{ color: "black", fontWeight: "normal" }}
+                          >
+                            {moment(device.createdAt).format("DD-MM-YYYY")}
+                          </span>
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "brown", fontWeight: "bold" }}
+                        >
+                          Update At:{" "}
+                          <span
+                            style={{ color: "black", fontWeight: "normal" }}
+                          >
+                            {moment(device.updatedAt).format("DD-MM-YYYY")}
+                          </span>
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                  <IconButton
+                    sx={{ backgroundColor: "#f5f5f5" }}
+                    onClick={() => handleOpen(device)}
+                  >
+                    <VisibilityIcon sx={{ color: "#6c5ce7" }} />
+                  </IconButton>
+                </Box>
+              );
+            })}
+
+          <DialogBox
+            handleClose={handleClose}
+            open={open}
+            data={data}
+            callApi={callApi}
+            fieldName="deviceForm"
+          />
         </Box>
       </Box>
     </Box>

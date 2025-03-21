@@ -232,7 +232,7 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
               : fieldName == "modelForm"
               ? `/modelForm/${_id}`
               : fieldName == "deviceForm"
-              ? `deviceForm/${_id}`
+              ? `/deviceForm/${_id}`
               : `/organizationBranchForm/${_id}`
           }
         >
