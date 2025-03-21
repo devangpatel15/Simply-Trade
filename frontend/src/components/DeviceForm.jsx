@@ -34,11 +34,7 @@ const DeviceForm = () => {
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
-<<<<<<< HEAD
-  const [catId, setSelectCatId] = useState("");
-=======
   const [catId, setCatId] = useState("");
->>>>>>> 632860ef69d0240b44af88020aae8df2a1fd103b
 
   const handleChange = (e) => {
     const { name, value } = e.target;
