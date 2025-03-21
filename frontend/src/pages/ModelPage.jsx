@@ -26,7 +26,6 @@ const ModelPage = () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    console.log(response.data.data);
     setModelData(response.data.data);
   };
 
@@ -38,7 +37,6 @@ const ModelPage = () => {
   const [data, setData] = useState({});
 
   const handleOpen = (data) => {
-    console.log(data, "data-----");
     setData(data);
     setOpen(true);
   };

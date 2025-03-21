@@ -36,7 +36,6 @@ const UserForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value, "name", "value");
 
     setFormData((prev) => ({
       ...prev,
@@ -73,7 +72,6 @@ const UserForm = () => {
   const callApi = async () => {
     if (id) {
       const response = await getOneUser(id);
-      console.log("response=========", response.data.data);
       setFormData({
         ...response.data.data,
         organization: {
@@ -87,8 +85,6 @@ const UserForm = () => {
       });
     }
   };
-
-  console.log("formData", formData);
 
   useEffect(() => {
     callApi();

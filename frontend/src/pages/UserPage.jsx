@@ -28,7 +28,6 @@ const UserPage = () => {
 
   const callApi = async () => {
     const response = await getAllUsers();
-    console.log("response", response);
     setUserData(response.data.data);
   };
 
@@ -40,12 +39,9 @@ const UserPage = () => {
   const [data, setData] = useState({});
 
   const handleOpen = (data) => {
-    console.log(data, "data-----");
     setData(data);
     setOpen(true);
   };
-
-  console.log("usrData", userData);
 
   const handleClose = () => setOpen(false);
   return (

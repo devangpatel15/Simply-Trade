@@ -27,8 +27,6 @@ import DeviceInput from "./common/DeviceInput";
 const CapacityForm = () => {
   const { id } = useParams();
 
-  console.log("======id", id);
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -153,8 +151,6 @@ const CapacityForm = () => {
       deviceId: selectedDevice,
     }));
   };
-
-  console.log("formData===============", formData);
 
   return (
     <Box sx={{ display: "flex" }}>
