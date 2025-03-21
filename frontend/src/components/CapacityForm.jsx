@@ -104,8 +104,8 @@ const CapacityForm = () => {
           value: response.data.data.categoryId._id || "",
         },
         modelId: {
-          label: response.data.data.categoryId.modelName,
-          value: response.data.data.categoryId._id || "",
+          label: response.data.data.modelId.modelName,
+          value: response.data.data.modelId._id || "",
         },
         deviceId: {
           label: response.data.data.deviceId.deviceName,
@@ -193,7 +193,7 @@ const CapacityForm = () => {
               <Grid item xs={6}>
                 <OrgBranchInput
                   onChange={handleOrganizationBranchChange}
-                  value={formData.orgBranch}
+                  value={formData.branchName}
                   selectedOrganization={selectedOrganization}
                 />
               </Grid>

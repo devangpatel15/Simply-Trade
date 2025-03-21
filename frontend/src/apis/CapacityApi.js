@@ -63,7 +63,7 @@ const deleteCapacity = async (id) => {
 const getOneCapacity = async (id) => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/findOneDevice/${id}`,
+      `http://localhost:4000/api/capacity/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
