@@ -19,6 +19,7 @@ import { deleteOrgBranch } from "../apis/OrganizationBranchApi";
 import { deleteUser } from "../apis/UserApi";
 import { deleteCategory } from "../apis/CategoryApi";
 import { deleteModel } from "../apis/ModelApi";
+import { deleteDevice } from "../../../backend/controllers/device";
 
 const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
   const {
@@ -55,8 +56,6 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
   };
 
   const handleDelete = async () => {
-   
-
     fieldName == "organizationForm"
       ? deleteOrg(_id)
       : fieldName == "organizationBranchForm"
@@ -67,6 +66,8 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
       ? deleteCategory(_id)
       : fieldName == "modelForm"
       ? deleteModel(_id)
+      : fieldName == "deviceForm"
+      ? deleteDevice(_id)
       : "";
 
     setDeleteOpen(false);
@@ -94,6 +95,8 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
           ? "CATEGORY"
           : fieldName == "modelForm"
           ? "MODEL"
+          : fieldName == "deviceForm"
+          ? "DEVICE"
           : ""}
       </DialogTitle>
       <DialogContent>
@@ -228,6 +231,8 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
               ? `/categoryForm/${_id}`
               : fieldName == "modelForm"
               ? `/modelForm/${_id}`
+              : fieldName == "deviceForm"
+              ? `deviceForm/${_id}`
               : `/organizationBranchForm/${_id}`
           }
         >

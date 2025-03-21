@@ -77,7 +77,6 @@ const DeviceForm = () => {
     setCategoryOptions(response.data.data);
   };
 
-
   useEffect(() => {
     callApi();
     callGetAllOrg();

@@ -11,8 +11,34 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
+import DialogBox from "../components/DialogBox";
+import { useEffect, useState } from "react";
+import { getAllDevice } from "../apis/DeviceApi";
 
 const DevicePage = () => {
+  const [device, setDevice] = useState([]);
+
+  const callApi = async () => {
+    const response = await getAllDevice();
+    setDevice(response.data.data);
+    console.log("device=====", device);
+  };
+
+  useEffect(() => {
+    callApi();
+  }, []);
+
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState({});
+
+  const handleOpen = (data) => {
+    console.log(data, "data-----");
+    setData(data);
+    setOpen(true);
+  };
+
+  const handleClose = () => setOpen(false);
+
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
@@ -95,9 +121,20 @@ const DevicePage = () => {
                 </Box>
               </Box>
             </Box>
-            <IconButton sx={{ backgroundColor: "#f5f5f5" }}>
+            <IconButton
+              sx={{ backgroundColor: "#f5f5f5" }}
+              onClick={() => handleOpen(device)}
+            >
               <VisibilityIcon sx={{ color: "#6c5ce7" }} />
             </IconButton>
+
+            <DialogBox
+              handleClose={handleClose}
+              open={open}
+              data={data}
+              callApi={callApi}
+              fieldName="deviceForm"
+            />
           </Box>
         </Box>
       </Box>

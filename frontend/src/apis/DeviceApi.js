@@ -58,4 +58,21 @@ const updateDevice = async (formData, id) => {
   }
 };
 
-export { createDevice, getAllDevice, getOneDevice, updateDevice };
+const deleteDevice = async (_id) => {
+  try {
+    await axios.put(
+      `http://localhost:4000/api/deleteDevice/${_id}`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export { createDevice, getAllDevice, getOneDevice, updateDevice, deleteDevice };
