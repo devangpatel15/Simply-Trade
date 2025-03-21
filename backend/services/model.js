@@ -9,6 +9,7 @@ exports.findOneModelServices = async (modelId) => {
   const data = await Model.findById(modelId)
     .populate("organization branchName categoryId")
     .lean();
+    
 
   return data;
 };
