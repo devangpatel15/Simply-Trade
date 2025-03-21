@@ -1,18 +1,134 @@
-import React, { useState } from "react";
-import { Box, Typography, Button, Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Typography, Button, Grid, TextField } from "@mui/material";
 import { SketchPicker } from "react-color";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { createColor } from "../apis/ColorApi";
+import OrgInput from "./common/OrgInput";
+import OrgBranchInput from "./common/OrgBranchInput";
+import CategoryInput from "./common/CategoryInput";
+import ModelInput from "./common/ModelInput";
 
 function ColorForm() {
   const [color, setColor] = useState("#fff"); // Initial color
   const [openPicker, setOpenPicker] = useState(false); // State to toggle the color picker visibility
+  const [formData, setFormData] = useState({
+    colorName: "",
+    organization: null,
+    branchName: null,
+    categoryId: null,
+    modelId: null,
+    deviceId: null,
+  });
 
   // Handler when the color is selected
   const handleColorChange = (color) => {
     setColor(color.hex); // Update state with selected color
   };
+
+  const { id } = useParams();
+
+  const navigate = useNavigate();
+
+  const [selectedOrganization, setSelectedOrganization] = useState("");
+  const [branchId, setBranchId] = useState("");
+  const [catId, setCatId] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      if (id) {
+        await updateCategory(
+          {
+            ...formData,
+            organization: formData.organization.value,
+            branchName: formData.branchName.value,
+            categoryId: formData.categoryId.value,
+            modelId: formData.modelId.value,
+          },
+          id
+        );
+        navigate("/colorPage");
+      } else {
+        await createColor({
+          ...formData,
+          organization: formData.organization.value,
+          branchName: formData.branchName.value,
+          categoryId: formData.categoryId.value,
+          modelId: formData.modelId.value,
+        });
+        navigate("/colorPage");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("error");
+    }
+  };
+
+  // const callApi = async () => {
+  //   if (id) {
+  //     const response = await getOneCategory(id);
+  //     setFormData({
+  //       ...response.data.data,
+  //       organization: {
+  //         label: response.data.data.organization.organizationName,
+  //         value: response.data.data.organization._id || "",
+  //       },
+  //       branchName: {
+  //         label: response.data.data.branchName.branchName,
+  //         value: response.data.data.branchName._id || "",
+  //       },
+  //       categoryId: {
+  //         label: response.data.data.categoryId.branchName,
+  //         value: response.data.data.categoryId._id || "",
+  //       },
+  //     });
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   callApi();
+  // }, []);
+
+  const handleOrganizationChange = (selectedOrg) => {
+    setSelectedOrganization(selectedOrg.value);
+    setFormData((prev) => ({
+      ...prev,
+      organization: selectedOrg,
+    }));
+  };
+  const handleOrganizationBranchChange = (selectedOrgBranch) => {
+    setBranchId(selectedOrgBranch.value);
+    setFormData((prev) => ({
+      ...prev,
+      branchName: selectedOrgBranch,
+    }));
+  };
+  const handleCategoryChange = (selectedCategory) => {
+    setCatId(selectedCategory.value);
+    setFormData((prev) => ({
+      ...prev,
+      categoryId: selectedCategory,
+    }));
+  };
+  const handleModelChange = (selectedModel) => {
+    console.log("modelSElected", selectedModel);
+    setFormData((prev) => ({
+      ...prev,
+      modelId: selectedModel,
+    }));
+  };
+
+  console.log("formData==========================", formData);
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -34,15 +150,52 @@ function ColorForm() {
           >
             COLOR
           </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <OrgInput
+                onChange={handleOrganizationChange}
+                value={formData.organization}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <OrgBranchInput
+                onChange={handleOrganizationBranchChange}
+                value={formData.orgBranch}
+                selectedOrganization={selectedOrganization}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CategoryInput
+                onChange={handleCategoryChange}
+                value={formData.categoryId}
+                branchId={branchId}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <ModelInput
+                onChange={handleModelChange}
+                value={formData.modelId}
+                catId={catId}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <ModelInput />
+            </Grid>
+            <Grid item xs={6}>
+              <Button
+                variant="outlined"
+                color="primary"
+                fullWidth
+                sx={{ height: 55 }}
+                onClick={() => setOpenPicker(!openPicker)}
+              >
+                {openPicker ? "Close Picker" : "Open color Picker"}
+              </Button>
+            </Grid>
+          </Grid>
 
           {/* Button to toggle the color picker */}
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setOpenPicker(!openPicker)}
-          >
-            {openPicker ? "Close Picker" : "Open Picker"}
-          </Button>
 
           {/* Conditional rendering of the color picker */}
           {openPicker && (
@@ -50,6 +203,7 @@ function ColorForm() {
               <SketchPicker
                 color={color}
                 onChangeComplete={handleColorChange}
+                onChange={handleChange}
               />
             </Box>
           )}
@@ -82,7 +236,7 @@ function ColorForm() {
             >
               Cancel
             </Button>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
               Add
             </Button>
           </Grid>
