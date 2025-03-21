@@ -11,7 +11,7 @@ exports.findOneModelServices = async (modelId) => {
     return data;
 };
 exports.selectModelByCatServices = async (catId) => {
-    const data = await Model.findById(catId ).lean();
+    const data = await Model.findById(catId).lean();
 
     return data;
 };
