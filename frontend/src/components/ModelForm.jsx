@@ -226,7 +226,7 @@ const ModelForm = () => {
               Cancel
             </Button>
             <Button variant="contained" color="primary" onClick={handleSubmit}>
-              Add
+              {id ? "Update" : "Add"}
             </Button>
           </Grid>
         </Box>
