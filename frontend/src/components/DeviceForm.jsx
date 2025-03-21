@@ -34,7 +34,7 @@ const DeviceForm = () => {
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
-  const [selectCategoryId, setSelectCategoryId] = useState("");
+  const [catId, setCatId] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -120,7 +120,7 @@ const DeviceForm = () => {
   };
 
   const handleCategoryChange = (selectedCategory) => {
-    setSelectCategoryId(selectedCategory.value);
+    setCatId(selectedCategory.value);
     setFormData((prev) => ({
       ...prev,
       categoryId: selectedCategory,
@@ -162,22 +162,6 @@ const DeviceForm = () => {
           >
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                {/* <TextField
-                  select
-                  fullWidth
-                  label="Organization Name"
-                  variant="outlined"
-                  name="organization"
-                  value={formData.organization || ""}
-                  onChange={handleChange}
-                  required
-                >
-                  {organizationOptions.map((option) => (
-                    <MenuItem key={option._id} value={option._id}>
-                      {option.organizationName}
-                    </MenuItem>
-                  ))}
-                </TextField> */}
                 <OrgInput
                   onChange={handleOrganizationChange}
                   value={formData.organization}
@@ -185,22 +169,6 @@ const DeviceForm = () => {
               </Grid>
 
               <Grid item xs={6}>
-                {/* <TextField
-                  select
-                  fullWidth
-                  label="OrganizationBranch Name"
-                  variant="outlined"
-                  name="branchName"
-                  value={formData.branchName || ""}
-                  onChange={handleChange}
-                  required
-                >
-                  {branchOptions.map((option) => (
-                    <MenuItem key={option._id} value={option._id}>
-                      {option.branchName}
-                    </MenuItem>
-                  ))}
-                </TextField> */}
                 <OrgBranchInput
                   onChange={handleOrganizationBranchChange}
                   value={formData.branchName}
@@ -209,22 +177,6 @@ const DeviceForm = () => {
               </Grid>
 
               <Grid item xs={6}>
-                {/* <TextField
-                  select
-                  fullWidth
-                  label="Model"
-                  variant="outlined"
-                  name="modelId"
-                  value={formData.modelId}
-                  onChange={handleChange}
-                  required
-                >
-                  {modelOptions.map((option) => (
-                    <MenuItem key={option._id} value={option._id}>
-                      {option.modelId}
-                    </MenuItem>
-                  ))}
-                </TextField> */}
                 <CategoryInput
                   onChange={handleCategoryChange}
                   value={formData.categoryId}
@@ -236,7 +188,7 @@ const DeviceForm = () => {
                 <ModelInput
                   onChange={handleModelChange}
                   value={formData.modelId}
-                  selectCategoryId={selectCategoryId}
+                  catId={catId}
                 />
               </Grid>
 
