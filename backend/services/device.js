@@ -6,7 +6,7 @@ exports.findAllDeviceServices = async () => {
     return data;
 };
 exports.findOneDeviceServices = async (deviceId) => {
-    const data = await Device.findById(deviceId).lean();
+    const data = await Device.findById(deviceId).populate("organization branchName categoryId modelId").lean();
 
     return data;
 };
