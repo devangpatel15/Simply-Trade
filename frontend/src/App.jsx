@@ -222,6 +222,15 @@ function App() {
         />
 
         <Route
+          path="/deviceForm/:id"
+          element={
+            <PrivateRoute>
+              <DeviceForm />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
           path="/colorPage"
           element={
             <PrivateRoute>
