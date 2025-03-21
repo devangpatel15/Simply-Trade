@@ -31,7 +31,6 @@ const OrganizationBranchPage = () => {
     setOrgData(response.data.data);
   };
 
-  console.log("orgData ", orgData);
   useEffect(() => {
     callApi();
   }, []);
@@ -40,7 +39,6 @@ const OrganizationBranchPage = () => {
   const [data, setData] = useState({});
 
   const handleOpen = (data) => {
-    console.log(data, "data-----");
     setData(data);
     setOpen(true);
   };

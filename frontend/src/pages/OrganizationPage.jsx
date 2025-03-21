@@ -33,7 +33,6 @@ const OrganizationPage = () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    console.log(response.data.data);
     setOrgData(response.data.data);
   };
 
@@ -45,7 +44,6 @@ const OrganizationPage = () => {
   const [data, setData] = useState({});
 
   const handleOpen = (data) => {
-    console.log(data, "data-----");
     setData(data);
     setOpen(true);
   };

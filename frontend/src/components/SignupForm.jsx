@@ -43,7 +43,6 @@ const SignupForm = () => {
         formData
       );
       setMessage("Registration successful! Please log in.");
-      console.log(response);
       navigate("/signIn");
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong!");
