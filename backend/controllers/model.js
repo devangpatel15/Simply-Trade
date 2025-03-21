@@ -51,6 +51,7 @@ exports.findOneModel = async (req, res) => {
 exports.selectModelByCat = async (req, res) => {
   try {
     const catId = req.params.id;
+    console.log("catID", catId);
     const modelData = await selectModelByCatServices(catId);
 
     if (!modelData) {
@@ -158,7 +159,6 @@ exports.searchModel = async (req, res) => {
 
     const org = await searchModelService(orgText);
 
-   
     if (!org) {
       return res.status(404).json({ message: "searchModel not found" });
     }
