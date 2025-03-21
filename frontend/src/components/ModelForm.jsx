@@ -26,7 +26,7 @@ const ModelForm = () => {
 
   const [formData, setFormData] = useState({
     organization: null,
-    orgBranch: null,
+    branchName: null,
     modelName: "",
     categoryId: null,
   });
@@ -50,7 +50,7 @@ const ModelForm = () => {
           {
             ...formData,
             organization: formData.organization.value,
-            orgBranch: formData.orgBranch.value,
+            branchName: formData.branchName.value,
             categoryId: formData.categoryId.value,
           },
           id
@@ -60,7 +60,7 @@ const ModelForm = () => {
         createModel({
           ...formData,
           organization: formData.organization.value,
-          orgBranch: formData.orgBranch.value,
+          branchName: formData.branchName.value,
           categoryId: formData.categoryId.value,
         });
         navigate("/modelPage");
@@ -80,9 +80,9 @@ const ModelForm = () => {
           label: response.data.data.organization.organizationName,
           value: response.data.data.organization._id || "",
         },
-        orgBranch: {
-          label: response.data.data.orgBranch.branchName,
-          value: response.data.data.orgBranch._id || "",
+        branchName: {
+          label: response.data.data.branchName.branchName,
+          value: response.data.data.branchName._id || "",
         },
         categoryId: {
           label: response.data.data.categoryId.categoryName,
@@ -107,7 +107,7 @@ const ModelForm = () => {
     setBranchId(selectedOrgBranch.value);
     setFormData((prev) => ({
       ...prev,
-      orgBranch: selectedOrgBranch,
+      branchName: selectedOrgBranch,
     }));
   };
 
@@ -155,7 +155,7 @@ const ModelForm = () => {
               <Grid item xs={6}>
                 <OrgBranchInput
                   onChange={handleOrganizationBranchChange}
-                  value={formData.orgBranch}
+                  value={formData.branchName}
                   selectedOrganization={selectedOrganization}
                 />
               </Grid>
