@@ -7,7 +7,7 @@ exports.findAllModelServices = async () => {
 };
 exports.findOneModelServices = async (modelId) => {
   const data = await Model.findById(modelId)
-    .populate("categoryId organization branchName")
+    .populate("organization branchName categoryId")
     .lean();
 
   return data;
