@@ -7,11 +7,11 @@ const modelSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
   },
-  organization : {
+  organization: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Organization",
   },
-  branchName : {
+  branchName: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "OrganizationBranch",
   },
