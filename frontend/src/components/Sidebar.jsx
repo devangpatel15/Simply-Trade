@@ -76,6 +76,7 @@ import ColorizeIcon from "@mui/icons-material/Colorize";
 import OnDeviceTrainingIcon from "@mui/icons-material/OnDeviceTraining";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import StorageIcon from "@mui/icons-material/Storage";
+import ArticleIcon from '@mui/icons-material/Article';
 
 const iconColor = "#5C4E89"; // Custom icon color
 
@@ -246,6 +247,8 @@ const Sidebar = () => {
               </List>
             </Collapse>
 
+           
+
             {/* Other Sidebar Items */}
             <ListItemButton>
               <ListItemIcon>
@@ -253,8 +256,36 @@ const Sidebar = () => {
               </ListItemIcon>
               <ListItemText primary="Stock" />
             </ListItemButton>
-          </List>
+          
+          <ListItemButton onClick={() => setOpenReport(!openReport)}>
+              <ArticleIcon>
+                <People sx={{ color: iconColor }} />
+              </ArticleIcon>
+              <ListItemText primary="Report"  />
+              {openReport ? (
+                <ExpandLess sx={{ color: iconColor }} />
+              ) : (
+                <ExpandMore sx={{ color: iconColor }} />
+              )}
+            </ListItemButton>
+
+            <Collapse in={openReport} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  onClick={() => navigate("/organizationPage")}
+                >
+                  <ListItemIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Organization" />
+                </ListItemButton>
+                </List> 
+                </Collapse>
+                </List>
         </Box>
+
+        
 
         {/* Bottom Section */}
         <Box sx={{ px: 2, pb: 2 }}>
