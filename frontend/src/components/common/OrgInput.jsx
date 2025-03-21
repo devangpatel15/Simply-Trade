@@ -65,7 +65,7 @@ const OrgInput = ({ onChange, value }) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Search Organization"
+          label="Organization"
           variant="outlined"
           InputProps={{
             ...params.InputProps,

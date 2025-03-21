@@ -65,7 +65,7 @@ const OrgBranchInput = ({ onChange, value, selectedOrganization }) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Search Organization Branch"
+          label="Organization Branch"
           variant="outlined"
           InputProps={{
             ...params.InputProps,
