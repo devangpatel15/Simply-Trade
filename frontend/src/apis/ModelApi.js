@@ -46,7 +46,7 @@ const findOneModel = async (id) => {
         },
       }
     );
-    return response.data;
+    return response;
   } catch (error) {
     console.log(error.message);
   }
