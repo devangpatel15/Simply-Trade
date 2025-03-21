@@ -91,10 +91,7 @@ exports.findUserColor = async (req, res) => {
 exports.createColor = async (req, res) => {
   try {
     const data = req.body;
-    const colorData = await createColorServices({
-      ...data,
-      userId: req.user.id,
-    });
+    const colorData = await createColorServices(data);
     return res.status(200).json({ message: "Color created", data: colorData });
   } catch (err) {
     return res
@@ -129,9 +126,7 @@ exports.softDeleteColor = async (req, res) => {
       return res.status(404).json({ message: "Color not found" });
     }
 
-    return res
-      .status(200)
-      .json({ message: "Color soft deleted", data: color });
+    return res.status(200).json({ message: "Color soft deleted", data: color });
   } catch (err) {
     return res
       .status(500)

@@ -4,11 +4,12 @@ import { SketchPicker } from "react-color";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { createColor } from "../apis/ColorApi";
+import { createColor, getOneColor, updateColor } from "../apis/ColorApi";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import CategoryInput from "./common/CategoryInput";
 import ModelInput from "./common/ModelInput";
+import DeviceInput from "./common/DeviceInput";
 
 function ColorForm() {
   const [color, setColor] = useState("#fff"); // Initial color
@@ -24,7 +25,11 @@ function ColorForm() {
 
   // Handler when the color is selected
   const handleColorChange = (color) => {
-    setColor(color.hex); // Update state with selected color
+    setColor(color.hex);
+    setFormData((prev) => ({
+      ...prev,
+      colorName: color.hex, // Store selected color in formData
+    }));
   };
 
   const { id } = useParams();
@@ -34,26 +39,19 @@ function ColorForm() {
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
   const [catId, setCatId] = useState("");
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const [modelId, setModelId] = useState("");
 
   const handleSubmit = async () => {
     try {
       if (id) {
-        await updateCategory(
+        await updateColor(
           {
             ...formData,
             organization: formData.organization.value,
             branchName: formData.branchName.value,
             categoryId: formData.categoryId.value,
             modelId: formData.modelId.value,
+            deviceId: formData.deviceId.value,
           },
           id
         );
@@ -65,6 +63,7 @@ function ColorForm() {
           branchName: formData.branchName.value,
           categoryId: formData.categoryId.value,
           modelId: formData.modelId.value,
+          deviceId: formData.deviceId.value,
         });
         navigate("/colorPage");
       }
@@ -74,30 +73,38 @@ function ColorForm() {
     }
   };
 
-  // const callApi = async () => {
-  //   if (id) {
-  //     const response = await getOneCategory(id);
-  //     setFormData({
-  //       ...response.data.data,
-  //       organization: {
-  //         label: response.data.data.organization.organizationName,
-  //         value: response.data.data.organization._id || "",
-  //       },
-  //       branchName: {
-  //         label: response.data.data.branchName.branchName,
-  //         value: response.data.data.branchName._id || "",
-  //       },
-  //       categoryId: {
-  //         label: response.data.data.categoryId.branchName,
-  //         value: response.data.data.categoryId._id || "",
-  //       },
-  //     });
-  //   }
-  // };
+  const callApi = async () => {
+    if (id) {
+      const response = await getOneColor(id);
+      setFormData({
+        ...response.data.data,
+        organization: {
+          label: response.data.data.organization.organizationName,
+          value: response.data.data.organization._id || "",
+        },
+        branchName: {
+          label: response.data.data.branchName.branchName,
+          value: response.data.data.branchName._id || "",
+        },
+        categoryId: {
+          label: response.data.data.categoryId.branchName,
+          value: response.data.data.categoryId._id || "",
+        },
+        modelId: {
+          label: response.data.data.categoryId.branchName,
+          value: response.data.data.categoryId._id || "",
+        },
+        deviceId: {
+          label: response.data.data.deviceId.branchName,
+          value: response.data.data.deviceId._id || "",
+        },
+      });
+    }
+  };
 
-  // useEffect(() => {
-  //   callApi();
-  // }, []);
+  useEffect(() => {
+    callApi();
+  }, []);
 
   const handleOrganizationChange = (selectedOrg) => {
     setSelectedOrganization(selectedOrg.value);
@@ -121,10 +128,16 @@ function ColorForm() {
     }));
   };
   const handleModelChange = (selectedModel) => {
-    console.log("modelSElected", selectedModel);
+    setModelId(selectedModel.value);
     setFormData((prev) => ({
       ...prev,
       modelId: selectedModel,
+    }));
+  };
+  const handleDeviceChange = (selectedDevice) => {
+    setFormData((prev) => ({
+      ...prev,
+      deviceId: selectedDevice,
     }));
   };
 
@@ -180,7 +193,11 @@ function ColorForm() {
               />
             </Grid>
             <Grid item xs={6}>
-              <ModelInput />
+              <DeviceInput
+                onChange={handleDeviceChange}
+                value={formData.deviceId}
+                modelId={modelId}
+              />
             </Grid>
             <Grid item xs={6}>
               <Button
@@ -203,7 +220,6 @@ function ColorForm() {
               <SketchPicker
                 color={color}
                 onChangeComplete={handleColorChange}
-                onChange={handleChange}
               />
             </Box>
           )}

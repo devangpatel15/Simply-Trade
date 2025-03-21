@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const ModelInput = ({ onChange, value, catId }) => {
+const DeviceInput = ({ onChange, value, modelId }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,11 +16,11 @@ const ModelInput = ({ onChange, value, catId }) => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/selectModelByCat/${catId}`
+          `http://localhost:4000/api/selectDeviceByModel/${modelId}`
         );
 
         const formattedOptions = (response.data.data || []).map((org) => ({
-          label: org.modelName,
+          label: org.deviceName,
           value: org._id,
         }));
 
@@ -32,7 +32,7 @@ const ModelInput = ({ onChange, value, catId }) => {
         setLoading(false);
       }
     }, 500),
-    [catId]
+    [modelId]
   );
 
   // Fetch organizations when inputValue changes
@@ -58,7 +58,7 @@ const ModelInput = ({ onChange, value, catId }) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Model"
+          label="Device"
           variant="outlined"
           InputProps={{
             ...params.InputProps,
@@ -77,4 +77,4 @@ const ModelInput = ({ onChange, value, catId }) => {
   );
 };
 
-export default ModelInput;
+export default DeviceInput;

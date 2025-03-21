@@ -20,6 +20,7 @@ import { deleteUser } from "../apis/UserApi";
 import { deleteCategory } from "../apis/CategoryApi";
 import { deleteModel } from "../apis/ModelApi";
 import { deleteDevice } from "../apis/DeviceApi";
+import { deleteColor } from "../apis/ColorApi";
 
 const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
   const {
@@ -68,6 +69,8 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
       ? deleteModel(_id)
       : fieldName == "deviceForm"
       ? deleteDevice(_id)
+      : fieldName == "colorForm"
+      ? deleteColor(_id)
       : "";
 
     setDeleteOpen(false);
@@ -97,6 +100,8 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
           ? "MODEL"
           : fieldName == "deviceForm"
           ? "DEVICE"
+          : fieldName == "colorForm"
+          ? "COLOR"
           : ""}
       </DialogTitle>
       <DialogContent>
@@ -233,6 +238,8 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
               ? `/modelForm/${_id}`
               : fieldName == "deviceForm"
               ? `/deviceForm/${_id}`
+              : fieldName == "colorForm"
+              ? `/colorForm/${_id}`
               : `/organizationBranchForm/${_id}`
           }
         >
