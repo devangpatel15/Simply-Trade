@@ -91,7 +91,6 @@ const ModelForm = () => {
     callGetSelectedCategory();
   }, [formData.orgBranch]);
 
-<<<<<<< HEAD
   console.log("cat options", categoryOptions);
 
   const handleOrganizationChange = (selectedOrg) => {
@@ -107,8 +106,6 @@ const ModelForm = () => {
     }));
   };
 
-=======
->>>>>>> eb76992da73ff57fd520b468e7fbbb476cd0d3b5
   return (
     <Box sx={{ display: "flex" }}>
       <Sidebar />
