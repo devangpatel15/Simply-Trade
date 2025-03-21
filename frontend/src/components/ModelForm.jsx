@@ -146,22 +146,6 @@ const ModelForm = () => {
           >
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                {/* <TextField
-                  select
-                  fullWidth
-                  label="Organization Branch"
-                  variant="outlined"
-                  name="orgBranch"
-                  value={formData.orgBranch || ""}
-                  onChange={handleChange}
-                  required
-                >
-                  {branchOptions.map((option) => (
-                    <MenuItem key={option._id} value={option._id}>
-                      {option.branchName}
-                    </MenuItem>
-                  ))}
-                </TextField> */}
                 <OrgInput
                   onChange={handleOrganizationChange}
                   value={formData.organization}
@@ -169,22 +153,6 @@ const ModelForm = () => {
               </Grid>
 
               <Grid item xs={6}>
-                {/* <TextField
-                  select
-                  fullWidth
-                  label="Category"
-                  variant="outlined"
-                  name="categoryId"
-                  value={formData.categoryId || ""}
-                  onChange={handleChange}
-                  required
-                >
-                  {categoryOptions.map((option) => (
-                    <MenuItem key={option._id} value={option._id}>
-                      {option.categoryName}
-                    </MenuItem>
-                  ))}
-                </TextField> */}
                 <OrgBranchInput
                   onChange={handleOrganizationBranchChange}
                   value={formData.orgBranch}
