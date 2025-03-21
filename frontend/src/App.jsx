@@ -273,6 +273,15 @@ function App() {
             </PrivateRoute>
           }
         />
+
+        <Route
+          path="/capacityForm/:id"
+          element={
+            <PrivateRoute>
+              <CapacityForm />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<NotFound404 />} />
       </Routes>
     </ThemeProvider>

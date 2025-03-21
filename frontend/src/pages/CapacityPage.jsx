@@ -87,7 +87,7 @@ const CapacityPage = () => {
                 component={Link}
                 to="/capacityForm"
               >
-                Add Category
+                Add Capacity
               </Button>
             </Box>
           </Box>
@@ -118,7 +118,9 @@ const CapacityPage = () => {
                       <Typography
                         variant="h6"
                         sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-                      ></Typography>
+                      >
+                        {capacity.capacityName}
+                      </Typography>
 
                       <Box sx={{ display: "flex", gap: 2 }}>
                         <Typography
@@ -161,7 +163,7 @@ const CapacityPage = () => {
             open={open}
             data={data}
             callApi={callApi}
-            fieldName="capacity Form"
+            fieldName="capacityForm"
           />
         </Box>
       </Box>

@@ -18,6 +18,11 @@ import {
   updateCapacity,
 } from "../apis/CapacityApi";
 import { getAllDevice } from "../apis/DeviceApi";
+import OrgInput from "./common/OrgInput";
+import OrgBranchInput from "./common/OrgBranchInput";
+import CategoryInput from "./common/CategoryInput";
+import ModelInput from "./common/ModelInput";
+import DeviceInput from "./common/DeviceInput";
 
 const CapacityForm = () => {
   const { id } = useParams();
@@ -27,16 +32,18 @@ const CapacityForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    organization: "",
-    branchName: "",
-    deviceName: "",
-    modelId: "",
+    organization: null,
+    branchName: null,
+    deviceId: null,
+    categoryId: null,
+    modelId: null,
     capacityName: "",
   });
 
-  const [organizationOptions, setOrganizationOptions] = useState([]);
-  const [branchOptions, setBranchOptions] = useState([]);
-  const [deviceOptions, setDeviceOptions] = useState([]);
+  const [selectedOrganization, setSelectedOrganization] = useState("");
+  const [branchId, setBranchId] = useState("");
+  const [catId, setCatId] = useState("");
+  const [modelId, setModelId] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,10 +57,27 @@ const CapacityForm = () => {
   const handleSubmit = async () => {
     try {
       if (id) {
-        updateCapacity(formData, id);
+        await updateCapacity(
+          {
+            ...formData,
+            organization: formData.organization.value,
+            branchName: formData.branchName.value,
+            categoryId: formData.categoryId.value,
+            modelId: formData.modelId.value,
+            deviceId: formData.deviceId.value,
+          },
+          id
+        );
         navigate("/capacityPage");
       } else {
-        createCapacity(formData);
+        await createCapacity({
+          ...formData,
+          organization: formData.organization.value,
+          branchName: formData.branchName.value,
+          categoryId: formData.categoryId.value,
+          modelId: formData.modelId.value,
+          deviceId: formData.deviceId.value,
+        });
         navigate("/capacityPage");
       }
     } catch (error) {
@@ -65,44 +89,72 @@ const CapacityForm = () => {
   const callApi = async () => {
     if (id) {
       const response = await getOneCapacity(id);
-      console.log("response========", response.data.data);
-      setFormData(response.data.data);
+      setFormData({
+        ...response.data.data,
+        organization: {
+          label: response.data.data.organization.organizationName,
+          value: response.data.data.organization._id || "",
+        },
+        branchName: {
+          label: response.data.data.branchName.branchName,
+          value: response.data.data.branchName._id || "",
+        },
+        categoryId: {
+          label: response.data.data.categoryId.categoryName,
+          value: response.data.data.categoryId._id || "",
+        },
+        modelId: {
+          label: response.data.data.categoryId.modelName,
+          value: response.data.data.categoryId._id || "",
+        },
+        deviceId: {
+          label: response.data.data.deviceId.deviceName,
+          value: response.data.data.deviceId._id || "",
+        },
+      });
     }
   };
 
-  const callGetAllOrg = async () => {
-    const response = await allUserOrg();
-    console.log("response", response.data.data);
-    setOrganizationOptions(response.data.data);
-  };
-
-  const callGetOrgBranch = async () => {
-    console.log("hello");
-    const response = await getOrgBranch(formData.organization);
-    console.log("response of branch", response.data.data);
-    setBranchOptions(response.data.data);
-  };
-
-  const callGetAllDevice = async () => {
-    const response = await getAllDevice(formData.branchName);
-    console.log("Response device", response.data.data);
-    setDeviceOptions(response.data.data);
-  };
-
-  console.log("formData", formData);
-
   useEffect(() => {
     callApi();
-    callGetAllOrg();
   }, []);
 
-  useEffect(() => {
-    callGetOrgBranch();
-  }, [formData.organization]);
+  const handleOrganizationChange = (selectedOrg) => {
+    setSelectedOrganization(selectedOrg.value);
+    setFormData((prev) => ({
+      ...prev,
+      organization: selectedOrg,
+    }));
+  };
+  const handleOrganizationBranchChange = (selectedOrgBranch) => {
+    setBranchId(selectedOrgBranch.value);
+    setFormData((prev) => ({
+      ...prev,
+      branchName: selectedOrgBranch,
+    }));
+  };
+  const handleCategoryChange = (selectedCategory) => {
+    setCatId(selectedCategory.value);
+    setFormData((prev) => ({
+      ...prev,
+      categoryId: selectedCategory,
+    }));
+  };
+  const handleModelChange = (selectedModel) => {
+    setModelId(selectedModel.value);
+    setFormData((prev) => ({
+      ...prev,
+      modelId: selectedModel,
+    }));
+  };
+  const handleDeviceChange = (selectedDevice) => {
+    setFormData((prev) => ({
+      ...prev,
+      deviceId: selectedDevice,
+    }));
+  };
 
-  useEffect(() => {
-    callGetAllDevice();
-  }, [formData.branchName]);
+  console.log("formData===============", formData);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -132,78 +184,44 @@ const CapacityForm = () => {
           >
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <TextField
-                  select
-                  fullWidth
-                  label="Organization Name"
-                  variant="outlined"
-                  name="organization"
-                  value={formData.organization || ""}
-                  onChange={handleChange}
-                  required
-                >
-                  {organizationOptions.map((option) => (
-                    <MenuItem key={option._id} value={option._id}>
-                      {option.organizationName}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                <OrgInput
+                  onChange={handleOrganizationChange}
+                  value={formData.organization}
+                />
               </Grid>
 
               <Grid item xs={6}>
-                <TextField
-                  select
-                  fullWidth
-                  label="OrganizationBranch Name"
-                  variant="outlined"
-                  name="branchName"
-                  value={formData.branchName || ""}
-                  onChange={handleChange}
-                  required
-                >
-                  {branchOptions.map((option) => (
-                    <MenuItem key={option._id} value={option._id}>
-                      {option.branchName}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                <OrgBranchInput
+                  onChange={handleOrganizationBranchChange}
+                  value={formData.orgBranch}
+                  selectedOrganization={selectedOrganization}
+                />
               </Grid>
-
               <Grid item xs={6}>
-                <TextField
-                  select
-                  fullWidth
-                  label="Device"
-                  variant="outlined"
-                  name="deviceName"
-                  value={formData.deviceName || ""}
-                  onChange={handleChange}
-                  required
-                >
-                  {deviceOptions.map((option) => {
-                    <MenuItem key={option._id} value={option._id}>
-                      {option.deviceName}
-                    </MenuItem>;
-                  })}
-                </TextField>
+                <CategoryInput
+                  onChange={handleCategoryChange}
+                  value={formData.categoryId}
+                  branchId={branchId}
+                />
               </Grid>
-
               <Grid item xs={6}>
-                <TextField
-                  select
-                  fullWidth
-                  label="Model"
-                  variant="outlined"
-                  required
-                >
-                  <MenuItem></MenuItem>
-                </TextField>
+                <ModelInput
+                  onChange={handleModelChange}
+                  value={formData.modelId}
+                  catId={catId}
+                />
               </Grid>
-
+              <Grid item xs={6}>
+                <DeviceInput
+                  onChange={handleDeviceChange}
+                  value={formData.deviceId}
+                  modelId={modelId}
+                />
+              </Grid>
               <Grid item xs={6}>
                 <TextField
                   fullWidth
-                  label="Device"
+                  label="Capacity"
                   variant="outlined"
                   name="capacityName"
                   value={formData.capacityName || ""}
