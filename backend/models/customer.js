@@ -4,15 +4,13 @@ const customerSchema = new mongoose.Schema({
 
     customerName: { type: String, required: true },
     customerPhone: { type: String, required: true },
-    orgBranchId: {
+    branchName: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "OrganizationBranch",
-        // required: true,
     },
-    orgId: {
+    organization: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Organization",
-        // required: true,
+        ref: "Organization"
     },
     isDeleted: { type: Boolean, default: false },
 

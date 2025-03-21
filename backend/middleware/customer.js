@@ -8,12 +8,12 @@ exports.createCustomerValidation = [
     .notEmpty()
     .withMessage("Customer name is required"),
 
-    body("orgId")
+    body("organization")
     .isMongoId()
     .notEmpty()
     .withMessage("Valid orgId is required"),
 
-  body("orgBranchId")
+  body("branchName")
     .isMongoId()
     .notEmpty()
     .withMessage("Valid orgBranchId is required"),
@@ -34,12 +34,12 @@ exports.updateCustomerValidation = [
     .optional()
     .withMessage("Customer name is required"),
 
-    body("orgId")
+    body("organization")
     .isMongoId()
     .optional()
     .withMessage("Valid orgId is required"),
 
-  body("orgBranchId")
+  body("branchName")
     .isMongoId()
     .optional()
     .withMessage("Valid orgBranchId is required"),

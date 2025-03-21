@@ -87,15 +87,15 @@ function ColorForm() {
           value: response.data.data.branchName._id || "",
         },
         categoryId: {
-          label: response.data.data.categoryId.branchName,
+          label: response.data.data.categoryId.categoryName,
           value: response.data.data.categoryId._id || "",
         },
         modelId: {
-          label: response.data.data.categoryId.branchName,
-          value: response.data.data.categoryId._id || "",
+          label: response.data.data.modelId.modelName,
+          value: response.data.data.modelId._id || "",
         },
         deviceId: {
-          label: response.data.data.deviceId.branchName,
+          label: response.data.data.deviceId.deviceName,
           value: response.data.data.deviceId._id || "",
         },
       });
@@ -174,7 +174,7 @@ function ColorForm() {
             <Grid item xs={6}>
               <OrgBranchInput
                 onChange={handleOrganizationBranchChange}
-                value={formData.orgBranch}
+                value={formData.branchName}
                 selectedOrganization={selectedOrganization}
               />
             </Grid>

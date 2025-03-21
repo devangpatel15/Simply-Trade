@@ -5,7 +5,7 @@ exports.getAllCustomerService = async () => {
 };
 
 exports.getCustomerService = async (cusId) => {
-  return await Customer.findById(cusId ).lean();
+  return await Customer.findById(cusId ).populate("organization branchName").lean();
 };
 
 exports.createCustomerService = async (newCus) => {

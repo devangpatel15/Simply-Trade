@@ -6,25 +6,25 @@ const stockSchema = new mongoose.Schema({
     ref: "Organization",
     required: true,
   },
-  branch: {
+  branchName: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Branch",
     required: true,
   },
   customerName: { type: String, required: true },
   customerPhone: { type: String, required: true },
-  category: {
+  categoryName: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
     required: true,
   },
-  model: { type: mongoose.Schema.Types.ObjectId, ref: "Model", required: true },
-  device: {
+  modelName: { type: mongoose.Schema.Types.ObjectId, ref: "Model", required: true },
+  deviceName: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Device",
     required: true,
   },
-  capacity: {
+  capacityName: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Capacity",
     required: true,
