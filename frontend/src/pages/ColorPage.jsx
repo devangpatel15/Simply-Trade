@@ -157,7 +157,7 @@ const ColorPage = () => {
             open={open}
             data={data}
             callApi={callApi}
-            fieldName="categoryForm"
+            fieldName="colorForm"
           />
         </Box>
       </Box>

@@ -247,6 +247,14 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/colorForm/:id"
+          element={
+            <PrivateRoute>
+              <ColorForm />
+            </PrivateRoute>
+          }
+        />
 
         <Route
           path="/capacityPage"

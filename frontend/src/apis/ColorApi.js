@@ -61,4 +61,21 @@ const getAllColor = async () => {
   }
 };
 
-export { createColor, getOneColor, updateColor, getAllColor };
+const deleteColor = async (id) => {
+  try {
+    await axios.put(
+      `http://localhost:4000/api/deleteColor/${id}`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+  } catch (error) {
+    console.log(error, "Create Color error");
+  }
+};
+
+export { createColor, getOneColor, updateColor, getAllColor, deleteColor };
