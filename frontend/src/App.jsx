@@ -27,11 +27,8 @@ import StockPage from "./pages/StockPage";
 import StockForm from "./components/StockForm";
 import CustomerPage from "./pages/CustomerPage";
 import CustomerForm from "./components/CustomerForm";
-<<<<<<< HEAD
 import AccountPage from "./pages/AccountPage";
 import AccountForm from "./components/AccountForm";
-=======
->>>>>>> 905a3b9d54efce8e8b94eb49a973d68047c406a3
 
 function App() {
   const PrivateRoute = ({ children }) => {
