@@ -159,20 +159,21 @@ const StockPage = () => {
                       </Box>
                     </Box>
                   </Box>
+                  <Box sx={{ display: "flex", gap: 2 }}>
+                    <IconButton
+                      sx={{ backgroundColor: "#f5f5f5" }}
+                      onClick={() => handlePaymentDialogOpen(payment)}
+                    >
+                      <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
+                    </IconButton>
 
-                  <IconButton
-                    sx={{ backgroundColor: "#f5f5f5" }}
-                    onClick={() => handlePaymentDialogOpen(payment)}
-                  >
-                    <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
-                  </IconButton>
-
-                  <IconButton
-                    sx={{ backgroundColor: "#f5f5f5" }}
-                    onClick={() => handleOpen(stock)}
-                  >
-                    <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-                  </IconButton>
+                    <IconButton
+                      sx={{ backgroundColor: "#f5f5f5" }}
+                      onClick={() => handleOpen(stock)}
+                    >
+                      <VisibilityIcon sx={{ color: "#6c5ce7" }} />
+                    </IconButton>
+                  </Box>
                 </Box>
               );
             })}

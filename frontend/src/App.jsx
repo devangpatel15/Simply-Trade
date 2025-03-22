@@ -23,15 +23,12 @@ import UserForm from "./components/UserForm";
 import OrganizationBranchForm from "./components/OrganizationBranchForm";
 import CapacityPage from "./pages/CapacityPage";
 import CapacityForm from "./components/CapacityForm";
-<<<<<<< HEAD
 import StockPage from "./pages/StockPage";
 import StockForm from "./components/StockForm";
 import CustomerPage from "./pages/CustomerPage";
 import CustomerForm from "./components/CustomerForm";
-=======
-import CustomerPage from "./pages/CustomerPage";
-import CustomerForm from "./components/CustomerForm";
->>>>>>> 98823aeb05638f39bc16d5c9f13ffde65062cf35
+import AccountPage from "./pages/AccountPage";
+import AccountForm from "./components/AccountForm";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -306,7 +303,9 @@ function App() {
           element={
             <PrivateRoute>
               <StockForm />
-              </PrivateRoute>}/>
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/customerPage"
           element={
@@ -328,6 +327,24 @@ function App() {
           element={
             <PrivateRoute>
               <CustomerForm />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/accountPage"
+          element={
+            <PrivateRoute>
+              <AccountPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/accountForm"
+          element={
+            <PrivateRoute>
+              <AccountForm />
             </PrivateRoute>
           }
         />
