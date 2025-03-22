@@ -10,11 +10,6 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import {
-  createCategory,
-  getOneCategory,
-  updateCategory,
-} from "../apis/CategoryApi";
 
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
@@ -190,7 +185,7 @@ const CustomerForm = () => {
               variant="contained"
               color="error"
               component={Link}
-              to="/category"
+              to="/customerPage"
             >
               Cancel
             </Button>

@@ -22,6 +22,7 @@ import { deleteModel } from "../apis/ModelApi";
 import { deleteDevice } from "../apis/DeviceApi";
 import { deleteColor } from "../apis/ColorApi";
 import { deleteCapacity } from "../apis/CapacityApi";
+import DeleteDialog from "./DeleteDialog";
 
 const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
   const {
@@ -257,18 +258,13 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
         <Button variant="outlined" color="error" onClick={openDeleteDialog}>
           Delete
         </Button>
-        <Dialog
-          open={deleteOpen}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle>Are Sure Delete</DialogTitle>
-          <DialogActions>
-            <Button onClick={handleDelete}>Yes</Button>
-            <Button onClick={closeDeleteDialog}>No</Button>
-          </DialogActions>
-        </Dialog>
+
+        <DeleteDialog
+          deleteOpen={deleteOpen}
+          handleClose={handleClose}
+          handleDelete={handleDelete}
+          closeDeleteDialog={closeDeleteDialog}
+        />
         <IconButton
           onClick={handleClose}
           sx={{ position: "absolute", top: 8, right: 8 }}

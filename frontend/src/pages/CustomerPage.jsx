@@ -16,26 +16,28 @@ import {
   CardContent,
   CardMedia,
 } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import { Link } from "react-router-dom";
-import DialogBox from "../components/DialogBox";
+import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import image from "../assets/Rectangle 1900.png";
-import { getAllCustomer } from "../apis/CustomerApi";
+import { deleteCustomer, getAllCustomer } from "../apis/CustomerApi";
+import DeleteDialog from "../components/DeleteDialog";
 
 const CustomerPage = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [customer, setCustomer] = useState([]);
+  const [customerId, setCustomerId] = useState("");
+
+  const navigate = useNavigate();
 
   const callApi = async () => {
     const response = await getAllCustomer();
-    console.log("RESPONSE", response.data.data);
+    console.log("RESPONSE==", response.data.data);
     setCustomer(response.data.data);
   };
 
@@ -43,12 +45,30 @@ const CustomerPage = () => {
     callApi();
   }, []);
 
-  const handleClick = (event) => {
+  const handleClick = (event, id) => {
     setAnchorEl(event.currentTarget);
+    setCustomerId(id);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+    setDeleteOpen(false);
+  };
+
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
+  const openDeleteDialog = () => {
+    setDeleteOpen(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteOpen(false);
+  };
+
+  const handleDelete = async () => {
+    await deleteCustomer(customerId);
+    // navigate("/customerPage");
+    setDeleteOpen(false);
   };
 
   return (
@@ -96,106 +116,125 @@ const CustomerPage = () => {
               </Button>
             </Box>
           </Box>
-
-          {customer &&
-            customer.map((option) => {
-              return (
-                <Card
-                  sx={{
-                    width: 250,
-                    borderRadius: 2,
-                    boxShadow: 3,
-                    m: 1,
-                    p: 1,
-                    height: 285,
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={image}
-                    alt="business logo"
-                  />
-                  <CardContent
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Box>
-                      <Typography
-                        variant="h6"
-                        color="primary"
-                        fontWeight="bold"
-                      >
-                        Icon Emporia
-                      </Typography>
-                      <Box sx={{ mt: 1 }}>
-                        <Typography
-                          variant="body2"
-                          fontWeight="bold"
-                          display="inline"
-                        >
-                          Name
-                        </Typography>
-                        <Typography variant="body2" display="inline">
-                          {option.customerName}
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <Typography
-                          variant="body2"
-                          fontWeight="bold"
-                          display="inline"
-                        >
-                          Phone:{" "}
-                        </Typography>
-                        <Typography variant="body2" display="inline">
-                          {option.customerPhone}
-                        </Typography>
-                      </Box>
-                    </Box>
-
-                    {/* More Icon Button with Dropdown */}
-                    <IconButton
-                      size="small"
-                      onClick={handleClick}
-                      disableRipple
-                      sx={{ padding: 0 }}
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+            }}
+          >
+            {customer &&
+              customer.map((option, index) => {
+                return (
+                  <>
+                    <Card
+                      sx={{
+                        width: 230,
+                        borderRadius: 2,
+                        boxShadow: 3,
+                        m: 1,
+                        p: 1,
+                      }}
+                      key={index}
                     >
-                      <MoreVertIcon />
-                    </IconButton>
-
-                    <Menu
-                      anchorEl={anchorEl}
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                    >
-                      <MenuItem
-                        onClick={handleClose}
+                      <CardMedia
+                        component="img"
+                        height="140"
+                        image={image}
+                        alt="business logo"
+                      />
+                      <CardContent
                         sx={{
-                          padding: 0,
-                          backgroundColor: "transparent",
+                          position: "relative", // Ensures the menu button is positioned correctly
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "flex-start",
                         }}
                       >
-                        <EditIcon sx={{ color: "black" }} />
-                      </MenuItem>
-                      <MenuItem
-                        onClick={handleClose}
-                        sx={{
-                          color: "red",
-                          padding: 0,
-                          backgroundColor: "transparent",
-                        }}
-                      >
-                        <DeleteIcon sx={{ color: "red" }} />
-                      </MenuItem>
-                    </Menu>
-                  </CardContent>
-                </Card>
-              );
-            })}
+                        {/* More Icon Button - Positioned at Top Right */}
+                        <Box sx={{ position: "absolute", top: 0, right: 0 }}>
+                          <IconButton
+                            size="small"
+                            onClick={(event) => handleClick(event, option._id)}
+                          >
+                            <MoreVertIcon />
+                          </IconButton>
+                        </Box>
+
+                        {/* Branch Name */}
+                        <Typography
+                          variant="h6"
+                          color="primary"
+                          fontWeight="bold"
+                        >
+                          {option.branchName.branchName}
+                        </Typography>
+
+                        {/* Customer Name */}
+                        <Box sx={{ mt: 1 }}>
+                          <Typography
+                            variant="body2"
+                            fontWeight="bold"
+                            display="inline"
+                          >
+                            Name:{" "}
+                          </Typography>
+                          <Typography variant="body2" display="inline">
+                            {option.customerName}
+                          </Typography>
+                        </Box>
+
+                        {/* Customer Phone */}
+                        <Box sx={{ mt: 1 }}>
+                          <Typography
+                            variant="body2"
+                            fontWeight="bold"
+                            display="inline"
+                          >
+                            Phone:{" "}
+                          </Typography>
+                          <Typography variant="body2" display="inline">
+                            {option.customerPhone}
+                          </Typography>
+                        </Box>
+
+                        {/* Dropdown Menu */}
+                        <Menu
+                          anchorEl={anchorEl}
+                          open={Boolean(anchorEl)}
+                          onClose={handleClose}
+                          sx={{ padding: 0 }}
+                        >
+                          <MenuItem
+                            sx={{ p: 0 }}
+                            onClick={() =>
+                              navigate(`/customerForm/${customerId}`)
+                            }
+                          >
+                            <EditIcon
+                              sx={{ mr: 1, p: 0, m: 0, color: "green" }}
+                            />
+                          </MenuItem>
+                          <MenuItem
+                            onClick={() => openDeleteDialog()}
+                            sx={{ color: "red", p: 0 }}
+                          >
+                            <DeleteIcon
+                              sx={{ mr: 1, color: "red", p: 0, m: 0 }}
+                            />
+                          </MenuItem>
+                        </Menu>
+                      </CardContent>
+                    </Card>
+                    <DeleteDialog
+                      deleteOpen={deleteOpen}
+                      handleClose={handleClose}
+                      handleDelete={handleDelete}
+                      closeDeleteDialog={closeDeleteDialog}
+                    />
+                  </>
+                );
+              })}
+          </Box>
         </Box>
       </Box>
     </Box>

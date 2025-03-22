@@ -248,7 +248,7 @@ const Sidebar = () => {
             </Collapse>
 
             {/* Other Sidebar Items */}
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate("/stockPage")}>
               <ListItemIcon>
                 <Inventory sx={{ color: iconColor }} />
               </ListItemIcon>
