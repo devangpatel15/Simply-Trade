@@ -14,6 +14,7 @@ const capRouter = require("./routes/capacity.js");
 const cusRouter = require("./routes/customer.js");
 const stockRouter = require("./routes/stock.js");
 const paymentRouter = require("./routes/payment.js");
+const accountRouter = require("./routes/account.js");
 
 const PORT = process.env.PORT;
 connectMongoDB();
@@ -32,7 +33,8 @@ app.use(
   capRouter,
   cusRouter,
   stockRouter,
-  paymentRouter
+  paymentRouter,
+  accountRouter
 );
 // app.use("/api", organizationBranchRoute);
 // app.use("/api", orgRouter);
