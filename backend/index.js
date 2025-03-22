@@ -13,13 +13,27 @@ const catRouter = require("./routes/category.js");
 const capRouter = require("./routes/capacity.js");
 const cusRouter = require("./routes/customer.js");
 const stockRouter = require("./routes/stock.js");
+const paymentRouter = require("./routes/payment.js");
 
 const PORT = process.env.PORT;
 connectMongoDB();
 
 app.use(express.json());
 app.use(cors());
-app.use("/api", userRoute , organizationBranchRoute, orgRouter, colorRoute, deviceRoute, modelRoute, catRouter, capRouter, cusRouter ,stockRouter);
+app.use(
+  "/api",
+  userRoute,
+  organizationBranchRoute,
+  orgRouter,
+  colorRoute,
+  deviceRoute,
+  modelRoute,
+  catRouter,
+  capRouter,
+  cusRouter,
+  stockRouter,
+  paymentRouter
+);
 // app.use("/api", organizationBranchRoute);
 // app.use("/api", orgRouter);
 // app.use("/api", colorRoute);
