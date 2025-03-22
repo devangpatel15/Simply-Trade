@@ -5,7 +5,7 @@ exports.getAllStockService = async () => {
 };
 
 exports.getStockService = async (stockId) => {
-  return await Stock.findById(stockId ).lean();
+  return await Stock.findById(stockId).populate("organization branch categoryName modelName deviceName capacityName color").lean();
 };
 
 exports.createStockService = async (newStock) => {

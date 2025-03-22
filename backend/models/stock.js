@@ -6,9 +6,9 @@ const stockSchema = new mongoose.Schema({
     ref: "Organization",
     required: true,
   },
-  branchName: {
+  branch: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Branch",
+    ref: "OrganizationBranch",
     required: true,
   },
   customerName: { type: String, required: true },
