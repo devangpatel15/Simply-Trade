@@ -26,6 +26,8 @@ import CapacityForm from "./components/CapacityForm";
 <<<<<<< HEAD
 import StockPage from "./pages/StockPage";
 import StockForm from "./components/StockForm";
+import CustomerPage from "./pages/CustomerPage";
+import CustomerForm from "./components/CustomerForm";
 =======
 import CustomerPage from "./pages/CustomerPage";
 import CustomerForm from "./components/CustomerForm";
