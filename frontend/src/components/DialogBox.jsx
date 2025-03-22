@@ -259,18 +259,6 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
           Delete
         </Button>
 
-        {/* <Dialog
-          open={deleteOpen}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle>Are Sure Delete</DialogTitle>
-          <DialogActions>
-            <Button onClick={handleDelete}>Yes</Button>
-            <Button onClick={closeDeleteDialog}>No</Button>
-          </DialogActions>
-        </Dialog> */}
         <DeleteDialog
           deleteOpen={deleteOpen}
           handleClose={handleClose}
