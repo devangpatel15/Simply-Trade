@@ -304,6 +304,7 @@ function App() {
           element={
             <PrivateRoute>
               <StockForm />
+              </PrivateRoute>}/>
         <Route
           path="/customerPage"
           element={
