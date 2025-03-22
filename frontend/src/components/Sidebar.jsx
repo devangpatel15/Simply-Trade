@@ -66,7 +66,7 @@ import {
 
 import logo from "../assets/Group 18763.png";
 import SegmentIcon from "@mui/icons-material/Segment";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
@@ -76,11 +76,12 @@ import ColorizeIcon from "@mui/icons-material/Colorize";
 import OnDeviceTrainingIcon from "@mui/icons-material/OnDeviceTraining";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import StorageIcon from "@mui/icons-material/Storage";
+import ArticleIcon from "@mui/icons-material/Article";
+import PersonIcon from "@mui/icons-material/Person";
 
 const iconColor = "#5C4E89"; // Custom icon color
 
 const Sidebar = () => {
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [openMaster, setOpenMaster] = useState(false);
@@ -253,6 +254,32 @@ const Sidebar = () => {
               </ListItemIcon>
               <ListItemText primary="Stock" />
             </ListItemButton>
+
+            <ListItemButton onClick={() => setOpenReport(!openReport)}>
+              <ArticleIcon>
+                <People sx={{ color: iconColor }} />
+              </ArticleIcon>
+              <ListItemText primary="Report" sx={{ paddingLeft: 4 }} />
+              {openReport ? (
+                <ExpandLess sx={{ color: iconColor }} />
+              ) : (
+                <ExpandMore sx={{ color: iconColor }} />
+              )}
+            </ListItemButton>
+
+            <Collapse in={openReport} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/customerPage")}
+                >
+                  <PersonIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </PersonIcon>
+                  <ListItemText primary="Customer" />
+                </ListItemButton>
+              </List>
+            </Collapse>
           </List>
         </Box>
 

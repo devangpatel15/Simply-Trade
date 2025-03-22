@@ -141,8 +141,6 @@ function ColorForm() {
     }));
   };
 
-  console.log("formData==========================", formData);
-
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />

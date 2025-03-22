@@ -28,7 +28,6 @@ const CapacityPage = () => {
   const callApi = async () => {
     const response = await getAllCapacity();
     setCapacity(response.data.data);
-    console.log("category=====", capacity);
   };
 
   useEffect(() => {
@@ -39,7 +38,6 @@ const CapacityPage = () => {
   const [data, setData] = useState({});
 
   const handleOpen = (data) => {
-    console.log(data, "data-----");
     setData(data);
     setOpen(true);
   };

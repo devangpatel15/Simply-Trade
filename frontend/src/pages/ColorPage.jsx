@@ -32,7 +32,6 @@ const ColorPage = () => {
   const [data, setData] = useState({});
 
   const handleOpen = (data) => {
-    console.log(data, "data-----");
     setData(data);
     setOpen(true);
   };

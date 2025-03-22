@@ -1,7 +1,7 @@
 const Customer = require("../models/customer");
 
 exports.getAllCustomerService = async () => {
-  return await Customer.find({ isDeleted: false }).lean();
+  return await Customer.find({ isDeleted: false }).populate("organization branchName").lean();
 };
 
 exports.getCustomerService = async (cusId) => {

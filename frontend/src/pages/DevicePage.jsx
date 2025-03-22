@@ -23,7 +23,6 @@ const DevicePage = () => {
   const callApi = async () => {
     const response = await getAllDevice();
     setDevice(response.data.data);
-    console.log("device=====", device);
   };
 
   useEffect(() => {
@@ -34,7 +33,6 @@ const DevicePage = () => {
   const [data, setData] = useState({});
 
   const handleOpen = (data) => {
-    console.log(data, "data-----");
     setData(data);
     setOpen(true);
   };

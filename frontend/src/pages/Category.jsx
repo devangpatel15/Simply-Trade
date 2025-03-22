@@ -27,7 +27,6 @@ const Category = () => {
   const callApi = async () => {
     const response = await getAllCategory();
     setCategory(response.data.data);
-    console.log("category=====", category);
   };
 
   useEffect(() => {
@@ -38,7 +37,6 @@ const Category = () => {
   const [data, setData] = useState({});
 
   const handleOpen = (data) => {
-    console.log(data, "data-----");
     setData(data);
     setOpen(true);
   };
