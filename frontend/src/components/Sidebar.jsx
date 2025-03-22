@@ -66,7 +66,7 @@ import {
 
 import logo from "../assets/Group 18763.png";
 import SegmentIcon from "@mui/icons-material/Segment";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
@@ -76,12 +76,12 @@ import ColorizeIcon from "@mui/icons-material/Colorize";
 import OnDeviceTrainingIcon from "@mui/icons-material/OnDeviceTraining";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import StorageIcon from "@mui/icons-material/Storage";
-import ArticleIcon from '@mui/icons-material/Article';
+import ArticleIcon from "@mui/icons-material/Article";
+import PersonIcon from "@mui/icons-material/Person";
 
 const iconColor = "#5C4E89"; // Custom icon color
 
 const Sidebar = () => {
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [openMaster, setOpenMaster] = useState(false);
@@ -247,8 +247,6 @@ const Sidebar = () => {
               </List>
             </Collapse>
 
-           
-
             {/* Other Sidebar Items */}
             <ListItemButton>
               <ListItemIcon>
@@ -256,12 +254,12 @@ const Sidebar = () => {
               </ListItemIcon>
               <ListItemText primary="Stock" />
             </ListItemButton>
-          
-          <ListItemButton onClick={() => setOpenReport(!openReport)}>
+
+            <ListItemButton onClick={() => setOpenReport(!openReport)}>
               <ArticleIcon>
                 <People sx={{ color: iconColor }} />
               </ArticleIcon>
-              <ListItemText primary="Report"  />
+              <ListItemText primary="Report" sx={{ paddingLeft: 4 }} />
               {openReport ? (
                 <ExpandLess sx={{ color: iconColor }} />
               ) : (
@@ -272,20 +270,18 @@ const Sidebar = () => {
             <Collapse in={openReport} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <ListItemButton
-                  sx={{ pl: 4 }}
-                  onClick={() => navigate("/organizationPage")}
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/customerPage")}
                 >
-                  <ListItemIcon>
+                  <PersonIcon>
                     <Business sx={{ color: iconColor }} />
-                  </ListItemIcon>
-                  <ListItemText primary="Organization" />
+                  </PersonIcon>
+                  <ListItemText primary="Customer" />
                 </ListItemButton>
-                </List> 
-                </Collapse>
-                </List>
+              </List>
+            </Collapse>
+          </List>
         </Box>
-
-        
 
         {/* Bottom Section */}
         <Box sx={{ px: 2, pb: 2 }}>
