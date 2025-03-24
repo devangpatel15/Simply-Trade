@@ -27,6 +27,8 @@ import StockPage from "./pages/StockPage";
 import StockForm from "./components/StockForm";
 import CustomerPage from "./pages/CustomerPage";
 import CustomerForm from "./components/CustomerForm";
+import AccountPage from "./pages/AccountPage";
+import AccountForm from "./components/AccountForm";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -325,6 +327,24 @@ function App() {
           element={
             <PrivateRoute>
               <CustomerForm />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/accountPage"
+          element={
+            <PrivateRoute>
+              <AccountPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/accountForm"
+          element={
+            <PrivateRoute>
+              <AccountForm />
             </PrivateRoute>
           }
         />

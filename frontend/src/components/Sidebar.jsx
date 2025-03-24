@@ -238,7 +238,10 @@ const Sidebar = () => {
                   <ListItemText primary="Capacity" />
                 </ListItemButton>
 
-                <ListItemButton sx={{ pl: 4, gap: "2rem" }}>
+                <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/accountPage")}
+                >
                   <AccountCircleRoundedIcon>
                     <Business sx={{ color: iconColor }} />
                   </AccountCircleRoundedIcon>
