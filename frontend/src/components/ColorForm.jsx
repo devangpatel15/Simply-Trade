@@ -12,8 +12,6 @@ import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 
 function ColorForm() {
-  const [color, setColor] = useState("#fff"); // Initial color
-  const [openPicker, setOpenPicker] = useState(false); // State to toggle the color picker visibility
   const [formData, setFormData] = useState({
     colorName: "",
     organization: null,
@@ -23,15 +21,6 @@ function ColorForm() {
     deviceId: null,
   });
 
-  // Handler when the color is selected
-  const handleColorChange = (color) => {
-    setColor(color.hex);
-    setFormData((prev) => ({
-      ...prev,
-      colorName: color.hex, // Store selected color in formData
-    }));
-  };
-
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -40,6 +29,15 @@ function ColorForm() {
   const [branchId, setBranchId] = useState("");
   const [catId, setCatId] = useState("");
   const [modelId, setModelId] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async () => {
     try {
@@ -198,45 +196,18 @@ function ColorForm() {
               />
             </Grid>
             <Grid item xs={6}>
-              <Button
-                variant="outlined"
-                color="primary"
+              <TextField
                 fullWidth
-                sx={{ height: 55 }}
-                onClick={() => setOpenPicker(!openPicker)}
-              >
-                {openPicker ? "Close Picker" : "Open color Picker"}
-              </Button>
+                label="Color Name"
+                variant="outlined"
+                name="colorName"
+                value={formData.colorName || ""}
+                onChange={handleChange}
+                required
+              ></TextField>
             </Grid>
           </Grid>
 
-          {/* Button to toggle the color picker */}
-
-          {/* Conditional rendering of the color picker */}
-          {openPicker && (
-            <Box sx={{ marginTop: 2 }}>
-              <SketchPicker
-                color={color}
-                onChangeComplete={handleColorChange}
-              />
-            </Box>
-          )}
-
-          {/* Display selected color */}
-          <Box
-            sx={{
-              marginTop: 4,
-              padding: "20px",
-              backgroundColor: color,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 2,
-              color: "white",
-            }}
-          >
-            <Typography variant="h6">Selected Color</Typography>
-          </Box>
           <Grid
             item
             xs={12}
