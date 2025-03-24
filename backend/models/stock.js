@@ -30,6 +30,7 @@ const stockSchema = new mongoose.Schema({
     required: true,
   },
   color: { type: mongoose.Schema.Types.ObjectId, ref: "Color", required: true },
+  payment : {type : mongoose.Schema.Types.ObjectId, ref : "Payment",
   imeiNo: { type: String },
   srNo: { type: String },
   totalAmount: { type: Number, required: true },
