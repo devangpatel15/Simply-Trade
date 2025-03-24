@@ -21,6 +21,7 @@ import CategoryInput from "./common/CategoryInput";
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 import ColorInput from "./common/ColorInput";
+import CapacityInput from "./common/CapacityInput";
 
 const StockForm = () => {
   const [formData, setFormData] = useState({
@@ -40,7 +41,7 @@ const StockForm = () => {
     remainingAmount: "",
   });
 
-  const [imeiOrSr, setImeiOrSr] = useState("IMEI");
+  const [selectedOption, setSelectedOption] = useState("IMEI");
   const [payments, setPayments] = useState([{ id: 1, account: "" }]);
   const [deviceForm, setDeviceForm] = useState([{ id: 1 }]);
   const [imeiForm, setImeiForm] = useState([{ id: 1 }]);
@@ -50,6 +51,10 @@ const StockForm = () => {
   const [catId, setCatId] = useState("");
   const [modelId, setModelId] = useState("");
   const [deviceId, setDeviceId] = useState("");
+
+  const handleRadioChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
   const addPayment = () => {
     setPayments([...payments, { id: payments.length + 1, account: "" }]);
@@ -102,27 +107,33 @@ const StockForm = () => {
     setCatId(selectedCategory.value);
     setFormData((prev) => ({
       ...prev,
-      categoryId: selectedCategory,
+      categoryName: selectedCategory,
     }));
   };
   const handleModelChange = (selectedModel) => {
     setModelId(selectedModel.value);
     setFormData((prev) => ({
       ...prev,
-      modelId: selectedModel,
+      modelName: selectedModel,
     }));
   };
   const handleDeviceChange = (selectedDevice) => {
     setDeviceId(selectedDevice.value);
     setFormData((prev) => ({
       ...prev,
-      deviceId: selectedDevice,
+      deviceName: selectedDevice,
     }));
   };
   const handleColorChange = (selectedColor) => {
     setFormData((prev) => ({
       ...prev,
       color: selectedColor,
+    }));
+  };
+  const handleCapacityChange = (selectedCapacity) => {
+    setFormData((prev) => ({
+      ...prev,
+      capacityName: selectedCapacity,
     }));
   };
 
@@ -249,13 +260,11 @@ const StockForm = () => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <FormControl fullWidth>
-                    <InputLabel>Capacity</InputLabel>
-                    <Select>
-                      <MenuItem value="capacity1">Capacity 1</MenuItem>
-                      <MenuItem value="capacity2">Capacity 2</MenuItem>
-                    </Select>
-                  </FormControl>
+                  <CapacityInput
+                    onChange={handleCapacityChange}
+                    value={formData.capacityName}
+                    deviceId={deviceId}
+                  />
                 </Grid>
               </Grid>
               {imeiForm.map((imei, imeiIndex) => (
@@ -271,17 +280,15 @@ const StockForm = () => {
                   >
                     <RadioGroup
                       row
-                      value={imeiOrSr}
-                      onChange={(e) => setImeiOrSr(e.target.value)}
+                      value={selectedOption}
+                      onChange={handleRadioChange}
                     >
                       <FormControlLabel
-                        name="Imei"
                         value="IMEI"
                         control={<Radio />}
                         label="IMEI No."
                       />
                       <FormControlLabel
-                        name="sr"
                         value="SR"
                         control={<Radio />}
                         label="SR. No."
@@ -315,12 +322,23 @@ const StockForm = () => {
 
                   <Grid container spacing={2} mt={1}>
                     <Grid item xs={6}>
-                      <TextField
-                        fullWidth
-                        label={
-                          imeiOrSr === "IMEI" ? "IMEI Number" : "Serial Number"
-                        }
-                      />
+                      {selectedOption === "IMEI" ? (
+                        <TextField
+                          fullWidth
+                          label="IMEI Number"
+                          value={formData.imeiNo}
+                          name="imeiNo"
+                          onChange={handleChange}
+                        />
+                      ) : (
+                        <TextField
+                          fullWidth
+                          label="SR Number"
+                          value={formData.srNo}
+                          name="srNo"
+                          onChange={handleChange}
+                        />
+                      )}
                     </Grid>
                     <Grid item xs={6}>
                       <TextField fullWidth label="Total Amount" />

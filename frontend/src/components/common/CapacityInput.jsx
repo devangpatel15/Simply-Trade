@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const ColorInput = ({ onChange, value, deviceId }) => {
+const CapacityInput = ({ onChange, value, deviceId }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,11 +16,11 @@ const ColorInput = ({ onChange, value, deviceId }) => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/selectColorByDevice/${deviceId}`
+          `http://localhost:4000/api/selectCapacityByDevice/${deviceId}`
         );
 
         const formattedOptions = (response.data.data || []).map((org) => ({
-          label: org.colorName,
+          label: org.capacityName,
           value: org._id,
         }));
 
@@ -58,7 +58,7 @@ const ColorInput = ({ onChange, value, deviceId }) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Color"
+          label="Capacity"
           variant="outlined"
           InputProps={{
             ...params.InputProps,
@@ -77,4 +77,4 @@ const ColorInput = ({ onChange, value, deviceId }) => {
   );
 };
 
-export default ColorInput;
+export default CapacityInput;
