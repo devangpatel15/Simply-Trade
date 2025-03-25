@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -9,12 +9,100 @@ import {
   InputAdornment,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import {
+  createAccount,
+  getOneAccount,
+  updateAccount,
+} from "../apis/AccountApi";
+import OrgInput from "./common/OrgInput";
+import OrgBranchInput from "./common/OrgBranchInput";
 
 const AccountForm = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    organization: null,
+    branchName: null,
+    accountName: "",
+    balance: "",
+  });
+  const [selectedOrganization, setSelectedOrganization] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      if (id) {
+        await updateAccount(
+          {
+            ...formData,
+            organization: formData.organization.value,
+            branchName: formData.branchName.value,
+          },
+          id
+        );
+        navigate("/accountPage");
+      } else {
+        await createAccount({
+          ...formData,
+          organization: formData.organization.value,
+          branchName: formData.branchName.value,
+        });
+        navigate("/accountPage");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("error");
+    }
+  };
+
+  const callApi = async () => {
+    if (id) {
+      const response = await getOneAccount(id);
+      setFormData({
+        ...response.data.data,
+        organization: {
+          label: response.data.data.organization.organizationName,
+          value: response.data.data.organization._id || "",
+        },
+        branchName: {
+          label: response.data.data.branchName.branchName,
+          value: response.data.data.branchName._id || "",
+        },
+      });
+    }
+  };
+
+  useEffect(() => {
+    callApi();
+  }, []);
+
+  const handleOrganizationChange = (selectedOrg) => {
+    setFormData((prev) => ({
+      ...prev,
+      organization: selectedOrg,
+    }));
+    setSelectedOrganization(selectedOrg.value);
+  };
+
+  const handleOrganizationBranchChange = (selectedOrgBranch) => {
+    setFormData((prev) => ({
+      ...prev,
+      branchName: selectedOrgBranch,
+    }));
+  };
+
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
@@ -47,27 +135,26 @@ const AccountForm = () => {
           </Box>
           <Grid container spacing={2} mt={2}>
             <Grid item xs={6}>
-              <TextField
-                fullWidth
-                select
-                label="Organization"
-                variant="outlined"
-              >
-                <MenuItem value={"org1"}>Organization 1</MenuItem>
-                <MenuItem value={"org2"}>Organization 2</MenuItem>
-              </TextField>
+              <OrgInput
+                onChange={handleOrganizationChange}
+                value={formData.organization}
+              />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth select label="Branch" variant="outlined">
-                <MenuItem value={"branch1"}>Branch 1</MenuItem>
-                <MenuItem value={"branch2"}>Branch 2</MenuItem>
-              </TextField>
+              <OrgBranchInput
+                onChange={handleOrganizationBranchChange}
+                value={formData.branchName}
+                selectedOrganization={selectedOrganization}
+              />
             </Grid>
             <Grid item xs={6}>
               <TextField
                 fullWidth
                 label="Enter Account Name"
                 variant="outlined"
+                name="accountName"
+                value={formData.accountName || ""}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={6}>
@@ -76,6 +163,9 @@ const AccountForm = () => {
                 label="Enter Balance"
                 variant="outlined"
                 type="number"
+                name="balance"
+                value={formData.balance || ""}
+                onChange={handleChange}
               />
             </Grid>
           </Grid>
@@ -88,7 +178,7 @@ const AccountForm = () => {
             >
               Cancel
             </Button>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
               Submit
             </Button>
           </Box>
