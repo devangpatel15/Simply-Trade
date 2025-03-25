@@ -7,6 +7,6 @@ accountRouter.get("/allAccount", getAllAccount)
 accountRouter.get("/account/:id" , getAccount)
 accountRouter.post("/createAccount",createAccount)
 accountRouter.put("/updateAccount/:id", updateAccount)
-accountRouter.put("/deleteAccount", deleteAccount)
+accountRouter.put("/deleteAccount/:id", deleteAccount)
 
 module.exports = accountRouter

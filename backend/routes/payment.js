@@ -8,6 +8,6 @@ paymentRouter.get("/allPayment",getAllPayment)
 paymentRouter.get("/payment/:id",getPaymentValidation,getPayment)
 paymentRouter.post("/createPayment",createPaymentValidation,createPayment)
 paymentRouter.put("/updatePayment/:id",updatePaymentValidation,updatePayment)
-paymentRouter.put("/deletePayment",softDeletePayment)
+paymentRouter.put("/deletePayment/:id",softDeletePayment)
 
 module.exports = paymentRouter

@@ -1,26 +1,89 @@
-const { body, param, validationResult } = require("express-validator");
+const { body, param,check, validationResult } = require("express-validator");
 
 const jwt = require("jsonwebtoken");
 
+
+
+
 exports.createValidation = [
+  // Validate organization
   body("organization")
+    .isMongoId()
+    .notEmpty()
+    .withMessage("organization must be a valid MongoID and is required"),
+
+  // Validate branch
+  body("branch")
+    .isMongoId()
+    .notEmpty()
+    .withMessage("branch must be a valid MongoID and is required"),
+
+  // Validate customerName
+  body("customerName")
     .isString()
     .notEmpty()
-    .withMessage("organization is required"),
-  body("branch").isString().notEmpty().withMessage("branch is required"),
-  body("customerName").isString().notEmpty().withMessage("customerName is string"),
-  body("customerPhone").isString().notEmpty().withMessage("customerPhone in string"),
-  body("categoryName").isMongoId().notEmpty().withMessage("category in string"),
-  body("modelName").isMongoId().notEmpty().withMessage("model in string"),
-  body("deviceName").isMongoId().notEmpty().withMessage("device in string"),
-  body("capacityName").isMongoId().notEmpty().withMessage("capacity in string"),
-  body("color").isMongoId().notEmpty().withMessage("color in string"),
-  body("imeiNo").isString().optional().withMessage("imeiNo in string"),
-  body("srNo").isString().optional().withMessage("srNo in string"),
-  body("totalAmount").isNumeric().notEmpty().withMessage("totalAmount in boolean"),
-  body("paidToCustomer").isNumeric().notEmpty().withMessage("paidToCustomer in string"),
-  body("remainingAmount").isNumeric().notEmpty().withMessage("remainingAmount in string"),
+    .withMessage("customerName is required"),
 
+  // Validate customerPhone
+  body("customerPhone")
+    .isString()
+    .notEmpty()
+    .withMessage("customerPhone is required")
+    .withMessage("customerPhone must be a valid 10-digit number"),
+
+  // Validate device array
+  check("device")
+    .isArray({ min: 1 })
+    .withMessage("device must be an array with at least one item"),
+
+  // Validate each device object
+  check("device.*.categoryName")
+    .isMongoId()
+    .notEmpty()
+    .withMessage("categoryName must be a valid MongoID and is required"),
+  check("device.*.modelName")
+    .isMongoId()
+    .notEmpty()
+    .withMessage("modelName must be a valid MongoID and is required"),
+  check("device.*.deviceName")
+    .isMongoId()
+    .notEmpty()
+    .withMessage("deviceName must be a valid MongoID and is required"),
+  check("device.*.capacityName")
+    .isMongoId()
+    .notEmpty()
+    .withMessage("capacityName must be a valid MongoID and is required"),
+  check("device.*.color")
+    .isMongoId()
+    .notEmpty()
+    .withMessage("color must be a valid MongoID if provided"),
+
+  // Validate imei array inside each device object
+  check("device.*.imei")
+    .isArray({ min: 1 })
+    .withMessage("imei must be an array with at least one item"),
+  check("device.*.imei.*.imeiNo")
+    .isString()
+    .notEmpty()
+    .withMessage("imeiNo is required and must be a string"),
+  check("device.*.imei.*.srNo")
+    .isString()
+    .notEmpty()
+    .withMessage("srNo is required and must be a string"),
+  check("device.*.imei.*.totalAmount")
+    .isNumeric()
+    .notEmpty()
+    .withMessage("totalAmount must be a number and is required"),
+  check("device.*.imei.*.paidToCustomer")
+    .isNumeric()
+    .notEmpty()
+    .withMessage("paidToCustomer must be a number and is required"),
+  check("device.*.imei.*.remainingAmount")
+    .isNumeric()
+    .notEmpty()
+    .withMessage("remainingAmount must be a number and is required"),
+
+  // Middleware to handle validation errors
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -29,6 +92,10 @@ exports.createValidation = [
     next();
   },
 ];
+
+
+
+
 
 exports.getStockValidation = [
     param("id").optional().isMongoId().withMessage("valid id required"),
