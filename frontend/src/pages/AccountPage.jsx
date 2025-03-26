@@ -24,6 +24,7 @@ import Header from "../components/Header";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteDialog from "../components/DeleteDialog";
 import { deleteAccount, getAllAccounts } from "../apis/AccountApi";
+import image from "../assets/Rectangle 1900.png";
 
 const AccountPage = () => {
   const [accounts, setAccounts] = useState([]);
@@ -34,6 +35,7 @@ const AccountPage = () => {
 
   const callApi = async () => {
     const response = await getAllAccounts();
+    console.log(response.data.data);
     setAccounts(response.data.data);
   };
 
@@ -63,7 +65,7 @@ const AccountPage = () => {
 
   const handleDelete = async () => {
     await deleteAccount(accountId);
-    // navigate("/customerPage");
+    navigate("/accountPage");
     setDeleteOpen(false);
   };
 
@@ -82,7 +84,7 @@ const AccountPage = () => {
               variant="h4"
               sx={{ fontWeight: "bold", color: "#6c5ce7" }}
             >
-              Account
+              ACCOUNT
             </Typography>
             <Box display="flex" gap={2}>
               <TextField
@@ -135,7 +137,7 @@ const AccountPage = () => {
                       <CardMedia
                         component="img"
                         height="140"
-                        // image={image}
+                        image={image}
                         alt="business logo"
                       />
                       <CardContent
@@ -157,12 +159,13 @@ const AccountPage = () => {
                         </Box>
 
                         {/* Branch Name */}
+
                         <Typography
                           variant="h6"
                           color="primary"
                           fontWeight="bold"
                         >
-                          {option.branchName}
+                          {option.branchName.branchName}
                         </Typography>
 
                         {/* accounts Name */}
@@ -172,21 +175,21 @@ const AccountPage = () => {
                             fontWeight="bold"
                             display="inline"
                           >
-                            Name:{" "}
+                            Acc. Name: :
                           </Typography>
                           <Typography variant="body2" display="inline">
                             {option.accountName}
                           </Typography>
                         </Box>
 
-                        {/* accounts Phone */}
+                        {/* accounts Balance */}
                         <Box sx={{ mt: 1 }}>
                           <Typography
                             variant="body2"
                             fontWeight="bold"
                             display="inline"
                           >
-                            Phone:{" "}
+                            Balance:
                           </Typography>
                           <Typography variant="body2" display="inline">
                             {option.balance}
