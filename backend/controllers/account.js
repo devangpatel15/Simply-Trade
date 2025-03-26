@@ -3,7 +3,6 @@ const { getAllAccountService, getAccountService, createAccountService, updateAcc
 exports.getAllAccount = async (req, res) => {
   try {
     const Account = await getAllAccountService();
-    console.log(Account);
     
     if (!Account) {
       return res.status(404).json({ message: "No Account found" });

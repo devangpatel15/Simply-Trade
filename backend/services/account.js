@@ -1,9 +1,8 @@
 const Account = require("../models/account");
 
 exports.getAllAccountService = async () => {
-  const acc = await Account.find({ isDeleted: false }).lean();
-  console.log(acc)
-   return acc
+  return await Account.find({ isDeleted: false }).populate("organization branchName").lean();
+
 };
 
 exports.getAccountService = async (accountId) => {
