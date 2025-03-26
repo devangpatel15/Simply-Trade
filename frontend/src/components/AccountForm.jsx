@@ -12,13 +12,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import OrgInput from "./common/OrgInput";
+import OrgBranchInput from "./common/OrgBranchInput";
 import {
   createAccount,
   getOneAccount,
   updateAccount,
 } from "../apis/AccountApi";
-import OrgInput from "./common/OrgInput";
-import OrgBranchInput from "./common/OrgBranchInput";
 
 const AccountForm = () => {
   const { id } = useParams();
