@@ -54,10 +54,12 @@ const StockForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [selectedOption, setSelectedOption] = useState("IMEI");
   const [payments, setPayments] = useState([{ id: 1, account: "" }]);
   const [deviceForm, setDeviceForm] = useState([{ id: 1 }]);
   const [imeiForm, setImeiForm] = useState([{ id: 1 }]);
+  const [selectedOptions, setSelectedOptions] = useState(
+    imeiForm.map(() => "IMEI") // Default selection for each form section
+  );
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
@@ -65,8 +67,10 @@ const StockForm = () => {
   const [modelId, setModelId] = useState("");
   const [deviceId, setDeviceId] = useState("");
 
-  const handleRadioChange = (event) => {
-    setSelectedOption(event.target.value);
+  const handleRadioChange = (index, event) => {
+    const newSelectedOptions = [...selectedOptions];
+    newSelectedOptions[index] = event.target.value;
+    setSelectedOptions(newSelectedOptions);
   };
 
   const addPayment = () => {
@@ -419,151 +423,154 @@ const StockForm = () => {
                   </Grid>
                   {imeiForm.map((imei, index) => (
                     <>
-                      <Box
-                        key={index}
-                        mt={2}
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <RadioGroup
-                          row
-                          value={selectedOption}
-                          onChange={handleRadioChange}
-                        >
-                          <FormControlLabel
-                            value="IMEI"
-                            control={<Radio />}
-                            label="IMEI No."
-                          />
-                          <FormControlLabel
-                            value="SR"
-                            control={<Radio />}
-                            label="SR. No."
-                          />
-                        </RadioGroup>
-                        <Box>
-                          <Grid container spacing={2}>
-                            {imei.id > 1 && (
-                              <Grid item sx={2}>
+                      {item.imei.map((imeiItem, imeiIndex) => (
+                        <>
+                          <Box
+                            key={index}
+                            mt={2}
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                            }}
+                          >
+                            <RadioGroup
+                              row
+                              value={selectedOptions[index]} // Bind selection per index
+                              onChange={(event) =>
+                                handleRadioChange(index, event)
+                              } // Pass index to handler
+                            >
+                              <FormControlLabel
+                                value="IMEI"
+                                control={<Radio />}
+                                label="IMEI No."
+                              />
+                              <FormControlLabel
+                                value="SR"
+                                control={<Radio />}
+                                label="SR. No."
+                              />
+                            </RadioGroup>
+
+                            <Box>
+                              <Grid container spacing={2}>
+                                {index > 0 && (
+                                  <Grid item sx={2}>
+                                    <Button
+                                      variant="outlined"
+                                      color="primary"
+                                      onClick={() => removeImei(imei.id)}
+                                    >
+                                      Remove
+                                    </Button>
+                                  </Grid>
+                                )}
+                                <Grid item sx={2}>
+                                  <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => addImei(index)}
+                                  >
+                                    Add Imei
+                                  </Button>
+                                </Grid>
+                              </Grid>
+                            </Box>
+                          </Box>
+                          <Grid container spacing={2} mt={1} key={imeiIndex}>
+                            <Grid item xs={6}>
+                              <TextField
+                                fullWidth
+                                label={
+                                  selectedOptions[index] === "IMEI"
+                                    ? "IMEI Number"
+                                    : "SR Number"
+                                }
+                                name={
+                                  selectedOptions[index] === "IMEI"
+                                    ? "imeiNo"
+                                    : "srNo"
+                                }
+                                value={
+                                  selectedOptions[index] === "IMEI"
+                                    ? imeiItem.imeiNo
+                                    : imeiItem.srNo
+                                }
+                                onChange={(e) =>
+                                  handleImeiChange(
+                                    index,
+                                    imeiIndex,
+                                    selectedOptions[index] === "IMEI"
+                                      ? "imeiNo"
+                                      : "srNo",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </Grid>
+
+                            <Grid item xs={6}>
+                              <TextField
+                                fullWidth
+                                label="Total Amount"
+                                name="totalAmount"
+                                value={imeiItem.totalAmount}
+                                onChange={(e) =>
+                                  handleImeiChange(
+                                    index,
+                                    imeiIndex,
+                                    "totalAmount",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </Grid>
+                            <Grid item xs={6}>
+                              <TextField
+                                fullWidth
+                                label="Paid To Customer"
+                                name="paidToCustomer"
+                                value={imeiItem.paidToCustomer}
+                                onChange={(e) =>
+                                  handleImeiChange(
+                                    index,
+                                    imeiIndex,
+                                    "paidToCustomer",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </Grid>
+                            <Grid item xs={6}>
+                              <TextField
+                                fullWidth
+                                label="Remaining Amount"
+                                name="remainingAmount"
+                                value={imeiItem.remainingAmount}
+                                onChange={(e) =>
+                                  handleImeiChange(
+                                    index,
+                                    imeiIndex,
+                                    "remainingAmount",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </Grid>
+                            <Grid item xs={2}>
+                              {imeiIndex > 0 && (
                                 <Button
                                   variant="outlined"
-                                  color="primary"
-                                  onClick={() => removeImei(imei.id)}
+                                  color="error"
+                                  onClick={() => removeImei(index, imeiIndex)}
                                 >
-                                  Remove
+                                  Remove IMEI
                                 </Button>
-                              </Grid>
-                            )}
-                            <Grid item sx={2}>
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={() => addImei(index)}
-                              >
-                                Add Imei
-                              </Button>
+                              )}
                             </Grid>
                           </Grid>
-                        </Box>
-                      </Box>
-                      {item.imei.map((imeiItem, imeiIndex) => (
-                        <Grid container spacing={2} mt={1} key={imeiIndex}>
-                          <Grid item xs={6}>
-                            {selectedOption === "IMEI" ? (
-                              <TextField
-                                fullWidth
-                                label="IMEI Number"
-                                value={imeiItem.imeiNo}
-                                name="imeiNo"
-                                onChange={(e) =>
-                                  handleImeiChange(
-                                    index,
-                                    imeiIndex,
-                                    "imeiNo",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            ) : (
-                              <TextField
-                                fullWidth
-                                label="SR Number"
-                                value={imeiItem.srNo}
-                                name="srNo"
-                                onChange={(e) =>
-                                  handleImeiChange(
-                                    index,
-                                    imeiIndex,
-                                    "srNo",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            )}
-                          </Grid>
-                          <Grid item xs={6}>
-                            <TextField
-                              fullWidth
-                              label="Total Amount"
-                              name="totalAmount"
-                              value={imeiItem.totalAmount}
-                              onChange={(e) =>
-                                handleImeiChange(
-                                  index,
-                                  imeiIndex,
-                                  "totalAmount",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </Grid>
-                          <Grid item xs={6}>
-                            <TextField
-                              fullWidth
-                              label="Paid To Customer"
-                              name="paidToCustomer"
-                              value={imeiItem.paidToCustomer}
-                              onChange={(e) =>
-                                handleImeiChange(
-                                  index,
-                                  imeiIndex,
-                                  "paidToCustomer",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </Grid>
-                          <Grid item xs={6}>
-                            <TextField
-                              fullWidth
-                              label="Remaining Amount"
-                              name="remainingAmount"
-                              value={imeiItem.remainingAmount}
-                              onChange={(e) =>
-                                handleImeiChange(
-                                  index,
-                                  imeiIndex,
-                                  "remainingAmount",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </Grid>
-                          <Grid item xs={2}>
-                            {imeiIndex > 0 && (
-                              <Button
-                                variant="outlined"
-                                color="error"
-                                onClick={() => removeImei(index, imeiIndex)}
-                              >
-                                Remove IMEI
-                              </Button>
-                            )}
-                          </Grid>
-                        </Grid>
+                        </>
                       ))}
                     </>
                   ))}
