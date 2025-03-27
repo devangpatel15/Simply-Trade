@@ -63,12 +63,12 @@ exports.createValidation = [
     .isArray({ min: 1 })
     .withMessage("imei must be an array with at least one item"),
   check("device.*.imei.*.imeiNo")
+    .optional()
     .isString()
-    .notEmpty()
     .withMessage("imeiNo is required and must be a string"),
   check("device.*.imei.*.srNo")
+    .optional()
     .isString()
-    .notEmpty()
     .withMessage("srNo is required and must be a string"),
   check("device.*.imei.*.totalAmount")
     .isNumeric()
