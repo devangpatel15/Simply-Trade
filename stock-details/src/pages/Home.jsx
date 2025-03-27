@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-  Button,
   IconButton,
-  InputAdornment,
-  Menu,
-  MenuItem,
-  TextField,
   Typography,
   Card,
   CardContent,
   CardMedia,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import image from "../assets/Rectangle 1900.png";
 import { getAllStocks } from "../apis/StockApi";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -93,7 +87,7 @@ const Home = () => {
                         fontWeight="bold"
                         display="inline"
                       >
-                        Customer Name:
+                        Customer Name:{" "}
                       </Typography>
                       <Typography variant="body2" display="inline">
                         {option.customerName}
