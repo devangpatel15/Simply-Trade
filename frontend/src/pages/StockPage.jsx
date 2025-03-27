@@ -130,7 +130,7 @@ const StockPage = () => {
                         variant="h6"
                         sx={{ fontWeight: "bold", color: "#6c5ce7" }}
                       >
-                        {/* {stock.deviceName} */}
+                        {stock.deviceName}
                       </Typography>
 
                       <Box sx={{ display: "flex", gap: 2 }}>
@@ -142,7 +142,7 @@ const StockPage = () => {
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {/* {moment(stock.createdAt).format("DD-MM-YYYY")} */}
+                            {moment(stock.createdAt).format("DD-MM-YYYY")}
                           </span>
                         </Typography>
                         <Typography
@@ -153,7 +153,7 @@ const StockPage = () => {
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {/* {moment(stock.updatedAt).format("DD-MM-YYYY")} */}
+                            {moment(stock.updatedAt).format("DD-MM-YYYY")}
                           </span>
                         </Typography>
                       </Box>
