@@ -15,11 +15,11 @@ import Header from "../components/Header";
 import { Link } from "react-router-dom";
 import DialogBox from "../components/DialogBox";
 import { useEffect, useState } from "react";
-import { getAllDevice } from "../apis/DeviceApi";
 import moment from "moment";
 import StockDialog from "../components/StockDialog";
 import PaymentDialog from "../components/PaymentDialog";
 import { Payment } from "@mui/icons-material";
+import { getAllStocks } from "../apis/StockApi";
 
 const StockPage = () => {
   const [stock, setStock] = useState([]);
@@ -30,7 +30,8 @@ const StockPage = () => {
   const [data, setData] = useState({});
 
   const callApi = async () => {
-    const response = await getAllDevice();
+    const response = await getAllStocks();
+    console.log("response===", response.data.data);
     setStock(response.data.data);
     setPayment(response.data.data);
     console.log("device=====", stock);
@@ -130,7 +131,7 @@ const StockPage = () => {
                         variant="h6"
                         sx={{ fontWeight: "bold", color: "#6c5ce7" }}
                       >
-                        {stock.deviceName}
+                        ""
                       </Typography>
 
                       <Box sx={{ display: "flex", gap: 2 }}>
@@ -138,23 +139,7 @@ const StockPage = () => {
                           variant="body2"
                           sx={{ color: "green", fontWeight: "bold" }}
                         >
-                          Created At:{" "}
-                          <span
-                            style={{ color: "black", fontWeight: "normal" }}
-                          >
-                            {moment(stock.createdAt).format("DD-MM-YYYY")}
-                          </span>
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          sx={{ color: "brown", fontWeight: "bold" }}
-                        >
-                          Update At:{" "}
-                          <span
-                            style={{ color: "black", fontWeight: "normal" }}
-                          >
-                            {moment(stock.updatedAt).format("DD-MM-YYYY")}
-                          </span>
+                          Customer Name:{stock.customerName}
                         </Typography>
                       </Box>
                     </Box>
