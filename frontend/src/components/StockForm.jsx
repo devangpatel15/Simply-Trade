@@ -22,7 +22,7 @@ import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 import ColorInput from "./common/ColorInput";
 import CapacityInput from "./common/CapacityInput";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { createStock, updateStock } from "../apis/StockApi";
 import CustomerInput from "./common/CustomerInput";
 
@@ -593,7 +593,12 @@ const StockForm = () => {
           </Box> */}
 
           <Box mt={2} display="flex" justifyContent="end" gap={2}>
-            <Button variant="outlined" color="primary">
+            <Button
+              variant="outlined"
+              color="primary"
+              component={Link}
+              to="/stockPage"
+            >
               Cancel
             </Button>
             <Button variant="contained" color="primary" onClick={handleSubmit}>
