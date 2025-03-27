@@ -1,11 +1,11 @@
 const Stock = require('../models/stock');
 
 exports.getAllStockService = async () => {
-  return await Stock.find({ isDeleted: false }).lean();
+  return await Stock.find({ isDeleted: false }).populate("organization branch customer categoryName modelName deviceName capacityName color").lean();
 };
 
 exports.getStockService = async (stockId) => {
-  return await Stock.findById(stockId).populate("organization branch categoryName modelName deviceName capacityName color").lean();
+  return await Stock.findById(stockId).populate("organization branch customer categoryName modelName deviceName capacityName color").lean();
 };
 
 exports.createStockService = async (newStock) => {
@@ -24,3 +24,13 @@ exports.softDeleteStockService = async (stockId) => {
 exports.deleteStockService = async (stockId) => {
   return await Stock.findByIdAndDelete(stockId);
 };
+
+// exports.searchStockService = async (orgText) => {
+//   let findObject = { isDeleted: false };
+
+//   if (orgText.trim() !== "") {
+//     findObject.$or = [{ customer: { $regex: `^${orgText}`, $options: "i" } }];
+//   }
+
+//   return await Model.find(findObject).limit(5); // Increase limit if needed
+// };

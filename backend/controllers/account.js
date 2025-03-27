@@ -1,9 +1,16 @@
-const { getAllAccountService, getAccountService, createAccountService, updateAccountService, softDeleteAccountService, deleteAccountService } = require("../services/account");
+const {
+  getAllAccountService,
+  getAccountService,
+  createAccountService,
+  updateAccountService,
+  softDeleteAccountService,
+  deleteAccountService,
+} = require("../services/account");
 
 exports.getAllAccount = async (req, res) => {
   try {
     const Account = await getAllAccountService();
-    
+
     if (!Account) {
       return res.status(404).json({ message: "No Account found" });
     }
@@ -64,7 +71,7 @@ exports.updateAccount = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "Account updated", data: updatedAccount});
+      .json({ message: "Account updated", data: updatedAccount });
   } catch (err) {
     return res
       .status(500)

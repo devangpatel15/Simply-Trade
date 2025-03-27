@@ -97,13 +97,11 @@ exports.createStock = async (req, res) => {
   }
 };
 
-
 // exports.createStock = async (req, res) => {
 //   try {
 //     const newStock = req.body;
 //     const {deviceData}=newStock;
 //     const{ imeiFormData}=deviceData;
-
 
 //     // const stock={
 //     //   organization:"",
@@ -174,9 +172,7 @@ exports.softDeleteStock = async (req, res) => {
       return res.status(404).json({ message: "Stock not found" });
     }
 
-    return res
-      .status(200)
-      .json({ message: "Stock soft deleted", data: stock });
+    return res.status(200).json({ message: "Stock soft deleted", data: stock });
   } catch (err) {
     return res
       .status(500)

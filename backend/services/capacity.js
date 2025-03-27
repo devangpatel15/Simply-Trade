@@ -5,24 +5,25 @@ exports.getAllCapacityService = async () => {
 };
 
 exports.getCapacityService = async (capId) => {
-  return await Capacity.findById(capId).populate("organization branchName categoryId modelId deviceId").lean();
+  return await Capacity.findById(capId)
+    .populate("organization branchName categoryId modelId deviceId")
+    .lean();
 };
 exports.selectCapacityByDeviceService = async (deviceId) => {
-  return await Capacity.find({deviceId , isDeleted: false }).lean();
+  return await Capacity.find({ deviceId, isDeleted: false }).lean();
 };
 
 exports.createCapacityService = async (newCap) => {
-  return await Capacity.create(newCap)
+  return await Capacity.create(newCap);
 };
 
 exports.updateCapacityService = async (capId, cap) => {
-  return await Capacity.findByIdAndUpdate(capId, cap,{new:true}).lean();
+  return await Capacity.findByIdAndUpdate(capId, cap, { new: true }).lean();
 };
 
 exports.softDeleteCapacityService = async (capId) => {
   return await Capacity.findByIdAndUpdate(capId, { isDeleted: true });
 };
-
 
 exports.deleteCapacityService = async (capId) => {
   return await Capacity.findByIdAndDelete(capId);
