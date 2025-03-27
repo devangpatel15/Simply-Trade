@@ -348,6 +348,16 @@ function App() {
             </PrivateRoute>
           }
         />
+
+        <Route
+          path="/accountForm/:id"
+          element={
+            <PrivateRoute>
+              <AccountForm />
+            </PrivateRoute>
+          }
+        />
+
         <Route path="*" element={<NotFound404 />} />
       </Routes>
     </ThemeProvider>

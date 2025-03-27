@@ -3,7 +3,7 @@ import axios from "axios";
 const createAccount = async (formData) => {
   try {
     const response = await axios.post(
-      "http://localhost:4000/api/userSignUp",
+      "http://localhost:4000/api/createAccount",
       formData,
       {
         headers: {
@@ -20,7 +20,7 @@ const updateAccount = async (formData, id) => {
   try {
     console.log(formData);
     const response = await axios.put(
-      `http://localhost:4000/api/updateUser/${id}`,
+      `http://localhost:4000/api/updateAccount/${id}`,
       formData,
       {
         headers: {
@@ -37,7 +37,7 @@ const updateAccount = async (formData, id) => {
 const getAllAccounts = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:4000/api/findAllUser",
+      "http://localhost:4000/api/allAccount",
 
       {
         headers: {
@@ -55,7 +55,7 @@ const getAllAccounts = async () => {
 const getOneAccount = async (id) => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/findOneUser/${id}`,
+      `http://localhost:4000/api/account/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -72,7 +72,7 @@ const getOneAccount = async (id) => {
 const deleteAccount = async (id) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/deleteUser/${id}`,
+      `http://localhost:4000/api/deleteAccount/${id}`,
       {},
       {
         headers: {

@@ -6,6 +6,7 @@ const accountSchema = new mongoose.Schema({
     branchName : {type : mongoose.Schema.Types.ObjectId , ref : "OrganizationBranch"},
     accountName : {type : String , required : true},
     balance : { type : Number , default : 0 },
+    isDeleted : {type : Boolean , default : false },
 
 },{timestamps : true})
 
