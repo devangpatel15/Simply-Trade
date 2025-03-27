@@ -1,4 +1,4 @@
-const Stock = require('../models/stock');
+const Stock = require("../models/stock");
 
 exports.getAllStockService = async () => {
   return await Stock.find({ isDeleted: false }).populate("organization branch customer categoryName modelName deviceName capacityName color").lean();
@@ -9,17 +9,16 @@ exports.getStockService = async (stockId) => {
 };
 
 exports.createStockService = async (newStock) => {
-  return await Stock.create(newStock)
+  return await Stock.create(newStock);
 };
 
 exports.updateStockService = async (stockId, stock) => {
-  return await Stock.findByIdAndUpdate(stockId, stock,{new:true}).lean();
+  return await Stock.findByIdAndUpdate(stockId, stock, { new: true }).lean();
 };
 
 exports.softDeleteStockService = async (stockId) => {
   return await Stock.findByIdAndUpdate(stockId, { isDeleted: true });
 };
-
 
 exports.deleteStockService = async (stockId) => {
   return await Stock.findByIdAndDelete(stockId);
