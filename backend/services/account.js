@@ -1,12 +1,15 @@
 const Account = require("../models/account");
 
 exports.getAllAccountService = async () => {
-  return await Account.find({ isDeleted: false }).populate("organization branchName").lean();
-
+  return await Account.find({ isDeleted: false })
+    .populate("organization branchName")
+    .lean();
 };
 
 exports.getAccountService = async (accountId) => {
-  return await Account.findById(accountId).populate("organization branchName").lean();
+  return await Account.findById(accountId)
+    .populate("organization branchName")
+    .lean();
 };
 
 exports.createAccountService = async (newAccount) => {
