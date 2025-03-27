@@ -22,14 +22,15 @@ import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 import ColorInput from "./common/ColorInput";
 import CapacityInput from "./common/CapacityInput";
-import { useNavigate, useParams } from "react-router-dom";
-import { createStock } from "../apis/StockApi";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { createStock, updateStock } from "../apis/StockApi";
+import CustomerInput from "./common/CustomerInput";
 
 const StockForm = () => {
   const [formData, setFormData] = useState({
     organization: null,
     branch: null,
-    customerName: "",
+    customerName: null,
     customerPhone: "",
     device: [
       {
@@ -53,6 +54,7 @@ const StockForm = () => {
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
+  const [selectedCustomer, setSelectedCustomer] = useState("");
   const [catId, setCatId] = useState("");
   const [modelId, setModelId] = useState("");
   const [deviceId, setDeviceId] = useState("");
@@ -83,6 +85,15 @@ const StockForm = () => {
       branch: selectedOrgBranch,
     }));
   };
+
+  const handleCustomerChange = (selectCustomer) => {
+    setSelectedCustomer(selectCustomer.value);
+    setFormData((prev) => ({
+      ...prev,
+      customerName: selectCustomer,
+    }));
+  };
+
   const handleCategoryChange = (index, selectedCategory) => {
     setCatId(selectedCategory.value);
     setFormData((prev) => {
@@ -230,7 +241,7 @@ const StockForm = () => {
         ...formData,
         organization: formData.organization?.value || null,
         branch: formData.branch?.value || null,
-        customerName: formData.customerName,
+        customerName: formData.customerName?.value || null,
         customerPhone: formData.customerPhone,
         device: formattedDevices,
       };
@@ -282,7 +293,7 @@ const StockForm = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField
+              {/* <TextField
                 fullWidth
                 label="Customer Name"
                 variant="outlined"
@@ -290,6 +301,11 @@ const StockForm = () => {
                 value={formData.customerName || ""}
                 onChange={handleChange}
                 required
+              /> */}
+              <CustomerInput
+                onChange={handleCustomerChange}
+                value={formData.customerName}
+                selectedCustomer={selectedCustomer}
               />
             </Grid>
             <Grid item xs={6}>
@@ -577,7 +593,12 @@ const StockForm = () => {
           </Box> */}
 
           <Box mt={2} display="flex" justifyContent="end" gap={2}>
-            <Button variant="outlined" color="primary">
+            <Button
+              variant="outlined"
+              color="primary"
+              component={Link}
+              to="/stockPage"
+            >
               Cancel
             </Button>
             <Button variant="contained" color="primary" onClick={handleSubmit}>
