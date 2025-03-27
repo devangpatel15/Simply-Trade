@@ -60,6 +60,7 @@ const UserForm = () => {
           ...formData,
           organization: formData.organization.value,
           orgBranch: formData.orgBranch.value,
+          role: "user",
         });
         navigate("/userPage");
       }

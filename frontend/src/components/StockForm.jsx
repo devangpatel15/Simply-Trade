@@ -30,7 +30,7 @@ const StockForm = () => {
   const [formData, setFormData] = useState({
     organization: null,
     branch: null,
-    customerName: null,
+    customerName: "",
     customerPhone: "",
     device: [
       {
@@ -241,7 +241,7 @@ const StockForm = () => {
         ...formData,
         organization: formData.organization?.value || null,
         branch: formData.branch?.value || null,
-        customerName: formData.customerName?.value || null,
+        customerName: formData.customerName,
         customerPhone: formData.customerPhone,
         device: formattedDevices,
       };
@@ -250,6 +250,7 @@ const StockForm = () => {
         await updateStock(payload, paramsId);
       } else {
         await createStock(payload);
+        navigate("/stockPage");
       }
     } catch (error) {
       console.log(error.message);
@@ -293,7 +294,7 @@ const StockForm = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              {/* <TextField
+              <TextField
                 fullWidth
                 label="Customer Name"
                 variant="outlined"
@@ -301,15 +302,16 @@ const StockForm = () => {
                 value={formData.customerName || ""}
                 onChange={handleChange}
                 required
-              /> */}
-              <CustomerInput
+              />
+              {/* <CustomerInput
                 onChange={handleCustomerChange}
                 value={formData.customerName}
                 selectedCustomer={selectedCustomer}
-              />
+              /> */}
             </Grid>
             <Grid item xs={6}>
               <TextField
+                type="number"
                 fullWidth
                 label="Phone Number"
                 variant="outlined"
@@ -381,7 +383,7 @@ const StockForm = () => {
                 </Grid>
               </Grid>
               <Grid container spacing={2} mt={1}>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <ColorInput
                     onChange={(selectedColor) =>
                       handleColorChange(deviceIndex, selectedColor)
@@ -390,13 +392,24 @@ const StockForm = () => {
                     deviceId={deviceId}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <CapacityInput
                     onChange={(selectedCapacity) =>
                       handleCapacityChange(deviceIndex, selectedCapacity)
                     }
                     value={formData.device[deviceIndex]?.capacityName}
                     deviceId={deviceId}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    type="number"
+                    fullWidth
+                    label="Quantity "
+                    variant="outlined"
+                    name="customerPhone"
+                    value={formData.customerPhone || ""}
+                    onChange={handleChange}
                   />
                 </Grid>
               </Grid>
@@ -495,12 +508,13 @@ const StockForm = () => {
                       )}
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={6} style={{ marginTop: "15px" }}>
                       <TextField
                         fullWidth
                         label="Total Amount"
                         name="totalAmount"
                         value={imeiItem.totalAmount}
+                        type="number"
                         onChange={(e) =>
                           handleImeiChange(
                             deviceIndex,
@@ -513,6 +527,7 @@ const StockForm = () => {
                     </Grid>
                     <Grid item xs={6}>
                       <TextField
+                        type="number"
                         fullWidth
                         label="Paid To Customer"
                         name="paidToCustomer"
@@ -529,6 +544,7 @@ const StockForm = () => {
                     </Grid>
                     <Grid item xs={6}>
                       <TextField
+                        type="number"
                         fullWidth
                         label="Remaining Amount"
                         name="remainingAmount"
