@@ -2,7 +2,7 @@ const OrganizationBranch = require("../models/organizationBranch");
 
 exports.findAllOrganizationBranchServices = async () => {
   const data = await OrganizationBranch.find({ isDeleted: false })
-    .populate("userId branchName")
+    .populate("userId branchName organization")
     .lean();
 
   return data;
