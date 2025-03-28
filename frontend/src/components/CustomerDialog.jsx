@@ -1,0 +1,226 @@
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { createCustomer, getOneCustomer } from "../apis/CustomerApi";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
+import OrgInput from "./common/OrgInput";
+import OrgBranchInput from "./common/OrgBranchInput";
+import CloseIcon from "@mui/icons-material/Close";
+
+// const CustomerDialog = () => {
+//   const [open, setOpen] = React.useState(false);
+
+//   const handleClickOpen = () => {
+//     setOpen(true);
+//   };
+
+//   const handleClose = () => {
+//     setOpen(false);
+//   };
+
+//   return (
+//     <React.Fragment>
+//       <Button variant="outlined" onClick={handleClickOpen}>
+//         Open form dialog
+//       </Button>
+//       <Dialog
+//         open={open}
+//         onClose={handleClose}
+//         slotProps={{
+//           paper: {
+//             component: "form",
+//             onSubmit: (event) => {
+//               event.preventDefault();
+//               const formData = new FormData(event.currentTarget);
+//               const formJson = Object.fromEntries(formData.entries());
+//               const email = formJson.email;
+//               console.log(email);
+//               handleClose();
+//             },
+//           },
+//         }}
+//       >
+//         <DialogTitle>Customer</DialogTitle>
+//         <DialogContent>
+//           <TextField
+//             autoFocus
+//             required
+//             margin="dense"
+//             id="name"
+//             name="email"
+//             label="Email Address"
+//             type="email"
+//             fullWidth
+//             variant="standard"
+//           />
+//         </DialogContent>
+//         <DialogActions>
+//           <Button onClick={handleClose}>Cancel</Button>
+//           <Button type="submit">Subscribe</Button>
+//         </DialogActions>
+//       </Dialog>
+//     </React.Fragment>
+//   );
+// };
+
+const CustomerDialog = ({ customerDialog, handleClose, setOpen }) => {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = React.useState({
+    organization: null,
+    branchName: null,
+    customerName: "",
+    customerPhone: "",
+  });
+
+  const [selectedOrganization, setSelectedOrganization] = React.useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await createCustomer({
+        ...formData,
+        organization: formData.organization.value,
+        branchName: formData.branchName.value,
+      });
+      // navigate("/customerPage");
+      setOpen(false);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("error");
+    }
+  };
+
+  const handleOrganizationChange = (selectedOrg) => {
+    setSelectedOrganization(selectedOrg.value);
+    setFormData((prev) => ({
+      ...prev,
+      organization: selectedOrg,
+    }));
+  };
+  const handleOrganizationBranchChange = (selectedOrgBranch) => {
+    setFormData((prev) => ({
+      ...prev,
+      branchName: selectedOrgBranch,
+    }));
+  };
+
+  return (
+    <Dialog
+      open={customerDialog}
+      handleClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <Box
+        sx={{
+          padding: 3,
+          margin: "auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          marginTop: "4rem",
+        }}
+      >
+        <DialogTitle>
+          <Typography>Customer</Typography>
+
+          <IconButton
+            onClick={handleClose}
+            sx={{ position: "absolute", right: 16, top: 16, color: "red" }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <OrgInput
+                  onChange={handleOrganizationChange}
+                  value={formData.organization}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <OrgBranchInput
+                  onChange={handleOrganizationBranchChange}
+                  value={formData.branchName}
+                  selectedOrganization={selectedOrganization}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Customer Name"
+                  variant="outlined"
+                  name="customerName"
+                  value={formData.customerName || ""}
+                  onChange={handleChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Customer Phone number"
+                  variant="outlined"
+                  name="customerPhone"
+                  value={formData.customerPhone || ""}
+                  onChange={handleChange}
+                  required
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Grid
+            item
+            xs={12}
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Button
+              variant="contained"
+              color="error"
+              component={Link}
+              to="/stockPage"
+            >
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
+              Add
+            </Button>
+          </Grid>
+        </DialogActions>
+      </Box>
+    </Dialog>
+  );
+};
+
+export default CustomerDialog;
