@@ -2,7 +2,7 @@ const Color = require("../models/color");
 const { populate } = require("../models/device");
 
 exports.findAllColorServices = async () => {
-    const data = await Color.find({ isDeleted: false }).lean();
+    const data = await Color.find({ isDeleted: false }).populate("categoryId modelId deviceId organization branchName").lean();
 
     return data;
 };

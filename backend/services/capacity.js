@@ -1,7 +1,7 @@
 const Capacity = require("../models/capacity");
 
 exports.getAllCapacityService = async () => {
-  return await Capacity.find({ isDeleted: false }).lean();
+  return await Capacity.find({ isDeleted: false }).populate("organization branchName categoryId modelId deviceId").lean();
 };
 
 exports.getCapacityService = async (capId) => {

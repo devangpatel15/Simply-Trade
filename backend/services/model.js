@@ -1,7 +1,7 @@
 const Model = require("../models/model");
 
 exports.findAllModelServices = async () => {
-  const data = await Model.find({ isDeleted: false }).lean();
+  const data = await Model.find({ isDeleted: false }).populate("categoryId branchName").lean();
 
   return data;
 };
