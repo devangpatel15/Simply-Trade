@@ -30,7 +30,7 @@ const StockForm = () => {
   const [formData, setFormData] = useState({
     organization: null,
     branch: null,
-    customerName: "",
+    customerName: null,
     customerPhone: "",
     device: [
       {
@@ -58,6 +58,9 @@ const StockForm = () => {
   const [catId, setCatId] = useState("");
   const [modelId, setModelId] = useState("");
   const [deviceId, setDeviceId] = useState("");
+
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [paidToCustomer, setPaidtoCustomer] = useState(0);
 
   const { paramsId } = useParams();
   const navigate = useNavigate();
@@ -241,7 +244,7 @@ const StockForm = () => {
         ...formData,
         organization: formData.organization?.value || null,
         branch: formData.branch?.value || null,
-        customerName: formData.customerName,
+        customerName: formData.customerName?.value || null,
         customerPhone: formData.customerPhone,
         device: formattedDevices,
       };
@@ -294,7 +297,7 @@ const StockForm = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField
+              {/* <TextField
                 fullWidth
                 label="Customer Name"
                 variant="outlined"
@@ -302,12 +305,12 @@ const StockForm = () => {
                 value={formData.customerName || ""}
                 onChange={handleChange}
                 required
-              />
-              {/* <CustomerInput
+              /> */}
+              <CustomerInput
                 onChange={handleCustomerChange}
                 value={formData.customerName}
                 selectedCustomer={selectedCustomer}
-              /> */}
+              />
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -474,10 +477,10 @@ const StockForm = () => {
                     </Box>
                   </Box>
                   <Grid container spacing={2} mt={1} key={imeiIndex}>
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                       {imeiItem.useImei ? (
                         <TextField
-                          label="IMEI No"
+                          label={`IMEI No ${imeiIndex + 1}`}
                           value={imeiItem.imeiNo}
                           onChange={(e) =>
                             handleImeiChange(
@@ -508,47 +511,50 @@ const StockForm = () => {
                       )}
                     </Grid>
 
-                    <Grid item xs={6} style={{ marginTop: "15px" }}>
+                    <Grid item xs={4}>
                       <TextField
                         fullWidth
                         label="Total Amount"
                         name="totalAmount"
                         value={imeiItem.totalAmount}
                         type="number"
-                        onChange={(e) =>
+                        onChange={(e) => {
                           handleImeiChange(
                             deviceIndex,
                             imeiIndex,
                             "totalAmount",
                             e.target.value
-                          )
-                        }
+                          );
+                          setTotalAmount(e.target.value);
+                        }}
                       />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
                       <TextField
                         type="number"
                         fullWidth
                         label="Paid To Customer"
                         name="paidToCustomer"
                         value={imeiItem.paidToCustomer}
-                        onChange={(e) =>
+                        onChange={(e) => {
                           handleImeiChange(
                             deviceIndex,
                             imeiIndex,
                             "paidToCustomer",
                             e.target.value
-                          )
-                        }
+                          );
+                          setPaidtoCustomer(e.target.value);
+                        }}
                       />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
                       <TextField
                         type="number"
+                        aria-readonly
                         fullWidth
                         label="Remaining Amount"
                         name="remainingAmount"
-                        value={imeiItem.remainingAmount}
+                        value={totalAmount - paidToCustomer}
                         onChange={(e) =>
                           handleImeiChange(
                             deviceIndex,

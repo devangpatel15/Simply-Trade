@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -9,12 +9,54 @@ import {
   Card,
   CardContent,
   Avatar,
+  DialogActions,
+  Button,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import { Link } from "react-router-dom";
+import { deleteStock } from "../apis/StockApi";
+import DeleteDialog from "./DeleteDialog";
 
-const StockDialog = ({ open, handleClose }) => {
+const StockDialog = ({ open, handleClose, data, fieldName }) => {
+  console.log("datataaaaaaaaaaa", data);
+
+  const {
+    _id,
+    organization,
+    branch,
+    customerName,
+    customerPhone,
+    categoryName,
+    modelName,
+    deviceName,
+    capacityName,
+    color,
+    payment,
+    imeiNo,
+    srNo,
+    totalAmount,
+    paidToCustomer,
+    remainingAmount,
+  } = data;
+
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
+  const openDeleteDialog = () => {
+    setDeleteOpen(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteOpen(false);
+  };
+
+  const handleDelete = () => {
+    fieldName == "stockForm" ? deleteStock(_id) : "";
+    setDeleteOpen(false);
+    handleClose();
+  };
+
   return (
     <Dialog open={open} handleClose={handleClose} maxWidth="md" fullWidth>
       <DialogTitle sx={{ backgroundColor: "#EEE", fontWeight: "bold" }}>
@@ -31,20 +73,32 @@ const StockDialog = ({ open, handleClose }) => {
         {/* Organization & Customer Details */}
         <Grid container spacing={2} sx={{ p: 2 }}>
           <Grid item xs={6}>
-            <Typography>
-              <strong>Organization:</strong> Isscon
-            </Typography>
-            <Typography>
-              <strong>Customer Name:</strong> Amit Satani
-            </Typography>
+            {organization && (
+              <Typography>
+                <strong>Organization:</strong>{" "}
+                {organization && organization.organizationName}
+              </Typography>
+            )}
+
+            {customerName && (
+              <Typography>
+                <strong>Customer Name:</strong> {customerName}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={6}>
-            <Typography>
-              <strong>Branch:</strong> Phone
-            </Typography>
-            <Typography>
-              <strong>Customer Phone:</strong> +91 6353611517
-            </Typography>
+            {branch && (
+              <Typography>
+                <strong>Branch:</strong>
+                {branch && branch.branchName}
+              </Typography>
+            )}
+            {customerPhone && (
+              <Typography>
+                <strong>Customer Phone:</strong>
+                {customerPhone}
+              </Typography>
+            )}
           </Grid>
         </Grid>
 
@@ -66,30 +120,51 @@ const StockDialog = ({ open, handleClose }) => {
               />
             </Grid>
             <Grid item xs={9}>
-              <Typography>
-                <strong>Category:</strong> Mobile
-              </Typography>
-              <Typography>
-                <strong>Model:</strong> Samsung
-              </Typography>
-              <Typography>
-                <strong>Device:</strong> S24 Ultra
-              </Typography>
-              <Typography>
-                <strong>Capacity:</strong> 512 Gb / 12 Gb
-              </Typography>
-              <Typography>
-                <strong>Color:</strong> Black
-              </Typography>
-              <Typography>
-                <strong>IMEI No.:</strong> 865577006455027
-              </Typography>
-              <Typography sx={{ color: "green" }}>
-                <strong>Total Amount:</strong> 75,5678/-
-              </Typography>
-              <Typography sx={{ color: "red" }}>
-                <strong>Remaining Amount:</strong> 75,5678/-
-              </Typography>
+              {categoryName && (
+                <Typography>
+                  <strong>Category:</strong>
+                  {categoryName && categoryName.categoryName}
+                </Typography>
+              )}
+              {modelName && (
+                <Typography>
+                  <strong>Model:</strong> {modelName && modelName.modelName}
+                </Typography>
+              )}
+
+              {deviceName && (
+                <Typography>
+                  <strong>Device:</strong> {deviceName && deviceName.deviceName}
+                </Typography>
+              )}
+              {capacityName && (
+                <Typography>
+                  <strong>Capacity:</strong>{" "}
+                  {capacityName && capacityName.capacityName}
+                </Typography>
+              )}
+              {color && (
+                <Typography>
+                  <strong>Color:</strong>
+                  {color && color.colorName}
+                </Typography>
+              )}
+              {imeiNo && (
+                <Typography>
+                  <strong>IMEI No.:</strong> {imeiNo}
+                </Typography>
+              )}
+              {totalAmount && (
+                <Typography sx={{ color: "green" }}>
+                  <strong>Total Amount:</strong> {totalAmount}
+                </Typography>
+              )}
+              {remainingAmount && (
+                <Typography sx={{ color: "red" }}>
+                  <strong>Remaining Amount:</strong>
+                  {remainingAmount}
+                </Typography>
+              )}
             </Grid>
           </Grid>
         </Card>
@@ -105,11 +180,31 @@ const StockDialog = ({ open, handleClose }) => {
           <Typography>
             <strong>Payment Account:</strong> Sate Bank Of India
           </Typography>
-          <Typography sx={{ color: "red" }}>
-            <strong>Payment Amount:</strong> 75,5678/-
-          </Typography>
+          {payment && (
+            <Typography sx={{ color: "red" }}>
+              <strong>Payment Amount:</strong>
+              {payment}
+            </Typography>
+          )}
         </Card>
       </DialogContent>
+      <DialogActions>
+        <Link to={fieldName == "stockForm" ? `/stockForm/${_id}` : ""}>
+          <Button variant="outlined" color="success">
+            Edit
+          </Button>
+        </Link>
+        <Button variant="outlined" color="error" onClick={openDeleteDialog}>
+          Delete
+        </Button>
+
+        <DeleteDialog
+          deleteOpen={deleteOpen}
+          handleClose={handleClose}
+          handleDelete={handleDelete}
+          closeDeleteDialog={closeDeleteDialog}
+        />
+      </DialogActions>
     </Dialog>
   );
 };

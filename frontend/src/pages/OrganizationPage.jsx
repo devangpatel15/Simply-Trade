@@ -140,11 +140,11 @@ const OrganizationPage = () => {
                           variant="body2"
                           sx={{ color: "brown", fontWeight: "bold" }}
                         >
-                          Update At:{" "}
+                          Create By:{" "}
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(org.updatedAt).format("DD-MM-YYYY")}
+                            {org.userId.name}
                           </span>
                         </Typography>
                       </Box>

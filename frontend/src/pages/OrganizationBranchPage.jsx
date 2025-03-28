@@ -136,11 +136,11 @@ const OrganizationBranchPage = () => {
                           variant="body2"
                           sx={{ color: "brown", fontWeight: "bold" }}
                         >
-                          Update At:{" "}
+                          Organization Name:{" "}
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(org.updatedAt).format("DD-MM-YYYY")}
+                            {org.organization.organizationName}
                           </span>
                         </Typography>
                       </Box>
