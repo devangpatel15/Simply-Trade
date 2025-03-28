@@ -42,21 +42,21 @@ exports.searchCapacityService = async (orgText) => {
     return await Capacity.find({ deviceId, isDeleted: false }).lean();
   };
 
-  exports.selectCustomerServices = async (branchId, orgText) => {
+  exports.selectCustomerServices = async (deviceId, text) => {
     let findObject = { isDeleted: false };
   
-    if (orgText && orgText.trim() !== "") {
+    if (text && text.trim() !== "") {
       findObject.$or = [
-        { customerName: { $regex: `^${orgText}`, $options: "i" } },
+        { capacityName: { $regex: `^${text}`, $options: "i" } },
       ];
     }
   
-    if (branchId) {
-      findObject.branchName = branchId;
+    if (deviceId) {
+      findObject.deviceId = deviceId;
     }
   
-    return await Customer.find(findObject)
-      .populate("branchName organization")
+    return await Capacity.find(findObject)
+    .populate("organization branchName categoryId modelId deviceId")
       .limit(5)
       .lean();
   };
