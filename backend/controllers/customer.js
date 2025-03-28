@@ -1,4 +1,4 @@
-const { getAllCustomerService, getCustomerService, createCustomerService, updateCustomerService, deleteCustomerService, softDeleteCustomerService, searchCustomerServices } = require("../services/customer");
+const { getAllCustomerService, getCustomerService, createCustomerService, updateCustomerService, deleteCustomerService, softDeleteCustomerService, searchCustomerServices, selectCustomerServices } = require("../services/customer");
 
 exports.getAllCustomer = async (req, res) => {
   try {
@@ -111,6 +111,30 @@ exports.searchCustomer = async (req, res) => {
     return res
       .status(200)
       .json({ message: "searchCustomer searched successfully", data: org });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.selectCustomer = async (req, res) => {
+  try {
+    // const orgId = req?.query?.id;
+    const branchId = req?.params?.id;
+    // const text = req.query.text || "";
+    const customerData = await selectCustomerServices(
+      branchId
+    );
+
+    if (!customerData) {
+      return res.status(404).json({ message: "No customerData found" });
+    }
+
+    return res.status(200).json({
+      message: "customerData retrieved successfully",
+      data: customerData,
+    });
   } catch (err) {
     return res
       .status(500)

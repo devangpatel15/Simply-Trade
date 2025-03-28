@@ -131,7 +131,7 @@ const StockPage = () => {
                         variant="h6"
                         sx={{ fontWeight: "bold", color: "#6c5ce7" }}
                       >
-                        ""
+                        {stock.modelName.modelName}
                       </Typography>
 
                       <Box sx={{ display: "flex", gap: 2 }}>

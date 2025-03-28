@@ -1,9 +1,6 @@
-const { body, param,check, validationResult } = require("express-validator");
+const { body, param, check, validationResult } = require("express-validator");
 
 const jwt = require("jsonwebtoken");
-
-
-
 
 exports.createValidation = [
   // Validate organization
@@ -19,17 +16,17 @@ exports.createValidation = [
     .withMessage("branch must be a valid MongoID and is required"),
 
   // Validate customerName
-  body("customer")
-    .isMongoId()
+  body("customerName")
+    .isString()
     .notEmpty()
-    .withMessage("customer is required"),
+    .withMessage("customerName is required"),
 
   // Validate customerPhone
-  // body("customerPhone")
-  //   .isString()
-  //   .notEmpty()
-  //   .withMessage("customerPhone is required")
-  //   .withMessage("customerPhone must be a valid 10-digit number"),
+  body("customerPhone")
+    .isString()
+    .notEmpty()
+    .withMessage("customerPhone is required")
+    .withMessage("customerPhone must be a valid 10-digit number"),
 
   // Validate device array
   check("device")
@@ -93,12 +90,8 @@ exports.createValidation = [
   },
 ];
 
-
-
-
-
 exports.getStockValidation = [
-    param("id").optional().isMongoId().withMessage("valid id required"),
+  param("id").optional().isMongoId().withMessage("valid id required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -109,7 +102,7 @@ exports.getStockValidation = [
   },
 ];
 exports.deleteStockValidation = [
-    param("id").isMongoId().withMessage("valid id required"),
+  param("id").isMongoId().withMessage("valid id required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -122,22 +115,37 @@ exports.deleteStockValidation = [
 
 exports.updateStockValidation = [
   body("organization")
-  .isString()
-  .optional()
-  .withMessage("organization is required"),
-body("branch").isString().optional().withMessage("branch is required"),
-body("customer").isMongoId().optional().withMessage("customer is string"),
-// body("customerPhone").isString().optional().withMessage("customerPhone in string"),
-body("categoryName").isMongoId().optional().withMessage("category in string"),
-body("modelName").isMongoId().optional().withMessage("model in string"),
-body("deviceName").isMongoId().optional().withMessage("device in string"),
-body("capacityName").isMongoId().optional().withMessage("capacity in string"),
-body("color").isMongoId().optional().withMessage("color in string"),
-body("imeiNo").isString().optional().withMessage("imeiNo in string"),
-body("srNo").isString().optional().withMessage("srNo in string"),
-body("totalAmount").isNumeric().optional().withMessage("totalAmount in boolean"),
-body("paidToCustomer").isNumeric().optional().withMessage("paidToCustomer in string"),
-body("remainingAmount").isNumeric().optional().withMessage("remainingAmount in string"),
+    .isString()
+    .optional()
+    .withMessage("organization is required"),
+  body("branch").isString().optional().withMessage("branch is required"),
+  body("customerName")
+    .isString()
+    .optional()
+    .withMessage("customerName is string"),
+  body("customerPhone")
+    .isString()
+    .optional()
+    .withMessage("customerPhone in string"),
+  body("categoryName").isMongoId().optional().withMessage("category in string"),
+  body("modelName").isMongoId().optional().withMessage("model in string"),
+  body("deviceName").isMongoId().optional().withMessage("device in string"),
+  body("capacityName").isMongoId().optional().withMessage("capacity in string"),
+  body("color").isMongoId().optional().withMessage("color in string"),
+  body("imeiNo").isString().optional().withMessage("imeiNo in string"),
+  body("srNo").isString().optional().withMessage("srNo in string"),
+  body("totalAmount")
+    .isNumeric()
+    .optional()
+    .withMessage("totalAmount in boolean"),
+  body("paidToCustomer")
+    .isNumeric()
+    .optional()
+    .withMessage("paidToCustomer in string"),
+  body("remainingAmount")
+    .isNumeric()
+    .optional()
+    .withMessage("remainingAmount in string"),
 
   (req, res, next) => {
     const errors = validationResult(req);

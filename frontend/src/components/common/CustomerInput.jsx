@@ -7,7 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
 import CustomerDialog from "../CustomerDialog";
 
-const CustomerInput = ({ onChange, value, selectedCustomer }) => {
+const CustomerInput = ({ onChange, value, selectedCustomers }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);

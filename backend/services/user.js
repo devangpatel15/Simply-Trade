@@ -30,12 +30,12 @@ exports.findUserServices = async (email) => {
   return userData;
 };
 
-exports.findAllUserServices = async () => {
-  const data = await User.find({ isDeleted: false }).lean();
-};
+// exports.findAllUserServices = async () => {
+//   const data = await User.find({ isDeleted: false }).lean();
+// };
 
 exports.findAllUserServices = async () => {
-  const data = await User.find({ isDeleted: false }).lean();
+  const data = await User.find({ isDeleted: false }).populate("organization orgBranch").lean();
 
   return data;
 };

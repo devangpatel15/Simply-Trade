@@ -1,11 +1,19 @@
 const Stock = require("../models/stock");
 
 exports.getAllStockService = async () => {
-  return await Stock.find({ isDeleted: false }).populate("organization branch customer categoryName modelName deviceName capacityName color").lean();
+  return await Stock.find({ isDeleted: false })
+    .populate(
+      "organization branch categoryName modelName deviceName capacityName color"
+    )
+    .lean();
 };
 
 exports.getStockService = async (stockId) => {
-  return await Stock.findById(stockId).populate("organization branch customer categoryName modelName deviceName capacityName color").lean();
+  return await Stock.findById(stockId)
+    .populate(
+      "organization branch  categoryName modelName deviceName capacityName color"
+    )
+    .lean();
 };
 
 exports.createStockService = async (newStock) => {

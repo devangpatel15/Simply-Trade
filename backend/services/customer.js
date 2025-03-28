@@ -36,3 +36,13 @@ exports.searchCustomerServices = async (orgText) => {
   return await Customer.find(findObject).limit(5); // Increase limit if needed
 };
 
+exports.selectCustomerServices = async (branchId) => {
+  const data = await Customer.find({
+    branchName: branchId,
+    isDeleted: false,
+  })
+    .populate("branchName organization")
+    .lean();
+  return data;
+};
+
