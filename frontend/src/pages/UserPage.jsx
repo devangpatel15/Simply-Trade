@@ -28,6 +28,7 @@ const UserPage = () => {
 
   const callApi = async () => {
     const response = await getAllUsers();
+    console.log(response.data.data);
     setUserData(response.data.data);
   };
 
@@ -39,6 +40,7 @@ const UserPage = () => {
   const [data, setData] = useState({});
 
   const handleOpen = (data) => {
+    console.log(data);
     setData(data);
     setOpen(true);
   };
@@ -125,22 +127,22 @@ const UserPage = () => {
                           variant="body2"
                           sx={{ color: "green", fontWeight: "bold" }}
                         >
-                          Created At:{" "}
+                          Organization Name:{" "}
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(user.createdAt).format("DD-MM-YYYY")}
+                            {user.organization.organizationName}
                           </span>
                         </Typography>
                         <Typography
                           variant="body2"
                           sx={{ color: "brown", fontWeight: "bold" }}
                         >
-                          Update At:{" "}
+                          Branch Name:{" "}
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(user.updatedAt).format("DD-MM-YYYY")}
+                            {user.orgBranch.branchName}
                           </span>
                         </Typography>
                       </Box>
