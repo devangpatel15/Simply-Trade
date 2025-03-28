@@ -20,6 +20,8 @@ import { deleteStock } from "../apis/StockApi";
 import DeleteDialog from "./DeleteDialog";
 
 const StockDialog = ({ open, handleClose, data, fieldName }) => {
+  console.log("datataaaaaaaaaaa", data);
+
   const {
     _id,
     organization,
@@ -71,22 +73,32 @@ const StockDialog = ({ open, handleClose, data, fieldName }) => {
         {/* Organization & Customer Details */}
         <Grid container spacing={2} sx={{ p: 2 }}>
           <Grid item xs={6}>
-            <Typography>
-              <strong>Organization:</strong> {organization}
-            </Typography>
-            <Typography>
-              <strong>Customer Name:</strong> {customerName}
-            </Typography>
+            {organization && (
+              <Typography>
+                <strong>Organization:</strong>{" "}
+                {organization && organization.organizationName}
+              </Typography>
+            )}
+
+            {customerName && (
+              <Typography>
+                <strong>Customer Name:</strong> {customerName}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={6}>
-            <Typography>
-              <strong>Branch:</strong>
-              {branch}
-            </Typography>
-            <Typography>
-              <strong>Customer Phone:</strong>
-              {customerPhone}
-            </Typography>
+            {branch && (
+              <Typography>
+                <strong>Branch:</strong>
+                {branch && branch.branchName}
+              </Typography>
+            )}
+            {customerPhone && (
+              <Typography>
+                <strong>Customer Phone:</strong>
+                {customerPhone}
+              </Typography>
+            )}
           </Grid>
         </Grid>
 
@@ -108,33 +120,51 @@ const StockDialog = ({ open, handleClose, data, fieldName }) => {
               />
             </Grid>
             <Grid item xs={9}>
-              <Typography>
-                <strong>Category:</strong>
-                {categoryName}
-              </Typography>
-              <Typography>
-                <strong>Model:</strong> {modelName}
-              </Typography>
-              <Typography>
-                <strong>Device:</strong> {deviceName}
-              </Typography>
-              <Typography>
-                <strong>Capacity:</strong> {capacityName}
-              </Typography>
-              <Typography>
-                <strong>Color:</strong>
-                {color}
-              </Typography>
-              <Typography>
-                <strong>IMEI No.:</strong> {imeiNo}
-              </Typography>
-              <Typography sx={{ color: "green" }}>
-                <strong>Total Amount:</strong> {totalAmount}
-              </Typography>
-              <Typography sx={{ color: "red" }}>
-                <strong>Remaining Amount:</strong>
-                {remainingAmount}
-              </Typography>
+              {categoryName && (
+                <Typography>
+                  <strong>Category:</strong>
+                  {categoryName && categoryName.categoryName}
+                </Typography>
+              )}
+              {modelName && (
+                <Typography>
+                  <strong>Model:</strong> {modelName && modelName.modelName}
+                </Typography>
+              )}
+
+              {deviceName && (
+                <Typography>
+                  <strong>Device:</strong> {deviceName && deviceName.deviceName}
+                </Typography>
+              )}
+              {capacityName && (
+                <Typography>
+                  <strong>Capacity:</strong>{" "}
+                  {capacityName && capacityName.capacityName}
+                </Typography>
+              )}
+              {color && (
+                <Typography>
+                  <strong>Color:</strong>
+                  {color && color.colorName}
+                </Typography>
+              )}
+              {imeiNo && (
+                <Typography>
+                  <strong>IMEI No.:</strong> {imeiNo}
+                </Typography>
+              )}
+              {totalAmount && (
+                <Typography sx={{ color: "green" }}>
+                  <strong>Total Amount:</strong> {totalAmount}
+                </Typography>
+              )}
+              {remainingAmount && (
+                <Typography sx={{ color: "red" }}>
+                  <strong>Remaining Amount:</strong>
+                  {remainingAmount}
+                </Typography>
+              )}
             </Grid>
           </Grid>
         </Card>
@@ -150,10 +180,12 @@ const StockDialog = ({ open, handleClose, data, fieldName }) => {
           <Typography>
             <strong>Payment Account:</strong> Sate Bank Of India
           </Typography>
-          <Typography sx={{ color: "red" }}>
-            <strong>Payment Amount:</strong>
-            {payment}
-          </Typography>
+          {payment && (
+            <Typography sx={{ color: "red" }}>
+              <strong>Payment Amount:</strong>
+              {payment}
+            </Typography>
+          )}
         </Card>
       </DialogContent>
       <DialogActions>

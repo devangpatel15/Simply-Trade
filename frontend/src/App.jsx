@@ -306,6 +306,15 @@ function App() {
             </PrivateRoute>
           }
         />
+
+        <Route
+          path="/stockForm/:id"
+          element={
+            <PrivateRoute>
+              <StockForm />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/customerPage"
           element={
