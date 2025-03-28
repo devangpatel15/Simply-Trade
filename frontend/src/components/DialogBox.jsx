@@ -188,12 +188,13 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
           )}
           {organization && (
             <Typography variant="body1">
-              <b>Organization :</b> {organization}
+              <b>Organization :</b>{" "}
+              {organization && organization?.organizationName}
             </Typography>
           )}
           {orgBranch && (
             <Typography variant="body1">
-              <b>Organization Branch :</b> {orgBranch}
+              <b>Organization Branch :</b> {orgBranch && orgBranch.branchName}
             </Typography>
           )}
           {name && (
