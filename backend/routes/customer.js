@@ -8,6 +8,7 @@ const {
   softDeleteCustomer,
   searchCustomer,
   selectCustomer,
+  selectCustomerTest,
 } = require("../controllers/customer");
 const {
   customerIdValidation,
@@ -19,7 +20,7 @@ const { AuthUser } = require("../middleware/user");
 const cusRouter = express.Router();
 
 cusRouter.get("/allCustomer", getAllCustomer);
-cusRouter.get("/searchCustomer", searchCustomer);
+// cusRouter.get("/searchCustomer", searchCustomer);
 
 cusRouter.get("/selectCustomer/:id", selectCustomer);
 cusRouter.get("/customer/:id", customerIdValidation, getCustomer);

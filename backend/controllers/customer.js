@@ -1,4 +1,13 @@
-const { getAllCustomerService, getCustomerService, createCustomerService, updateCustomerService, deleteCustomerService, softDeleteCustomerService, searchCustomerServices, selectCustomerServices } = require("../services/customer");
+const {
+  getAllCustomerService,
+  getCustomerService,
+  createCustomerService,
+  updateCustomerService,
+  deleteCustomerService,
+  softDeleteCustomerService,
+  searchCustomerServices,
+  selectCustomerServices,
+} = require("../services/customer");
 
 exports.getAllCustomer = async (req, res) => {
   try {
@@ -99,40 +108,69 @@ exports.deleteCustomer = async (req, res) => {
   }
 };
 
-exports.searchCustomer = async (req, res) => {
-  try {
-    const orgText = req.query.text || "";
+// exports.searchCustomer = async (req, res) => {
 
-    const org = await searchCustomerServices(orgText);
+//   try {
+//     const orgText = req.query.text || "";
 
-    if (!org) {
-      return res.status(404).json({ message: "searchCustomer not found" });
-    }
-    return res
-      .status(200)
-      .json({ message: "searchCustomer searched successfully", data: org });
-  } catch (err) {
-    return res
-      .status(500)
-      .json({ message: "Internal server error", error: err.message });
-  }
-};
+//     const org = await searchCustomerServices(orgText);
+
+//     if (!org) {
+//       return res.status(404).json({ message: "searchCustomer not found" });
+//     }
+//     return res
+//       .status(200)
+//       .json({ message: "searchCustomer searched successfully", data: org });
+//   } catch (err) {
+//     return res
+//       .status(500)
+//       .json({ message: "Internal server error", error: err.message });
+//   }
+// };
+
+// exports.selectCustomer = async (req, res) => {
+//   try {
+//     // const orgId = req?.query?.id;
+//     const branchId = req?.params?.id;
+//     // const text = req.query.text || "";
+//     const customerData = await selectCustomerServices(
+//       branchId
+//     );
+
+//     if (!customerData) {
+//       return res.status(404).json({ message: "No customerData found" });
+//     }
+
+//     return res.status(200).json({
+//       message: "customerData retrieved successfully",
+//       data: customerData,
+//     });
+//   } catch (err) {
+//     return res
+//       .status(500)
+//       .json({ message: "Internal server error", error: err.message });
+//   }
+// };
 
 exports.selectCustomer = async (req, res) => {
   try {
-    // const orgId = req?.query?.id;
     const branchId = req?.params?.id;
-    // const text = req.query.text || "";
-    const customerData = await selectCustomerServices(
-      branchId
-    );
+    const orgText = req?.query?.text || "";
 
-    if (!customerData) {
-      return res.status(404).json({ message: "No customerData found" });
+    if (!branchId && !orgText) {
+      return res.status(400).json({
+        message: "Please provide either branchId or orgText for filtering.",
+      });
+    }
+
+    const customerData = await selectCustomerServices(branchId, orgText);
+
+    if (!customerData || customerData.length === 0) {
+      return res.status(404).json({ message: "No customers found" });
     }
 
     return res.status(200).json({
-      message: "customerData retrieved successfully",
+      message: "Customer data retrieved successfully",
       data: customerData,
     });
   } catch (err) {
