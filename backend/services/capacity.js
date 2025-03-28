@@ -9,9 +9,6 @@ exports.getCapacityService = async (capId) => {
     .populate("organization branchName categoryId modelId deviceId")
     .lean();
 };
-exports.selectCapacityByDeviceService = async (deviceId) => {
-  return await Capacity.find({ deviceId, isDeleted: false }).lean();
-};
 
 exports.createCapacityService = async (newCap) => {
   return await Capacity.create(newCap);
@@ -31,7 +28,7 @@ exports.deleteCapacityService = async (capId) => {
 
 exports.searchCapacityService = async (orgText) => {
   let findObject = { isDeleted: false };
-
+  
   if (orgText.trim() !== "") {
     findObject.$or = [
       { capacityName: { $regex: `^${orgText}`, $options: "i" } },
@@ -40,3 +37,26 @@ exports.searchCapacityService = async (orgText) => {
 
   return await Capacity.find(findObject).limit(5); // Increase limit if needed
 };
+
+  exports.selectCapacityByDeviceService = async (deviceId) => {
+    return await Capacity.find({ deviceId, isDeleted: false }).lean();
+  };
+
+  exports.selectCustomerServices = async (branchId, orgText) => {
+    let findObject = { isDeleted: false };
+  
+    if (orgText && orgText.trim() !== "") {
+      findObject.$or = [
+        { customerName: { $regex: `^${orgText}`, $options: "i" } },
+      ];
+    }
+  
+    if (branchId) {
+      findObject.branchName = branchId;
+    }
+  
+    return await Customer.find(findObject)
+      .populate("branchName organization")
+      .limit(5)
+      .lean();
+  };

@@ -1,7 +1,7 @@
 const Category = require("../models/category");
 
 exports.getAllCategoryService = async () => {
-  return await Category.find({ isDeleted: false }).lean();
+  return await Category.find({ isDeleted: false }).populate("orgId orgBranchId").lean();
 };
 
 exports.getCategoryService = async (catId) => {
@@ -9,7 +9,7 @@ exports.getCategoryService = async (catId) => {
 };
 // FIXME:
 exports.getUserCategoryService = async (userId) => {
-  return await Category.find({isDeleted: false,orgId:userId}).lean();
+  return await Category.find({isDeleted: false,orgId:userId}).populate("orgId orgBranchId").lean();
 };
 
 exports.selectCategoryByBranchService = async (branchId) => {
