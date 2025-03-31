@@ -6,7 +6,7 @@ const capRouter = express.Router()
 
 capRouter.get("/allCapacity",getAllCapacity)
 capRouter.get("/capacity/:id",capacityIdValidation,getCapacity)
-capRouter.get("/selectCapacity/:id",capacityIdValidation,selectCapacity)
+capRouter.get("/selectCapacityByDevice/:id",capacityIdValidation,selectCapacity)
 capRouter.post("/createCapacity",createCapacityValidation,createCapacity)
 capRouter.put("/updateCapacity/:id",updateCapacityValidation,updateCapacity)
 capRouter.put("/deleteCapacity/:id",capacityIdValidation,softDeleteCapacity)

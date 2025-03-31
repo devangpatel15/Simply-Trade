@@ -181,7 +181,7 @@ exports.selectColor = async (req, res) => {
       });
     }
 
-    const Data = await selectColorServices(deviceId, orgText);
+    const Data = await selectColorByDeviceServices(deviceId, orgText);
 
     if (!Data || Data.length === 0) {
       return res.status(404).json({ message: "No found" });

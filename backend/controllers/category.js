@@ -148,21 +148,21 @@ exports.searchCategory = async (req, res) => {
   }
 };
 
-exports.selectCategoryByBranch = async (req, res) => {
-  try {
-    const branchId = req.params.id;
-    const cat = await selectCategoryByBranchService(branchId);
-    if (!cat) {
-      return res.status(404).json({ message: "No category found" });
-    }
-    return res.status(200).json({
-      message: "category retrieved successfully",
-      data: cat,
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+// exports.selectCategoryByBranch = async (req, res) => {
+//   try {
+//     const branchId = req.params.id;
+//     const cat = await selectCategoryByBranchService(branchId);
+//     if (!cat) {
+//       return res.status(404).json({ message: "No category found" });
+//     }
+//     return res.status(200).json({
+//       message: "category retrieved successfully",
+//       data: cat,
+//     });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 
 exports.selectCategory = async (req, res) => {
   try {
@@ -175,7 +175,7 @@ exports.selectCategory = async (req, res) => {
       });
     }
 
-    const Data = await selectCategoryServices(branchId, orgText);
+    const Data = await selectCategoryByBranchService(branchId, orgText);
 
     if (!Data || Data.length === 0) {
       return res.status(404).json({ message: "No found" });

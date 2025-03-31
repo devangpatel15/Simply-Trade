@@ -15,11 +15,11 @@ exports.findOneColorServices = async (colorId) => {
 
   return data;
 };
-exports.selectColorByDeviceServices = async (deviceId) => {
-  const data = await Color.find({ deviceId, isDeleted: false }).lean();
+// exports.selectColorByDeviceServices = async (deviceId) => {
+//   const data = await Color.find({ deviceId, isDeleted: false }).lean();
 
-  return data;
-};
+//   return data;
+// };
 exports.findUserColorServices = async (userId) => {
   const data = await Color.find().populate().lean();
   return data;
@@ -56,7 +56,7 @@ exports.searchColorServices = async (orgText) => {
   return await Color.find(findObject).limit(5); // Increase limit if needed
 };
 
-exports.selectColorServices = async (deviceId, orgText) => {
+exports.selectColorByDeviceServices = async (deviceId, orgText) => {
   let findObject = { isDeleted: false };
 
   if (orgText && orgText.trim() !== "") {

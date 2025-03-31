@@ -38,11 +38,11 @@ exports.searchCapacityService = async (orgText) => {
   return await Capacity.find(findObject).limit(5); // Increase limit if needed
 };
 
-  exports.selectCapacityByDeviceService = async (deviceId) => {
-    return await Capacity.find({ deviceId, isDeleted: false }).lean();
-  };
+  // exports.selectCapacityByDeviceService = async (deviceId) => {
+  //   return await Capacity.find({ deviceId, isDeleted: false }).lean();
+  // };
 
-  exports.selectCapacityServices = async (deviceId, text) => {
+  exports.selectCapacityByDeviceService = async (deviceId, text) => {
     let findObject = { isDeleted: false };
   
     if (text && text.trim() !== "") {

@@ -155,7 +155,7 @@ exports.selectCapacity = async (req, res) => {
       });
     }
 
-    const Data = await selectCapacityServices(deviceId, orgText);
+    const Data = await selectCapacityByDeviceService(deviceId, orgText);
 
     if (!Data || Data.length === 0) {
       return res.status(404).json({ message: "No capacity found" });

@@ -48,7 +48,7 @@ exports.deleteCategoryService = async (catId) => {
 //   }).lean();
 // };
 
-exports.selectCategoryServices = async (branchId, orgText) => {
+exports.selectCategoryByBranchService = async (branchId, orgText) => {
   let findObject = { isDeleted: false };
 
   if (orgText && orgText.trim() !== "") {
