@@ -10,24 +10,25 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { allUserOrg } from "../apis/OrganizationApi";
-import { getOrgBranch } from "../apis/OrganizationBranchApi";
+
 import {
   createCapacity,
   getOneCapacity,
   updateCapacity,
 } from "../apis/CapacityApi";
-import { getAllDevice } from "../apis/DeviceApi";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import CategoryInput from "./common/CategoryInput";
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
+import { errorMessage } from "../../errorMessage";
 
 const CapacityForm = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     organization: null,
@@ -51,8 +52,26 @@ const CapacityForm = () => {
       [name]: value,
     }));
   };
+  const validateForm = () => {
+    let newErrors = {};
+    if (!formData.organization)
+      newErrors.organization = errorMessage.organizationName;
+    if (!formData.branchName) newErrors.branchName = errorMessage.branchName;
+    if (!formData.categoryId) newErrors.categoryId = errorMessage.categoryName;
+    if (!formData.modelId) newErrors.modelId = errorMessage.modelName;
+    if (!formData.deviceId) newErrors.deviceId = errorMessage.deviceName;
+    if (!formData.capacityName)
+      newErrors.capacityName = errorMessage.capacityName;
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
 
   const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       if (id) {
         await updateCapacity(
@@ -183,6 +202,7 @@ const CapacityForm = () => {
                 <OrgInput
                   onChange={handleOrganizationChange}
                   value={formData.organization}
+                  error={errors.organization}
                 />
               </Grid>
 
@@ -191,6 +211,7 @@ const CapacityForm = () => {
                   onChange={handleOrganizationBranchChange}
                   value={formData.branchName}
                   selectedOrganization={selectedOrganization}
+                  error={errors.branchName}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -198,6 +219,7 @@ const CapacityForm = () => {
                   onChange={handleCategoryChange}
                   value={formData.categoryId}
                   branchId={branchId}
+                  error={errors.categoryId}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -205,6 +227,7 @@ const CapacityForm = () => {
                   onChange={handleModelChange}
                   value={formData.modelId}
                   catId={catId}
+                  error={errors.modelId}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -212,6 +235,7 @@ const CapacityForm = () => {
                   onChange={handleDeviceChange}
                   value={formData.deviceId}
                   modelId={modelId}
+                  error={errors.deviceId}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -223,6 +247,8 @@ const CapacityForm = () => {
                   value={formData.capacityName || ""}
                   onChange={handleChange}
                   required
+                  error={!!errors.capacityName}
+                  helperText={errors.capacityName}
                 />
               </Grid>
             </Grid>

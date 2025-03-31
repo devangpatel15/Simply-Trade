@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, error } from "react";
 import axios from "axios";
 import { debounce } from "lodash";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const DeviceInput = ({ onChange, value, modelId }) => {
+const DeviceInput = ({ onChange, value, modelId, error }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -57,6 +57,9 @@ const DeviceInput = ({ onChange, value, modelId }) => {
       }}
       renderInput={(params) => (
         <TextField
+          required
+          error={!!error}
+          helperText={error}
           {...params}
           label="Device"
           variant="outlined"

@@ -10,6 +10,7 @@ import OrgBranchInput from "./common/OrgBranchInput";
 import CategoryInput from "./common/CategoryInput";
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
+import { errorMessage } from "../../errorMessage";
 
 function ColorForm() {
   const [formData, setFormData] = useState({
@@ -24,6 +25,7 @@ function ColorForm() {
   const { id } = useParams();
 
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
@@ -39,7 +41,25 @@ function ColorForm() {
     }));
   };
 
+  const validateForm = () => {
+    let newErrors = {};
+    if (!formData.organization)
+      newErrors.organization = errorMessage.organizationName;
+    if (!formData.branchName) newErrors.branchName = errorMessage.branchName;
+    if (!formData.categoryId) newErrors.categoryId = errorMessage.categoryName;
+    if (!formData.modelId) newErrors.modelId = errorMessage.modelName;
+    if (!formData.deviceId) newErrors.deviceId = errorMessage.deviceName;
+    if (!formData.colorName) newErrors.colorName = errorMessage.colorName;
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
+
   const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       if (id) {
         await updateColor(
@@ -164,6 +184,7 @@ function ColorForm() {
               <OrgInput
                 onChange={handleOrganizationChange}
                 value={formData.organization}
+                error={errors.organization}
               />
             </Grid>
 
@@ -172,6 +193,7 @@ function ColorForm() {
                 onChange={handleOrganizationBranchChange}
                 value={formData.branchName}
                 selectedOrganization={selectedOrganization}
+                error={errors.branchName}
               />
             </Grid>
             <Grid item xs={6}>
@@ -179,6 +201,7 @@ function ColorForm() {
                 onChange={handleCategoryChange}
                 value={formData.categoryId}
                 branchId={branchId}
+                error={errors.categoryId}
               />
             </Grid>
             <Grid item xs={6}>
@@ -186,6 +209,7 @@ function ColorForm() {
                 onChange={handleModelChange}
                 value={formData.modelId}
                 catId={catId}
+                error={errors.modelId}
               />
             </Grid>
             <Grid item xs={6}>
@@ -193,6 +217,7 @@ function ColorForm() {
                 onChange={handleDeviceChange}
                 value={formData.deviceId}
                 modelId={modelId}
+                error={errors.deviceId}
               />
             </Grid>
             <Grid item xs={6}>
@@ -204,6 +229,8 @@ function ColorForm() {
                 value={formData.colorName || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.colorName}
+                helperText={errors.colorName}
               ></TextField>
             </Grid>
           </Grid>

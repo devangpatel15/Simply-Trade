@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -23,7 +23,7 @@ import DeviceInput from "./common/DeviceInput";
 import ColorInput from "./common/ColorInput";
 import CapacityInput from "./common/CapacityInput";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { createStock, updateStock } from "../apis/StockApi";
+import { createStock, getOneStock, updateStock } from "../apis/StockApi";
 import CustomerInput from "./common/CustomerInput";
 
 const StockForm = () => {
@@ -62,7 +62,7 @@ const StockForm = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [paidToCustomer, setPaidtoCustomer] = useState(0);
 
-  const { paramsId } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -208,9 +208,9 @@ const StockForm = () => {
       imeiNo: "",
       srNo: "",
       useImei: true,
-      totalAmount: "",
-      paidToCustomer: "",
-      remainingAmount: "",
+      // totalAmount: "",
+      // paidToCustomer: "",
+      // remainingAmount: "",
     });
     setFormData({ ...formData, device: updatedDeviceData });
   };
@@ -220,6 +220,53 @@ const StockForm = () => {
     updatedDeviceData[deviceIndex].imei.splice(imeiIndex, 1);
     setFormData({ ...formData, device: updatedDeviceData });
   };
+
+  // console.log(id, "praamasId");
+
+  // const callApi = async () => {
+  //   try {
+  //     if (id) {
+  //       const response = await getOneStock(id);
+  //       // setFormData({
+  //       //   ...response.data.data,
+  //       //   organization: {
+  //       //     label: response.data.data.organization.organizationName,
+  //       //     value: response.data.data.organization._id || "",
+  //       //   },
+  //       //   branch: {
+  //       //     label: response.data.data.branch.branchName,
+  //       //     value: response.data.data.branch._id || "",
+  //       //   },
+  //       //   categoryName: {
+  //       //     label: response.data.data.categoryName.categoryName,
+  //       //     value: response.data.data.categoryName._id || "",
+  //       //   },
+  //       //   modelName: {
+  //       //     label: response.data.data.modelName.modelName,
+  //       //     value: response.data.data.modelName._id || "",
+  //       //   },
+  //       //   deviceName: {
+  //       //     label: response.data.data.deviceName.deviceName,
+  //       //     value: response.data.data.deviceName._id || "",
+  //       //   },
+  //       //   capacityName: {
+  //       //     label: response.data.data.capacityName.capacityName,
+  //       //     value: response.data.data.capacityName._id || "",
+  //       //   },
+  //       //   color: {
+  //       //     label: response.data.data.color.color,
+  //       //     value: response.data.data.color._id || "",
+  //       //   },
+  //       // });
+  //     }
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   callApi();
+  // }, []);
 
   const handleSubmit = async () => {
     console.log(formData);
@@ -249,8 +296,8 @@ const StockForm = () => {
         device: formattedDevices,
       };
 
-      if (paramsId) {
-        await updateStock(payload, paramsId);
+      if (id) {
+        await updateStock(payload, id);
       } else {
         await createStock(payload);
         navigate("/stockPage");
@@ -410,8 +457,8 @@ const StockForm = () => {
                     fullWidth
                     label="Quantity "
                     variant="outlined"
-                    name="customerPhone"
-                    value={formData.customerPhone || ""}
+                    name="quantity"
+                    value={formData.quantity || ""}
                     onChange={handleChange}
                   />
                 </Grid>
@@ -495,7 +542,7 @@ const StockForm = () => {
                         />
                       ) : (
                         <TextField
-                          label="Serial No"
+                          label={`Serial No ${imeiIndex + 1}`}
                           value={imeiItem.srNo}
                           onChange={(e) =>
                             handleImeiChange(

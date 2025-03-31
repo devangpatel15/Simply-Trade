@@ -18,11 +18,14 @@ import {
 
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
+import { errorMessage } from "../../errorMessage";
 
 const CategoryForm = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     categoryName: "",
@@ -41,7 +44,22 @@ const CategoryForm = () => {
     }));
   };
 
+  const validateForm = () => {
+    let newErrors = {};
+    if (!formData.orgId) newErrors.orgId = errorMessage.organizationName;
+    if (!formData.orgBranchId) newErrors.orgBranchId = errorMessage.branchName;
+    if (!formData.categoryName)
+      newErrors.categoryName = errorMessage.categoryName;
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
+
   const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       if (id) {
         await updateCategory(
@@ -149,6 +167,7 @@ const CategoryForm = () => {
                 <OrgInput
                   onChange={handleOrganizationChange}
                   value={formData.orgId}
+                  error={errors.orgId}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -172,6 +191,7 @@ const CategoryForm = () => {
                   onChange={handleOrganizationBranchChange}
                   value={formData.orgBranchId}
                   selectedOrganization={selectedOrganization}
+                  error={errors.orgBranchId}
                 />
               </Grid>
             </Grid>
@@ -185,6 +205,8 @@ const CategoryForm = () => {
             value={formData.categoryName || ""}
             onChange={handleChange}
             required
+            error={!!errors.categoryName}
+            helperText={errors.categoryName}
           />
 
           <Grid

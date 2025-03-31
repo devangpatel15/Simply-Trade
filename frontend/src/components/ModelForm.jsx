@@ -18,11 +18,14 @@ import { getBranchCategory } from "../apis/CategoryApi";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import CategoryInput from "./common/CategoryInput";
+import { errorMessage } from "../../errorMessage";
 
 const ModelForm = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     organization: null,
@@ -43,7 +46,24 @@ const ModelForm = () => {
     }));
   };
 
+  const validateForm = () => {
+    let newErrors = {};
+    if (!formData.organization)
+      newErrors.organization = errorMessage.organizationName;
+    if (!formData.branchName) newErrors.branchName = errorMessage.branchName;
+    if (!formData.categoryId) newErrors.categoryId = errorMessage.categoryName;
+    if (!formData.modelName) newErrors.modelName = errorMessage.modelName;
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
+
   const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       if (id) {
         updateModel(
@@ -149,6 +169,7 @@ const ModelForm = () => {
                 <OrgInput
                   onChange={handleOrganizationChange}
                   value={formData.organization}
+                  error={errors.organization}
                 />
               </Grid>
 
@@ -157,6 +178,7 @@ const ModelForm = () => {
                   onChange={handleOrganizationBranchChange}
                   value={formData.branchName}
                   selectedOrganization={selectedOrganization}
+                  error={errors.branchName}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -164,6 +186,7 @@ const ModelForm = () => {
                   onChange={handleCategoryChange}
                   value={formData.categoryId}
                   branchId={branchId}
+                  error={errors.categoryId}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -175,6 +198,8 @@ const ModelForm = () => {
                   value={formData.modelName || ""}
                   onChange={handleChange}
                   required
+                  error={!!errors.modelName}
+                  helperText={errors.modelName}
                 />
               </Grid>
             </Grid>

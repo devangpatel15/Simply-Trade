@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const OrgInput = ({ onChange, value }) => {
+const OrgInput = ({ onChange, value, error }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -64,6 +64,9 @@ const OrgInput = ({ onChange, value }) => {
       }}
       renderInput={(params) => (
         <TextField
+          required
+          error={!!error}
+          helperText={error}
           {...params}
           label="Organization"
           variant="outlined"

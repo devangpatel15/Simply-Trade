@@ -18,11 +18,13 @@ import Header from "./Header";
 import { createUser, getOneUser, updateUser } from "../apis/UserApi";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
+import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
 
 const UserForm = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     organization: null,
@@ -43,7 +45,39 @@ const UserForm = () => {
     }));
   };
 
+  const validateForm = () => {
+    let newErrors = {};
+    if (!formData.organization)
+      newErrors.organization = errorMessage.organizationName;
+    if (!formData.orgBranch) newErrors.orgBranch = errorMessage.branchName;
+    if (!formData.name) newErrors.name = errorMessage.name;
+    if (!formData.email) newErrors.email = errorMessage.email;
+    if (!formData.mobileNo) newErrors.mobileNo = errorMessage.mobile;
+    if (!formData.password) newErrors.password = errorMessage.password;
+
+    // Email validation (simple regex)
+    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = formatMessage.email;
+    }
+
+    if (formData.mobileNo) {
+      if (!/^\d+$/.test(formData.mobileNo)) {
+        newErrors.mobile = formatMessage.mobile;
+      } else if (formData.mobileNo.length !== 10) {
+        // Enforcing 10-digit length
+        newErrors.mobile = lengthMessage.mobile;
+      }
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
+
   const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       if (id) {
         await updateUser(
@@ -66,7 +100,6 @@ const UserForm = () => {
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("error");
     }
   };
 
@@ -128,6 +161,7 @@ const UserForm = () => {
               <OrgInput
                 onChange={handleOrganizationChange}
                 value={formData.organization}
+                error={errors.organization}
               />
             </Grid>
             <Grid item xs={6}>
@@ -135,6 +169,7 @@ const UserForm = () => {
                 onChange={handleOrganizationBranchChange}
                 value={formData.orgBranch}
                 selectedOrganization={selectedOrganization}
+                error={errors.orgBranch}
               />
             </Grid>
             <Grid item xs={6}>
@@ -146,6 +181,8 @@ const UserForm = () => {
                 value={formData.name || ""}
                 onChange={handleChange}
                 required
+                error={errors.name}
+                helperText={errors.name}
               />
             </Grid>
             <Grid item xs={6}>
@@ -157,6 +194,8 @@ const UserForm = () => {
                 value={formData.email || ""}
                 onChange={handleChange}
                 required
+                error={errors.email}
+                helperText={errors.email}
               />
             </Grid>
             <Grid item xs={6}>
@@ -168,6 +207,8 @@ const UserForm = () => {
                 value={formData.mobileNo || ""}
                 onChange={handleChange}
                 required
+                error={errors.mobileNo}
+                helperText={errors.mobileNo}
               />
             </Grid>
             {!id && (
@@ -180,6 +221,8 @@ const UserForm = () => {
                   value={formData.password || ""}
                   onChange={handleChange}
                   required
+                  error={errors.password}
+                  helperText={errors.password}
                 />
               </Grid>
             )}
