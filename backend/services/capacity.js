@@ -42,7 +42,7 @@ exports.searchCapacityService = async (orgText) => {
     return await Capacity.find({ deviceId, isDeleted: false }).lean();
   };
 
-  exports.selectCustomerServices = async (deviceId, text) => {
+  exports.selectCapacityServices = async (deviceId, text) => {
     let findObject = { isDeleted: false };
   
     if (text && text.trim() !== "") {
