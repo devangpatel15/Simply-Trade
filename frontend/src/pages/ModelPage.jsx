@@ -123,22 +123,22 @@ const ModelPage = () => {
                           variant="body2"
                           sx={{ color: "green", fontWeight: "bold" }}
                         >
-                          Created At:{" "}
+                          Category:{" "}
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(model.createdAt).format("DD-MM-YYYY")}
+                            {model.categoryId.categoryName}
                           </span>
                         </Typography>
                         <Typography
                           variant="body2"
                           sx={{ color: "brown", fontWeight: "bold" }}
                         >
-                          Update At:{" "}
+                          BranchName:{" "}
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(model.updatedAt).format("DD-MM-YYYY")}
+                            {model?.branchName?.branchName}
                           </span>
                         </Typography>
                       </Box>

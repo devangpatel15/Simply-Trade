@@ -135,11 +135,11 @@ const Category = () => {
                           variant="body2"
                           sx={{ color: "brown", fontWeight: "bold" }}
                         >
-                          Update At:{" "}
+                          BranchName:
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(category.updatedAt).format("DD-MM-YYYY")}
+                            {category.orgBranchId.branchName}
                           </span>
                         </Typography>
                       </Box>

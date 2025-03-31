@@ -7,14 +7,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
 import CustomerDialog from "../CustomerDialog";
 
-const CustomerInput = ({ onChange, value, selectedCustomer }) => {
+const CustomerInput = ({ onChange, value, branchId }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
-    console.log("creat user click");
     setOpen(true);
   };
 
@@ -26,7 +25,14 @@ const CustomerInput = ({ onChange, value, selectedCustomer }) => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/searchCustomer/${selectedCustomer}`
+          `http://localhost:4000/api/selectCustomer/${branchId}`,
+          {
+            params: { text: query }, // Query parameters
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }, // Request headers
+          }
         );
 
         const formattedOptions = (response.data.data || []).map((org) => ({
@@ -42,7 +48,7 @@ const CustomerInput = ({ onChange, value, selectedCustomer }) => {
         setLoading(false);
       }
     }, 500),
-    [selectedCustomer]
+    [branchId]
   );
 
   // Fetch organizations when inputValue changes
@@ -66,7 +72,7 @@ const CustomerInput = ({ onChange, value, selectedCustomer }) => {
         onChange={(_, newValue) => {
           if (onChange) onChange(newValue); // Ensure onChange gets an object
         }}
-        noOptionsText={<Button onClick={handleOpen}>Create Customer</Button>}
+        noOptionsText={<Button onClick={handleOpen}>Create Customer</Button>} //No Option to Create Customer Button Add//
         renderInput={(params) => (
           <TextField
             {...params}

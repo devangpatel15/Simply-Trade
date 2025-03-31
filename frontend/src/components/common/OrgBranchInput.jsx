@@ -12,17 +12,18 @@ const OrgBranchInput = ({ onChange, value, selectedOrganization, error }) => {
 
   // Debounced API call wrapped in useCallback to avoid unnecessary recreations
   const fetchOrganizations = useCallback(
-    debounce(async () => {
+    debounce(async (query) => {
       setLoading(true);
 
       try {
         const response = await axios.get(
           `http://localhost:4000/api/selectOrganizationBranch/${selectedOrganization}`,
           {
+            params: { text: query }, // Query parameters
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
+            }, // Request headers
           }
         );
 

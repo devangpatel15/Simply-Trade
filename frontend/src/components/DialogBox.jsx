@@ -46,6 +46,7 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
     orgBranch,
     categoryName,
     modelName,
+    categoryId,
   } = data;
 
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -86,7 +87,7 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
       <DialogTitle
         sx={{
-          backgroundColor: " #F8F8FF",
+          backgroundColor: "#F8F8FF",
           color: "#4C2D85",
           fontWeight: "bold",
           borderBottom: "2px solid gray",
@@ -129,7 +130,12 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
           )}
           {branchName && (
             <Typography variant="body1">
-              <b>BranchName :</b> {branchName}
+              <b>BranchName :</b> {branchName && branchName?.branchName}
+            </Typography>
+          )}
+          {categoryId && (
+            <Typography variant="body1">
+              <b>BranchName :</b> {categoryId && categoryId?.categoryName}
             </Typography>
           )}
           {addressLine1 && (
