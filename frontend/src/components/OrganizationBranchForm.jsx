@@ -21,11 +21,14 @@ import {
   updateOrgBranch,
 } from "../apis/OrganizationBranchApi";
 import OrgInput from "./common/OrgInput";
+import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
 
 const OrganizationBranchForm = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     organization: null,
@@ -44,6 +47,53 @@ const OrganizationBranchForm = () => {
     companyType: "",
   });
 
+  const validateForm = () => {
+    let newErrors = {};
+    if (!formData.organization)
+      newErrors.organization = errorMessage.organizationName;
+    if (!formData.branchName) newErrors.branchName = errorMessage.branchName;
+    if (!formData.addressLine1)
+      newErrors.addressLine1 = errorMessage.addressLine1;
+    if (!formData.primaryAddress)
+      newErrors.primaryAddress = errorMessage.primaryAddress;
+    if (!formData.city) newErrors.city = errorMessage.city;
+    if (!formData.state) newErrors.state = errorMessage.state;
+    if (!formData.district) newErrors.district = errorMessage.district;
+    if (!formData.zipCode) newErrors.zipCode = errorMessage.zipCode;
+    if (!formData.country) newErrors.country = errorMessage.country;
+    if (!formData.email) newErrors.email = errorMessage.email;
+    if (!formData.telePhone) newErrors.telePhone = errorMessage.telephone;
+    if (!formData.companyType) newErrors.companyType = errorMessage.companyType;
+    if (!formData.mobile) newErrors.mobile = errorMessage.mobile;
+
+    // Email validation (simple regex)
+    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = formatMessage.email;
+    }
+
+    if (formData.zipCode) {
+      if (!/^\d+$/.test(formData.zipCode)) {
+        newErrors.zipCode = formatMessage.zipCode;
+      } else if (formData.zipCode.length !== 6) {
+        // Enforcing 6-digit length
+        newErrors.zipCode = lengthMessage.zipCode;
+      }
+    }
+
+    if (formData.mobile) {
+      if (!/^\d+$/.test(formData.mobile)) {
+        newErrors.mobile = formatMessage.mobile;
+      } else if (formData.mobile.length !== 10) {
+        // Enforcing 10-digit length
+        newErrors.mobile = lengthMessage.mobile;
+      }
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -54,6 +104,9 @@ const OrganizationBranchForm = () => {
   };
 
   const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       if (id) {
         await updateOrgBranch(
@@ -99,11 +152,15 @@ const OrganizationBranchForm = () => {
   }, []);
 
   const handleOrganizationChange = (selectedOrg) => {
-    setFormData((prev) => ({
-      ...prev,
-      organization: selectedOrg,
-      orgId: selectedOrg.value,
-    }));
+    console.log(selectedOrg);
+
+    if (selectedOrg) {
+      setFormData((prev) => ({
+        ...prev,
+        organization: selectedOrg,
+        orgId: selectedOrg.value || "",
+      }));
+    }
   };
 
   return (
@@ -145,6 +202,7 @@ const OrganizationBranchForm = () => {
               <OrgInput
                 onChange={handleOrganizationChange}
                 value={formData.organization}
+                error={errors.organization}
               />
             </Grid>
             <Grid item xs={6}>
@@ -156,6 +214,8 @@ const OrganizationBranchForm = () => {
                 value={formData.branchName || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.branchName}
+                helperText={errors.branchName}
               />
             </Grid>
 
@@ -168,6 +228,8 @@ const OrganizationBranchForm = () => {
                 value={formData.primaryAddress || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.primaryAddress}
+                helperText={errors.primaryAddress}
               />
             </Grid>
             <Grid item xs={6}>
@@ -179,6 +241,8 @@ const OrganizationBranchForm = () => {
                 value={formData.addressLine1 || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.addressLine1}
+                helperText={errors.addressLine1}
               />
             </Grid>
 
@@ -201,6 +265,8 @@ const OrganizationBranchForm = () => {
                 value={formData.city || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.city}
+                helperText={errors.city}
               />
             </Grid>
 
@@ -213,6 +279,8 @@ const OrganizationBranchForm = () => {
                 value={formData.district || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.district}
+                helperText={errors.district}
               />
             </Grid>
             <Grid item xs={6}>
@@ -224,6 +292,8 @@ const OrganizationBranchForm = () => {
                 value={formData.state || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.state}
+                helperText={errors.state}
               />
             </Grid>
 
@@ -236,6 +306,8 @@ const OrganizationBranchForm = () => {
                 value={formData.country || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.country}
+                helperText={errors.country}
               />
             </Grid>
             <Grid item xs={6}>
@@ -247,11 +319,14 @@ const OrganizationBranchForm = () => {
                 value={formData.zipCode || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.zipCode}
+                helperText={errors.zipCode}
               />
             </Grid>
 
             <Grid item xs={6}>
               <TextField
+                type="number"
                 fullWidth
                 label="Mobile"
                 variant="outlined"
@@ -259,10 +334,13 @@ const OrganizationBranchForm = () => {
                 value={formData.mobile || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.mobile}
+                helperText={errors.mobile}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
+                type="number"
                 fullWidth
                 label="Telephone"
                 variant="outlined"
@@ -270,6 +348,8 @@ const OrganizationBranchForm = () => {
                 value={formData.telePhone || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.telePhone}
+                helperText={errors.telePhone}
               />
             </Grid>
 
@@ -282,6 +362,8 @@ const OrganizationBranchForm = () => {
                 value={formData.email || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.email}
+                helperText={errors.email}
               />
             </Grid>
             <Grid item xs={6}>
@@ -293,6 +375,8 @@ const OrganizationBranchForm = () => {
                 value={formData.companyType || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.companyType}
+                helperText={errors.companyType}
               />
             </Grid>
 

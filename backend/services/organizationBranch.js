@@ -24,14 +24,26 @@ exports.findUserOrganizationBranchServices = async (userId) => {
   return data;
 };
 
-exports.selectOrganizationBranchServices = async (orgId) => {
-  const data = await OrganizationBranch.find({
-    organization: orgId,
-    isDeleted: false,
-  })
-    .populate("userId branchName")
-    .lean();
-  return data;
+exports.selectOrganizationBranchServices = async (orgId,orgText) => {
+  // const data = await OrganizationBranch.find({
+  //   organization: orgId,
+  //   isDeleted: false,
+  // })
+  //   .populate("userId branchName")
+  //   .lean();
+  // return data;
+
+  let findObject = { isDeleted: false };
+
+  if (orgText.trim() !== "") {
+    findObject.$or = [{ branchName: { $regex: `^${orgText}`, $options: "i" } }];
+  }
+  if (orgId) {
+    findObject.organization = orgId;
+  }
+
+  return await OrganizationBranch.find(findObject).populate("userId branchName")
+  .limit(5);
 };
 
 exports.createOrganizationBranchServices = async (branchData) => {
@@ -61,12 +73,12 @@ exports.deleteOrganizationBranchServices = async (OrganizationBranchId) => {
   return data;
 };
 
-exports.searchOrgBranchService = async (orgText) => {
-  let findObject = { isDeleted: false };
+// exports.searchOrgBranchService = async (orgText) => {
+//   let findObject = { isDeleted: false };
 
-  if (orgText.trim() !== "") {
-    findObject.$or = [{ branchName: { $regex: `^${orgText}`, $options: "i" } }];
-  }
+//   if (orgText.trim() !== "") {
+//     findObject.$or = [{ branchName: { $regex: `^${orgText}`, $options: "i" } }];
+//   }
 
-  return await OrganizationBranch.find(findObject).limit(5); // Increase limit if needed
-};
+//   return await OrganizationBranch.find(findObject).limit(5); // Increase limit if needed
+// };

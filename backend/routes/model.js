@@ -4,7 +4,7 @@ const { validateGetOneModelData, validateCreateModelData, validateUpdateModelDat
 const modelRoute=express.Router()
 
 modelRoute.get('/findAllModel',findAllModel)
-modelRoute.get('/searchModel',searchModel)
+// modelRoute.get('/searchModel',searchModel)
 modelRoute.get('/findOneModel/:id',validateGetOneModelData,findOneModel)
 modelRoute.get('/selectModelByCat/:id',validateGetOneModelData,selectModelByCat)
 modelRoute.post('/createModel',validateCreateModelData,createModel)

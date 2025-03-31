@@ -16,11 +16,14 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import axios from "axios";
 import { createOrg, updateOrg } from "../apis/OrganizationApi";
+import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
 
 const OrganizationForm = () => {
-  const { id } = useParams()
+  const { id } = useParams();
 
   const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     organizationName: "",
@@ -42,6 +45,49 @@ const OrganizationForm = () => {
 
   const [gstApplicable, setGstApplicable] = useState("no");
 
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!formData.organizationName)
+      newErrors.organizationName = errorMessage.organizationName;
+    if (!formData.addressLine1)
+      newErrors.addressLine1 = errorMessage.addressLine1;
+    if (!formData.primaryAddress)
+      newErrors.primaryAddress = errorMessage.primaryAddress;
+    if (!formData.city) newErrors.city = errorMessage.city;
+    if (!formData.state) newErrors.state = errorMessage.state;
+    if (!formData.district) newErrors.district = errorMessage.district;
+    if (!formData.zipCode) newErrors.zipCode = errorMessage.zipCode;
+    if (!formData.country) newErrors.country = errorMessage.country;
+    if (!formData.email) newErrors.email = errorMessage.email;
+    if (!formData.telePhone) newErrors.telePhone = errorMessage.telephone;
+    if (!formData.companyType) newErrors.companyType = errorMessage.companyType;
+
+    // Email validation (simple regex)
+    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = formatMessage.email;
+    }
+
+    // Zip Code validation (only numbers)
+    if (formData.zipCode) {
+      if (!/^\d+$/.test(formData.zipCode)) {
+        newErrors.zipCode = formatMessage.zipCode;
+      } else if (formData.zipCode.length !== 6) {
+        // Enforcing 6-digit length
+        newErrors.zipCode = lengthMessage.zipCode;
+      }
+    }
+
+    // GST Validation if applicable
+    if (gstApplicable === "yes" && !formData.gstNumber) {
+      newErrors.gstNumber = errorMessage.gstNumber;
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -52,6 +98,10 @@ const OrganizationForm = () => {
   };
 
   const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       if (id) {
         updateOrg(formData, id);
@@ -110,6 +160,8 @@ const OrganizationForm = () => {
                 value={formData.organizationName || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.organizationName}
+                helperText={errors.organizationName}
               />
             </Grid>
             <Grid item xs={6}>
@@ -121,6 +173,8 @@ const OrganizationForm = () => {
                 value={formData.addressLine1 || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.addressLine1}
+                helperText={errors.addressLine1}
               />
             </Grid>
             <Grid item xs={6}>
@@ -132,6 +186,8 @@ const OrganizationForm = () => {
                 value={formData.primaryAddress || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.primaryAddress}
+                helperText={errors.primaryAddress}
               />
             </Grid>
             <Grid item xs={6}>
@@ -143,6 +199,8 @@ const OrganizationForm = () => {
                 value={formData.city || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.city}
+                helperText={errors.city}
               />
             </Grid>
             <Grid item xs={6}>
@@ -164,6 +222,8 @@ const OrganizationForm = () => {
                 value={formData.state || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.state}
+                helperText={errors.state}
               />
             </Grid>
             <Grid item xs={6}>
@@ -175,10 +235,13 @@ const OrganizationForm = () => {
                 value={formData.district || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.district}
+                helperText={errors.district}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
+                type="number"
                 fullWidth
                 label="Zip Code"
                 variant="outlined"
@@ -186,6 +249,8 @@ const OrganizationForm = () => {
                 value={formData.zipCode || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.zipCode}
+                helperText={errors.zipCode}
               />
             </Grid>
             <Grid item xs={6}>
@@ -197,6 +262,8 @@ const OrganizationForm = () => {
                 value={formData.country || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.country}
+                helperText={errors.country}
               />
             </Grid>
             <Grid item xs={6}>
@@ -208,6 +275,8 @@ const OrganizationForm = () => {
                 value={formData.email || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.email}
+                helperText={errors.email}
               />
             </Grid>
             <Grid item xs={6}>
@@ -219,6 +288,8 @@ const OrganizationForm = () => {
                 value={formData.telePhone || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.telePhone}
+                helperText={errors.telePhone}
               />
             </Grid>
             <Grid item xs={6}>
@@ -230,6 +301,8 @@ const OrganizationForm = () => {
                 value={formData.companyType || ""}
                 onChange={handleChange}
                 required
+                error={!!errors.companyType}
+                helperText={errors.companyType}
               />
             </Grid>
 
@@ -278,6 +351,8 @@ const OrganizationForm = () => {
                   value={formData.gstNumber || ""}
                   onChange={handleChange}
                   required
+                  error={!!errors.gstNumber}
+                  helperText={errors.gstNumber}
                 />
               </Grid>
             )}

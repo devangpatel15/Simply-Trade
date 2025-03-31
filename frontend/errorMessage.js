@@ -1,0 +1,33 @@
+export const errorMessage = {
+  organizationName: "Organization Name is required",
+  addressLine1: "Address Line 1 is required",
+  primaryAddress: "Primary Address is required",
+  city: "City is required",
+  state: "State is required",
+  district: "District is required",
+  zipCode: "Zip Code is required",
+  country: "Country is required",
+  email: "Email is required",
+  telephone: "Telephone is required",
+  companyType: "Company Type is required",
+  gstNumber: "GST Number is required",
+  branchName: "Branch Name is required",
+  mobile: "Mobile Number is required",
+  name: "Name is required",
+  password: "Password is required",
+  categoryName: "Category Name is required",
+  modelName: "Model Name is required",
+  deviceName: "Device Name is required",
+  colorName: "Color Name is required",
+  capacityName: "Capacity Name is required",
+};
+
+export const formatMessage = {
+  email: "Invalid email format",
+  zipCode: "Zip Code must be numeric",
+};
+
+export const lengthMessage = {
+  zipCode: "Zip Code must be exactly 5 digits",
+  mobile: "Mobile Number must be exactly 10 digits",
+};

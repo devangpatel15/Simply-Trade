@@ -13,10 +13,20 @@ exports.findOneModelServices = async (modelId) => {
 
   return data;
 };
-exports.selectModelByCatServices = async (catId) => {
-  const data = await Model.find({ categoryId: catId, isDeleted: false }).lean();
+exports.selectModelByCatServices = async (catId,orgText) => {
+  // const data = await Model.find({ categoryId: catId, isDeleted: false }).lean();
+  let findObject = { isDeleted: false };
 
-  return data;
+  if (orgText.trim() !== "") {
+    findObject.$or = [{ modelName: { $regex: `^${orgText}`, $options: "i" } }];
+  }
+  if (catId) {
+    findObject.categoryId = catId;
+  }
+
+
+  return await Model.find(findObject).populate("organization branchName categoryId").limit(5); // Increase limit if needed
+
 };
 exports.findUserModelServices = async (userId) => {
   const data = await Model.find().populate().lean();
@@ -46,12 +56,12 @@ exports.deleteModelServices = async (modelId) => {
   return data;
 };
 
-exports.searchModelService = async (orgText) => {
-  let findObject = { isDeleted: false };
+// exports.searchModelService = async (orgText) => {
+//   let findObject = { isDeleted: false };
 
-  if (orgText.trim() !== "") {
-    findObject.$or = [{ modelName: { $regex: `^${orgText}`, $options: "i" } }];
-  }
+//   if (orgText.trim() !== "") {
+//     findObject.$or = [{ modelName: { $regex: `^${orgText}`, $options: "i" } }];
+//   }
 
-  return await Model.find(findObject).limit(5); // Increase limit if needed
-};
+//   return await Model.find(findObject).limit(5); // Increase limit if needed
+// };

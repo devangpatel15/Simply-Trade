@@ -10,10 +10,26 @@ exports.findOneDeviceServices = async (deviceId) => {
 
     return data;
 };
-exports.selectDeviceByModelServices = async (modelId) => {
-    const data = await Device.find({modelId , isDeleted: false}).lean();
+exports.selectDeviceByModelServices = async (modelId,orgText) => {
+    // const data = await Device.find({modelId , isDeleted: false}).lean();
 
-    return data;
+      let findObject = { isDeleted: false };
+    
+      if (orgText && orgText.trim() !== "") {
+        findObject.$or = [
+          { deviceName: { $regex: `^${orgText}`, $options: "i" } },
+        ];
+      }
+    
+      if (modelId) {
+        findObject.modelId = modelId;
+      }
+    
+      return await Device.find(findObject)
+      .populate("categoryId modelId organization branchName")
+        .limit(5)
+        .lean();
+
 };
 exports.findUserDeviceServices = async (userId) => {
     const data = await Device.find().populate().lean();
@@ -49,15 +65,15 @@ exports.deleteDeviceServices = async (deviceId) => {
     return data;
 };
 
-exports.searchDeviceService = async (orgText) => {
-  let findObject = { isDeleted: false };
+// exports.searchDeviceService = async (orgText) => {
+//   let findObject = { isDeleted: false };
 
-  if (orgText.trim() !== "") {
-    findObject.$or = [
-      { deviceName: { $regex: `^${orgText}`, $options: "i" } },
-    ];
-  }
+//   if (orgText.trim() !== "") {
+//     findObject.$or = [
+//       { deviceName: { $regex: `^${orgText}`, $options: "i" } },
+//     ];
+//   }
 
-  return await Device.find(findObject).limit(5); // Increase limit if needed
-};
+//   return await Device.find(findObject).limit(5); // Increase limit if needed
+// };
 

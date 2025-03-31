@@ -77,8 +77,10 @@ exports.findUserOrganizationBranch = async (req, res) => {
 exports.selectOrganizationBranch = async (req, res) => {
   try {
     const orgId = req?.params?.id;
+    const orgText = req?.query?.text || "";
+
     const organizationBranchData = await selectOrganizationBranchServices(
-      orgId
+      orgId,orgText
     );
 
     if (!organizationBranchData) {
@@ -182,22 +184,22 @@ exports.deleteOrganizationBranch = async (req, res) => {
   }
 };
 
-exports.searchOrgBranch = async (req, res) => {
-  try {
-    const orgText = req.query.text || "";
+// exports.searchOrgBranch = async (req, res) => {
+//   try {
+//     const orgText = req.query.text || "";
 
-    const org = await searchOrgBranchService(orgText);
+//     const org = await searchOrgBranchService(orgText);
 
    
-    if (!org) {
-      return res.status(404).json({ message: "Organization branch not found" });
-    }
-    return res
-      .status(200)
-      .json({ message: "Organization branch searched successfully", data: org });
-  } catch (err) {
-    return res
-      .status(500)
-      .json({ message: "Internal server error", error: err.message });
-  }
-};
+//     if (!org) {
+//       return res.status(404).json({ message: "Organization branch not found" });
+//     }
+//     return res
+//       .status(200)
+//       .json({ message: "Organization branch searched successfully", data: org });
+//   } catch (err) {
+//     return res
+//       .status(500)
+//       .json({ message: "Internal server error", error: err.message });
+//   }
+// };

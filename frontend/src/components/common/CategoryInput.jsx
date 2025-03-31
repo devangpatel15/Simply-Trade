@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const CategoryInput = ({ onChange, value, branchId }) => {
+const CategoryInput = ({ onChange, value, branchId, error }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -46,6 +46,9 @@ const CategoryInput = ({ onChange, value, branchId }) => {
 
   return (
     <Autocomplete
+      required
+      error={!!error}
+      helperText={error}
       options={options}
       getOptionLabel={(option) => option.label}
       loading={loading}
@@ -57,6 +60,9 @@ const CategoryInput = ({ onChange, value, branchId }) => {
       }}
       renderInput={(params) => (
         <TextField
+          required
+          error={!!error}
+          helperText={error}
           {...params}
           label="Category"
           variant="outlined"

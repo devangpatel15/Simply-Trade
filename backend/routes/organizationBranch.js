@@ -43,7 +43,7 @@ organizationBranchRoute.get(
 );
 
 
-organizationBranchRoute.get("/searchOrgBranch", searchOrgBranch);
+// organizationBranchRoute.get("/searchOrgBranch", searchOrgBranch);
 
 organizationBranchRoute.get(
   "/selectOrganizationBranch/:id",

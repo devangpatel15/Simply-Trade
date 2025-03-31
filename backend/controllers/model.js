@@ -51,8 +51,10 @@ exports.findOneModel = async (req, res) => {
 exports.selectModelByCat = async (req, res) => {
   try {
     const catId = req.params.id;
+    const orgText = req?.query?.text || "";
+
     console.log("catID", catId);
-    const modelData = await selectModelByCatServices(catId);
+    const modelData = await selectModelByCatServices(catId,orgText);
 
     if (!modelData) {
       return res.status(404).json({ message: "No Model found" });
@@ -153,21 +155,21 @@ exports.deleteModel = async (req, res) => {
   }
 };
 
-exports.searchModel = async (req, res) => {
-  try {
-    const orgText = req.query.text || "";
+// exports.searchModel = async (req, res) => {
+//   try {
+//     const orgText = req.query.text || "";
 
-    const org = await searchModelService(orgText);
+//     const org = await searchModelService(orgText);
 
-    if (!org) {
-      return res.status(404).json({ message: "searchModel not found" });
-    }
-    return res
-      .status(200)
-      .json({ message: "searchModel searched successfully", data: org });
-  } catch (err) {
-    return res
-      .status(500)
-      .json({ message: "Internal server error", error: err.message });
-  }
-};
+//     if (!org) {
+//       return res.status(404).json({ message: "searchModel not found" });
+//     }
+//     return res
+//       .status(200)
+//       .json({ message: "searchModel searched successfully", data: org });
+//   } catch (err) {
+//     return res
+//       .status(500)
+//       .json({ message: "Internal server error", error: err.message });
+//   }
+// };

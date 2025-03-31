@@ -14,6 +14,11 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import DialogBox from "../components/DialogBox";
+<<<<<<< HEAD
+=======
+import moment from "moment";
+import SearchIcon from "@mui/icons-material/Search";
+>>>>>>> 545bd24fe177a49b6458961a03093d7875015d0b
 
 const ModelPage = () => {
   const [modelData, setModelData] = useState([]);
@@ -69,7 +74,7 @@ const ModelPage = () => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      {/* <SearchIcon sx={{ color: "#6c5ce7" }} /> */}
+                      <SearchIcon sx={{ color: "#6c5ce7" }} />
                     </InputAdornment>
                   ),
                 }}

@@ -18,6 +18,7 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { Link } from "react-router-dom";
 import { deleteStock } from "../apis/StockApi";
 import DeleteDialog from "./DeleteDialog";
+import image from "../assets/iphone.webp";
 
 const StockDialog = ({ open, handleClose, data, fieldName }) => {
   console.log("datataaaaaaaaaaa", data);
@@ -115,7 +116,7 @@ const StockDialog = ({ open, handleClose, data, fieldName }) => {
               <Avatar
                 variant="rounded"
                 sx={{ width: "100%", height: "auto" }}
-                src="https://via.placeholder.com/100"
+                src={image}
                 alt="Device Image"
               />
             </Grid>

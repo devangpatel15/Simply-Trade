@@ -31,10 +31,8 @@ const StockPage = () => {
 
   const callApi = async () => {
     const response = await getAllStocks();
-    console.log("response===", response.data.data);
     setStock(response.data.data);
     setPayment(response.data.data);
-    console.log("device=====", stock);
   };
 
   useEffect(() => {

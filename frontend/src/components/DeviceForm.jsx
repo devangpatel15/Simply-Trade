@@ -18,11 +18,14 @@ import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import CategoryInput from "./common/CategoryInput";
 import ModelInput from "./common/ModelInput";
+import { errorMessage } from "../../errorMessage";
 
 const DeviceForm = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     organization: null,
@@ -45,7 +48,24 @@ const DeviceForm = () => {
     }));
   };
 
+  const validateForm = () => {
+    let newErrors = {};
+    if (!formData.organization)
+      newErrors.organization = errorMessage.organizationName;
+    if (!formData.branchName) newErrors.branchName = errorMessage.branchName;
+    if (!formData.categoryId) newErrors.categoryId = errorMessage.categoryName;
+    if (!formData.modelId) newErrors.modelId = errorMessage.modelName;
+    if (!formData.deviceName) newErrors.deviceName = errorMessage.deviceName;
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
+
   const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
     try {
       if (id) {
         updateDevice(
@@ -166,6 +186,7 @@ const DeviceForm = () => {
                 <OrgInput
                   onChange={handleOrganizationChange}
                   value={formData.organization}
+                  error={errors.organization}
                 />
               </Grid>
 
@@ -174,6 +195,7 @@ const DeviceForm = () => {
                   onChange={handleOrganizationBranchChange}
                   value={formData.branchName}
                   selectedOrganization={selectedOrganization}
+                  error={errors.branchName}
                 />
               </Grid>
 
@@ -182,6 +204,7 @@ const DeviceForm = () => {
                   onChange={handleCategoryChange}
                   value={formData.categoryId}
                   branchId={branchId}
+                  error={errors.categoryId}
                 />
               </Grid>
 
@@ -190,6 +213,7 @@ const DeviceForm = () => {
                   onChange={handleModelChange}
                   value={formData.modelId}
                   catId={catId}
+                  error={errors.modelId}
                 />
               </Grid>
 
@@ -202,6 +226,8 @@ const DeviceForm = () => {
                   value={formData.deviceName || ""}
                   onChange={handleChange}
                   required
+                  error={!!errors.deviceName}
+                  helperText={errors.deviceName}
                 />
               </Grid>
             </Grid>

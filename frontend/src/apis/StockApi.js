@@ -28,13 +28,13 @@ const updateStock = async (formData, id) => {
 
 const getOneStock = async (id) => {
   try {
-    const respone = await axios.get(`http://localhost:4000/api/stock/${id}`, {
+    const response = await axios.get(`http://localhost:4000/api/stock/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    return respone;
+    return response;
   } catch (error) {
     console.log(error, "get Stock error");
   }
