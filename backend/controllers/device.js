@@ -51,9 +51,17 @@ exports.findOneDevice = async (req, res) => {
 exports.selectDeviceByModel = async (req, res) => {
   try {
     const modelId = req.params.id;
-    const deviceData = await selectDeviceByModelServices(modelId);
 
-    if (!deviceData) {
+    const orgText = req?.query?.text || "";
+
+    if (!modelId && !orgText) {
+      return res.status(400).json({
+        message: "Please provide either modelId or orgText for filtering.",
+      });
+    }
+    const deviceData = await selectDeviceByModelServices(modelId,orgText);
+
+    if (!deviceData) { 
       return res.status(404).json({ message: "No Device found" });
     }
 
@@ -160,22 +168,22 @@ exports.deleteDevice = async (req, res) => {
   }
 };
 
-exports.searchDevice = async (req, res) => {
-  try {
-    const orgText = req.query.text || "";
+// exports.searchDevice = async (req, res) => {
+//   try {
+//     const orgText = req.query.text || "";
 
-    const org = await searchDeviceService(orgText);
+//     const org = await searchDeviceService(orgText);
 
    
-    if (!org) {
-      return res.status(404).json({ message: "searchDevice not found" });
-    }
-    return res
-      .status(200)
-      .json({ message: "searchDevice searched successfully", data: org });
-  } catch (err) {
-    return res
-      .status(500)
-      .json({ message: "Internal server error", error: err.message });
-  }
-};
+//     if (!org) {
+//       return res.status(404).json({ message: "searchDevice not found" });
+//     }
+//     return res
+//       .status(200)
+//       .json({ message: "searchDevice searched successfully", data: org });
+//   } catch (err) {
+//     return res
+//       .status(500)
+//       .json({ message: "Internal server error", error: err.message });
+//   }
+// };

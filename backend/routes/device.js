@@ -4,7 +4,7 @@ const { validateGetOneDeviceData, validateCreateDeviceData, validateUpdateDevice
 const deviceRoute=express.Router()
 
 deviceRoute.get('/findAllDevice',findAllDevice)
-deviceRoute.get('/searchDevice',searchDevice)
+// deviceRoute.get('/searchDevice',searchDevice)
 deviceRoute.get('/findOneDevice/:id',validateGetOneDeviceData,findOneDevice)
 deviceRoute.get('/selectDeviceByModel/:id',validateGetOneDeviceData,selectDeviceByModel)
 deviceRoute.post('/createDevice',validateCreateDeviceData,createDevice)
