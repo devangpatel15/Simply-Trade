@@ -356,7 +356,7 @@ const StockForm = () => {
               <CustomerInput
                 onChange={handleCustomerChange}
                 value={formData.customerName}
-                selectedCustomer={selectedCustomer}
+                branchId={branchId}
               />
             </Grid>
             <Grid item xs={6}>
