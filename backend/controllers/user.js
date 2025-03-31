@@ -83,12 +83,12 @@ exports.loginUser = async (req, res) => {
 
     if (isRightPassword) {
       const token = jwt.sign(
-        { id: user._id, email: user.email },
+        { id: user._id, email: user.email ,role:user.role},
         process.env.JWT_SECRET
       );
       return res
         .status(200)
-        .json({ message: "login successfully", token: token });
+        .json({ message: "login successfully", token: token , role:user.role});
     } else {
       return res.status(400).json({ message: "wrong password" });
     }
