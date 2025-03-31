@@ -52,10 +52,9 @@ exports.deleteCustomerService = async (cusId) => {
 exports.selectCustomerServices = async (branchId, orgText) => {
   let findObject = { isDeleted: false };
 
-  // If orgText is provided, filter customers based on the search term (starts with match, case-insensitive)
   if (orgText && orgText.trim() !== "") {
     findObject.$or = [
-      { customerName: { $regex: `^${orgText}`, $options: "i" } }, // Case-insensitive search for customer names starting with orgText
+      { customerName: { $regex: `^${orgText}`, $options: "i" } },
     ];
   }
 
@@ -63,14 +62,8 @@ exports.selectCustomerServices = async (branchId, orgText) => {
     findObject.branchName = branchId;
   }
 
-  // Fetch all matching records based on the search criteria, no limit here
-  const data = await Customer.find(findObject)
+  return await Customer.find(findObject)
     .populate("branchName organization")
+    .limit(5)
     .lean();
-
-  // Limit the number of results to 5 for the dropdown, even after filtering
-  const limitedData = data.slice(0, 5);
-
-  return limitedData;
 };
-
