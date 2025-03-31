@@ -1,16 +1,13 @@
 const Capacity = require("../models/capacity");
 
 exports.getAllCapacityService = async () => {
-  return await Capacity.find({ isDeleted: false }).lean();
+  return await Capacity.find({ isDeleted: false }).populate("organization branchName categoryId modelId deviceId").lean();
 };
 
 exports.getCapacityService = async (capId) => {
   return await Capacity.findById(capId)
     .populate("organization branchName categoryId modelId deviceId")
     .lean();
-};
-exports.selectCapacityByDeviceService = async (deviceId) => {
-  return await Capacity.find({ deviceId, isDeleted: false }).lean();
 };
 
 exports.createCapacityService = async (newCap) => {
@@ -31,7 +28,7 @@ exports.deleteCapacityService = async (capId) => {
 
 exports.searchCapacityService = async (orgText) => {
   let findObject = { isDeleted: false };
-
+  
   if (orgText.trim() !== "") {
     findObject.$or = [
       { capacityName: { $regex: `^${orgText}`, $options: "i" } },
@@ -40,3 +37,26 @@ exports.searchCapacityService = async (orgText) => {
 
   return await Capacity.find(findObject).limit(5); // Increase limit if needed
 };
+
+  // exports.selectCapacityByDeviceService = async (deviceId) => {
+  //   return await Capacity.find({ deviceId, isDeleted: false }).lean();
+  // };
+
+  exports.selectCapacityByDeviceService = async (deviceId, text) => {
+    let findObject = { isDeleted: false };
+  
+    if (text && text.trim() !== "") {
+      findObject.$or = [
+        { capacityName: { $regex: `^${text}`, $options: "i" } },
+      ];
+    }
+  
+    if (deviceId) {
+      findObject.deviceId = deviceId;
+    }
+  
+    return await Capacity.find(findObject)
+    .populate("organization branchName categoryId modelId deviceId")
+      .limit(5)
+      .lean();
+  };

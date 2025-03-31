@@ -1,7 +1,7 @@
 const Device = require("../models/device");
 
 exports.findAllDeviceServices = async () => {
-    const data = await Device.find({ isDeleted: false }).lean();
+    const data = await Device.find({ isDeleted: false }).populate("organization branchName categoryId modelId").lean();
 
     return data;
 };

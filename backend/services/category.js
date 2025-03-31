@@ -1,7 +1,7 @@
 const Category = require("../models/category");
 
 exports.getAllCategoryService = async () => {
-  return await Category.find({ isDeleted: false }).lean();
+  return await Category.find({ isDeleted: false }).populate("orgId orgBranchId").lean();
 };
 
 exports.getCategoryService = async (catId) => {
@@ -9,15 +9,9 @@ exports.getCategoryService = async (catId) => {
 };
 // FIXME:
 exports.getUserCategoryService = async (userId) => {
-  return await Category.find({isDeleted: false,orgId:userId}).lean();
+  return await Category.find({isDeleted: false,orgId:userId}).populate("orgId orgBranchId").lean();
 };
 
-exports.selectCategoryByBranchService = async (branchId) => {
-  return await Category.find({
-    orgBranchId: branchId,
-    isDeleted: false,
-  }).lean();
-};
 
 exports.createCategoryService = async (newCat) => {
   return await Category.create(newCat);
@@ -35,14 +29,40 @@ exports.deleteCategoryService = async (catId) => {
   return await Category.findByIdAndDelete(catId);
 };
 
-exports.searchCategoryService = async (orgText) => {
+// exports.searchCategoryService = async (orgText) => {
+//   let findObject = { isDeleted: false };
+  
+//   if (orgText.trim() !== "") {
+//     findObject.$or = [
+//       { categoryName: { $regex: `^${orgText}`, $options: "i" } },
+//     ];
+//   }
+  
+//   return await Category.find(findObject).limit(5); // Increase limit if needed
+  
+// };
+// exports.selectCategoryByBranchService = async (branchId) => {
+//   return await Category.find({
+//     orgBranchId: branchId,
+//     isDeleted: false,
+//   }).lean();
+// };
+
+exports.selectCategoryByBranchService = async (branchId, orgText) => {
   let findObject = { isDeleted: false };
 
-  if (orgText.trim() !== "") {
+  if (orgText && orgText.trim() !== "") {
     findObject.$or = [
       { categoryName: { $regex: `^${orgText}`, $options: "i" } },
     ];
   }
 
-  return await Category.find(findObject).limit(5); // Increase limit if needed
-};
+  if (branchId) {
+    findObject.orgBranchId = branchId;
+  }
+
+  return await Category.find(findObject)
+    .populate("orgId orgBranchId")
+    .limit(5)
+    .lean();
+};  

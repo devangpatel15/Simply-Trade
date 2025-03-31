@@ -16,17 +16,22 @@ exports.createValidation = [
     .withMessage("branch must be a valid MongoID and is required"),
 
   // Validate customerName
-  body("customerName")
-    .isString()
-    .notEmpty()
-    .withMessage("customerName is required"),
+  body("customer")
+  .isMongoId()
+  .notEmpty()
+  .withMessage("customer is required"),
 
-  // Validate customerPhone
-  body("customerPhone")
-    .isString()
-    .notEmpty()
-    .withMessage("customerPhone is required")
-    .withMessage("customerPhone must be a valid 10-digit number"),
+  // body("customerName")
+  //   .isString()
+  //   .notEmpty()
+  //   .withMessage("customerName is required"),
+
+  // // Validate customerPhone
+  // body("customerPhone")
+  //   .isString()
+  //   .notEmpty()
+  //   .withMessage("customerPhone is required")
+  //   .withMessage("customerPhone must be a valid 10-digit number"),
 
   // Validate device array
   check("device")
@@ -119,14 +124,18 @@ exports.updateStockValidation = [
     .optional()
     .withMessage("organization is required"),
   body("branch").isString().optional().withMessage("branch is required"),
-  body("customerName")
-    .isString()
-    .optional()
-    .withMessage("customerName is string"),
-  body("customerPhone")
-    .isString()
-    .optional()
-    .withMessage("customerPhone in string"),
+  body("customer")
+  .isMongoId()
+  .optional()
+  .withMessage("customer is required"),
+  // body("customerName")
+  //   .isString()
+  //   .optional()
+  //   .withMessage("customerName is string"),
+  // body("customerPhone")
+  //   .isString()
+  //   .optional()
+  //   .withMessage("customerPhone in string"),
   body("categoryName").isMongoId().optional().withMessage("category in string"),
   body("modelName").isMongoId().optional().withMessage("model in string"),
   body("deviceName").isMongoId().optional().withMessage("device in string"),
