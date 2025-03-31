@@ -102,7 +102,7 @@ exports.loginUser = async (req, res) => {
 exports.registerUser = async (req, res) => {
   try {
     const data = req.body;
-    const { name, password, email, mobileNo, organization, orgBranch } = data;
+    const { name, password, email, mobileNo, organization, orgBranch ,role} = data;
     const hashedPassword = await bcrypt.hash(password, 10);
     const isExistsUser = await findUserServices(email);
     if (isExistsUser) {
@@ -115,6 +115,7 @@ exports.registerUser = async (req, res) => {
       password: hashedPassword,
       organization,
       orgBranch,
+      role,
     };
     const user = await createUserServices(userData);
     return res
