@@ -16,7 +16,14 @@ const ColorInput = ({ onChange, value, deviceId }) => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/selectColorByDevice/${deviceId}`
+          `http://localhost:4000/api/selectColorByDevice/${deviceId}`,
+          {
+            params: { text: query }, // Query parameters
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }, // Request headers
+          }
         );
 
         const formattedOptions = (response.data.data || []).map((org) => ({
