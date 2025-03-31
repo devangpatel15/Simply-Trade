@@ -121,22 +121,22 @@ const DevicePage = () => {
                           variant="body2"
                           sx={{ color: "green", fontWeight: "bold" }}
                         >
-                          Created At:{" "}
+                          Model:{" "}
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(device.createdAt).format("DD-MM-YYYY")}
+                            {device.modelId.modelName}
                           </span>
                         </Typography>
                         <Typography
                           variant="body2"
                           sx={{ color: "brown", fontWeight: "bold" }}
                         >
-                          Update At:{" "}
+                          BranchName:{" "}
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(device.updatedAt).format("DD-MM-YYYY")}
+                            {device?.branchName?.branchName}
                           </span>
                         </Typography>
                       </Box>

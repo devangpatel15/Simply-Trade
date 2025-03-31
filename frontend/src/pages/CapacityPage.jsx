@@ -125,22 +125,22 @@ const CapacityPage = () => {
                           variant="body2"
                           sx={{ color: "green", fontWeight: "bold" }}
                         >
-                          Created At:{" "}
+                          DeviceName:{" "}
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(capacity.createdAt).format("DD-MM-YYYY")}
+                            {capacity.deviceId.deviceName}
                           </span>
                         </Typography>
                         <Typography
                           variant="body2"
                           sx={{ color: "brown", fontWeight: "bold" }}
                         >
-                          Update At:{" "}
+                          BranchName:{" "}
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {moment(capacity.updatedAt).format("DD-MM-YYYY")}
+                            {capacity?.branchName?.branchName}
                           </span>
                         </Typography>
                       </Box>

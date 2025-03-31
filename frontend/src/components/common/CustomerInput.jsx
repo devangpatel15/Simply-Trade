@@ -66,7 +66,7 @@ const CustomerInput = ({ onChange, value, selectedCustomer }) => {
         onChange={(_, newValue) => {
           if (onChange) onChange(newValue); // Ensure onChange gets an object
         }}
-        noOptionsText={<Button onClick={handleOpen}>Create Customer</Button>}
+        noOptionsText={<Button onClick={handleOpen}>Create Customer</Button>} //No Option to Create Customer Button Add//
         renderInput={(params) => (
           <TextField
             {...params}
