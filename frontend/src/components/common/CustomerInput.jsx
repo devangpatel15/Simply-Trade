@@ -26,7 +26,7 @@ const CustomerInput = ({ onChange, value, selectedCustomer }) => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/searchCustomer/${selectedCustomer}`
+          `http://localhost:4000/api/selectCustomer/${selectedCustomer}`
         );
 
         const formattedOptions = (response.data.data || []).map((org) => ({
