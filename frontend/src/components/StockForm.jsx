@@ -311,10 +311,39 @@ const StockForm = () => {
   useEffect(() => {
     const userData = localStorage.getItem("role");
 
-    setLoggedUserData(JSON.parse(userData));
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+        console.log("Parsed user data:", parsedData); // Debugging log
+
+        setLoggedUserData(parsedData || {});
+
+        // ✅ Set both organization and branch in a single update
+        setFormData((prev) => ({
+          ...prev,
+          organization: parsedData?.organization?._id
+            ? {
+                label: parsedData.organization.organizationName, // ✅ Ensure correct format
+                value: parsedData.organization._id,
+              }
+            : null, // Prevent undefined
+          branch: parsedData?.orgBranch?._id
+            ? {
+                label: parsedData.orgBranch.branchName, // ✅ Ensure correct format
+                value: parsedData.orgBranch._id,
+              }
+            : null, // Prevent undefined
+        }));
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
   }, []);
 
   console.log(loggedUserData, "loggedUseerData");
+
+  console.log(formData, "formData");
+  console.log(branchId, "branchID");
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -340,23 +369,42 @@ const StockForm = () => {
 
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <OrgInput
-                onChange={handleOrganizationChange}
-                value={loggedUserData?.organization?.organizationName}
-              />
+              {loggedUserData.role == "admin" ? (
+                <OrgInput
+                  role="admin"
+                  onChange={handleOrganizationChange}
+                  value={formData.organization} // Now it's an object, not undefined
+                />
+              ) : (
+                <OrgInput
+                  role="user"
+                  onChange={handleOrganizationChange}
+                  value={formData.organization || null} // ✅ Prevent undefined
+                />
+              )}
             </Grid>
             <Grid item xs={6}>
-              <OrgBranchInput
-                onChange={handleOrganizationBranchChange}
-                value={formData.branch}
-                selectedOrganization={selectedOrganization}
-              />
+              {loggedUserData.role == "admin" ? (
+                <OrgBranchInput
+                  role="admin"
+                  onChange={handleOrganizationBranchChange}
+                  value={formData.branch || null} // ✅ Ensure branch is always an object or null
+                  selectedOrganization={selectedOrganization}
+                />
+              ) : (
+                <OrgBranchInput
+                  role="user"
+                  onChange={handleOrganizationBranchChange}
+                  value={formData.branch || null} // ✅ Ensure branch is always an object or null
+                  selectedOrganization={selectedOrganization}
+                />
+              )}
             </Grid>
             <Grid item xs={6}>
               <CustomerInput
                 onChange={handleCustomerChange}
                 value={formData.customerName}
-                branchId={branchId}
+                branchId={formData?.branch?.value}
               />
             </Grid>
             <Grid item xs={6}>
@@ -410,7 +458,7 @@ const StockForm = () => {
                       handleCategoryChange(deviceIndex, selectedCategory)
                     }
                     value={formData.device[deviceIndex]?.categoryName}
-                    branchId={branchId}
+                    branchId={formData?.branch?.value}
                   />
                 </Grid>
                 <Grid item xs={4}>
@@ -433,7 +481,7 @@ const StockForm = () => {
                 </Grid>
               </Grid>
               <Grid container spacing={2} mt={1}>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                   <ColorInput
                     onChange={(selectedColor) =>
                       handleColorChange(deviceIndex, selectedColor)
@@ -442,7 +490,7 @@ const StockForm = () => {
                     deviceId={deviceId}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                   <CapacityInput
                     onChange={(selectedCapacity) =>
                       handleCapacityChange(deviceIndex, selectedCapacity)
@@ -451,7 +499,7 @@ const StockForm = () => {
                     deviceId={deviceId}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                {/* <Grid item xs={4}>
                   <TextField
                     type="number"
                     fullWidth
@@ -461,7 +509,7 @@ const StockForm = () => {
                     value={formData.quantity || ""}
                     onChange={handleChange}
                   />
-                </Grid>
+                </Grid> */}
               </Grid>
 
               {item.imei.map((imeiItem, imeiIndex) => (
@@ -601,7 +649,10 @@ const StockForm = () => {
                         fullWidth
                         label="Remaining Amount"
                         name="remainingAmount"
-                        value={totalAmount - paidToCustomer}
+                        value={
+                          (imeiItem.remainingAmount =
+                            totalAmount - paidToCustomer)
+                        }
                         onChange={(e) =>
                           handleImeiChange(
                             deviceIndex,

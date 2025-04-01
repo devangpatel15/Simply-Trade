@@ -31,6 +31,7 @@ const StockPage = () => {
 
   const callApi = async () => {
     const response = await getAllStocks();
+
     setStock(response.data.data);
     setPayment(response.data.data);
   };
@@ -54,6 +55,8 @@ const StockPage = () => {
     setOpen(false);
     setPaymentDialog(false);
   };
+
+  console.log("STOCKKKKKKKKKKK", stock);
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -137,7 +140,7 @@ const StockPage = () => {
                           variant="body2"
                           sx={{ color: "green", fontWeight: "bold" }}
                         >
-                          Customer Name:{stock.customerName}
+                          {/* Customer Name:{stock?.customerName?.customerName} */}
                         </Typography>
                       </Box>
                     </Box>

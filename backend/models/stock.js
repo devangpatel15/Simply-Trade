@@ -12,8 +12,8 @@ const stockSchema = new mongoose.Schema({
     required: true,
   },
   // customerName: { type: String, required: true },
-  // customerPhone: { type: String, required: true },
-  customer : {type : mongoose.Schema.Types.ObjectId , ref : 'Customer'},
+  customerName: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
+  customerPhone: { type: String, required: true },
   categoryName: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",

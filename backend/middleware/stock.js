@@ -16,10 +16,10 @@ exports.createValidation = [
     .withMessage("branch must be a valid MongoID and is required"),
 
   // Validate customerName
-  body("customer")
-  .isMongoId()
-  .notEmpty()
-  .withMessage("customer is required"),
+  body("customerName")
+    .isMongoId()
+    .notEmpty()
+    .withMessage("customerName is required"),
 
   // body("customerName")
   //   .isString()
@@ -124,10 +124,10 @@ exports.updateStockValidation = [
     .optional()
     .withMessage("organization is required"),
   body("branch").isString().optional().withMessage("branch is required"),
-  body("customer")
-  .isMongoId()
-  .optional()
-  .withMessage("customer is required"),
+  body("customerName")
+    .isMongoId()
+    .optional()
+    .withMessage("customer is required"),
   // body("customerName")
   //   .isString()
   //   .optional()
