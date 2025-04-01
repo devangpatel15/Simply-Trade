@@ -62,6 +62,8 @@ const StockForm = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [paidToCustomer, setPaidtoCustomer] = useState(0);
 
+  const [loggedUserData, setLoggedUserData] = useState({});
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -306,6 +308,13 @@ const StockForm = () => {
       console.log(error.message);
     }
   };
+  useEffect(() => {
+    const userData = localStorage.getItem("role");
+
+    setLoggedUserData(JSON.parse(userData));
+  }, []);
+
+  console.log(loggedUserData, "loggedUseerData");
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -333,7 +342,7 @@ const StockForm = () => {
             <Grid item xs={6}>
               <OrgInput
                 onChange={handleOrganizationChange}
-                value={formData.organization}
+                value={loggedUserData?.organization?.organizationName}
               />
             </Grid>
             <Grid item xs={6}>
@@ -344,15 +353,6 @@ const StockForm = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              {/* <TextField
-                fullWidth
-                label="Customer Name"
-                variant="outlined"
-                name="customerName"
-                value={formData.customerName || ""}
-                onChange={handleChange}
-                required
-              /> */}
               <CustomerInput
                 onChange={handleCustomerChange}
                 value={formData.customerName}

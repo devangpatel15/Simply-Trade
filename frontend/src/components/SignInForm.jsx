@@ -43,7 +43,7 @@ const SigninForm = () => {
       const token = response.data.token;
       const role = response.data.role;
       localStorage.setItem("token", token); // Store token for authentication
-      localStorage.setItem("role", role); // Store token for authentication
+      localStorage.setItem("role", JSON.stringify(role)); // Store token for authentication
 
       setMessage("Login successful! Redirecting...");
       setTimeout(() => {
