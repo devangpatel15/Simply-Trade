@@ -41,12 +41,10 @@ const StockPage = () => {
   }, []);
 
   const handleOpen = (data) => {
-    console.log(data, "data-----");
     setData(data);
     setOpen(true);
   };
   const handlePaymentDialogOpen = (data) => {
-    console.log(data, "data-----");
     setData(data);
     setPaymentDialog(true);
   };
@@ -55,8 +53,6 @@ const StockPage = () => {
     setOpen(false);
     setPaymentDialog(false);
   };
-
-  console.log("STOCKKKKKKKKKKK", stock);
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -140,7 +136,21 @@ const StockPage = () => {
                           variant="body2"
                           sx={{ color: "green", fontWeight: "bold" }}
                         >
-                          {/* Customer Name:{stock?.customerName?.customerName} */}
+                          Customer Name:{stock?.customerName?.customerName}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "red", fontWeight: "bold" }}
+                        >
+                          Organization Name:
+                          {stock?.organization?.organizationName}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "green", fontWeight: "bold" }}
+                        >
+                          Branch Name:
+                          {stock?.branch?.branchName}
                         </Typography>
                       </Box>
                     </Box>

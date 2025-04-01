@@ -225,50 +225,54 @@ const StockForm = () => {
 
   // console.log(id, "praamasId");
 
-  // const callApi = async () => {
-  //   try {
-  //     if (id) {
-  //       const response = await getOneStock(id);
-  //       // setFormData({
-  //       //   ...response.data.data,
-  //       //   organization: {
-  //       //     label: response.data.data.organization.organizationName,
-  //       //     value: response.data.data.organization._id || "",
-  //       //   },
-  //       //   branch: {
-  //       //     label: response.data.data.branch.branchName,
-  //       //     value: response.data.data.branch._id || "",
-  //       //   },
-  //       //   categoryName: {
-  //       //     label: response.data.data.categoryName.categoryName,
-  //       //     value: response.data.data.categoryName._id || "",
-  //       //   },
-  //       //   modelName: {
-  //       //     label: response.data.data.modelName.modelName,
-  //       //     value: response.data.data.modelName._id || "",
-  //       //   },
-  //       //   deviceName: {
-  //       //     label: response.data.data.deviceName.deviceName,
-  //       //     value: response.data.data.deviceName._id || "",
-  //       //   },
-  //       //   capacityName: {
-  //       //     label: response.data.data.capacityName.capacityName,
-  //       //     value: response.data.data.capacityName._id || "",
-  //       //   },
-  //       //   color: {
-  //       //     label: response.data.data.color.color,
-  //       //     value: response.data.data.color._id || "",
-  //       //   },
-  //       // });
-  //     }
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+  const callApi = async () => {
+    try {
+      if (id) {
+        const response = await getOneStock(id);
+        setFormData({
+          ...response.data.data,
+          organization: {
+            label: response.data.data.organization.organizationName,
+            value: response.data.data.organization._id || "",
+          },
+          branch: {
+            label: response.data.data.branch.branchName,
+            value: response.data.data.branch._id || "",
+          },
+          customerName: {
+            label: response.data.data.customerName.customerName,
+            value: response.data.data.customerName._id || "",
+          },
+          categoryName: {
+            label: response.data.data.categoryName.categoryName,
+            value: response.data.data.categoryName._id || "",
+          },
+          modelName: {
+            label: response.data.data.modelName.modelName,
+            value: response.data.data.modelName._id || "",
+          },
+          deviceName: {
+            label: response.data.data.deviceName.deviceName,
+            value: response.data.data.deviceName._id || "",
+          },
+          capacityName: {
+            label: response.data.data.capacityName.capacityName,
+            value: response.data.data.capacityName._id || "",
+          },
+          color: {
+            label: response.data.data.color.color,
+            value: response.data.data.color._id || "",
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-  // useEffect(() => {
-  //   callApi();
-  // }, []);
+  useEffect(() => {
+    callApi();
+  }, []);
 
   const handleSubmit = async () => {
     console.log(formData);
@@ -314,7 +318,6 @@ const StockForm = () => {
     if (userData) {
       try {
         const parsedData = JSON.parse(userData);
-        console.log("Parsed user data:", parsedData); // Debugging log
 
         setLoggedUserData(parsedData || {});
 
@@ -339,11 +342,6 @@ const StockForm = () => {
       }
     }
   }, []);
-
-  console.log(loggedUserData, "loggedUseerData");
-
-  console.log(formData, "formData");
-  console.log(branchId, "branchID");
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -403,7 +401,7 @@ const StockForm = () => {
             <Grid item xs={6}>
               <CustomerInput
                 onChange={handleCustomerChange}
-                value={formData.customerName}
+                value={formData.customerName || null}
                 branchId={formData?.branch?.value}
               />
             </Grid>
@@ -457,7 +455,7 @@ const StockForm = () => {
                     onChange={(selectedCategory) =>
                       handleCategoryChange(deviceIndex, selectedCategory)
                     }
-                    value={formData.device[deviceIndex]?.categoryName}
+                    value={formData.device[deviceIndex]?.categoryName || null}
                     branchId={formData?.branch?.value}
                   />
                 </Grid>
@@ -466,7 +464,7 @@ const StockForm = () => {
                     onChange={(selectedModel) =>
                       handleModelChange(deviceIndex, selectedModel)
                     }
-                    value={formData.device[deviceIndex]?.modelName}
+                    value={formData.device[deviceIndex]?.modelName || null}
                     catId={catId}
                   />
                 </Grid>
@@ -475,7 +473,7 @@ const StockForm = () => {
                     onChange={(selectedDevice) =>
                       handleDeviceChange(deviceIndex, selectedDevice)
                     }
-                    value={formData.device[deviceIndex]?.deviceName}
+                    value={formData.device[deviceIndex]?.deviceName || null}
                     modelId={modelId}
                   />
                 </Grid>
@@ -486,7 +484,7 @@ const StockForm = () => {
                     onChange={(selectedColor) =>
                       handleColorChange(deviceIndex, selectedColor)
                     }
-                    value={formData.device[deviceIndex]?.color}
+                    value={formData.device[deviceIndex]?.color || null}
                     deviceId={deviceId}
                   />
                 </Grid>
@@ -495,7 +493,7 @@ const StockForm = () => {
                     onChange={(selectedCapacity) =>
                       handleCapacityChange(deviceIndex, selectedCapacity)
                     }
-                    value={formData.device[deviceIndex]?.capacityName}
+                    value={formData.device[deviceIndex]?.capacityName || null}
                     deviceId={deviceId}
                   />
                 </Grid>
@@ -576,7 +574,7 @@ const StockForm = () => {
                       {imeiItem.useImei ? (
                         <TextField
                           label={`IMEI No ${imeiIndex + 1}`}
-                          value={imeiItem.imeiNo}
+                          value={imeiItem.imeiNo || null}
                           onChange={(e) =>
                             handleImeiChange(
                               deviceIndex,
@@ -591,7 +589,7 @@ const StockForm = () => {
                       ) : (
                         <TextField
                           label={`Serial No ${imeiIndex + 1}`}
-                          value={imeiItem.srNo}
+                          value={imeiItem.srNo || null}
                           onChange={(e) =>
                             handleImeiChange(
                               deviceIndex,
@@ -611,7 +609,7 @@ const StockForm = () => {
                         fullWidth
                         label="Total Amount"
                         name="totalAmount"
-                        value={imeiItem.totalAmount}
+                        value={imeiItem.totalAmount || null}
                         type="number"
                         onChange={(e) => {
                           handleImeiChange(
@@ -630,7 +628,7 @@ const StockForm = () => {
                         fullWidth
                         label="Paid To Customer"
                         name="paidToCustomer"
-                        value={imeiItem.paidToCustomer}
+                        value={imeiItem.paidToCustomer || null}
                         onChange={(e) => {
                           handleImeiChange(
                             deviceIndex,
@@ -651,7 +649,7 @@ const StockForm = () => {
                         name="remainingAmount"
                         value={
                           (imeiItem.remainingAmount =
-                            totalAmount - paidToCustomer)
+                            totalAmount - paidToCustomer || "")
                         }
                         onChange={(e) =>
                           handleImeiChange(
