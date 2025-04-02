@@ -21,7 +21,7 @@ const {
 const userRoute = express.Router();
 
 userRoute.get("/findUser", AuthUser, findUser);
-userRoute.get("/findAllUser", findAllUser);
+userRoute.get("/findAllUser",AuthUser, findAllUser);
 userRoute.get("/findOneUser/:id", validateGetOneUserData, findOneUser);
 userRoute.post("/userSignUp", validateCreateData, registerUser);
 userRoute.post("/userLogIn", loginUser);
