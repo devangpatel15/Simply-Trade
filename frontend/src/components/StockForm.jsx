@@ -210,9 +210,9 @@ const StockForm = () => {
       imeiNo: "",
       srNo: "",
       useImei: true,
-      // totalAmount: "",
-      // paidToCustomer: "",
-      // remainingAmount: "",
+      totalAmount: "",
+      paidToCustomer: "",
+      remainingAmount: "",
     });
     setFormData({ ...formData, device: updatedDeviceData });
   };
