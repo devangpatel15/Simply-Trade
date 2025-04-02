@@ -81,7 +81,12 @@ const Sidebar = () => {
           py: 2,
         }}
       >
-        <img src={logo} alt="Simply Trade Logo" style={{ width: 160 }} />
+        <img
+          src={logo}
+          alt="Simply Trade Logo"
+          style={{ width: 160 }}
+          onClick={() => navigate("/dashboard")}
+        />
         <SegmentIcon
           sx={{
             // border: "1px solid",

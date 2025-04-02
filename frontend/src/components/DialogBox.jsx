@@ -130,9 +130,11 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
           )}
           {branchName && (
             <Typography variant="body1">
-              <b>BranchName :</b> {branchName && branchName?.branchName}
+              <b>BranchName :</b>{" "}
+              {branchName?.branchName ? branchName?.branchName : branchName}
             </Typography>
           )}
+
           {categoryId && (
             <Typography variant="body1">
               <b>BranchName :</b> {categoryId && categoryId?.categoryName}
