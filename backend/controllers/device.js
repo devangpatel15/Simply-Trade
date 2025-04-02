@@ -12,7 +12,9 @@ const {
 
 exports.findAllDevice = async (req, res) => {
   try {
-    const deviceData = await findAllDeviceServices();
+    const userId = req?.user?.id;
+    
+    const deviceData = await findAllDeviceServices(userId);
 
     if (!deviceData) {
       return res.status(404).json({ message: "No Device found" });

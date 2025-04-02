@@ -1,7 +1,9 @@
 const Model = require("../models/model");
 
-exports.findAllModelServices = async () => {
-  const data = await Model.find({ isDeleted: false }).populate("categoryId branchName").lean();
+exports.findAllModelServices = async (userId) => {
+  const data = await Model.find({ isDeleted: false })
+    .populate({ path: "organization", match: { userId: userId } }).populate("branchName categoryId")
+    .lean();
 
   return data;
 };
@@ -9,11 +11,10 @@ exports.findOneModelServices = async (modelId) => {
   const data = await Model.findById(modelId)
     .populate("organization branchName categoryId")
     .lean();
-    
 
   return data;
 };
-exports.selectModelByCatServices = async (catId,orgText) => {
+exports.selectModelByCatServices = async (catId, orgText) => {
   // const data = await Model.find({ categoryId: catId, isDeleted: false }).lean();
   let findObject = { isDeleted: false };
 
@@ -24,9 +25,9 @@ exports.selectModelByCatServices = async (catId,orgText) => {
     findObject.categoryId = catId;
   }
 
-
-  return await Model.find(findObject).populate("organization branchName categoryId").limit(5); // Increase limit if needed
-
+  return await Model.find(findObject)
+    .populate("organization branchName categoryId")
+    .limit(5); // Increase limit if needed
 };
 exports.findUserModelServices = async (userId) => {
   const data = await Model.find().populate().lean();
