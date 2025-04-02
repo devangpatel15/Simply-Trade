@@ -137,7 +137,12 @@ const StockPage = () => {
                           variant="body2"
                           sx={{ color: "green", fontWeight: "bold" }}
                         >
-                          Customer Name:{stock.customerName}
+                          Customer Name:
+                          <span
+                            style={{ color: "black", fontWeight: "normal" }}
+                          >
+                            {stock.customerName}
+                          </span>
                         </Typography>
                       </Box>
                     </Box>
