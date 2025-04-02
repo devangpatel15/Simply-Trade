@@ -36,7 +36,8 @@ const getOneStock = async (id) => {
     });
     return response;
   } catch (error) {
-    console.log(error, "get Stock error");
+    console.error("get Stock error:", error);
+    return null; // Prevents calling code from breaking
   }
 };
 
