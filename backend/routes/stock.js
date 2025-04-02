@@ -13,10 +13,11 @@ const {
   updateStockValidation,
   deleteStockValidation,
 } = require("../middleware/stock");
+const { AuthUser } = require("../middleware/user");
 
 const stockRouter = express.Router();
 
-stockRouter.get("/allStock", getAllStock);
+stockRouter.get("/allStock",AuthUser, getAllStock);
 stockRouter.get("/stock/:id", getStockValidation, getStock);
 stockRouter.post("/createStock", createValidation, createStock);
 stockRouter.put("/updateStock/:id", updateStockValidation, updateStock);
