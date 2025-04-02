@@ -12,7 +12,8 @@ const {
 
 exports.getAllCapacity = async (req, res) => {
   try {
-    const cap = await getAllCapacityService();
+    userId=req.user.id
+    const cap = await getAllCapacityService(userId);
     if (!cap) {
       return res.status(404).json({ message: "No Capacity found" });
     }

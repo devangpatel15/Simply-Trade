@@ -19,7 +19,7 @@ const { AuthUser } = require("../middleware/user");
 
 const cusRouter = express.Router();
 
-cusRouter.get("/allCustomer", getAllCustomer);
+cusRouter.get("/allCustomer",AuthUser, getAllCustomer);
 // cusRouter.get("/searchCustomer", searchCustomer);
 
 cusRouter.get("/selectCustomer/:id", selectCustomer);

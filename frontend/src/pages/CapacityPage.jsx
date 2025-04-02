@@ -129,7 +129,7 @@ const CapacityPage = () => {
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {capacity.deviceId.deviceName}
+                            {capacity?.deviceId?.deviceName}
                           </span>
                         </Typography>
                         <Typography

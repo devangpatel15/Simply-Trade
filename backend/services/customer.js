@@ -1,9 +1,13 @@
 const Customer = require("../models/customer");
 
-exports.getAllCustomerService = async () => {
-  return await Customer.find({ isDeleted: false })
-    .populate("organization branchName")
-    .lean();
+exports.getAllCustomerService = async (userId) => {
+  
+  return await Customer.find({
+    isDeleted: false,
+  }).populate({
+    path: "organization branchName",
+    match: { userId: userId },
+  }).lean();
 };
 
 exports.getCustomerService = async (cusId) => {

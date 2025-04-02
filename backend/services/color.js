@@ -1,10 +1,17 @@
 const Color = require("../models/color");
-const { populate } = require("../models/device");
 
-exports.findAllColorServices = async () => {
-  const data = await Color.find({ isDeleted: false })
-    .populate("categoryId modelId deviceId organization branchName")
+exports.findAllColorServices = async (userId) => {
+  // const data = await Color.find({ isDeleted: false })
+  //   .populate("categoryId modelId deviceId organization branchName")
+  //   .lean();
+  const data = await Color.find({
+    isDeleted: false,
+  }).populate({
+    path: "organization branchName",
+    match: { userId: userId },
+  }).populate("categoryId modelId deviceId")
     .lean();
+
 
   return data;
 };
@@ -60,7 +67,7 @@ exports.selectColorByDeviceServices = async (deviceId, orgText) => {
   let findObject = { isDeleted: false };
 
   if (orgText && orgText.trim() !== "") {
-    findObject.$or = [
+    findObject.$or = [ 
       { colorName: { $regex: `^${orgText}`, $options: "i" } },
     ];
   }

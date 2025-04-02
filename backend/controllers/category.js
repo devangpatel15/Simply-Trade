@@ -13,7 +13,9 @@ const {
 
 exports.getAllCategory = async (req, res) => {
   try {
-    const cat = await getAllCategoryService();
+    const userId = req.user.id;
+
+    const cat = await getAllCategoryService(userId);
     if (!cat) {
       return res.status(404).json({ message: "No category found" });
     }
@@ -63,15 +65,15 @@ exports.getUserCategory = async (req, res) => {
 exports.createCategory = async (req, res) => {
   try {
     const newCat = req.body;
-    
+
     const createdCat = await createCategoryService(newCat);
     return res
-    .status(200)
-    .json({ message: "Category added", data: createdCat });
+      .status(200)
+      .json({ message: "Category added", data: createdCat });
   } catch (error) {
     return res
-    .status(500)
-    .json({ message: "Internal server error", error: error.message });
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -84,12 +86,12 @@ exports.updateCategory = async (req, res) => {
       return res.status(404).json({ message: "category not found" });
     }
     return res
-    .status(200)
-    .json({ message: "category updated", data: updatedCat });
+      .status(200)
+      .json({ message: "category updated", data: updatedCat });
   } catch (error) {
     return res
-    .status(500)
-    .json({ message: "Internal server error", error: error.message });
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -100,14 +102,14 @@ exports.softDeleteCategory = async (req, res) => {
     if (!cat) {
       return res.status(404).json({ message: "category not found" });
     }
-    
+
     return res
-    .status(200)
-    .json({ message: "category soft deleted", data: cat });
+      .status(200)
+      .json({ message: "category soft deleted", data: cat });
   } catch (err) {
     return res
-    .status(500)
-    .json({ message: "Internal server error", error: err.message });
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
   }
 };
 
@@ -118,33 +120,31 @@ exports.deleteCategory = async (req, res) => {
     if (!cat) {
       return res.status(404).json({ message: "category not found" });
     }
-    
+
     return res.status(200).json({ message: "category deleted", data: cat });
   } catch (error) {
     return res
-    .status(500)
-    .json({ message: "Internal server error", error: error.message });
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
-
 
 exports.searchCategory = async (req, res) => {
   try {
     const orgText = req.query.text || "";
-    
+
     const org = await searchCategoryService(orgText);
-    
-    
+
     if (!org) {
       return res.status(404).json({ message: "searchCategory not found" });
     }
     return res
-    .status(200)
-    .json({ message: "searchCategory searched successfully", data: org });
+      .status(200)
+      .json({ message: "searchCategory searched successfully", data: org });
   } catch (err) {
     return res
-    .status(500)
-    .json({ message: "Internal server error", error: err.message });
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
   }
 };
 

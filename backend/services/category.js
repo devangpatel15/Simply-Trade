@@ -1,7 +1,34 @@
 const Category = require("../models/category");
+const UserSchema = require("../models/user");
+const mongoose = require("mongoose");
 
-exports.getAllCategoryService = async () => {
-  return await Category.find({ isDeleted: false }).populate("orgId orgBranchId").lean();
+exports.getAllCategoryService = async (userId) => {
+  
+
+  const categories = await Category.find({
+    isDeleted: false,
+  }).populate({
+    path: "orgId orgBranchId",
+    match: { userId: userId },
+  });
+
+  console.log("cat------------", categories);
+
+  return categories;
+
+  // let findObject = { isDeleted: false };
+
+  // const userData = await UserSchema.findById(userId);
+
+  // console.log(userData.role, "userData");
+
+  // if (!userData.role || (userData && userData.role !== "admin")) {
+  //   findObject.orgId = userData.organization;
+  // }
+
+  // console.log(findObject);
+
+  // return await Category.find(findObject);
 };
 
 exports.getCategoryService = async (catId) => {
@@ -9,9 +36,10 @@ exports.getCategoryService = async (catId) => {
 };
 // FIXME:
 exports.getUserCategoryService = async (userId) => {
-  return await Category.find({isDeleted: false,orgId:userId}).populate("orgId orgBranchId").lean();
+  return await Category.find({ isDeleted: false, orgId: userId })
+    .populate("orgId orgBranchId")
+    .lean();
 };
-
 
 exports.createCategoryService = async (newCat) => {
   return await Category.create(newCat);
@@ -31,15 +59,15 @@ exports.deleteCategoryService = async (catId) => {
 
 // exports.searchCategoryService = async (orgText) => {
 //   let findObject = { isDeleted: false };
-  
+
 //   if (orgText.trim() !== "") {
 //     findObject.$or = [
 //       { categoryName: { $regex: `^${orgText}`, $options: "i" } },
 //     ];
 //   }
-  
+
 //   return await Category.find(findObject).limit(5); // Increase limit if needed
-  
+
 // };
 // exports.selectCategoryByBranchService = async (branchId) => {
 //   return await Category.find({
@@ -65,4 +93,4 @@ exports.selectCategoryByBranchService = async (branchId, orgText) => {
     .populate("orgId orgBranchId")
     .limit(5)
     .lean();
-};  
+};
