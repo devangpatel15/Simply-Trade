@@ -28,6 +28,6 @@ export const formatMessage = {
 };
 
 export const lengthMessage = {
-  zipCode: "Zip Code must be exactly 5 digits",
+  zipCode: "Zip Code must be exactly 6 digits",
   mobile: "Mobile Number must be exactly 10 digits",
 };

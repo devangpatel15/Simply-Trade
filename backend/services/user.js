@@ -26,7 +26,7 @@ exports.sendVerificationEmail = async (email, code) => {
 };
 
 exports.findUserServices = async (email) => {
-  const userData = await User.findOne({ email });
+  const userData = await User.findOne({ email }).populate("organization orgBranch");
   return userData;
 };
 

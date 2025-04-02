@@ -11,17 +11,19 @@ const {
 
 exports.getAllCustomer = async (req, res) => {
   try {
-    const cus = await getAllCustomerService();
+    const userId=req.user.id
+    const cus = await getAllCustomerService(userId);
     if (!cus) {
       return res.status(404).json({ message: "No Customer found" });
     }
     return res.status(200).json({
       message: "Customer retrieved successfully",
-      data: cus,
+      data: cus
     });
   } catch (err) {
     return res
       .status(500)
+      
       .json({ message: "Internal server error", error: err.message });
   }
 };

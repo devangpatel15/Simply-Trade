@@ -13,7 +13,9 @@ const {
 
 exports.findAllColor = async (req, res) => {
   try {
-    const colorData = await findAllColorServices();
+
+    const userId=req.user.id
+    const colorData = await findAllColorServices(userId);
 
     if (!colorData) {
       return res.status(404).json({ message: "No Color found" });

@@ -6,7 +6,7 @@ const { AuthUser } = require('../middleware/user')
 
 const catRouter = express.Router()
 
-catRouter.get("/allCategory",getAllCategory)
+catRouter.get("/allCategory",AuthUser,getAllCategory)
 catRouter.get("/userCategory",AuthUser,getUserCategory)
 catRouter.get("/searchCategory",searchCategory)
 catRouter.get("/category/:id",categoryIdValidation,getCategory)

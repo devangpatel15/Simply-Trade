@@ -31,6 +31,7 @@ const StockPage = () => {
 
   const callApi = async () => {
     const response = await getAllStocks();
+
     setStock(response.data.data);
     setPayment(response.data.data);
   };
@@ -40,12 +41,10 @@ const StockPage = () => {
   }, []);
 
   const handleOpen = (data) => {
-    console.log(data, "data-----");
     setData(data);
     setOpen(true);
   };
   const handlePaymentDialogOpen = (data) => {
-    console.log(data, "data-----");
     setData(data);
     setPaymentDialog(true);
   };
@@ -137,12 +136,30 @@ const StockPage = () => {
                           variant="body2"
                           sx={{ color: "green", fontWeight: "bold" }}
                         >
+<<<<<<< HEAD
                           Customer Name:
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
                             {stock.customerName}
                           </span>
+=======
+                          Customer Name:{stock?.customerName?.customerName}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "red", fontWeight: "bold" }}
+                        >
+                          Organization Name:
+                          {stock?.organization?.organizationName}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "green", fontWeight: "bold" }}
+                        >
+                          Branch Name:
+                          {stock?.branch?.branchName}
+>>>>>>> fbe28e6bb59656ef8e1b9d40aaf48dae861b4791
                         </Typography>
                       </Box>
                     </Box>

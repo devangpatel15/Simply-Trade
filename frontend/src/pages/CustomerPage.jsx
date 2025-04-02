@@ -37,7 +37,6 @@ const CustomerPage = () => {
 
   const callApi = async () => {
     const response = await getAllCustomer();
-    console.log("RESPONSE==", response.data.data);
     setCustomer(response.data.data);
   };
 

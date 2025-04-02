@@ -35,7 +35,6 @@ const AccountPage = () => {
 
   const callApi = async () => {
     const response = await getAllAccounts();
-    console.log(response.data.data);
     setAccounts(response.data.data);
   };
 

@@ -131,7 +131,7 @@ const UserPage = () => {
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {user.organization.organizationName}
+                            {user.organization?.organizationName}
                           </span>
                         </Typography>
                         <Typography
@@ -142,7 +142,18 @@ const UserPage = () => {
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {user.orgBranch.branchName}
+                            {user.orgBranch?.branchName}
+                          </span>
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "brown", fontWeight: "bold" }}
+                        >
+                          Email :{" "}
+                          <span
+                            style={{ color: "black", fontWeight: "normal" }}
+                          >
+                            {user.email}
                           </span>
                         </Typography>
                       </Box>

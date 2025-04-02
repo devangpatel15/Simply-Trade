@@ -5,7 +5,13 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const OrgBranchInput = ({ onChange, value, selectedOrganization, error }) => {
+const OrgBranchInput = ({
+  onChange,
+  value,
+  selectedOrganization,
+  error,
+  role,
+}) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -54,6 +60,7 @@ const OrgBranchInput = ({ onChange, value, selectedOrganization, error }) => {
 
   return (
     <Autocomplete
+      readOnly={role == "user"}
       options={options}
       getOptionLabel={(option) => option.label}
       loading={loading}

@@ -62,6 +62,8 @@ const StockForm = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [paidToCustomer, setPaidtoCustomer] = useState(0);
 
+  const [loggedUserData, setLoggedUserData] = useState({});
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -208,9 +210,9 @@ const StockForm = () => {
       imeiNo: "",
       srNo: "",
       useImei: true,
-      // totalAmount: "",
-      // paidToCustomer: "",
-      // remainingAmount: "",
+      totalAmount: "",
+      paidToCustomer: "",
+      remainingAmount: "",
     });
     setFormData({ ...formData, device: updatedDeviceData });
   };
@@ -223,50 +225,66 @@ const StockForm = () => {
 
   // console.log(id, "praamasId");
 
-  // const callApi = async () => {
-  //   try {
-  //     if (id) {
-  //       const response = await getOneStock(id);
-  //       // setFormData({
-  //       //   ...response.data.data,
-  //       //   organization: {
-  //       //     label: response.data.data.organization.organizationName,
-  //       //     value: response.data.data.organization._id || "",
-  //       //   },
-  //       //   branch: {
-  //       //     label: response.data.data.branch.branchName,
-  //       //     value: response.data.data.branch._id || "",
-  //       //   },
-  //       //   categoryName: {
-  //       //     label: response.data.data.categoryName.categoryName,
-  //       //     value: response.data.data.categoryName._id || "",
-  //       //   },
-  //       //   modelName: {
-  //       //     label: response.data.data.modelName.modelName,
-  //       //     value: response.data.data.modelName._id || "",
-  //       //   },
-  //       //   deviceName: {
-  //       //     label: response.data.data.deviceName.deviceName,
-  //       //     value: response.data.data.deviceName._id || "",
-  //       //   },
-  //       //   capacityName: {
-  //       //     label: response.data.data.capacityName.capacityName,
-  //       //     value: response.data.data.capacityName._id || "",
-  //       //   },
-  //       //   color: {
-  //       //     label: response.data.data.color.color,
-  //       //     value: response.data.data.color._id || "",
-  //       //   },
-  //       // });
-  //     }
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+  const callApi = async () => {
+    try {
+      if (!id) return; // Ensure ID is present
 
-  // useEffect(() => {
-  //   callApi();
-  // }, []);
+      const response = await getOneStock(id);
+
+      // Check if response and data exist
+      if (!response?.data?.data) {
+        console.error("API response is empty or invalid");
+        return;
+      }
+
+      const data = response.data.data;
+      console.log("API Response Data:", data); // Debugging
+
+      setFormData({
+        ...data,
+        organization: {
+          label: data?.organization?.organizationName || "",
+          value: data?.organization?._id || "",
+        },
+        branch: {
+          label: data?.branch?.branchName || "",
+          value: data?.branch?._id || "",
+        },
+        customerName: {
+          label: data?.customerName?.customerName || "",
+          value: data?.customerName?._id || "",
+        },
+        categoryName: {
+          label: data?.categoryName?.categoryName || "",
+          value: data?.categoryName?._id || "",
+        },
+        modelName: {
+          label: data?.modelName?.modelName || "",
+          value: data?.modelName?._id || "",
+        },
+        deviceName: {
+          label: data?.deviceName?.deviceName || "",
+          value: data?.deviceName?._id || "",
+        },
+        capacityName: {
+          label: data?.capacityName?.capacityName || "",
+          value: data?.capacityName?._id || "",
+        },
+        color: {
+          label: data?.color?.color || "",
+          value: data?.color?._id || "",
+        },
+      });
+    } catch (error) {
+      console.error("Error in callApi:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      callApi();
+    }
+  }, [id]);
 
   const handleSubmit = async () => {
     console.log(formData);
@@ -306,6 +324,36 @@ const StockForm = () => {
       console.log(error.message);
     }
   };
+  useEffect(() => {
+    const userData = localStorage.getItem("role");
+
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+
+        setLoggedUserData(parsedData || {});
+
+        // ✅ Set both organization and branch in a single update
+        setFormData((prev) => ({
+          ...prev,
+          organization: parsedData?.organization?._id
+            ? {
+                label: parsedData.organization.organizationName, // ✅ Ensure correct format
+                value: parsedData.organization._id,
+              }
+            : null, // Prevent undefined
+          branch: parsedData?.orgBranch?._id
+            ? {
+                label: parsedData.orgBranch.branchName, // ✅ Ensure correct format
+                value: parsedData.orgBranch._id,
+              }
+            : null, // Prevent undefined
+        }));
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+  }, []);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -331,32 +379,42 @@ const StockForm = () => {
 
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <OrgInput
-                onChange={handleOrganizationChange}
-                value={formData.organization}
-              />
+              {loggedUserData.role == "admin" ? (
+                <OrgInput
+                  role="admin"
+                  onChange={handleOrganizationChange}
+                  value={formData.organization} // Now it's an object, not undefined
+                />
+              ) : (
+                <OrgInput
+                  role="user"
+                  onChange={handleOrganizationChange}
+                  value={formData.organization || null} // ✅ Prevent undefined
+                />
+              )}
             </Grid>
             <Grid item xs={6}>
-              <OrgBranchInput
-                onChange={handleOrganizationBranchChange}
-                value={formData.branch}
-                selectedOrganization={selectedOrganization}
-              />
+              {loggedUserData.role == "admin" ? (
+                <OrgBranchInput
+                  role="admin"
+                  onChange={handleOrganizationBranchChange}
+                  value={formData.branch || null} // ✅ Ensure branch is always an object or null
+                  selectedOrganization={selectedOrganization}
+                />
+              ) : (
+                <OrgBranchInput
+                  role="user"
+                  onChange={handleOrganizationBranchChange}
+                  value={formData.branch || null} // ✅ Ensure branch is always an object or null
+                  selectedOrganization={selectedOrganization}
+                />
+              )}
             </Grid>
             <Grid item xs={6}>
-              {/* <TextField
-                fullWidth
-                label="Customer Name"
-                variant="outlined"
-                name="customerName"
-                value={formData.customerName || ""}
-                onChange={handleChange}
-                required
-              /> */}
               <CustomerInput
                 onChange={handleCustomerChange}
                 value={formData.customerName}
-                branchId={branchId}
+                branchId={formData?.branch?.value}
               />
             </Grid>
             <Grid item xs={6}>
@@ -410,7 +468,7 @@ const StockForm = () => {
                       handleCategoryChange(deviceIndex, selectedCategory)
                     }
                     value={formData.device[deviceIndex]?.categoryName}
-                    branchId={branchId}
+                    branchId={formData?.branch?.value}
                   />
                 </Grid>
                 <Grid item xs={4}>
@@ -433,7 +491,7 @@ const StockForm = () => {
                 </Grid>
               </Grid>
               <Grid container spacing={2} mt={1}>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                   <ColorInput
                     onChange={(selectedColor) =>
                       handleColorChange(deviceIndex, selectedColor)
@@ -442,7 +500,7 @@ const StockForm = () => {
                     deviceId={deviceId}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                   <CapacityInput
                     onChange={(selectedCapacity) =>
                       handleCapacityChange(deviceIndex, selectedCapacity)
@@ -451,7 +509,7 @@ const StockForm = () => {
                     deviceId={deviceId}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                {/* <Grid item xs={4}>
                   <TextField
                     type="number"
                     fullWidth
@@ -461,7 +519,7 @@ const StockForm = () => {
                     value={formData.quantity || ""}
                     onChange={handleChange}
                   />
-                </Grid>
+                </Grid> */}
               </Grid>
 
               {item.imei.map((imeiItem, imeiIndex) => (
@@ -601,7 +659,10 @@ const StockForm = () => {
                         fullWidth
                         label="Remaining Amount"
                         name="remainingAmount"
-                        value={totalAmount - paidToCustomer}
+                        value={
+                          (imeiItem.remainingAmount =
+                            totalAmount - paidToCustomer || "")
+                        }
                         onChange={(e) =>
                           handleImeiChange(
                             deviceIndex,

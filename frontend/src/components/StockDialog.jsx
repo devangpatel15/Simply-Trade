@@ -21,8 +21,6 @@ import DeleteDialog from "./DeleteDialog";
 import image from "../assets/iphone.webp";
 
 const StockDialog = ({ open, handleClose, data, fieldName }) => {
-  console.log("datataaaaaaaaaaa", data);
-
   const {
     _id,
     organization,
@@ -83,7 +81,7 @@ const StockDialog = ({ open, handleClose, data, fieldName }) => {
 
             {customerName && (
               <Typography>
-                <strong>Customer Name:</strong> {customerName}
+                <strong>Customer Name:</strong> {customerName?.customerName}
               </Typography>
             )}
           </Grid>

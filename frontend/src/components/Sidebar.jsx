@@ -1,42 +1,4 @@
-// import React from "react";
-// import {
-//   Box,
-//   Drawer,
-//   List,
-//   ListItem,
-//   ListItemIcon,
-//   ListItemText,
-// } from "@mui/material";
-// import { Link } from "react-router-dom";
-// import DashboardIcon from "@mui/icons-material/Dashboard";
-// import BusinessIcon from "@mui/icons-material/Business";
-
-// const Sidebar = () => {
-//   return (
-//     <>
-//       <Drawer variant="permanent" sx={{ width: 187, flexShrink: 0 }}>
-//         <List>
-//           <ListItem button component={Link} to="/dashboard">
-//             <ListItemIcon>
-//               <DashboardIcon />
-//             </ListItemIcon>
-//             <ListItemText primary="Dashboard" />
-//           </ListItem>
-//           <ListItem button component={Link} to="/organizationPage">
-//             <ListItemIcon>
-//               <BusinessIcon />
-//             </ListItemIcon>
-//             <ListItemText primary="Organizations" />
-//           </ListItem>
-//         </List>
-//       </Drawer>
-//     </>
-//   );
-// };
-
-// export default Sidebar;
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Drawer,
   List,
@@ -86,6 +48,13 @@ const Sidebar = () => {
 
   const [openMaster, setOpenMaster] = useState(false);
   const [openReport, setOpenReport] = useState(false);
+  const [userRole, setUserRole] = useState({});
+
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+
+    setUserRole(JSON.parse(role));
+  }, []);
 
   return (
     <Drawer
@@ -112,7 +81,12 @@ const Sidebar = () => {
           py: 2,
         }}
       >
-        <img src={logo} alt="Simply Trade Logo" style={{ width: 160 }} />
+        <img
+          src={logo}
+          alt="Simply Trade Logo"
+          style={{ width: 160 }}
+          onClick={() => navigate("/dashboard")}
+        />
         <SegmentIcon
           sx={{
             // border: "1px solid",
@@ -144,112 +118,116 @@ const Sidebar = () => {
               <ListItemText primary="Dashboard" />
             </ListItemButton>
 
-            {/* Master Section */}
-            <ListItemButton onClick={() => setOpenMaster(!openMaster)}>
-              <ListItemIcon>
-                <People sx={{ color: iconColor }} />
-              </ListItemIcon>
-              <ListItemText primary="Master" />
-              {openMaster ? (
-                <ExpandLess sx={{ color: iconColor }} />
-              ) : (
-                <ExpandMore sx={{ color: iconColor }} />
-              )}
-            </ListItemButton>
-            <Collapse in={openMaster} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItemButton
-                  sx={{ pl: 4 }}
-                  onClick={() => navigate("/organizationPage")}
-                >
+            {userRole?.role == "admin" && (
+              <Box>
+                {/* Master Section */}
+                <ListItemButton onClick={() => setOpenMaster(!openMaster)}>
                   <ListItemIcon>
-                    <Business sx={{ color: iconColor }} />
+                    <People sx={{ color: iconColor }} />
                   </ListItemIcon>
-                  <ListItemText primary="Organization" />
+                  <ListItemText primary="Master" />
+                  {openMaster ? (
+                    <ExpandLess sx={{ color: iconColor }} />
+                  ) : (
+                    <ExpandMore sx={{ color: iconColor }} />
+                  )}
                 </ListItemButton>
 
-                <ListItemButton
-                  sx={{ pl: 4 }}
-                  onClick={() => navigate("/organizationBranchPage")}
-                >
-                  <ListItemIcon>
-                    <Business sx={{ color: iconColor }} />
-                  </ListItemIcon>
-                  <ListItemText primary="Org. Branch" />
-                </ListItemButton>
+                <Collapse in={openMaster} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    <ListItemButton
+                      sx={{ pl: 4 }}
+                      onClick={() => navigate("/organizationPage")}
+                    >
+                      <ListItemIcon>
+                        <Business sx={{ color: iconColor }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Organization" />
+                    </ListItemButton>
 
-                <ListItemButton
-                  sx={{ pl: 4, gap: "2rem" }}
-                  onClick={() => navigate("/userPage")}
-                >
-                  <PeopleAltIcon>
-                    <Business sx={{ color: iconColor }} />
-                  </PeopleAltIcon>
-                  <ListItemText primary="Users" />
-                </ListItemButton>
+                    <ListItemButton
+                      sx={{ pl: 4 }}
+                      onClick={() => navigate("/organizationBranchPage")}
+                    >
+                      <ListItemIcon>
+                        <Business sx={{ color: iconColor }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Org. Branch" />
+                    </ListItemButton>
 
-                <ListItemButton
-                  sx={{ pl: 4, gap: "2rem" }}
-                  onClick={() => navigate("/category")}
-                >
-                  <CategoryIcon>
-                    <Business sx={{ color: iconColor }} />
-                  </CategoryIcon>
-                  <ListItemText primary="Category" />
-                </ListItemButton>
+                    <ListItemButton
+                      sx={{ pl: 4, gap: "2rem" }}
+                      onClick={() => navigate("/userPage")}
+                    >
+                      <PeopleAltIcon>
+                        <Business sx={{ color: iconColor }} />
+                      </PeopleAltIcon>
+                      <ListItemText primary="Users" />
+                    </ListItemButton>
 
-                <ListItemButton
-                  sx={{ pl: 4, gap: "2rem" }}
-                  onClick={() => navigate("/modelPage")}
-                >
-                  <OnDeviceTrainingIcon>
-                    <Business sx={{ color: iconColor }} />
-                  </OnDeviceTrainingIcon>
-                  <ListItemText primary="Model" />
-                </ListItemButton>
+                    <ListItemButton
+                      sx={{ pl: 4, gap: "2rem" }}
+                      onClick={() => navigate("/category")}
+                    >
+                      <CategoryIcon>
+                        <Business sx={{ color: iconColor }} />
+                      </CategoryIcon>
+                      <ListItemText primary="Category" />
+                    </ListItemButton>
 
-                <ListItemButton
-                  sx={{ pl: 4, gap: "2rem" }}
-                  onClick={() => navigate("/devicePage")}
-                >
-                  <DevicesIcon>
-                    <Business sx={{ color: iconColor }} />
-                  </DevicesIcon>
-                  <ListItemText primary="Device" />
-                </ListItemButton>
+                    <ListItemButton
+                      sx={{ pl: 4, gap: "2rem" }}
+                      onClick={() => navigate("/modelPage")}
+                    >
+                      <OnDeviceTrainingIcon>
+                        <Business sx={{ color: iconColor }} />
+                      </OnDeviceTrainingIcon>
+                      <ListItemText primary="Model" />
+                    </ListItemButton>
 
-                <ListItemButton
-                  sx={{ pl: 4, gap: "2rem" }}
-                  onClick={() => navigate("/colorPage")}
-                >
-                  <ColorizeIcon>
-                    <Business sx={{ color: iconColor }} />
-                  </ColorizeIcon>
-                  <ListItemText primary="Color" />
-                </ListItemButton>
+                    <ListItemButton
+                      sx={{ pl: 4, gap: "2rem" }}
+                      onClick={() => navigate("/devicePage")}
+                    >
+                      <DevicesIcon>
+                        <Business sx={{ color: iconColor }} />
+                      </DevicesIcon>
+                      <ListItemText primary="Device" />
+                    </ListItemButton>
 
-                <ListItemButton
-                  sx={{ pl: 4, gap: "2rem" }}
-                  onClick={() => navigate("/capacityPage")}
-                >
-                  <StorageIcon>
-                    <Business sx={{ color: iconColor }} />
-                  </StorageIcon>
-                  <ListItemText primary="Capacity" />
-                </ListItemButton>
+                    <ListItemButton
+                      sx={{ pl: 4, gap: "2rem" }}
+                      onClick={() => navigate("/colorPage")}
+                    >
+                      <ColorizeIcon>
+                        <Business sx={{ color: iconColor }} />
+                      </ColorizeIcon>
+                      <ListItemText primary="Color" />
+                    </ListItemButton>
 
-                <ListItemButton
-                  sx={{ pl: 4, gap: "2rem" }}
-                  onClick={() => navigate("/accountPage")}
-                >
-                  <AccountCircleRoundedIcon>
-                    <Business sx={{ color: iconColor }} />
-                  </AccountCircleRoundedIcon>
-                  <ListItemText primary="Account" />
-                </ListItemButton>
-              </List>
-            </Collapse>
+                    <ListItemButton
+                      sx={{ pl: 4, gap: "2rem" }}
+                      onClick={() => navigate("/capacityPage")}
+                    >
+                      <StorageIcon>
+                        <Business sx={{ color: iconColor }} />
+                      </StorageIcon>
+                      <ListItemText primary="Capacity" />
+                    </ListItemButton>
 
+                    <ListItemButton
+                      sx={{ pl: 4, gap: "2rem" }}
+                      onClick={() => navigate("/accountPage")}
+                    >
+                      <AccountCircleRoundedIcon>
+                        <Business sx={{ color: iconColor }} />
+                      </AccountCircleRoundedIcon>
+                      <ListItemText primary="Account" />
+                    </ListItemButton>
+                  </List>
+                </Collapse>
+              </Box>
+            )}
             {/* Other Sidebar Items */}
             <ListItemButton onClick={() => navigate("/stockPage")}>
               <ListItemIcon>
