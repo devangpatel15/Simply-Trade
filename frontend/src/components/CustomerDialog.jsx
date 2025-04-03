@@ -12,6 +12,7 @@ import { Box, Grid, IconButton, Typography } from "@mui/material";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import CloseIcon from "@mui/icons-material/Close";
+import axios from "axios";
 
 // const CustomerDialog = () => {
 //   const [open, setOpen] = React.useState(false);
@@ -69,7 +70,12 @@ import CloseIcon from "@mui/icons-material/Close";
 //   );
 // };
 
-const CustomerDialog = ({ customerDialog, handleClose, setOpen }) => {
+const CustomerDialog = ({
+  customerDialog,
+  handleClose,
+  setOpen,
+  customerData,
+}) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = React.useState({
@@ -78,6 +84,27 @@ const CustomerDialog = ({ customerDialog, handleClose, setOpen }) => {
     customerName: "",
     customerPhone: "",
   });
+  console.log("customerData======== ", customerData);
+
+  // const { organization, branchName } = customerData;
+
+  const organization = customerData?.organization ?? null;
+  const branchName = customerData?.branchName ?? null;
+  const branchId = customerData?._id ?? null;
+
+  React.useEffect(() => {
+    if (customerData) {
+      setFormData({
+        organization: {
+          label: organization?.organizationName,
+          value: organization?._id,
+        },
+        branchName: { label: branchName, value: branchId },
+        customerName: customerData.customerName || "",
+        customerPhone: customerData.customerPhone || "",
+      });
+    }
+  }, [customerData]);
 
   const [selectedOrganization, setSelectedOrganization] = React.useState("");
 
@@ -133,11 +160,10 @@ const CustomerDialog = ({ customerDialog, handleClose, setOpen }) => {
           display: "flex",
           flexDirection: "column",
           gap: 2,
-          marginTop: "4rem",
         }}
       >
         <DialogTitle>
-          <Typography>Customer</Typography>
+          <Typography style={{ textAlign: "center" }}>Customer</Typography>
 
           <IconButton
             onClick={handleClose}
@@ -153,28 +179,23 @@ const CustomerDialog = ({ customerDialog, handleClose, setOpen }) => {
             justifyContent="space-between"
           >
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <OrgInput
+                  role="user"
                   onChange={handleOrganizationChange}
                   value={formData.organization}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <OrgBranchInput
+                  role="user"
                   onChange={handleOrganizationBranchChange}
                   value={formData.branchName}
                   selectedOrganization={selectedOrganization}
                 />
               </Grid>
-            </Grid>
-          </Box>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
+
+              <Grid item xs={12}>
                 <TextField
                   fullWidth
                   label="Customer Name"
@@ -185,7 +206,7 @@ const CustomerDialog = ({ customerDialog, handleClose, setOpen }) => {
                   required
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <TextField
                   fullWidth
                   label="Customer Phone number"
