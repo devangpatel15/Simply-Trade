@@ -25,6 +25,7 @@ import CapacityInput from "./common/CapacityInput";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { createStock, getOneStock, updateStock } from "../apis/StockApi";
 import CustomerInput from "./common/CustomerInput";
+import { getOneCustomer } from "../apis/CustomerApi";
 
 const StockForm = () => {
   const [formData, setFormData] = useState({
@@ -224,6 +225,17 @@ const StockForm = () => {
   };
 
   // console.log(id, "praamasId");
+  useEffect(() => {
+    (async () => {
+      const findCustomerPhoneNumber = await getOneCustomer(selectedCustomer);
+
+      console.log(findCustomerPhoneNumber.data.data, "findCustomerPhone");
+      setFormData({
+        ...formData,
+        customerPhone: findCustomerPhoneNumber?.data?.data?.customerPhone,
+      });
+    })();
+  }, [selectedCustomer]);
 
   const callApi = async () => {
     try {
@@ -419,6 +431,7 @@ const StockForm = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
+                disabled
                 type="number"
                 fullWidth
                 label="Phone Number"

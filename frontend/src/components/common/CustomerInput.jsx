@@ -12,9 +12,30 @@ const CustomerInput = ({ onChange, value, branchId }) => {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [customerData, setCustomerdata] = useState({});
+
+  const callApi = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/api/findOneOrganizationBranch/${branchId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }, // Request headers
+        }
+      );
+      console.log(response.data, "RESPONSESSSSSSSSSSSSSSS");
+      setCustomerdata(response.data.data);
+    } catch (error) {
+      console.error("Error fetching organizations:", error);
+    }
+  };
 
   const handleOpen = () => {
     setOpen(true);
+
+    callApi();
   };
 
   const handleClose = () => setOpen(false);
@@ -93,6 +114,7 @@ const CustomerInput = ({ onChange, value, branchId }) => {
         )}
       />
       <CustomerDialog
+        customerData={customerData}
         customerDialog={open}
         handleClose={handleClose}
         fieldName="customerForm"
