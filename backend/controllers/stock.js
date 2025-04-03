@@ -9,10 +9,10 @@ const {
 
 exports.getAllStock = async (req, res) => {
   try {
-    const userOrgId=req.user.org;
-    const role=req.user.role;
-    const userId=req.user.id;
-    const stock = await getAllStockService(userOrgId,role,userId);
+    const userOrgId = req.user.org;
+    const role = req.user.role;
+    const userId = req.user.id;
+    const stock = await getAllStockService(userOrgId, role, userId);
     if (!stock) {
       return res.status(404).json({ message: "No Stock found" });
     }
@@ -23,7 +23,7 @@ exports.getAllStock = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    
+
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

@@ -1,14 +1,12 @@
-const Expense = require("../models/expense")
+const Expense = require("../models/expense");
 
-exports.getAllExpenseService = async() => {
-
-    return await Expense.find({ isDeleted: false }).lean();
-
-}
+exports.getAllExpenseService = async () => {
+  return await Expense.find({ isDeleted: false }).lean();
+};
 
 exports.getExpenseService = async (exId) => {
   return await Expense.findById(exId)
-    .populate("organization branchName categoryId modelId deviceId")
+    .populate("organization branchName category")
     .lean();
 };
 // exports.selectExpenseByDeviceService = async (deviceId) => {
