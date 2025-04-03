@@ -29,6 +29,7 @@ import CustomerPage from "./pages/CustomerPage";
 import CustomerForm from "./components/CustomerForm";
 import AccountPage from "./pages/AccountPage";
 import AccountForm from "./components/AccountForm";
+import MuiTable from "./pages/MuiTable";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -44,6 +45,12 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
+        <Route
+          path="/muiTable"
+          element={
+              <MuiTable />
+          }
+        />
         <Route
           path="/"
           element={
