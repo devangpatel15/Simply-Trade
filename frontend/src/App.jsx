@@ -4,7 +4,6 @@ import SignInPage from "./pages/Signin";
 import { ThemeProvider } from "@emotion/react";
 import theme from "./theme/theme";
 import DashboardPage from "./pages/DashboardPage";
-import OrganizationPage from "./pages/OrganizationPage";
 import OrganizationForm from "./components/OrganizationForm";
 import OtpPage from "./pages/Otp";
 import SignInByOtpPage from "./pages/SignInByOtpPage";
@@ -23,13 +22,14 @@ import UserForm from "./components/UserForm";
 import OrganizationBranchForm from "./components/OrganizationBranchForm";
 import CapacityPage from "./pages/CapacityPage";
 import CapacityForm from "./components/CapacityForm";
-import StockPage from "./pages/StockPage";
 import StockForm from "./components/StockForm";
 import CustomerPage from "./pages/CustomerPage";
 import CustomerForm from "./components/CustomerForm";
 import AccountPage from "./pages/AccountPage";
 import AccountForm from "./components/AccountForm";
-import MuiTable from "./pages/MuiTable";
+import StockPage from "./pages/StockPage";
+import OrganizationPage from "./pages/OrganizationPage";
+import MuiTable from "./pages/MuiTable copy";
 
 function App() {
   const PrivateRoute = ({ children }) => {

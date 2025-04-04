@@ -1,34 +1,35 @@
-import * as React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import { getAllStocks } from "../apis/StockApi";
+import {
+  Box,
+  Button,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import { Box, Button, InputAdornment, TextField, Typography } from "@mui/material";
+import OrganizationTable from "../tables/OrganizationTable";
 import SearchIcon from "@mui/icons-material/Search";
-import StockTable from "../tables/StockTable";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const MuiTable = () => {
-  const [stock, setStock] = React.useState([]);
+  const [orgData, setOrgData] = useState([]);
 
   const callApi = async () => {
-    const response = await getAllStocks();
-    setStock(response.data.data);
+    const response = await axios.get("http://localhost:4000/api/allUserOrg", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    setOrgData(response.data.data);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     callApi();
-  }, []);
+  }, [orgData]);
 
-  console.log(stock);
-  
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
@@ -44,9 +45,8 @@ const MuiTable = () => {
               variant="h4"
               sx={{ fontWeight: "bold", color: "#6c5ce7" }}
             >
-              STOCK
+              ORGANIZATIONS
             </Typography>
-
             <Box display="flex" gap={2}>
               <TextField
                 variant="outlined"
@@ -69,31 +69,15 @@ const MuiTable = () => {
                   textTransform: "none",
                 }}
                 component={Link}
-                to="/stockForm"
+                to="/organizationForm"
               >
-                Add Stock
+                Add Organization
               </Button>
             </Box>
           </Box>
-
-          {/* <PaymentDialog
-            handleClose={handleClose}
-            open={paymentDialog}
-            data={data}
-            callApi={callApi}
-            fieldName="paymentForm"
-          />
-
-          <StockDialog
-            handleClose={handleClose}
-            open={open}
-            data={data}
-            callApi={callApi}
-            fieldName="stockForm"
-          /> */}
+          {/* Organization Card */}
+          <OrganizationTable orgData={orgData} callApi={callApi} />
         </Box>
-        <StockTable data={stock} />
-       
       </Box>
     </Box>
   );

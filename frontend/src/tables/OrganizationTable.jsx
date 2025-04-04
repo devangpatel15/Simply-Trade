@@ -7,56 +7,52 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import PaymentDialog from "../components/PaymentDialog";
-import { IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import StockDialog from "../components/StockDialog";
+import moment from "moment";
+import DialogBox from "../components/DialogBox";
+import { Link } from "react-router-dom";
+import DeleteDialog from "../components/DeleteDialog";
+import { deleteOrg } from "../apis/OrganizationApi";
 
-const StockTable = ({ stock, payment, callApi }) => {
+const OrganizationTable = ({ orgData, callApi }) => {
   const [open, setOpen] = React.useState(false);
-  const [paymentDialog, setPaymentDialog] = React.useState(false);
   const [data, setData] = React.useState({});
   const columns = [
-    { id: "customerName", label: "Customer Name", minWidth: 170 },
-    { id: "organizationName", label: "Organization Name", minWidth: 100 },
+    { id: "organizationName", label: "Organization Name" },
+    { id: "createBy", label: "Create By" },
     {
-      id: "branchName",
-      label: "Branch Name",
-      minWidth: 170,
+      id: "createAt",
+      label: "Create At",
       align: "center",
     },
-    { id: "actions", label: "actions", minWidth: 100 },
+    { id: "actions", label: "actions" },
   ];
 
-  function createData(
-    customerName,
-    organizationName,
-    branchName,
-    actions
-  ) {
-    return { customerName, organizationName, branchName, actions };
+  function createData(organizationName, createBy, createAt, actions) {
+    return { organizationName, createBy, createAt, actions };
   }
 
-  const row = stock.map((item) => {
+  const row = orgData.map((item) => {
     return createData(
-      item?.customerName?.customerName,
-      item?.organization?.organizationName,
-      item?.branch?.branchName,
+      item?.organizationName,
+      item?.userId.name,
+      moment(item?.createdAt).format("DD-MM-YYYY"),
       <>
-        <IconButton
-          sx={{ backgroundColor: "#f5f5f5" }}
-          onClick={() => handlePaymentDialogOpen(payment)}
-        >
-          <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
-        </IconButton>
-
         <IconButton
           sx={{ backgroundColor: "#f5f5f5" }}
           onClick={() => handleOpen(item)}
         >
           <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-        </IconButton>
+        </IconButton>{" "}
+        <Link to={`/organizationForm/${item._id}`}>
+          <Button variant="outlined" color="success">
+            Edit
+          </Button>
+        </Link>{" "}
+        <Button variant="outlined" color="error" onClick={()=>openDeleteDialog(item._id)}>
+          Delete
+        </Button>
       </>
     );
   });
@@ -79,15 +75,28 @@ const StockTable = ({ stock, payment, callApi }) => {
     setData(data);
     setOpen(true);
   };
-  const handlePaymentDialogOpen = (data) => {
-    setData(data);
-    setPaymentDialog(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
-    setPaymentDialog(false);
   };
+
+  const [deleteOpen, setDeleteOpen] = React.useState(false);
+
+  const openDeleteDialog = (_id) => {
+    setDeleteOpen(_id);
+  };
+
+  const closeDeleteDialog = () => {
+    setDeleteOpen(false);
+    callApi()
+  };
+  const handleDelete = async (_id) => {
+    deleteOrg(_id);
+    setDeleteOpen(false);
+    handleClose();
+    callApi();
+  };
+  
   return (
     <>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -144,23 +153,23 @@ const StockTable = ({ stock, payment, callApi }) => {
         />
       </Paper>
 
-      <PaymentDialog
-        handleClose={handleClose}
-        open={paymentDialog}
-        data={data}
-        callApi={callApi}
-        fieldName="paymentForm"
-      />
-
-      <StockDialog
+      <DialogBox
         handleClose={handleClose}
         open={open}
         data={data}
         callApi={callApi}
-        fieldName="stockForm"
+        fieldName="organizationForm"
+      />
+      
+
+      <DeleteDialog
+        deleteOpen={deleteOpen}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        closeDeleteDialog={closeDeleteDialog}
       />
     </>
   );
 };
 
-export default StockTable;
+export default OrganizationTable;
