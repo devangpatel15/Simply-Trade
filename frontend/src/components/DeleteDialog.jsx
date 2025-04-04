@@ -16,7 +16,7 @@ const DeleteDialog = ({
     >
       <DialogTitle>Are Sure Delete</DialogTitle>
       <DialogActions>
-        <Button onClick={handleDelete}>Yes</Button>
+        <Button onClick={()=>handleDelete(deleteOpen)}>Yes</Button>
         <Button onClick={closeDeleteDialog}>No</Button>
       </DialogActions>
     </Dialog>
