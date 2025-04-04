@@ -9,6 +9,7 @@ const {
   softDeleteOrganizationBranch,
   selectOrganizationBranch,
   searchOrgBranch,
+  findOrganizationBranchByOrganization,
 } = require("../controllers/organizationBranch");
 const {
   validateGetOneOrganizationBranchData,
@@ -42,6 +43,11 @@ organizationBranchRoute.get(
   findOneOrganizationBranch
 );
 
+organizationBranchRoute.get(
+  "/findOrgBranchByOrg/:id",
+  AuthUser,
+  findOrganizationBranchByOrganization
+);
 
 // organizationBranchRoute.get("/searchOrgBranch", searchOrgBranch);
 

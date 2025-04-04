@@ -8,10 +8,12 @@ const {
   softDeleteOrganizationBranchService,
   selectOrganizationBranchServices,
   searchOrgBranchService,
+  findOrganizationBranchByOrganizationService,
 } = require("../services/organizationBranch");
 
 exports.findAllOrganizationBranch = async (req, res) => {
   const userId = req.user.id;
+
   try {
     const organizationBranchData = await findAllOrganizationBranchServices(
       userId
@@ -36,7 +38,9 @@ exports.findOneOrganizationBranch = async (req, res) => {
   try {
     const organizationBranchId = req.params.id;
 
-    const organizationBranchData = await findOneOrganizationBranchServices(organizationBranchId);
+    const organizationBranchData = await findOneOrganizationBranchServices(
+      organizationBranchId
+    );
 
     if (!organizationBranchData) {
       return res.status(404).json({ message: "No Organization Branch found" });
@@ -80,7 +84,8 @@ exports.selectOrganizationBranch = async (req, res) => {
     const orgText = req?.query?.text || "";
 
     const organizationBranchData = await selectOrganizationBranchServices(
-      orgId,orgText
+      orgId,
+      orgText
     );
 
     if (!organizationBranchData) {
@@ -151,12 +156,10 @@ exports.softDeleteOrganizationBranch = async (req, res) => {
       return res.status(404).json({ message: "OrganizationBranch not found" });
     }
 
-    return res
-      .status(200)
-      .json({
-        message: "OrganizationBranch soft deleted",
-        data: organizationBranchData,
-      });
+    return res.status(200).json({
+      message: "OrganizationBranch soft deleted",
+      data: organizationBranchData,
+    });
   } catch (err) {
     return res
       .status(500)
@@ -190,7 +193,6 @@ exports.deleteOrganizationBranch = async (req, res) => {
 
 //     const org = await searchOrgBranchService(orgText);
 
-   
 //     if (!org) {
 //       return res.status(404).json({ message: "Organization branch not found" });
 //     }
@@ -203,3 +205,27 @@ exports.deleteOrganizationBranch = async (req, res) => {
 //       .json({ message: "Internal server error", error: err.message });
 //   }
 // };
+
+exports.findOrganizationBranchByOrganization = async (req, res) => {
+  const organizationId = req.params.id;
+
+  console.log("organization Id ", organizationId);
+
+  try {
+    const organizationBranchData =
+      await findOrganizationBranchByOrganizationService(organizationId);
+
+    if (!organizationBranchData) {
+      return res.status(404).json({ message: "No Organization Branch found" });
+    }
+
+    return res.status(200).json({
+      message: "Organization Branch retrieved successfully",
+      data: organizationBranchData,
+    });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
