@@ -24,9 +24,7 @@ exports.findUserOrganizationBranchServices = async (userId) => {
   return data;
 };
 
-exports.selectOrganizationBranchServices = async (orgId,orgText) => {
- 
-
+exports.selectOrganizationBranchServices = async (orgId, orgText) => {
   let findObject = { isDeleted: false };
 
   if (orgText.trim() !== "") {
@@ -36,7 +34,9 @@ exports.selectOrganizationBranchServices = async (orgId,orgText) => {
     findObject.organization = orgId;
   }
 
-  return await OrganizationBranch.find(findObject).populate("userId branchName");
+  return await OrganizationBranch.find(findObject).populate(
+    "userId branchName"
+  );
 };
 
 exports.createOrganizationBranchServices = async (branchData) => {
@@ -75,3 +75,16 @@ exports.deleteOrganizationBranchServices = async (OrganizationBranchId) => {
 
 //   return await OrganizationBranch.find(findObject).limit(5); // Increase limit if needed
 // };
+
+exports.findOrganizationBranchByOrganizationService = async (
+  organizationId
+) => {
+  const data = await OrganizationBranch.find({
+    organization: organizationId,
+    isDeleted: false,
+  })
+    .populate("userId branchName organization")
+    .lean();
+
+  return data;
+};

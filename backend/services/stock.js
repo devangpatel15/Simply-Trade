@@ -1,17 +1,18 @@
 const Stock = require("../models/stock");
 
-exports.getAllStockService = async (userOrgId,role,userId) => {
-
+exports.getAllStockService = async (userOrgId, role, userId) => {
   const data = await Stock.find({ isDeleted: false })
     .populate({
       path: "organization",
-      match:  role=="user" ? {_id:userOrgId}:{userId:userId} ,
+      match: role == "user" ? { _id: userOrgId } : { userId: userId },
     })
     .populate(
       "branch customerName categoryName modelName deviceName capacityName color"
     )
     .lean();
-    return data
+  return data.filter((item) => {
+    return item.organization != null;
+  });
 };
 
 exports.getStockService = async (stockId) => {
