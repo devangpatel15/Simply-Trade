@@ -47,7 +47,10 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
     categoryName,
     modelName,
     categoryId,
+    id
   } = data;
+
+  console.log("data", data);
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
@@ -67,7 +70,7 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
       : fieldName == "userForm"
       ? deleteUser(_id)
       : fieldName == "categoryForm"
-      ? deleteCategory(_id)
+      ? deleteCategory(id)
       : fieldName == "modelForm"
       ? deleteModel(_id)
       : fieldName == "deviceForm"
@@ -248,7 +251,7 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
               : fieldName == "userForm"
               ? `/userForm/${_id}`
               : fieldName == "categoryForm"
-              ? `/categoryForm/${_id}`
+              ? `/categoryForm/${id}`
               : fieldName == "modelForm"
               ? `/modelForm/${_id}`
               : fieldName == "deviceForm"

@@ -30,6 +30,8 @@ import AccountForm from "./components/AccountForm";
 import StockPage from "./pages/StockPage";
 import OrganizationPage from "./pages/OrganizationPage";
 import MuiTable from "./pages/MuiTable copy";
+import MuiTable from "./pages/MuiTable";
+import CategoryTable from "./tables/CategoryTable";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -128,7 +130,7 @@ function App() {
           path="/category"
           element={
             <PrivateRoute>
-              <Category />
+              <CategoryTable />
             </PrivateRoute>
           }
         />
