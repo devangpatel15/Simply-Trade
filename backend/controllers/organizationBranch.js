@@ -209,8 +209,6 @@ exports.deleteOrganizationBranch = async (req, res) => {
 exports.findOrganizationBranchByOrganization = async (req, res) => {
   const organizationId = req.params.id;
 
-  console.log("organization Id ", organizationId);
-
   try {
     const organizationBranchData =
       await findOrganizationBranchByOrganizationService(organizationId);

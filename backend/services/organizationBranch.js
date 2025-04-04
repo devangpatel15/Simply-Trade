@@ -86,7 +86,5 @@ exports.findOrganizationBranchByOrganizationService = async (
     .populate("userId branchName organization")
     .lean();
 
-  console.log(data, "data");
-
   return data;
 };
