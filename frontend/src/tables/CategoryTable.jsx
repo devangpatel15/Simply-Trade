@@ -66,13 +66,10 @@ const CategoryTable = ({ fieldName }) => {
 
   // Column definition for DataGrid
   const columns = [
-    { field: "categoryName", headerName: "Category Name", width: 250 },
-    { field: "createdAt", headerName: "Created At", width: 180 },
-    { field: "branchName", headerName: "Branch Name", width: 180 },
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      flex: 2,
       renderCell: (params) => (
         <>
           <IconButton onClick={() => handleOpen(params.row)}>
@@ -89,6 +86,9 @@ const CategoryTable = ({ fieldName }) => {
         </>
       ),
     },
+    { field: "categoryName", headerName: "Category Name", flex: 2 },
+    { field: "createdAt", headerName: "Created At", flex: 2 },
+    { field: "branchName", headerName: "Branch Name", flex: 2 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -108,6 +108,10 @@ const CategoryTable = ({ fieldName }) => {
   const filteredCategories = rows.filter((row) => {
     return row.categoryName.toLowerCase().includes(searchTerm.toLowerCase());
   });
+
+
+  const paginationModel = { page: 0, pageSize: 3 };
+
 
   return (
     <div>
@@ -168,13 +172,14 @@ const CategoryTable = ({ fieldName }) => {
                 </Button>
               </Box>
             </Box>
-            <Paper sx={{ height: 400, width: "100%" }}>
+            <Paper sx={{ height: 400, width: "100%" , marginTop: 5}}>
               <DataGrid
                 rows={filteredCategories}
                 columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5, 10]}
+                initialState={{ pagination: { paginationModel } }}
+                pageSizeOptions={[5, 10]}
                 sx={{ border: 0 }}
+                pa
               />
             </Paper>
             <DialogBox
