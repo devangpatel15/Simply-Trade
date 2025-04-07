@@ -26,7 +26,9 @@ exports.sendVerificationEmail = async (email, code) => {
 };
 
 exports.findUserServices = async (email) => {
-  const userData = await User.findOne({ email }).populate("organization orgBranch");
+  const userData = await User.findOne({ email }).populate(
+    "organization orgBranch"
+  );
   return userData;
 };
 
@@ -34,11 +36,25 @@ exports.findUserServices = async (email) => {
 //   const data = await User.find({ isDeleted: false }).lean();
 // };
 
-exports.findAllUserServices = async () => {
-  const data = await User.find({ role:"user",isDeleted: false })
-  .populate("organization orgBranch").lean();
+exports.findAllUserServices = async (req) => {
+  const page = parseInt(req.query.page) || 1; // Default to page 1
+  const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
 
-  return data;
+  const skip = (page - 1) * limit;
+
+  const items = await User.find({
+    role: "user",
+    isDeleted: false,
+  })
+    .sort({ createdAt: -1 })
+    .populate("organization orgBranch")
+    .skip(skip)
+    .limit(limit)
+    .lean();
+
+  const totalCount = await User.countDocuments();
+
+  return { totalCount, items };
 };
 exports.findOneUserServices = async (id) => {
   const data = await User.findById(id)

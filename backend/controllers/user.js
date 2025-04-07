@@ -137,7 +137,7 @@ exports.registerUser = async (req, res) => {
 
 exports.findAllUser = async (req, res) => {
   try {
-    const userdata = await findAllUserServices();
+    const userdata = await findAllUserServices(req);
 
     if (!userdata) {
       return res.status(404).json({ message: "User not found" });

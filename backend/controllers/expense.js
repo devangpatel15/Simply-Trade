@@ -1,4 +1,10 @@
-const { getAllExpenseService, getExpenseService, createExpenseService, updateExpenseService, softDeleteExpenseService } = require("../services/expense");
+const {
+  getAllExpenseService,
+  getExpenseService,
+  createExpenseService,
+  updateExpenseService,
+  softDeleteExpenseService,
+} = require("../services/expense");
 
 exports.getAllExpense = async (req, res) => {
   try {
@@ -38,9 +44,7 @@ exports.createExpense = async (req, res) => {
     const newEx = req.body;
 
     const createdEx = await createExpenseService(newEx);
-    return res
-      .status(200)
-      .json({ message: "Expense added", data: createdEx });
+    return res.status(200).json({ message: "Expense added", data: createdEx });
   } catch (error) {
     return res
       .status(500)
@@ -74,9 +78,7 @@ exports.softDeleteExpense = async (req, res) => {
       return res.status(404).json({ message: "Expense not found" });
     }
 
-    return res
-      .status(200)
-      .json({ message: "Expense soft deleted", data: ex });
+    return res.status(200).json({ message: "Expense soft deleted", data: ex });
   } catch (err) {
     return res
       .status(500)

@@ -1,11 +1,22 @@
 const Model = require("../models/model");
 
-exports.findAllModelServices = async (userId) => {
-  const data = await Model.find({ isDeleted: false })
-    .populate({ path: "organization", match: { userId: userId } }).populate("branchName categoryId")
+exports.findAllModelServices = async (userId, req) => {
+  const page = parseInt(req.query.page) || 1; // Default to page 1
+  const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+
+  const skip = (page - 1) * limit;
+
+  const items = await Model.find({ isDeleted: false })
+    .populate({ path: "organization", match: { userId: userId } })
+    .populate("branchName categoryId")
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
     .lean();
 
-  return data;
+  const totalCount = await Model.countDocuments();
+
+  return { totalCount, items };
 };
 exports.findOneModelServices = async (modelId) => {
   const data = await Model.findById(modelId)

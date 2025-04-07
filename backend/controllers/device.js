@@ -13,8 +13,8 @@ const {
 exports.findAllDevice = async (req, res) => {
   try {
     const userId = req?.user?.id;
-    
-    const deviceData = await findAllDeviceServices(userId);
+
+    const deviceData = await findAllDeviceServices(userId, req);
 
     if (!deviceData) {
       return res.status(404).json({ message: "No Device found" });
@@ -61,9 +61,9 @@ exports.selectDeviceByModel = async (req, res) => {
         message: "Please provide either modelId or orgText for filtering.",
       });
     }
-    const deviceData = await selectDeviceByModelServices(modelId,orgText);
+    const deviceData = await selectDeviceByModelServices(modelId, orgText);
 
-    if (!deviceData) { 
+    if (!deviceData) {
       return res.status(404).json({ message: "No Device found" });
     }
 
@@ -102,7 +102,7 @@ exports.createDevice = async (req, res) => {
   try {
     const data = req.body;
     const deviceData = await createDeviceServices(
-      data,
+      data
       // userId: req.user.id,
     );
     return res
@@ -143,9 +143,7 @@ exports.softDeleteDevice = async (req, res) => {
       return res.status(404).json({ message: "Device not found" });
     }
 
-    return res
-      .status(200)
-      .json({ message: "Device soft deleted", data: data });
+    return res.status(200).json({ message: "Device soft deleted", data: data });
   } catch (err) {
     return res
       .status(500)
@@ -176,7 +174,6 @@ exports.deleteDevice = async (req, res) => {
 
 //     const org = await searchDeviceService(orgText);
 
-   
 //     if (!org) {
 //       return res.status(404).json({ message: "searchDevice not found" });
 //     }
