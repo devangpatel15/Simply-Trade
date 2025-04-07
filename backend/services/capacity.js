@@ -1,15 +1,30 @@
 const Capacity = require("../models/capacity");
 
-exports.getAllCapacityService = async (userId) => {
-
+exports.getAllCapacityService = async (userId, req) => {
   // return await Capacity.find({ isDeleted: false }).populate("organization branchName categoryId modelId deviceId").lean();
-  return await Capacity.find({
+
+  const page = parseInt(req.query.page) || 1; // Default to page 1
+  const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+
+  const skip = (page - 1) * limit;
+
+  const items = await Capacity.find({
     isDeleted: false,
-  }).populate({
-    path: "organization",
-    match: { userId: userId },
-  }).populate("organization branchName categoryId modelId deviceId").lean();
-;
+  })
+    .populate({
+      path: "organization",
+      match: { userId: userId },
+    })
+    .populate("organization branchName categoryId modelId deviceId")
+    .lean()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .lean();
+
+  const totalCount = await Capacity.countDocuments({ isDeleted: "false" });
+
+  return { totalCount, items };
 };
 
 exports.getCapacityService = async (capId) => {
@@ -36,7 +51,7 @@ exports.deleteCapacityService = async (capId) => {
 
 exports.searchCapacityService = async (orgText) => {
   let findObject = { isDeleted: false };
-  
+
   if (orgText.trim() !== "") {
     findObject.$or = [
       { capacityName: { $regex: `^${orgText}`, $options: "i" } },
@@ -46,25 +61,23 @@ exports.searchCapacityService = async (orgText) => {
   return await Capacity.find(findObject).limit(5); // Increase limit if needed
 };
 
-  // exports.selectCapacityByDeviceService = async (deviceId) => {
-  //   return await Capacity.find({ deviceId, isDeleted: false }).lean();
-  // };
+// exports.selectCapacityByDeviceService = async (deviceId) => {
+//   return await Capacity.find({ deviceId, isDeleted: false }).lean();
+// };
 
-  exports.selectCapacityByDeviceService = async (deviceId, text) => {
-    let findObject = { isDeleted: false };
-  
-    if (text && text.trim() !== "") {
-      findObject.$or = [
-        { capacityName: { $regex: `^${text}`, $options: "i" } },
-      ];
-    }
-  
-    if (deviceId) {
-      findObject.deviceId = deviceId;
-    }
-  
-    return await Capacity.find(findObject)
+exports.selectCapacityByDeviceService = async (deviceId, text) => {
+  let findObject = { isDeleted: false };
+
+  if (text && text.trim() !== "") {
+    findObject.$or = [{ capacityName: { $regex: `^${text}`, $options: "i" } }];
+  }
+
+  if (deviceId) {
+    findObject.deviceId = deviceId;
+  }
+
+  return await Capacity.find(findObject)
     .populate("organization branchName categoryId modelId deviceId")
-      .limit(5)
-      .lean();
-  };
+    .limit(5)
+    .lean();
+};

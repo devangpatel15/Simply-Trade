@@ -15,7 +15,7 @@ exports.getAllCategory = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const cat = await getAllCategoryService(userId);
+    const cat = await getAllCategoryService(userId, req);
     if (!cat) {
       return res.status(404).json({ message: "No category found" });
     }
@@ -49,7 +49,7 @@ exports.getCategory = async (req, res) => {
 exports.getUserCategory = async (req, res) => {
   try {
     const userId = req.user.id;
-    const cat = await getUserCategoryService(userId);
+    const cat = await getUserCategoryService(userId, req);
     if (!cat) {
       return res.status(404).json({ message: "No category found" });
     }

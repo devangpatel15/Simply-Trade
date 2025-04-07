@@ -8,7 +8,7 @@ const {
 
 exports.getAllExpense = async (req, res) => {
   try {
-    const ex = await getAllExpenseService();
+    const ex = await getAllExpenseService(req);
     if (!ex) {
       return res.status(404).json({ message: "No Expense found" });
     }
