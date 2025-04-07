@@ -1,16 +1,37 @@
 const Organization = require("../models/organization");
 
-exports.getAllOrganizationService = async () => {
-  return await Organization.find({ isDeleted: false })
+exports.getAllOrganizationService = async (req) => {
+  const page = parseInt(req.query.page) || 1; // Default to page 1
+  const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+
+  const skip = (page - 1) * limit;
+
+  const items = await Organization.find()
     .populate("userId")
-    .lean();
+    .skip(skip)
+    .limit(limit);
+
+  const totalCount = await Organization.countDocuments();
+
+  return { totalCount, items };
 };
 
-exports.getAllUserOrganizationService = async (userId) => {
-  return await Organization.find({ userId, isDeleted: false })
+exports.getAllUserOrganizationService = async (userId, req) => {
+  const page = parseInt(req.query.page) || 1; // Default to page 1
+  const limit = parseInt(req.query.limit) || 1; // Default to 10 items per page
+
+  const skip = (page - 1) * limit;
+
+  const items = await Organization.find({ userId, isDeleted: false })
     .sort({ createdAt: -1 })
     .populate("userId")
+    .skip(skip)
+    .limit(limit)
     .lean();
+
+  const totalCount = await Organization.countDocuments();
+
+  return { totalCount, items };
 };
 
 exports.getOrganizationService = async (orgId) => {
