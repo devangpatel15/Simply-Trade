@@ -63,11 +63,11 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
 
   const handleDelete = async () => {
     fieldName == "organizationForm"
-      ? deleteOrg(_id)
+      ? deleteOrg(id)
       : fieldName == "organizationBranchForm"
-      ? deleteOrgBranch(_id)
+      ? deleteOrgBranch(id)
       : fieldName == "userForm"
-      ? deleteUser(_id)
+      ? deleteUser(id)
       : fieldName == "categoryForm"
       ? deleteCategory(id)
       : fieldName == "modelForm"
@@ -251,9 +251,9 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
         <Link
           to={
             fieldName == "organizationForm"
-              ? `/organizationForm/${_id}`
+              ? `/organizationForm/${id}`
               : fieldName == "userForm"
-              ? `/userForm/${_id}`
+              ? `/userForm/${id}`
               : fieldName == "categoryForm"
               ? `/categoryForm/${id}`
               : fieldName == "modelForm"
@@ -263,8 +263,8 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
               : fieldName == "colorForm"
               ? `/colorForm/${id}`
               : fieldName == "capacityForm"
-              ? `/capacityForm/${_id}`
-              : `/organizationBranchForm/${_id}`
+              ? `/capacityForm/${id}`
+              : `/organizationBranchForm/${id}`
           }
         >
           <Button variant="outlined" color="success">

@@ -1,158 +1,106 @@
-import * as React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import { Button, IconButton } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import moment from "moment";
-import DialogBox from "../components/DialogBox";
+import { IconButton } from "@mui/material";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { DataGrid } from "@mui/x-data-grid";
+import Paper from "@mui/material/Paper";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "../components/DeleteDialog";
+import DialogBox from "../components/DialogBox";
 import { deleteOrg } from "../apis/OrganizationApi";
 
 const OrganizationTable = ({ orgData, callApi }) => {
-  const [open, setOpen] = React.useState(false);
-  const [data, setData] = React.useState({});
-  const columns = [
-    { id: "organizationName", label: "Organization Name" },
-    { id: "createBy", label: "Create By" },
-    {
-      id: "createAt",
-      label: "Create At",
-      align: "center",
-    },
-    { id: "actions", label: "actions" },
-  ];
+  const [searchTerm, setSearchTerm] = useState("");
 
-  function createData(organizationName, createBy, createAt, actions) {
-    return { organizationName, createBy, createAt, actions };
-  }
-
-  const row = orgData.map((item) => {
-    return createData(
-      item?.organizationName,
-      item?.userId.name,
-      moment(item?.createdAt).format("DD-MM-YYYY"),
-      <>
-        <IconButton
-          sx={{ backgroundColor: "#f5f5f5" }}
-          onClick={() => handleOpen(item)}
-        >
-          <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-        </IconButton>{" "}
-        <Link to={`/organizationForm/${item._id}`}>
-          <Button variant="outlined" color="success">
-            Edit
-          </Button>
-        </Link>{" "}
-        <Button variant="outlined" color="error" onClick={()=>openDeleteDialog(item._id)}>
-          Delete
-        </Button>
-      </>
-    );
-  });
-
-  console.log("row", row);
-
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState({});
 
   const handleOpen = (data) => {
     setData(data);
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
 
-  const [deleteOpen, setDeleteOpen] = React.useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const openDeleteDialog = (_id) => {
-    setDeleteOpen(_id);
+  const openDeleteDialog = (id) => {
+    setDeleteOpen(id);
   };
 
   const closeDeleteDialog = () => {
     setDeleteOpen(false);
-    callApi()
+    callApi();
   };
-  const handleDelete = async (_id) => {
-    deleteOrg(_id);
+
+  const handleDelete = async (id) => {
+    deleteOrg(id);
+
     setDeleteOpen(false);
     handleClose();
     callApi();
   };
-  
+
+  const columns = [
+    {
+      field: "action",
+      headerName: "Action",
+      flex: 2,
+      renderCell: (params) => (
+        <>
+          <IconButton onClick={() => handleOpen(params.row)}>
+            <VisibilityIcon sx={{ color: "#6c5ce7" }} />
+          </IconButton>
+          <Link to={`/organizationForm/${params.row.id}`}>
+            <IconButton>
+              <EditIcon sx={{ color: "#6c5ce7" }} />
+            </IconButton>
+          </Link>
+          <IconButton onClick={() => openDeleteDialog(params.row.id)}>
+            <DeleteIcon sx={{ color: "#6c5ce7" }} />
+          </IconButton>
+        </>
+      ),
+    },
+    { field: "organizationName", headerName: "Organization Name", flex: 2 },
+    { field: "primaryAddress", headerName: "primaryAddress", flex: 2 },
+    { field: "email", headerName: "email", flex: 2 },
+    { field: "telePhone", headerName: "telePhone", flex: 2 },
+  ];
+
+  // Prepare the rows for the DataGrid
+  const rows = orgData.map((orgData) => ({
+    id: orgData._id,
+    organizationName: orgData?.organizationName,
+    primaryAddress: orgData.primaryAddress,
+    email: orgData.email,
+    telePhone: orgData?.telePhone,
+  }));
+
+  // Handle search term change
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // Filter categories based on search term
+  const filteredOrganization = rows.filter((row) => {
+    return row.organizationName.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
+  const paginationModel = { page: 0, pageSize: 5 };
+
   return (
-    <>
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {row
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[3, 5]}
-          component="div"
-          count={row.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+    <div>
+      <Paper sx={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={filteredOrganization}
+          columns={columns}
+          initialState={{ pagination: { paginationModel } }}
+          pageSizeOptions={[5, 10]}
+          sx={{ border: 0 }}
         />
       </Paper>
-
       <DialogBox
         handleClose={handleClose}
         open={open}
@@ -160,15 +108,13 @@ const OrganizationTable = ({ orgData, callApi }) => {
         callApi={callApi}
         fieldName="organizationForm"
       />
-      
-
       <DeleteDialog
         deleteOpen={deleteOpen}
         handleClose={handleClose}
         handleDelete={handleDelete}
         closeDeleteDialog={closeDeleteDialog}
       />
-    </>
+    </div>
   );
 };
 

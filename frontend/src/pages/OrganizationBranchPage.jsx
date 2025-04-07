@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import DialogBox from "../components/DialogBox";
 import { getAllUserOrgBranch } from "../apis/OrganizationBranchApi";
+import OrganizationBranchTable from "../tables/OrganizationBranchTable";
 
 const OrganizationBranchPage = () => {
   const [orgData, setOrgData] = useState([]);
@@ -90,7 +91,7 @@ const OrganizationBranchPage = () => {
             </Box>
           </Box>
 
-          {orgData &&
+          {/* {orgData &&
             orgData.map((org) => {
               return (
                 <Box
@@ -154,7 +155,9 @@ const OrganizationBranchPage = () => {
                   </IconButton>
                 </Box>
               );
-            })}
+            })} */}
+
+            <OrganizationBranchTable orgData={orgData} callApi={callApi} />
 
           <DialogBox
             handleClose={handleClose}
