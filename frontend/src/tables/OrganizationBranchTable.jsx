@@ -1,5 +1,5 @@
 import { IconButton, styled } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
@@ -8,9 +8,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "../components/DeleteDialog";
 import DialogBox from "../components/DialogBox";
-import { deleteOrgBranch } from "../apis/OrganizationBranchApi";
+import { deleteOrgBranch, getAllUserOrgBranch } from "../apis/OrganizationBranchApi";
+import { allUserOrg } from "../apis/OrganizationApi";
 
-const OrganizationBranchTable = ({ orgData, callApi }) => {
+const OrganizationBranchTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -24,6 +25,27 @@ const OrganizationBranchTable = ({ orgData, callApi }) => {
   const handleClose = () => setOpen(false);
 
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
+  const [orgData, setOrgData] = useState([]);
+  const [totalRows, setTotalRows] = useState(0);
+
+  const callApi = async () => {
+    const response = await getAllUserOrgBranch(paginationModel.page + 1, paginationModel.pageSize)
+    console.log(response, "responss");
+    console.log(response.data.totalCount, "totalRows");
+    
+    setOrgData(response.data.data);
+    setTotalRows(response.data.totalCount);
+  };
+  
+  useEffect(() => {
+    callApi(); // +1 for 1-based API pagination
+  }, [paginationModel.page, paginationModel.pageSize]);
+
+  const handlePaginationModelChange = (newPaginationModel) => {
+    setPaginationModel(newPaginationModel);
+    callApi(newPaginationModel.page + 1, newPaginationModel.pageSize); // Pass page + 1 since API is likely 1-based
+  };
 
   const openDeleteDialog = (id) => {
     setDeleteOpen(id);
@@ -70,13 +92,15 @@ const OrganizationBranchTable = ({ orgData, callApi }) => {
   ];
 
   // Prepare the rows for the DataGrid
-  const rows = orgData.map((orgData) => ({
+  const rows = Array.isArray(orgData)
+  ? orgData.map((orgData) => ({
     id: orgData._id,
     branchName: orgData?.branchName,
     organization: orgData.organization.organizationName,
     email: orgData.email,
     telePhone: orgData?.telePhone,
-  }));
+  }))
+  : [];;
 
   // Handle search term change
   const handleSearchChange = (event) => {
@@ -88,7 +112,6 @@ const OrganizationBranchTable = ({ orgData, callApi }) => {
     return row.branchName.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
-  const paginationModel = { page: 0, pageSize: 5 };
 
   return (
     <div>
@@ -96,7 +119,11 @@ const OrganizationBranchTable = ({ orgData, callApi }) => {
         <DataGrid
           rows={filteredOrganizationBranch}
           columns={columns}
-          initialState={{ pagination: { paginationModel } }}
+          pageSize={paginationModel.pageSize}
+          rowCount={totalRows}
+          paginationMode="server"
+          onPaginationModelChange={handlePaginationModelChange}
+          paginationModel={paginationModel}
           pageSizeOptions={[5, 10]}
           sx={{
             border: 0,

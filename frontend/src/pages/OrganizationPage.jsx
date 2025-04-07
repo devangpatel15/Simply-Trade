@@ -12,23 +12,12 @@ import OrganizationTable from "../tables/OrganizationTable";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { allUserOrg } from "../apis/OrganizationApi";
 
 const OrganizationPage = () => {
-  const [orgData, setOrgData] = useState([]);
 
-  const callApi = async () => {
-    const response = await axios.get("http://localhost:4000/api/allUserOrg", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    setOrgData(response.data.data);
-  };
 
-  useEffect(() => {
-    callApi();
-  }, []);
+  
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -76,7 +65,7 @@ const OrganizationPage = () => {
             </Box>
           </Box>
           {/* Organization Card */}
-          <OrganizationTable orgData={orgData} callApi={callApi} />
+          <OrganizationTable />
         </Box>
       </Box>
     </Box>

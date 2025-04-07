@@ -13,7 +13,7 @@ const organizationSchema = new mongoose.Schema(
     country: { type: String, required: true },
     telePhone: { type: String, required: true },
     email: { type: String, required: true },
-    upload: { type: String, required: true },
+    upload: { type: String},
     gstApplicable: { type: String, enum: ["yes", "no"], required: true },
     gstNumber: { type: String },
     gstType: { type: String, enum: ["regular", "composite"] },

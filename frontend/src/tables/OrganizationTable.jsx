@@ -1,5 +1,5 @@
 import { IconButton } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
@@ -8,13 +8,29 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "../components/DeleteDialog";
 import DialogBox from "../components/DialogBox";
-import { deleteOrg } from "../apis/OrganizationApi";
+import { allUserOrg, deleteOrg } from "../apis/OrganizationApi";
 
-const OrganizationTable = ({ orgData, callApi }) => {
+const OrganizationTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
+  const [deleteOpen, setDeleteOpen] = useState(false);
+const [orgData, setOrgData] = useState([]);
+  const [totalRows, setTotalRows] = useState(0);
+
+  const callApi = async () => {
+    const response = await allUserOrg(paginationModel.page + 1, paginationModel.pageSize)
+    console.log(response, "responss");
+    console.log(response.data.totalCount, "totalRows");
+    
+    setOrgData(response.data.items);
+    setTotalRows(response.data.totalCount);
+  };
+  
+  useEffect(() => {
+    callApi(); // +1 for 1-based API pagination
+  }, [paginationModel.page, paginationModel.pageSize]);
 
   const handleOpen = (data) => {
     setData(data);
@@ -22,8 +38,6 @@ const OrganizationTable = ({ orgData, callApi }) => {
   };
 
   const handleClose = () => setOpen(false);
-
-  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const openDeleteDialog = (id) => {
     setDeleteOpen(id);
@@ -36,11 +50,23 @@ const OrganizationTable = ({ orgData, callApi }) => {
 
   const handleDelete = async (id) => {
     deleteOrg(id);
-
     setDeleteOpen(false);
     handleClose();
     callApi();
   };
+
+  // const handlePaginationModelChange = (newPaginationModel) => {
+  //   setPaginationModel(newPaginationModel);
+  //   const currentPage = newPaginationModel.page;
+
+  //   console.log("Current page:", currentPage);
+  // };
+
+  const handlePaginationModelChange = (newPaginationModel) => {
+    setPaginationModel(newPaginationModel);
+    callApi(newPaginationModel.page + 1, newPaginationModel.pageSize); // Pass page + 1 since API is likely 1-based
+  };
+
 
   const columns = [
     {
@@ -64,52 +90,52 @@ const OrganizationTable = ({ orgData, callApi }) => {
       ),
     },
     { field: "organizationName", headerName: "Organization Name", flex: 2 },
-    { field: "primaryAddress", headerName: "primaryAddress", flex: 2 },
-    { field: "email", headerName: "email", flex: 2 },
-    { field: "telePhone", headerName: "telePhone", flex: 2 },
+    { field: "primaryAddress", headerName: "Primary Address", flex: 2 },
+    { field: "email", headerName: "Email", flex: 2 },
+    { field: "telePhone", headerName: "Telephone", flex: 2 },
   ];
 
-  // Prepare the rows for the DataGrid
-  const rows = orgData.map((orgData) => ({
-    id: orgData._id,
-    organizationName: orgData?.organizationName,
-    primaryAddress: orgData.primaryAddress,
-    email: orgData.email,
-    telePhone: orgData?.telePhone,
-  }));
+  // Safeguard the orgData mapping with Array.isArray check
+  const rows = Array.isArray(orgData)
+    ? orgData.map((orgData) => ({
+        id: orgData._id,
+        organizationName: orgData?.organizationName,
+        primaryAddress: orgData.primaryAddress,
+        email: orgData.email,
+        telePhone: orgData?.telePhone,
+      }))
+    : []; // Default to empty array if orgData is not an array
 
-  // Handle search term change
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  // Filter categories based on search term
   const filteredOrganization = rows.filter((row) => {
     return row.organizationName.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
-  const paginationModel = { page: 0, pageSize: 5 };
+  // const paginationModel = { page: 0, pageSize: 5 };
 
   return (
     <div>
-      <Paper sx={{ height: 400, width: "100%" , marginTop: "2rem"}}>
+      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
         <DataGrid
           rows={filteredOrganization}
           columns={columns}
           pageSize={paginationModel.pageSize}
           rowCount={totalRows}
-          paginationMode="server"  // Indicate server-side pagination
+          paginationMode="server"
           onPaginationModelChange={handlePaginationModelChange}
           paginationModel={paginationModel}
-          pageSizeOptions={[5, 10]}  // Available page sizes
+          pageSizeOptions={[5, 10]}
           sx={{
             border: 0,
             "& .MuiDataGrid-columnHeader": {
-              background: "#C4BDFF",  
-              color: "White",  
+              background: "#C4BDFF",
+              color: "White",
             },
             "& .MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold",  
+              fontWeight: "bold",
               fontSize: "1.2rem",
             },
           }}
