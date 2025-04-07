@@ -12,7 +12,8 @@ const {
 
 exports.findAllModel = async (req, res) => {
   try {
-    const modelData = await findAllModelServices();
+    const userId = req?.user?.id;
+    const modelData = await findAllModelServices(userId);
 
     if (!modelData) {
       return res.status(404).json({ message: "No Model found" });

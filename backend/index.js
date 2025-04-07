@@ -38,14 +38,6 @@ app.use(
   accountRouter,
   expenseRouter
 );
-// app.use("/api", organizationBranchRoute);
-// app.use("/api", orgRouter);
-// app.use("/api", colorRoute);
-// app.use("/api", deviceRoute);
-// app.use("/api", modelRoute);
-// app.use("/api", catRouter);
-// app.use("/api", capRouter);
-// app.use("/api", cusRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World");

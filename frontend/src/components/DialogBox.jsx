@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { deleteOrg } from "../apis/OrganizationApi";
 import { deleteOrgBranch } from "../apis/OrganizationBranchApi";
@@ -46,8 +45,11 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
     orgBranch,
     categoryName,
     modelName,
+    colorName,
     categoryId,
+    id
   } = data;
+  
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
@@ -61,21 +63,21 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
 
   const handleDelete = async () => {
     fieldName == "organizationForm"
-      ? deleteOrg(_id)
+      ? deleteOrg(id)
       : fieldName == "organizationBranchForm"
-      ? deleteOrgBranch(_id)
+      ? deleteOrgBranch(id)
       : fieldName == "userForm"
-      ? deleteUser(_id)
+      ? deleteUser(id)
       : fieldName == "categoryForm"
-      ? deleteCategory(_id)
+      ? deleteCategory(id)
       : fieldName == "modelForm"
-      ? deleteModel(_id)
+      ? deleteModel(id)
       : fieldName == "deviceForm"
-      ? deleteDevice(_id)
+      ? deleteDevice(id)
       : fieldName == "colorForm"
-      ? deleteColor(_id)
+      ? deleteColor(id)
       : fieldName == "capacityForm"
-      ? deleteCapacity(_id)
+      ? deleteCapacity(id)
       : "";
 
     setDeleteOpen(false);
@@ -128,6 +130,11 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
               <b>Organization Name :</b> {organizationName}
             </Typography>
           )}
+          {colorName && (
+            <Typography variant="body1">
+              <b>Color Name :</b> {colorName}
+            </Typography>
+          )}
           {branchName && (
             <Typography variant="body1">
               <b>BranchName :</b>{" "}
@@ -137,7 +144,7 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
 
           {categoryId && (
             <Typography variant="body1">
-              <b>BranchName :</b> {categoryId && categoryId?.categoryName}
+              <b>Category Name :</b> {categoryId && categoryId?.categoryName}
             </Typography>
           )}
           {addressLine1 && (
@@ -244,20 +251,20 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
         <Link
           to={
             fieldName == "organizationForm"
-              ? `/organizationForm/${_id}`
+              ? `/organizationForm/${id}`
               : fieldName == "userForm"
-              ? `/userForm/${_id}`
+              ? `/userForm/${id}`
               : fieldName == "categoryForm"
-              ? `/categoryForm/${_id}`
+              ? `/categoryForm/${id}`
               : fieldName == "modelForm"
-              ? `/modelForm/${_id}`
+              ? `/modelForm/${id}`
               : fieldName == "deviceForm"
-              ? `/deviceForm/${_id}`
+              ? `/deviceForm/${id}`
               : fieldName == "colorForm"
-              ? `/colorForm/${_id}`
+              ? `/colorForm/${id}`
               : fieldName == "capacityForm"
-              ? `/capacityForm/${_id}`
-              : `/organizationBranchForm/${_id}`
+              ? `/capacityForm/${id}`
+              : `/organizationBranchForm/${id}`
           }
         >
           <Button variant="outlined" color="success">

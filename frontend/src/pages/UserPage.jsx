@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import DialogBox from "../components/DialogBox";
 import { getAllUsers } from "../apis/UserApi";
+import UserTable from "../tables/UserTable";
 
 const UserPage = () => {
   const [userData, setUserData] = useState([]);
@@ -36,6 +37,7 @@ const UserPage = () => {
     callApi();
   }, []);
 
+  console.log(userData)
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
 
@@ -92,7 +94,8 @@ const UserPage = () => {
             </Box>
           </Box>
 
-          {userData &&
+          <UserTable userData={userData} callApi={callApi}/>
+          {/* {userData &&
             userData.map((user) => {
               return (
                 <Box
@@ -167,7 +170,7 @@ const UserPage = () => {
                   </IconButton>
                 </Box>
               );
-            })}
+            })} */}
 
           <DialogBox
             handleClose={handleClose}

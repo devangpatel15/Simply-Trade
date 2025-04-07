@@ -2,48 +2,57 @@ import {
   Avatar,
   Box,
   Button,
-  FormControl,
   IconButton,
   InputAdornment,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
-import DialogBox from "../components/DialogBox";
-import moment from "moment";
 import SearchIcon from "@mui/icons-material/Search";
-import { getAllCapacity } from "../apis/CapacityApi";
-import CapacityTable from "../tables/CapacityTable";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import Sidebar from "../frontend/src/components/Sidebar";
+import Header from "../frontend/src/components/Header";
+import { Link } from "react-router-dom";
+import DialogBox from "../frontend/src/components/DialogBox";
+import { useEffect, useState } from "react";
+import moment from "moment";
+import StockDialog from "../frontend/src/components/StockDialog";
+import PaymentDialog from "../frontend/src/components/PaymentDialog";
+import { Payment } from "@mui/icons-material";
+import { getAllStocks } from "../frontend/src/apis/StockApi";
 
-const CapacityPage = () => {
-  const [capacity, setCapacity] = useState([]);
+const StockPage = () => {
+  const [stock, setStock] = useState([]);
+
+  const [open, setOpen] = useState(false);
+  const [payment, setPayment] = useState([]);
+  const [paymentDialog, setPaymentDialog] = useState(false);
+  const [data, setData] = useState({});
 
   const callApi = async () => {
-    const response = await getAllCapacity();
-    setCapacity(response.data.data);
+    const response = await getAllStocks();
+
+    setStock(response.data.data);
+    setPayment(response.data.data);
   };
 
   useEffect(() => {
     callApi();
   }, []);
 
-  const [open, setOpen] = useState(false);
-  const [data, setData] = useState({});
-
   const handleOpen = (data) => {
     setData(data);
     setOpen(true);
   };
+  const handlePaymentDialogOpen = (data) => {
+    setData(data);
+    setPaymentDialog(true);
+  };
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setPaymentDialog(false);
+  };
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -60,8 +69,9 @@ const CapacityPage = () => {
               variant="h4"
               sx={{ fontWeight: "bold", color: "#6c5ce7" }}
             >
-              CAPACITY
+              STOCK
             </Typography>
+
             <Box display="flex" gap={2}>
               <TextField
                 variant="outlined"
@@ -84,18 +94,18 @@ const CapacityPage = () => {
                   textTransform: "none",
                 }}
                 component={Link}
-                to="/capacityForm"
+                to="/stockForm"
               >
-                Add Capacity
+                Add Stock
               </Button>
             </Box>
           </Box>
 
-          {/* {capacity &&
-            capacity.map((capacity) => {
+          {stock &&
+            stock.map((stock) => {
               return (
                 <Box
-                  key={capacity._id}
+                  key={stock._id}
                   sx={{
                     display: "flex",
                     alignItems: "center",
@@ -118,7 +128,7 @@ const CapacityPage = () => {
                         variant="h6"
                         sx={{ fontWeight: "bold", color: "#6c5ce7" }}
                       >
-                        {capacity.capacityName}
+                        {stock.modelName.modelName}
                       </Typography>
 
                       <Box sx={{ display: "flex", gap: 2 }}>
@@ -126,45 +136,58 @@ const CapacityPage = () => {
                           variant="body2"
                           sx={{ color: "green", fontWeight: "bold" }}
                         >
-                          DeviceName:{" "}
-                          <span
-                            style={{ color: "black", fontWeight: "normal" }}
-                          >
-                            {capacity?.deviceId?.deviceName}
-                          </span>
+                          Customer Name:{stock?.customerName?.customerName}
                         </Typography>
                         <Typography
                           variant="body2"
-                          sx={{ color: "brown", fontWeight: "bold" }}
+                          sx={{ color: "red", fontWeight: "bold" }}
                         >
-                          BranchName:{" "}
-                          <span
-                            style={{ color: "black", fontWeight: "normal" }}
-                          >
-                            {capacity?.branchName?.branchName}
-                          </span>
+                          Organization Name:
+                          {stock?.organization?.organizationName}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "green", fontWeight: "bold" }}
+                        >
+                          Branch Name:
+                          {stock?.branch?.branchName}
                         </Typography>
                       </Box>
                     </Box>
                   </Box>
-                  <IconButton
-                    sx={{ backgroundColor: "#f5f5f5" }}
-                    onClick={() => handleOpen(capacity)}
-                  >
-                    <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-                  </IconButton>
+                  <Box sx={{ display: "flex", gap: 2 }}>
+                    <IconButton
+                      sx={{ backgroundColor: "#f5f5f5" }}
+                      onClick={() => handlePaymentDialogOpen(payment)}
+                    >
+                      <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
+                    </IconButton>
+
+                    <IconButton
+                      sx={{ backgroundColor: "#f5f5f5" }}
+                      onClick={() => handleOpen(stock)}
+                    >
+                      <VisibilityIcon sx={{ color: "#6c5ce7" }} />
+                    </IconButton>
+                  </Box>
                 </Box>
               );
-            })} */}
+            })}
 
-          <CapacityTable capacity = {capacity} callApi = {callApi}/>
+          <PaymentDialog
+            handleClose={handleClose}
+            open={paymentDialog}
+            data={data}
+            callApi={callApi}
+            fieldName="paymentForm"
+          />
 
-          <DialogBox
+          <StockDialog
             handleClose={handleClose}
             open={open}
             data={data}
             callApi={callApi}
-            fieldName="capacityForm"
+            fieldName="stockForm"
           />
         </Box>
       </Box>
@@ -172,4 +195,4 @@ const CapacityPage = () => {
   );
 };
 
-export default CapacityPage;
+export default StockPage;

@@ -1,34 +1,39 @@
+import React, { useEffect, useState } from "react";
 import {
-  Avatar,
   Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
   Typography,
+  TextField,
+  Button,
+  InputAdornment,
+  Avatar,
+  IconButton,
+  // Dialog,
+  // DialogTitle,
+  // DialogContent,
+  // DialogActions,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import CloseIcon from "@mui/icons-material/Close";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import { useEffect, useState } from "react";
+import OrganizationForm from "../components/OrganizationForm";
 import { Link } from "react-router-dom";
-
-import DialogBox from "../components/DialogBox";
+import axios from "axios";
 import moment from "moment";
-import SearchIcon from "@mui/icons-material/Search";
-import { getAllCapacity } from "../apis/CapacityApi";
-import CapacityTable from "../tables/CapacityTable";
+import DialogBox from "../components/DialogBox";
 
-const CapacityPage = () => {
-  const [capacity, setCapacity] = useState([]);
+const OrganizationPage = () => {
+  const [orgData, setOrgData] = useState([]);
 
   const callApi = async () => {
-    const response = await getAllCapacity();
-    setCapacity(response.data.data);
+    const response = await axios.get("http://localhost:4000/api/allUserOrg", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    setOrgData(response.data.data);
   };
 
   useEffect(() => {
@@ -44,7 +49,6 @@ const CapacityPage = () => {
   };
 
   const handleClose = () => setOpen(false);
-
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
@@ -60,7 +64,7 @@ const CapacityPage = () => {
               variant="h4"
               sx={{ fontWeight: "bold", color: "#6c5ce7" }}
             >
-              CAPACITY
+              ORGANIZATIONS
             </Typography>
             <Box display="flex" gap={2}>
               <TextField
@@ -84,18 +88,18 @@ const CapacityPage = () => {
                   textTransform: "none",
                 }}
                 component={Link}
-                to="/capacityForm"
+                to="/organizationForm"
               >
-                Add Capacity
+                Add Organization
               </Button>
             </Box>
           </Box>
-
-          {/* {capacity &&
-            capacity.map((capacity) => {
+          {/* Organization Card */}
+          {orgData &&
+            orgData.map((org) => {
               return (
                 <Box
-                  key={capacity._id}
+                  key={org._id}
                   sx={{
                     display: "flex",
                     alignItems: "center",
@@ -118,30 +122,29 @@ const CapacityPage = () => {
                         variant="h6"
                         sx={{ fontWeight: "bold", color: "#6c5ce7" }}
                       >
-                        {capacity.capacityName}
+                        {org.organizationName}
                       </Typography>
-
                       <Box sx={{ display: "flex", gap: 2 }}>
                         <Typography
                           variant="body2"
                           sx={{ color: "green", fontWeight: "bold" }}
                         >
-                          DeviceName:{" "}
+                          Created At:{" "}
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {capacity?.deviceId?.deviceName}
+                            {moment(org.createdAt).format("DD-MM-YYYY")}
                           </span>
                         </Typography>
                         <Typography
                           variant="body2"
                           sx={{ color: "brown", fontWeight: "bold" }}
                         >
-                          BranchName:{" "}
+                          Create By:{" "}
                           <span
                             style={{ color: "black", fontWeight: "normal" }}
                           >
-                            {capacity?.branchName?.branchName}
+                            {org.userId.name}
                           </span>
                         </Typography>
                       </Box>
@@ -149,22 +152,20 @@ const CapacityPage = () => {
                   </Box>
                   <IconButton
                     sx={{ backgroundColor: "#f5f5f5" }}
-                    onClick={() => handleOpen(capacity)}
+                    onClick={() => handleOpen(org)}
                   >
                     <VisibilityIcon sx={{ color: "#6c5ce7" }} />
                   </IconButton>
                 </Box>
               );
-            })} */}
-
-          <CapacityTable capacity = {capacity} callApi = {callApi}/>
+            })}
 
           <DialogBox
             handleClose={handleClose}
             open={open}
             data={data}
             callApi={callApi}
-            fieldName="capacityForm"
+            fieldName="organizationForm"
           />
         </Box>
       </Box>
@@ -172,4 +173,4 @@ const CapacityPage = () => {
   );
 };
 
-export default CapacityPage;
+export default OrganizationPage;

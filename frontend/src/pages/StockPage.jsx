@@ -1,59 +1,38 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import * as React from "react";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import { getAllStocks } from "../apis/StockApi";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
+import { Box, Button, InputAdornment, TextField, Typography } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import StockTable from "../tables/StockTable";
 import { Link } from "react-router-dom";
-import DialogBox from "../components/DialogBox";
-import { useEffect, useState } from "react";
-import moment from "moment";
-import StockDialog from "../components/StockDialog";
-import PaymentDialog from "../components/PaymentDialog";
-import { Payment } from "@mui/icons-material";
-import { getAllStocks } from "../apis/StockApi";
 
+//FIXME:edit,delete,update karvanu baki 6
 const StockPage = () => {
-  const [stock, setStock] = useState([]);
-
-  const [open, setOpen] = useState(false);
-  const [payment, setPayment] = useState([]);
-  const [paymentDialog, setPaymentDialog] = useState(false);
-  const [data, setData] = useState({});
+  const [stock, setStock] = React.useState([]);
+  const [payment, setPayment] = React.useState([]);
 
   const callApi = async () => {
     const response = await getAllStocks();
-
     setStock(response.data.data);
     setPayment(response.data.data);
+
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     callApi();
   }, []);
 
-  const handleOpen = (data) => {
-    setData(data);
-    setOpen(true);
-  };
-  const handlePaymentDialogOpen = (data) => {
-    setData(data);
-    setPaymentDialog(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setPaymentDialog(false);
-  };
-
+  console.log(stock);
+  
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
@@ -100,6 +79,7 @@ const StockPage = () => {
               </Button>
             </Box>
           </Box>
+<<<<<<< HEAD
 
           {stock &&
             stock.map((stock) => {
@@ -198,7 +178,11 @@ const StockPage = () => {
             callApi={callApi}
             fieldName="stockForm"
           />
+=======
+>>>>>>> 1cfb5ec869eef89ef9aa10427ab8f79716b87090
         </Box>
+        <StockTable stock={stock} payment={payment} callApi={callApi}/>
+       
       </Box>
     </Box>
   );

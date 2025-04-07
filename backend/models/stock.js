@@ -42,7 +42,7 @@ const stockSchema = new mongoose.Schema({
   paidToCustomer: { type: Number, required: true },
   remainingAmount: { type: Number, required: true },
   isDeleted: { type: Boolean, default: false },
-  // upload : { type: String, required: true },
+  upload: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Stock", stockSchema);

@@ -13,7 +13,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const OrganizationPage = () => {
+const MuiTable = () => {
   const [orgData, setOrgData] = useState([]);
 
   const callApi = async () => {
@@ -28,7 +28,7 @@ const OrganizationPage = () => {
 
   useEffect(() => {
     callApi();
-  }, []);
+  }, [orgData]);
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -83,4 +83,4 @@ const OrganizationPage = () => {
   );
 };
 
-export default OrganizationPage;
+export default MuiTable;

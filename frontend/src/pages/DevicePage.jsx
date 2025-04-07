@@ -16,6 +16,7 @@ import DialogBox from "../components/DialogBox";
 import { useEffect, useState } from "react";
 import { getAllDevice } from "../apis/DeviceApi";
 import moment from "moment";
+import DeviceTable from "../tables/DeviceTable";
 
 const DevicePage = () => {
   const [device, setDevice] = useState([]);
@@ -86,72 +87,9 @@ const DevicePage = () => {
             </Box>
           </Box>
 
-          {device &&
-            device.map((device) => {
-              return (
-                <Box
-                  key={device._id}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    backgroundColor: "white",
-                    borderRadius: 10,
-                    boxShadow: 1,
-                    padding: 2,
-                    marginTop: 3,
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    <Avatar
-                      src="/path/to/avatar.jpg"
-                      alt="User Avatar"
-                      sx={{ width: 50, height: 50 }}
-                    />
-                    <Box>
-                      <Typography
-                        variant="h6"
-                        sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-                      >
-                        {device.deviceName}
-                      </Typography>
+         
 
-                      <Box sx={{ display: "flex", gap: 2 }}>
-                        <Typography
-                          variant="body2"
-                          sx={{ color: "green", fontWeight: "bold" }}
-                        >
-                          Model:{" "}
-                          <span
-                            style={{ color: "black", fontWeight: "normal" }}
-                          >
-                            {device.modelId.modelName}
-                          </span>
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          sx={{ color: "brown", fontWeight: "bold" }}
-                        >
-                          BranchName:{" "}
-                          <span
-                            style={{ color: "black", fontWeight: "normal" }}
-                          >
-                            {device?.branchName?.branchName}
-                          </span>
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-                  <IconButton
-                    sx={{ backgroundColor: "#f5f5f5" }}
-                    onClick={() => handleOpen(device)}
-                  >
-                    <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-                  </IconButton>
-                </Box>
-              );
-            })}
-
+            <DeviceTable  device={device} callApi={callApi}/>
           <DialogBox
             handleClose={handleClose}
             open={open}

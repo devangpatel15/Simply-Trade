@@ -17,7 +17,7 @@ exports.AuthUser = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(500).json({ message: "Middleware error" });
+    return res.status(500).json({ message: "Auth User Middleware error" });
   }
 };
 

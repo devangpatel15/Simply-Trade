@@ -35,7 +35,8 @@ exports.findUserServices = async (email) => {
 // };
 
 exports.findAllUserServices = async () => {
-  const data = await User.find({ isDeleted: false }).populate("organization orgBranch").lean();
+  const data = await User.find({ role:"user",isDeleted: false })
+  .populate("organization orgBranch").lean();
 
   return data;
 };
