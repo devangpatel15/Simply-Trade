@@ -85,6 +85,8 @@ exports.createValidation = [
     .notEmpty()
     .withMessage("remainingAmount must be a number and is required"),
 
+  body("upload").isString().notEmpty().withMessage("upload is required"),
+
   // Middleware to handle validation errors
   (req, res, next) => {
     const errors = validationResult(req);
@@ -155,6 +157,7 @@ exports.updateStockValidation = [
     .isNumeric()
     .optional()
     .withMessage("remainingAmount in string"),
+  body("upload").isString().optional().withMessage("upload in string"),
 
   (req, res, next) => {
     const errors = validationResult(req);

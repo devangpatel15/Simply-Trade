@@ -79,6 +79,107 @@ const StockPage = () => {
               </Button>
             </Box>
           </Box>
+<<<<<<< HEAD
+
+          {stock &&
+            stock.map((stock) => {
+              return (
+                <Box
+                  key={stock._id}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    backgroundColor: "white",
+                    borderRadius: 10,
+                    boxShadow: 1,
+                    padding: 2,
+                    marginTop: 3,
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    <Avatar
+                      src="/path/to/avatar.jpg"
+                      alt="User Avatar"
+                      sx={{ width: 50, height: 50 }}
+                    />
+                    <Box>
+                      <Typography
+                        variant="h6"
+                        sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+                      >
+                        {stock.modelName.modelName}
+                      </Typography>
+
+                      <Box sx={{ display: "flex", gap: 2 }}>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "green", fontWeight: "bold" }}
+                        >
+<<<<<<< HEAD
+                          Customer Name:
+                          <span
+                            style={{ color: "black", fontWeight: "normal" }}
+                          >
+                            {stock.customerName}
+                          </span>
+=======
+                          Customer Name:{stock?.customerName?.customerName}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "red", fontWeight: "bold" }}
+                        >
+                          Organization Name:
+                          {stock?.organization?.organizationName}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: "green", fontWeight: "bold" }}
+                        >
+                          Branch Name:
+                          {stock?.branch?.branchName}
+>>>>>>> fbe28e6bb59656ef8e1b9d40aaf48dae861b4791
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                  <Box sx={{ display: "flex", gap: 2 }}>
+                    <IconButton
+                      sx={{ backgroundColor: "#f5f5f5" }}
+                      onClick={() => handlePaymentDialogOpen(payment)}
+                    >
+                      <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
+                    </IconButton>
+
+                    <IconButton
+                      sx={{ backgroundColor: "#f5f5f5" }}
+                      onClick={() => handleOpen(stock)}
+                    >
+                      <VisibilityIcon sx={{ color: "#6c5ce7" }} />
+                    </IconButton>
+                  </Box>
+                </Box>
+              );
+            })}
+
+          <PaymentDialog
+            handleClose={handleClose}
+            open={paymentDialog}
+            data={data}
+            callApi={callApi}
+            fieldName="paymentForm"
+          />
+
+          <StockDialog
+            handleClose={handleClose}
+            open={open}
+            data={data}
+            callApi={callApi}
+            fieldName="stockForm"
+          />
+=======
+>>>>>>> 1cfb5ec869eef89ef9aa10427ab8f79716b87090
         </Box>
         <StockTable stock={stock} payment={payment} callApi={callApi}/>
        

@@ -81,6 +81,7 @@ exports.createStock = async (req, res) => {
             totalAmount: imeiItem.totalAmount,
             paidToCustomer: imeiItem.paidToCustomer,
             remainingAmount: imeiItem.remainingAmount,
+            upload: newStock.upload,
           };
           stockEntries.push(stockEntry);
         });

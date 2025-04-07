@@ -11,6 +11,7 @@ const {
   softDeleteOrganizationService,
   searchOrganizationService,
   findOrgService,
+  paginationService,
 } = require("../services/organization");
 const {
   createOrganizationBranchServices,
@@ -18,7 +19,8 @@ const {
 
 exports.getAllOrganization = async (req, res) => {
   try {
-    const org = await getAllOrganizationService();
+    const org = await getAllOrganizationService(req);
+
     if (!org) {
       return res.status(404).json({ message: "No Organization found" });
     }
@@ -37,7 +39,8 @@ exports.getAllOrganization = async (req, res) => {
 exports.getAllUserOrganization = async (req, res) => {
   try {
     const userId = req.user.id;
-    const org = await getAllUserOrganizationService(userId);
+    const org = await getAllUserOrganizationService(userId, req);
+
     if (!org) {
       return res.status(404).json({ message: "No Organization found" });
     }

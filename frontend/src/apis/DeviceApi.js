@@ -50,7 +50,7 @@ const getOneDevice = async (id) => {
 
 const updateDevice = async (formData, id) => {
   try {
-    await axios.post(`http://localhost:4000/api/updateDevice/${id}`, formData, {
+    await axios.put(`http://localhost:4000/api/updateDevice/${id}`, formData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
