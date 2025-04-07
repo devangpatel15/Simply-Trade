@@ -42,6 +42,10 @@ const allUserOrg = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
+      params: {
+        page: paginationModel.page + 1,  // Convert to 1-based page index for the backend
+        pageSize: paginationModel.pageSize,
+      },
     });
     return response;
   } catch (error) {

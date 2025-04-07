@@ -49,9 +49,9 @@ const CapacityTable = ({ capacity, callApi }) => {
       flex: 2,
       renderCell: (params) => (
         <>
-          <IconButton onClick={() => handleOpen(params.row)}>
+          {/* <IconButton onClick={() => handleOpen(params.row)}>
             <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton>
+          </IconButton> */}
           <Link to={`/capacityForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -63,19 +63,23 @@ const CapacityTable = ({ capacity, callApi }) => {
         </>
       ),
     },
-    { field: "capacityName", headerName: "Capacity Name", flex: 2 },
+    { field: "capacityName", headerName: "Capacity", flex: 2 },
+    { field: "categoryId", headerName: "Category", flex: 2 },
+    { field: "modelId", headerName: "Model", flex: 2 },
     { field: "deviceId", headerName: "Device", flex: 2 },
-    { field: "branchName", headerName: "Branch Name", flex: 2 },
-    { field: "organization", headerName: "organization", flex: 2 },
+    { field: "organization", headerName: "Organization", flex: 2 },
+    { field: "branchName", headerName: "Branch", flex: 2 },
   ];
 
   // Prepare the rows for the DataGrid
   const rows = capacity.map((capacity) => ({
     id: capacity._id,
     capacityName: capacity.capacityName,
+    categoryId: capacity.categoryId.categoryName,
+    modelId: capacity.modelId.modelName,
     deviceId: capacity.deviceId.deviceName,
-    branchName: capacity?.branchName?.branchName,
     organization: capacity?.organization?.organizationName,
+    branchName: capacity?.branchName?.branchName,
   }));
 
   // Handle search term change
@@ -92,13 +96,23 @@ const CapacityTable = ({ capacity, callApi }) => {
 
   return (
     <div>
-      <Paper sx={{ height: 400, width: "100%" }}>
+      <Paper sx={{ height: 400, width: "100%" , marginTop: "2rem"}}>
         <DataGrid
           rows={filteredDevice}
           columns={columns}
           initialState={{ pagination: { paginationModel } }}
           pageSizeOptions={[5, 10]}
-          sx={{ border: 0 }}
+          sx={{
+            border: 0,
+            "& .MuiDataGrid-columnHeader": {
+              background: "#C4BDFF",  
+              color: "White",  
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",  
+              fontSize: "1.2rem",
+            },
+          }}
         />
       </Paper>
       <DialogBox

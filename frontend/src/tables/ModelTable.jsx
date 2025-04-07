@@ -65,6 +65,7 @@ const ModelTable = ({modelData , callApi}) => {
     },
     { field: "modelName", headerName: "Model Name", flex: 2 },
     { field: "categoryId", headerName: "Category", flex: 2 },
+    { field: "organization", headerName: "Organization", flex: 2 },
     { field: "branchName", headerName: "Branch Name", flex: 2 },
   ];
 
@@ -73,6 +74,7 @@ const ModelTable = ({modelData , callApi}) => {
     id: modelData._id,
     modelName: modelData.modelName,
     categoryId: modelData.categoryId.categoryName,
+    organization: modelData.organization.organizationName,
     branchName: modelData?.branchName?.branchName,
   }));
 
@@ -90,13 +92,23 @@ const ModelTable = ({modelData , callApi}) => {
 
   return (
     <div>
-      <Paper sx={{ height: 400, width: "100%" }}>
+      <Paper sx={{ height: 400, width: "100%" , marginTop: "2rem"}}>
         <DataGrid
           rows={filteredDevice}
           columns={columns}
           initialState={{ pagination: { paginationModel } }}
           pageSizeOptions={[5, 10]}
-          sx={{ border: 0 }}
+          sx={{
+            border: 0,
+            "& .MuiDataGrid-columnHeader": {
+              background: "#C4BDFF",  
+              color: "White",  
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",  
+              fontSize: "1.2rem",
+            },
+          }}
         />
       </Paper>
       <DialogBox

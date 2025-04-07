@@ -51,9 +51,9 @@ const ColorTable = ({color , callApi}) => {
         flex: 2,
         renderCell: (params) => (
           <>
-            <IconButton onClick={() => handleOpen(params.row)}>
+            {/* <IconButton onClick={() => handleOpen(params.row)}>
               <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-            </IconButton>
+            </IconButton> */}
             <Link to={`/colorForm/${params.row.id}`}>
               <IconButton>
                 <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -66,16 +66,20 @@ const ColorTable = ({color , callApi}) => {
         ),
       },
       { field: "colorName", headerName: "Color Name", flex: 2 },
-      { field: "createdAt", headerName: "createdAt", flex: 2 },
-      { field: "updatedAt", headerName: "updatedAt", flex: 2 },
+      { field: "modelId", headerName: "Model", flex: 2 },
+      { field: "deviceId", headerName: "Device", flex: 2 },
+      { field: "organization", headerName: "Organization", flex: 2 },
+      { field: "branchName", headerName: "Branch", flex: 2 },
     ];
   
     // Prepare the rows for the DataGrid
     const rows = color.map((color) => ({
       id: color._id,
      colorName: color.colorName,
-      createdAt: color.createdAt,
-      updatedAt: color?.updatedAt,
+     modelId: color.modelId.modelName,
+     deviceId: color?.deviceId.deviceName,
+     organization: color?.organization?.organizationName,
+      branchName: color?.branchName?.branchName,
     }));
   
     // Handle search term change
@@ -93,13 +97,23 @@ const ColorTable = ({color , callApi}) => {
   return (
 
     <div>
-       <Paper sx={{ height: 400, width: "100%" }}>
+       <Paper sx={{ height: 400, width: "100%" , marginTop: "2rem"}}>
         <DataGrid
           rows={filteredColor}
           columns={columns}
           initialState={{ pagination: { paginationModel } }}
           pageSizeOptions={[5, 10]}
-          sx={{ border: 0 }}
+          sx={{
+            border: 0,
+            "& .MuiDataGrid-columnHeader": {
+              background: "#C4BDFF",  
+              color: "White",  
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",  
+              fontSize: "1.2rem",
+            },
+          }}
         />
       </Paper>
       <DialogBox

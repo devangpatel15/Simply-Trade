@@ -92,13 +92,27 @@ const OrganizationTable = ({ orgData, callApi }) => {
 
   return (
     <div>
-      <Paper sx={{ height: 400, width: "100%" }}>
+      <Paper sx={{ height: 400, width: "100%" , marginTop: "2rem"}}>
         <DataGrid
           rows={filteredOrganization}
           columns={columns}
-          initialState={{ pagination: { paginationModel } }}
-          pageSizeOptions={[5, 10]}
-          sx={{ border: 0 }}
+          pageSize={paginationModel.pageSize}
+          rowCount={totalRows}
+          paginationMode="server"  // Indicate server-side pagination
+          onPaginationModelChange={handlePaginationModelChange}
+          paginationModel={paginationModel}
+          pageSizeOptions={[5, 10]}  // Available page sizes
+          sx={{
+            border: 0,
+            "& .MuiDataGrid-columnHeader": {
+              background: "#C4BDFF",  
+              color: "White",  
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",  
+              fontSize: "1.2rem",
+            },
+          }}
         />
       </Paper>
       <DialogBox

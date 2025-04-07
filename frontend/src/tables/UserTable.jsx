@@ -74,10 +74,10 @@ const UserTable = ({ userData, callApi }) => {
         </>
       ),
     },
-    { field: "userName", headerName: "User Name", width: 250 },
-    { field: "email", headerName: "email", width: 250 },
-    { field: "orgName", headerName: "Org Name", width: 180 },
-    { field: "branchName", headerName: "Branch Name", width: 180 },
+    { field: "userName", headerName: "User Name", flex: 2 },
+    { field: "email", headerName: "email", flex: 2 },
+    { field: "orgName", headerName: "Org Name", flex: 2 },
+    { field: "branchName", headerName: "Branch Name", flex: 2 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -99,15 +99,27 @@ const UserTable = ({ userData, callApi }) => {
     return row.userName.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
+  const paginationModel = { page: 0, pageSize: 3 };
+
   return (
     <div>
-      <Paper sx={{ height: 400, width: "100%" }}>
+      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
         <DataGrid
           rows={filteredCategories}
           columns={columns}
-          pageSize={5}
+          initialState={{ pagination: { paginationModel } }}
           rowsPerPageOptions={[5, 10]}
-          sx={{ border: 0 }}
+          sx={{
+            border: 0,
+            "& .MuiDataGrid-columnHeader": {
+              background: "#C4BDFF",  
+              color: "White",  
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",  
+              fontSize: "1.2rem",
+            },
+          }}
         />
       </Paper>
       <DialogBox

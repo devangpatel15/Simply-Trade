@@ -64,9 +64,9 @@ const OrganizationBranchTable = ({ orgData, callApi }) => {
       ),
     },
     { field: "branchName", headerName: "Branch Name", flex: 2 },
-    { field: "organization", headerName: "organization", flex: 2 },
-    { field: "email", headerName: "email", flex: 2 },
-    { field: "telePhone", headerName: "telePhone", flex: 2 },
+    { field: "organization", headerName: "Organization", flex: 2 },
+    { field: "email", headerName: "Email", flex: 2 },
+    { field: "telePhone", headerName: "TelePhone", flex: 4 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -92,7 +92,7 @@ const OrganizationBranchTable = ({ orgData, callApi }) => {
 
   return (
     <div>
-      <Paper sx={{ height: 400, width: "100%" }}>
+      <Paper sx={{ height: 400, width: "100%" , marginTop: "2rem"}}>
         <DataGrid
           rows={filteredOrganizationBranch}
           columns={columns}
@@ -101,11 +101,12 @@ const OrganizationBranchTable = ({ orgData, callApi }) => {
           sx={{
             border: 0,
             "& .MuiDataGrid-columnHeader": {
-              background: "#C4BDFF",  // Inline background color for the header
-              color: "White",  // Inline text color for header
+              background: "#C4BDFF",  
+              color: "White",  
             },
             "& .MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold",  // Inline font weight for header text
+              fontWeight: "bold",  
+              fontSize: "1.2rem",
             },
           }}
         />

@@ -72,9 +72,9 @@ const CategoryTable = ({ fieldName }) => {
       flex: 2,
       renderCell: (params) => (
         <>
-          <IconButton onClick={() => handleOpen(params.row)}>
+          {/* <IconButton onClick={() => handleOpen(params.row)}>
             <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton>
+          </IconButton> */}
           <Link to={`/categoryForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -87,7 +87,7 @@ const CategoryTable = ({ fieldName }) => {
       ),
     },
     { field: "categoryName", headerName: "Category Name", flex: 2 },
-    { field: "createdAt", headerName: "Created At", flex: 2 },
+    { field: "orgId", headerName: "Organization", flex: 2 },
     { field: "branchName", headerName: "Branch Name", flex: 2 },
   ];
 
@@ -95,7 +95,7 @@ const CategoryTable = ({ fieldName }) => {
   const rows = category.map((cat) => ({
     id: cat._id,
     categoryName: cat.categoryName,
-    createdAt: cat.createdAt,
+    orgId: cat.orgId.organizationName,
     branchName: cat.orgBranchId.branchName,
   }));
 
@@ -172,14 +172,23 @@ const CategoryTable = ({ fieldName }) => {
                 </Button>
               </Box>
             </Box>
-            <Paper sx={{ height: 400, width: "100%" , marginTop: 5}}>
+            <Paper sx={{ height: 400, width: "100%" , marginTop: "2rem"}}>
               <DataGrid
                 rows={filteredCategories}
                 columns={columns}
                 initialState={{ pagination: { paginationModel } }}
                 pageSizeOptions={[5, 10]}
-                sx={{ border: 0 }}
-                pa
+                sx={{
+                  border: 0,
+                  "& .MuiDataGrid-columnHeader": {
+                    background: "#C4BDFF",  
+                    color: "White",  
+                  },
+                  "& .MuiDataGrid-columnHeaderTitle": {
+                    fontWeight: "bold", 
+                    fontSize: "1.2rem", 
+                  },
+                }}
               />
             </Paper>
             <DialogBox
