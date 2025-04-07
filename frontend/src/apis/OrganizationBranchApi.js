@@ -18,11 +18,12 @@ const createOrgBranch = async (formData) => {
   }
 };
 
-const getAllUserOrgBranch = async () => {
+const getAllUserOrgBranch = async (page = 1, limit = 5) => {
   try {
     const response = await axios.get(
       "http://localhost:4000/api/findAllUserOrganizationBranch",
       {
+        params: { page, limit },
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -32,6 +33,7 @@ const getAllUserOrgBranch = async () => {
     return response;
   } catch (error) {
     console.log(error, "createOrg error");
+    return { totalCount: 0, items: [] }
   }
 };
 const updateOrgBranch = async (formData, id) => {

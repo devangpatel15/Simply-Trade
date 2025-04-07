@@ -25,16 +25,7 @@ import { getAllUserOrgBranch } from "../apis/OrganizationBranchApi";
 import OrganizationBranchTable from "../tables/OrganizationBranchTable";
 
 const OrganizationBranchPage = () => {
-  const [orgData, setOrgData] = useState([]);
-
-  const callApi = async () => {
-    const response = await getAllUserOrgBranch();
-    setOrgData(response.data.data);
-  };
-
-  useEffect(() => {
-    callApi();
-  }, []);
+ 
 
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
@@ -157,13 +148,12 @@ const OrganizationBranchPage = () => {
               );
             })} */}
 
-            <OrganizationBranchTable orgData={orgData} callApi={callApi} />
+            <OrganizationBranchTable />
 
           <DialogBox
             handleClose={handleClose}
             open={open}
             data={data}
-            callApi={callApi}
             fieldName="organizationBranchForm"
           />
         </Box>

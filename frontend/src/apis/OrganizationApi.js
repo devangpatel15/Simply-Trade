@@ -35,23 +35,25 @@ const updateOrg = async (formData, id) => {
   }
 };
 
-const allUserOrg = async () => {
+const allUserOrg = async (page = 1, limit = 5) => {
   try {
-    const response = await axios.get("http://localhost:4000/api/allUserOrg", {
+    const response = await axios.get('http://localhost:4000/api/allUserOrg', {
+      params: { page, limit },  // Pass page and limit as query parameters
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      params: {
-        page: paginationModel.page + 1,  // Convert to 1-based page index for the backend
-        pageSize: paginationModel.pageSize,
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,  // Assuming token for auth
       },
     });
-    return response;
+    
+    return response.data;  // Return both the totalCount and items
   } catch (error) {
-    console.log(error, "createOrg error");
+    console.error('Error fetching organizations:', error);
+    return { totalCount: 0, items: [] };  // Return empty data on error
   }
 };
+
+
+
 
 const deleteOrg = async (_id) => {
   try {

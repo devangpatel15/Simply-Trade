@@ -79,7 +79,6 @@ const StockPage = () => {
               </Button>
             </Box>
           </Box>
-<<<<<<< HEAD
 
           {stock &&
             stock.map((stock) => {
@@ -116,14 +115,6 @@ const StockPage = () => {
                           variant="body2"
                           sx={{ color: "green", fontWeight: "bold" }}
                         >
-<<<<<<< HEAD
-                          Customer Name:
-                          <span
-                            style={{ color: "black", fontWeight: "normal" }}
-                          >
-                            {stock.customerName}
-                          </span>
-=======
                           Customer Name:{stock?.customerName?.customerName}
                         </Typography>
                         <Typography
@@ -139,7 +130,6 @@ const StockPage = () => {
                         >
                           Branch Name:
                           {stock?.branch?.branchName}
->>>>>>> fbe28e6bb59656ef8e1b9d40aaf48dae861b4791
                         </Typography>
                       </Box>
                     </Box>
@@ -178,8 +168,6 @@ const StockPage = () => {
             callApi={callApi}
             fieldName="stockForm"
           />
-=======
->>>>>>> 1cfb5ec869eef89ef9aa10427ab8f79716b87090
         </Box>
         <StockTable stock={stock} payment={payment} callApi={callApi}/>
        
