@@ -7,8 +7,14 @@ exports.createValidation = [
     .isString()
     .notEmpty()
     .withMessage("name is required"),
-  body("primaryAddress").isString().notEmpty().withMessage("primaryAddress is required"),
-  body("addressLine1").isString().notEmpty().withMessage("addressLine1 is string"),
+  body("primaryAddress")
+    .isString()
+    .notEmpty()
+    .withMessage("primaryAddress is required"),
+  body("addressLine1")
+    .isString()
+    .notEmpty()
+    .withMessage("addressLine1 is string"),
   body("addressLine2").isString().withMessage("addressLine2 in string"),
   body("city").isString().notEmpty().withMessage("city in string"),
   body("state").isString().notEmpty().withMessage("state in string"),
@@ -17,9 +23,15 @@ exports.createValidation = [
   body("telePhone").isString().notEmpty().withMessage("telePhone in string"),
   body("email").isString().notEmpty().withMessage("email in string"),
   body("upload").isString().optional().withMessage("upload in string"),
-  body("gstApplicable").isString().optional().withMessage("gstApplicable in boolean"),
+  body("gstApplicable")
+    .isString()
+    .optional()
+    .withMessage("gstApplicable in boolean"),
   body("gstNumber").isString().optional().withMessage("gstNumber in string"),
-  body("companyType").isString().notEmpty().withMessage("companyType in string"),
+  body("companyType")
+    .isString()
+    .notEmpty()
+    .withMessage("companyType in string"),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -31,7 +43,7 @@ exports.createValidation = [
 ];
 
 exports.getOrgValidation = [
-    param("id").optional().isMongoId().withMessage("valid id required"),
+  param("id").optional().isMongoId().withMessage("valid id required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -42,7 +54,7 @@ exports.getOrgValidation = [
   },
 ];
 exports.deleteOrgValidation = [
-    param("id").isMongoId().withMessage("valid id required"),
+  param("id").isMongoId().withMessage("valid id required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -54,12 +66,18 @@ exports.deleteOrgValidation = [
 ];
 
 exports.updateOrgValidation = [
-    body("organizationName")
+  body("organizationName")
     .isString()
     .optional()
     .withMessage("name is required"),
-  body("primaryAddress").isString().optional().withMessage("primaryAddress is required"),
-  body("addressLine1").isString().optional().withMessage("addressLine1 is string"),
+  body("primaryAddress")
+    .isString()
+    .optional()
+    .withMessage("primaryAddress is required"),
+  body("addressLine1")
+    .isString()
+    .optional()
+    .withMessage("addressLine1 is string"),
   body("addressLine2").isString().withMessage("addressLine2 in string"),
   body("city").isString().optional().withMessage("city in string"),
   body("state").isString().optional().withMessage("state in string"),
@@ -68,9 +86,15 @@ exports.updateOrgValidation = [
   body("telePhone").isString().optional().withMessage("telePhone in string"),
   body("email").isString().optional().withMessage("email in string"),
   body("upload").isString().optional().withMessage("upload in string"),
-  body("gstApplicable").isString().optional().withMessage("gstApplicable in boolean"),
+  body("gstApplicable")
+    .isString()
+    .optional()
+    .withMessage("gstApplicable in boolean"),
   body("gstNumber").isString().optional().withMessage("gstNumber in string"),
-  body("companyType").isString().optional().withMessage("companyType in string"),
+  body("companyType")
+    .isString()
+    .optional()
+    .withMessage("companyType in string"),
 
   (req, res, next) => {
     const errors = validationResult(req);

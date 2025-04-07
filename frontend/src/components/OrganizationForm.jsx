@@ -88,13 +88,30 @@ const OrganizationForm = () => {
     return Object.keys(newErrors).length === 0; // Returns true if no errors
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = async (e) => {
+    const { name, value, files } = e.target;
 
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
+
+    const file = files[0];
+    if (file) {
+      const base64 = await convertToBase64(file);
+      console.log("Base64 String:", base64); // optional
+      // Now you can store base64 in your form state or send it to your database
+      setFormData((prev) => ({ ...prev, upload: base64 }));
+    }
+  };
+
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file); // This returns base64 with data:[mime];base64,...
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   };
 
   const handleSubmit = async () => {
