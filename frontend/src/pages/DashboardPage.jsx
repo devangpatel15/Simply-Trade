@@ -18,7 +18,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
-import Test from "../tables/test";
 
 const DashboardPage = () => {
   return (
@@ -27,7 +26,6 @@ const DashboardPage = () => {
       <Box sx={{ flexGrow: 1 }}>
         <Header />
         <Box>Welcome to the Dashboard Page</Box>
-        <Test/>
       </Box>
     </Box>
   );
