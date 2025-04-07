@@ -61,7 +61,8 @@ exports.findUserOrganizationBranch = async (req, res) => {
   try {
     const userId = req?.user?.id;
     const organizationBranchData = await findUserOrganizationBranchServices(
-      userId
+      userId,
+      req
     );
 
     if (!organizationBranchData) {

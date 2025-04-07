@@ -13,7 +13,7 @@ const {
 exports.findAllModel = async (req, res) => {
   try {
     const userId = req?.user?.id;
-    const modelData = await findAllModelServices(userId);
+    const modelData = await findAllModelServices(userId, req);
 
     if (!modelData) {
       return res.status(404).json({ message: "No Model found" });
@@ -55,7 +55,7 @@ exports.selectModelByCat = async (req, res) => {
     const orgText = req?.query?.text || "";
 
     console.log("catID", catId);
-    const modelData = await selectModelByCatServices(catId,orgText);
+    const modelData = await selectModelByCatServices(catId, orgText);
 
     if (!modelData) {
       return res.status(404).json({ message: "No Model found" });
