@@ -21,6 +21,7 @@ import DialogBox from "../components/DialogBox";
 import moment from "moment";
 import SearchIcon from "@mui/icons-material/Search";
 import { getAllCapacity } from "../apis/CapacityApi";
+import CapacityTable from "../tables/CapacityTable";
 
 const CapacityPage = () => {
   const [capacity, setCapacity] = useState([]);
@@ -90,7 +91,7 @@ const CapacityPage = () => {
             </Box>
           </Box>
 
-          {capacity &&
+          {/* {capacity &&
             capacity.map((capacity) => {
               return (
                 <Box
@@ -154,7 +155,9 @@ const CapacityPage = () => {
                   </IconButton>
                 </Box>
               );
-            })}
+            })} */}
+
+          <CapacityTable capacity = {capacity} callApi = {callApi}/>
 
           <DialogBox
             handleClose={handleClose}

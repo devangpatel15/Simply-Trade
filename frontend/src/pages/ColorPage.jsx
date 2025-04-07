@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { getAllColor } from "../apis/ColorApi";
 import moment from "moment";
 import DialogBox from "../components/DialogBox";
+import ColorTable from "../tables/ColorTable";
 
 const ColorPage = () => {
   const [color, setColor] = useState([]);
@@ -85,7 +86,7 @@ const ColorPage = () => {
             </Box>
           </Box>
 
-          {color &&
+          {/* {color &&
             color.map((color) => {
               return (
                 <Box
@@ -149,8 +150,8 @@ const ColorPage = () => {
                   </IconButton>
                 </Box>
               );
-            })}
-
+            })} */}
+          <ColorTable color={color} callApi={callApi}/>
           <DialogBox
             handleClose={handleClose}
             open={open}

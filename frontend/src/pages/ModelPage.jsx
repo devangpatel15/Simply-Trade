@@ -16,6 +16,7 @@ import axios from "axios";
 import DialogBox from "../components/DialogBox";
 import moment from "moment";
 import SearchIcon from "@mui/icons-material/Search";
+import ModelTable from "../tables/ModelTable";
 
 const ModelPage = () => {
   const [modelData, setModelData] = useState([]);
@@ -90,7 +91,7 @@ const ModelPage = () => {
               </Button>
             </Box>
           </Box>
-          {modelData &&
+          {/* {modelData &&
             modelData.map((model) => {
               return (
                 <Box
@@ -152,15 +153,17 @@ const ModelPage = () => {
                   </IconButton>
                 </Box>
               );
-            })}
+            })} */}
 
+            <ModelTable modelData={modelData} callApi = {callApi}/>
+{/* 
           <DialogBox
             handleClose={handleClose}
             open={open}
             data={data}
             callApi={callApi}
             fieldName="modelForm"
-          />
+          /> */}
         </Box>
       </Box>
     </Box>
