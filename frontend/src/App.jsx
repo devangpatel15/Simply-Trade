@@ -46,12 +46,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route
-          path="/muiTable"
-          element={
-              <MuiTable />
-          }
-        />
+        <Route path="/muiTable" element={<MuiTable />} />
         <Route
           path="/"
           element={
