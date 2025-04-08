@@ -12,7 +12,7 @@ exports.getAllStock = async (req, res) => {
     const userOrgId = req.user.org;
     const role = req.user.role;
     const userId = req.user.id;
-    const stock = await getAllStockService(userOrgId, role, userId);
+    const stock = await getAllStockService(userOrgId, role, userId, req);
     if (!stock) {
       return res.status(404).json({ message: "No Stock found" });
     }
