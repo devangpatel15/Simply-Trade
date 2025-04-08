@@ -179,6 +179,7 @@ import DeleteDialog from "../components/DeleteDialog";
 import { deleteStock, getAllStocks } from "../apis/StockApi";
 import StockDialog from "../components/StockDialog";
 import PaymentDialog from "../components/PaymentDialog";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 
 const StockTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -223,9 +224,11 @@ const StockTable = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {setOpen(false);
-    setPaymentDialog(false);
-  }
+  const handleClose = () => {
+    setOpen(false);
+    setPaymentDialog(false);  // Ensuring PaymentDialog closes separately
+  };
+  
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
@@ -239,9 +242,9 @@ const StockTable = () => {
   };
 
   const handlePaymentDialogOpen = (data) => {
-        setData(data);
-        setPaymentDialog(true);
-      };
+    setData(data);
+    setPaymentDialog(true);
+  };
 
   const handleDelete = async (id) => {
     deleteStock(id);
@@ -288,6 +291,9 @@ const StockTable = () => {
               <EditIcon sx={{ color: "#6c5ce7" }} />
             </IconButton>
           </Link>
+          <IconButton onClick={() => openDeleteDialog(params.row.id)}>
+            <DeleteIcon sx={{ color: "#6c5ce7" }} />
+          </IconButton>
           <IconButton
             onClick={() => openDeleteDialog(params.row.id)}
           ></IconButton>
@@ -302,16 +308,15 @@ const StockTable = () => {
   ];
 
   // Prepare the rows for the DataGrid
-  const rows =Array.isArray(stock)
-  ? stock.map((stock) => ({
-    id: stock._id,
-    organization: stock.organization.organizationName,
-    categoryId: stock.categoryId.categoryName,
-    modelId: stock.modelId.modelName,
-    organization: stock?.organization?.organizationName,
-    branchName: stock?.branchName?.branchName,
-  }))
-  : []; 
+  const rows = Array.isArray(stock)
+    ? stock.map((stock) => ({
+        id: stock._id,
+        organization: stock.organization.organizationName,
+        categoryId: stock.categoryId.categoryName,
+        modelId: stock.modelId.modelName,
+        branchName: stock?.branchName?.branchName,
+      }))
+    : [];
 
   // Handle search term change
   const handleSearchChange = (event) => {
@@ -357,11 +362,12 @@ const StockTable = () => {
       />
       <PaymentDialog
         handleClose={handleClose}
-        open={PaymentDialog}
+        open={paymentDialog}
         data={data}
         callApi={callApi}
         fieldName="paymentForm"
       />
+
       <DeleteDialog
         deleteOpen={deleteOpen}
         handleClose={handleClose}
