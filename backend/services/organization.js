@@ -29,7 +29,7 @@ exports.getAllUserOrganizationService = async (userId, req) => {
     .limit(limit)
     .lean();
 
-  const totalCount = await Organization.countDocuments({ userId, isDeleted: false });
+  const totalCount = await Organization.countDocuments({ isDeleted: "false" });
 
   return { totalCount, items };
 };

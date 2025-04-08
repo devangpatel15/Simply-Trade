@@ -1,19 +1,32 @@
 const Color = require("../models/color");
 
-exports.findAllColorServices = async (userId) => {
+exports.findAllColorServices = async (userId, req) => {
   // const data = await Color.find({ isDeleted: false })
   //   .populate("categoryId modelId deviceId organization branchName")
   //   .lean();
-  const data = await Color.find({
+
+  const page = parseInt(req.query.page) || 1; // Default to page 1
+  const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+
+  const skip = (page - 1) * limit;
+
+  const items = await Color.find({
     isDeleted: false,
-  }).populate({
-    path: "organization branchName",
-    match: { userId: userId },
-  }).populate("categoryId modelId deviceId")
+  })
+    .populate({
+      path: "organization branchName",
+      match: { userId: userId },
+    })
+    .populate("categoryId modelId deviceId")
+    .lean()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
     .lean();
 
+  const totalCount = await Color.countDocuments({ isDeleted: "false" });
 
-  return data;
+  return { totalCount, items };
 };
 exports.findOneColorServices = async (colorId) => {
   const data = await Color.findById(colorId)
@@ -67,9 +80,7 @@ exports.selectColorByDeviceServices = async (deviceId, orgText) => {
   let findObject = { isDeleted: false };
 
   if (orgText && orgText.trim() !== "") {
-    findObject.$or = [ 
-      { colorName: { $regex: `^${orgText}`, $options: "i" } },
-    ];
+    findObject.$or = [{ colorName: { $regex: `^${orgText}`, $options: "i" } }];
   }
 
   if (deviceId) {

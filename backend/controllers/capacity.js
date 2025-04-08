@@ -12,8 +12,8 @@ const {
 
 exports.getAllCapacity = async (req, res) => {
   try {
-    userId=req.user.id
-    const cap = await getAllCapacityService(userId);
+    userId = req.user.id;
+    const cap = await getAllCapacityService(userId, req);
     if (!cap) {
       return res.status(404).json({ message: "No Capacity found" });
     }
@@ -124,7 +124,6 @@ exports.deleteCapacity = async (req, res) => {
       .json({ message: "Internal server error", error: err.message });
   }
 };
-
 
 // exports.searchCapacity = async (req, res) => {
 //   try {

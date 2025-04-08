@@ -2,19 +2,28 @@ const Category = require("../models/category");
 const UserSchema = require("../models/user");
 const mongoose = require("mongoose");
 
-exports.getAllCategoryService = async (userId) => {
-  
+exports.getAllCategoryService = async (userId, req) => {
+  const page = parseInt(req.query.page) || 1; // Default to page 1
+  const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
 
-  const categories = await Category.find({
+  const skip = (page - 1) * limit;
+
+  const items = await Category.find({
     isDeleted: false,
-  }).populate({
-    path: "orgId orgBranchId",
-    match: { userId: userId },
-  });
+  })
+    .populate({
+      path: "orgId orgBranchId",
+      match: { userId: userId },
+    })
+    .lean()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .lean();
 
-  console.log("cat------------", categories);
+  const totalCount = await Category.countDocuments({ isDeleted: "false" });
 
-  return categories;
+  return { totalCount, items };
 
   // let findObject = { isDeleted: false };
 
