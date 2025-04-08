@@ -22,7 +22,7 @@ exports.findUserOrganizationBranchServices = async (userId, req) => {
 
   const items = await OrganizationBranch.find({ userId, isDeleted: false })
     .sort({ createdAt: -1 })
-    .populate("userId")
+    .populate("userId organization")
     .skip(skip)
     .limit(limit)
     .lean();
