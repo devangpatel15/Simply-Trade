@@ -47,17 +47,19 @@ const updateColor = async (formData, id) => {
   }
 };
 
-const getAllColor = async () => {
+const getAllColor = async (page = 1, limit = 5) => {
   try {
     const response = await axios.get("http://localhost:4000/api/findAllColor", {
+      params: { page, limit },
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error, "Create Color error");
+    return { totalCount: 0, items: [] };
   }
 };
 
