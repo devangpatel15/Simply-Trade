@@ -311,9 +311,9 @@ const StockTable = () => {
   const rows = Array.isArray(stock)
     ? stock.map((stock) => ({
         id: stock._id,
-        organization: stock.organization.organizationName,
-        categoryId: stock.categoryId.categoryName,
-        modelId: stock.modelId.modelName,
+        organization: stock?.organization?.organizationName,
+        categoryId: stock?.categoryName?.categoryName,
+        modelId: stock?.modelName?.modelName,
         branchName: stock?.branchName?.branchName,
       }))
     : [];

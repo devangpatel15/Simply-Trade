@@ -101,9 +101,9 @@ const CapacityTable = () => {
     ? capacity.map((capacity) => ({
         id: capacity._id,
         capacityName: capacity.capacityName,
-        categoryId: capacity.categoryId.categoryName,
-        modelId: capacity.modelId.modelName,
-        deviceId: capacity.deviceId.deviceName,
+        categoryId: capacity?.categoryId?.categoryName,
+        modelId: capacity?.modelId?.modelName,
+        deviceId: capacity?.deviceId?.deviceName,
         organization: capacity?.organization?.organizationName,
         branchName: capacity?.branchName?.branchName,
       }))

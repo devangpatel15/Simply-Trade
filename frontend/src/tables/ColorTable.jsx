@@ -100,8 +100,8 @@ const ColorTable = () => {
     ? color.map((color) => ({
         id: color._id,
         colorName: color.colorName,
-        modelId: color.modelId.modelName,
-        deviceId: color?.deviceId.deviceName,
+        modelId: color?.modelId?.modelName,
+        deviceId: color?.deviceId?.deviceName,
         organization: color?.organization?.organizationName,
         branchName: color?.branchName?.branchName,
       }))

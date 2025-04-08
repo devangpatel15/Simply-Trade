@@ -110,8 +110,8 @@ const CategoryTable = () => {
     ? category.map((cat) => ({
         id: cat._id,
         categoryName: cat.categoryName,
-        orgId: cat.orgId.organizationName,
-        branchName: cat.orgBranchId.branchName,
+        orgId: cat?.orgId?.organizationName,
+        branchName: cat?.orgBranchId?.branchName,
       }))
     : [];
 
