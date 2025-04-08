@@ -3,10 +3,13 @@ const Device = require("../models/device");
 exports.findAllDeviceServices = async (userId, req) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1
   const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+  const search = req.query.search || "";
 
   const skip = (page - 1) * limit;
 
-  const items = await Device.find({ isDeleted: false })
+  const query = { deviceName: { $regex: search, $options: "i" } };
+
+  const items = await Device.find({ query, isDeleted: false })
     .populate({
       path: "organization",
       match: { userId: userId },
@@ -18,7 +21,7 @@ exports.findAllDeviceServices = async (userId, req) => {
     .limit(limit)
     .lean();
 
-  const totalCount = await Device.countDocuments({isDeleted: false});
+  const totalCount = await Device.countDocuments({ query, isDeleted: false });
 
   return { totalCount, items };
 };

@@ -5,12 +5,13 @@ exports.getAllCapacityService = async (userId, req) => {
 
   const page = parseInt(req.query.page) || 1; // Default to page 1
   const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+  const search = req.query.search || "";
 
   const skip = (page - 1) * limit;
 
-  const items = await Capacity.find({
-    isDeleted: false,
-  })
+  const query = { capacityName: { $regex: search, $options: "i" } };
+
+  const items = await Capacity.find({ query, isDeleted: false })
     .populate({
       path: "organization",
       match: { userId: userId },
@@ -22,7 +23,10 @@ exports.getAllCapacityService = async (userId, req) => {
     .limit(limit)
     .lean();
 
-  const totalCount = await Capacity.countDocuments({ isDeleted: "false" });
+  const totalCount = await Capacity.countDocuments({
+    query,
+    isDeleted: "false",
+  });
 
   return { totalCount, items };
 };
