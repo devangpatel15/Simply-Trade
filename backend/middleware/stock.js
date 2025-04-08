@@ -85,7 +85,7 @@ exports.createValidation = [
     .notEmpty()
     .withMessage("remainingAmount must be a number and is required"),
 
-  body("upload").isString().notEmpty().withMessage("upload is required"),
+  // body("upload").isString().notEmpty().withMessage("upload is required"),
 
   // Middleware to handle validation errors
   (req, res, next) => {
