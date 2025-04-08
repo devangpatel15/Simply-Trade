@@ -25,19 +25,7 @@ import { getAllUsers } from "../apis/UserApi";
 import UserTable from "../tables/UserTable";
 
 const UserPage = () => {
-  const [userData, setUserData] = useState([]);
 
-  const callApi = async () => {
-    const response = await getAllUsers();
-    console.log(response.data.data);
-    setUserData(response.data.data);
-  };
-
-  useEffect(() => {
-    callApi();
-  }, []);
-
-  console.log(userData)
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
 
@@ -94,7 +82,7 @@ const UserPage = () => {
             </Box>
           </Box>
 
-          <UserTable userData={userData} callApi={callApi}/>
+          <UserTable />
           {/* {userData &&
             userData.map((user) => {
               return (
@@ -176,7 +164,6 @@ const UserPage = () => {
             handleClose={handleClose}
             open={open}
             data={data}
-            callApi={callApi}
             fieldName="userForm"
           />
         </Box>

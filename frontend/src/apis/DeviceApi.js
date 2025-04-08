@@ -14,11 +14,12 @@ const createDevice = async (formData) => {
   }
 };
 
-const getAllDevice = async () => {
+const getAllDevice = async (page = 1, limit = 5) => {
   try {
     const response = await axios.get(
       "http://localhost:4000/api/findAllDevice",
       {
+        params: { page, limit },
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -28,6 +29,7 @@ const getAllDevice = async () => {
     return response;
   } catch (error) {
     console.log(error, "Get Device error");
+    return { totalCount: 0, items: [] };
   }
 };
 

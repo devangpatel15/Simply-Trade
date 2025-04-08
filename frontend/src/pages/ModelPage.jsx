@@ -19,21 +19,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ModelTable from "../tables/ModelTable";
 
 const ModelPage = () => {
-  const [modelData, setModelData] = useState([]);
-
-  const callApi = async () => {
-    const response = await axios.get("http://localhost:4000/api/findAllModel", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    setModelData(response.data.data);
-  };
-
-  useEffect(() => {
-    callApi();
-  }, []);
+  
 
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
@@ -155,7 +141,7 @@ const ModelPage = () => {
               );
             })} */}
 
-            <ModelTable modelData={modelData} callApi = {callApi}/>
+            <ModelTable />
 {/* 
           <DialogBox
             handleClose={handleClose}

@@ -18,7 +18,7 @@ exports.findAllDeviceServices = async (userId, req) => {
     .limit(limit)
     .lean();
 
-  const totalCount = await Device.countDocuments({ isDeleted: "false" });
+  const totalCount = await Device.countDocuments({isDeleted: false});
 
   return { totalCount, items };
 };
