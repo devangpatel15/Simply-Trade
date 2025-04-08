@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
@@ -9,28 +9,36 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "../components/DeleteDialog";
 import DialogBox from "../components/DialogBox";
 import { allUserOrg, deleteOrg } from "../apis/OrganizationApi";
+import SearchIcon from "@mui/icons-material/Search";
 
 const OrganizationTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 5,
+  });
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
   const [deleteOpen, setDeleteOpen] = useState(false);
-const [orgData, setOrgData] = useState([]);
+  const [orgData, setOrgData] = useState([]);
   const [totalRows, setTotalRows] = useState(0);
 
   const callApi = async () => {
-    const response = await allUserOrg(paginationModel.page + 1, paginationModel.pageSize)
+    const response = await allUserOrg(
+      paginationModel.page + 1,
+      paginationModel.pageSize,
+      searchTerm
+    );
     console.log(response, "responss");
     console.log(response.data.totalCount, "totalRows");
-    
+
     setOrgData(response.data.items);
     setTotalRows(response.data.totalCount);
   };
-  
+
   useEffect(() => {
     callApi(); // +1 for 1-based API pagination
-  }, [paginationModel.page, paginationModel.pageSize]);
+  }, [paginationModel.page, paginationModel.pageSize, searchTerm]);
 
   const handleOpen = (data) => {
     setData(data);
@@ -66,7 +74,6 @@ const [orgData, setOrgData] = useState([]);
     setPaginationModel(newPaginationModel);
     callApi(newPaginationModel.page + 1, newPaginationModel.pageSize); // Pass page + 1 since API is likely 1-based
   };
-
 
   const columns = [
     {
@@ -108,16 +115,34 @@ const [orgData, setOrgData] = useState([]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+    setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
 
   const filteredOrganization = rows.filter((row) => {
-    return row.organizationName.toLowerCase().includes(searchTerm.toLowerCase());
+    return row.organizationName
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
   });
 
   // const paginationModel = { page: 0, pageSize: 5 };
 
   return (
     <div>
+      <TextField
+        variant="outlined"
+        placeholder="Search"
+        size="small"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        sx={{ backgroundColor: "white", borderRadius: 1 }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon sx={{ color: "#6c5ce7" }} />
+            </InputAdornment>
+          ),
+        }}
+      />
       <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
         <DataGrid
           rows={filteredOrganization}

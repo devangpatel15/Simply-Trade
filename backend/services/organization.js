@@ -3,15 +3,18 @@ const Organization = require("../models/organization");
 exports.getAllOrganizationService = async (req) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1
   const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+  const search = req.query.search || "";
 
   const skip = (page - 1) * limit;
 
-  const items = await Organization.find()
-    .populate("userId")
+  const query = { organizationName: { $regex: search, option: "i" } };
+
+  const items = await Organization.find(query)
+    .populate("userId organizationName")
     .skip(skip)
     .limit(limit);
 
-  const totalCount = await Organization.countDocuments();
+  const totalCount = await Organization.countDocuments(query);
 
   return { totalCount, items };
 };
@@ -60,16 +63,4 @@ exports.softDeleteOrganizationService = async (orgId) => {
 
 exports.deleteOrganizationService = async (orgId) => {
   return await Organization.findByIdAndDelete(orgId);
-};
-
-exports.searchOrganizationService = async (orgText, userId) => {
-  let findObject = { userId, isDeleted: false };
-
-  if (orgText.trim() !== "") {
-    findObject.$or = [
-      { organizationName: { $regex: `^${orgText}`, $options: "i" } },
-    ];
-  }
-
-  return await Organization.find(findObject).limit(5); // Increase limit if needed
 };

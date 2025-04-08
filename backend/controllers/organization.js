@@ -199,17 +199,16 @@ exports.deleteOrganization = async (req, res) => {
 
 exports.searchOrganization = async (req, res) => {
   try {
-    console.log("userID------", req.user);
-    const userId = req.user.id;
     const orgText = req.query.text || "";
 
-    const org = await searchOrganizationService(orgText, userId);
+    const org = await searchOrganizationService(orgText);
+
     if (!org) {
-      return res.status(404).json({ message: "Organization not found" });
+      return res.status(404).json({ message: "searchCustomer not found" });
     }
     return res
       .status(200)
-      .json({ message: "Organization searched successfully", data: org });
+      .json({ message: "searchCustomer searched successfully", data: org });
   } catch (err) {
     return res
       .status(500)

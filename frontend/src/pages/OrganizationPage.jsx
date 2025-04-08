@@ -15,10 +15,6 @@ import axios from "axios";
 import { allUserOrg } from "../apis/OrganizationApi";
 
 const OrganizationPage = () => {
-
-
-  
-
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
@@ -37,7 +33,7 @@ const OrganizationPage = () => {
               ORGANIZATIONS
             </Typography>
             <Box display="flex" gap={2}>
-              <TextField
+              {/* <TextField
                 variant="outlined"
                 placeholder="Search"
                 size="small"
@@ -49,7 +45,7 @@ const OrganizationPage = () => {
                     </InputAdornment>
                   ),
                 }}
-              />
+              /> */}
               <Button
                 variant="outlined"
                 sx={{
