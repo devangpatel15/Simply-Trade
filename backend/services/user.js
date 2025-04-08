@@ -52,7 +52,10 @@ exports.findAllUserServices = async (req) => {
     .limit(limit)
     .lean();
 
-  const totalCount = await User.countDocuments();
+  const totalCount = await User.countDocuments({
+    isDeleted: false,
+    role: "user",
+  });
 
   return { totalCount, items };
 };
