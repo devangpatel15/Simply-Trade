@@ -38,6 +38,7 @@ const StockDialog = ({ open, handleClose, data, fieldName }) => {
     totalAmount,
     paidToCustomer,
     remainingAmount,
+    id
   } = data;
 
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -188,7 +189,7 @@ const StockDialog = ({ open, handleClose, data, fieldName }) => {
         </Card>
       </DialogContent>
       <DialogActions>
-        <Link to={fieldName == "stockForm" ? `/stockForm/${_id}` : ""}>
+        <Link to={fieldName == "stockForm" ? `/stockForm/${id}` : ""}>
           <Button variant="outlined" color="success">
             Edit
           </Button>
