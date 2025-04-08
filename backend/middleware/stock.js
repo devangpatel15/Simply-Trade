@@ -157,7 +157,7 @@ exports.updateStockValidation = [
     .isNumeric()
     .optional()
     .withMessage("remainingAmount in string"),
-  body("upload").isString().optional().withMessage("upload in string"),
+  // body("upload").isString().optional().withMessage("upload in string"),
 
   (req, res, next) => {
     const errors = validationResult(req);
