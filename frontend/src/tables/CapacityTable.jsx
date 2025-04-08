@@ -8,13 +8,35 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "../components/DeleteDialog";
 import DialogBox from "../components/DialogBox";
-import { deleteCapacity } from "../apis/CapacityApi";
+import { deleteCapacity, getAllCapacity } from "../apis/CapacityApi";
 
-const CapacityTable = ({ capacity, callApi }) => {
+const CapacityTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [capacity, setCapacity] = useState([]);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 5,
+  });
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [totalRows, setTotalRows] = useState(0);
+
+  const callApi = async () => {
+    const response = await getAllCapacity(
+      paginationModel.page + 1,
+      paginationModel.pageSize
+    );
+    console.log(response, "responss");
+    console.log(response.data.totalCount, "totalRows");
+
+    setCapacity(response.data.items);
+    setTotalRows(response.data.totalCount);
+  };
+
+  useEffect(() => {
+    callApi(); // +1 for 1-based API pagination
+  }, [paginationModel.page, paginationModel.pageSize]);
 
   const handleOpen = (data) => {
     setData(data);
@@ -22,8 +44,6 @@ const CapacityTable = ({ capacity, callApi }) => {
   };
 
   const handleClose = () => setOpen(false);
-
-  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const openDeleteDialog = (id) => {
     setDeleteOpen(id);
@@ -49,9 +69,9 @@ const CapacityTable = ({ capacity, callApi }) => {
       flex: 2,
       renderCell: (params) => (
         <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
+          <IconButton onClick={() => handleOpen(params.row)}>
             <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton> */}
+          </IconButton>
           <Link to={`/capacityForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -71,16 +91,23 @@ const CapacityTable = ({ capacity, callApi }) => {
     { field: "branchName", headerName: "Branch", flex: 2 },
   ];
 
+  const handlePaginationModelChange = (newPaginationModel) => {
+    setPaginationModel(newPaginationModel);
+    callApi(newPaginationModel.page + 1, newPaginationModel.pageSize); // Pass page + 1 since API is likely 1-based
+  };
+
   // Prepare the rows for the DataGrid
-  const rows = capacity.map((capacity) => ({
-    id: capacity._id,
-    capacityName: capacity.capacityName,
-    categoryId: capacity.categoryId.categoryName,
-    modelId: capacity.modelId.modelName,
-    deviceId: capacity.deviceId.deviceName,
-    organization: capacity?.organization?.organizationName,
-    branchName: capacity?.branchName?.branchName,
-  }));
+  const rows = Array.isArray(capacity)
+    ? capacity.map((capacity) => ({
+        id: capacity._id,
+        capacityName: capacity.capacityName,
+        categoryId: capacity.categoryId.categoryName,
+        modelId: capacity.modelId.modelName,
+        deviceId: capacity.deviceId.deviceName,
+        organization: capacity?.organization?.organizationName,
+        branchName: capacity?.branchName?.branchName,
+      }))
+    : [];
 
   // Handle search term change
   const handleSearchChange = (event) => {
@@ -92,24 +119,28 @@ const CapacityTable = ({ capacity, callApi }) => {
     return row.capacityName.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
-  const paginationModel = { page: 0, pageSize: 5 };
+  // const paginationModel = { page: 0, pageSize: 5 };
 
   return (
     <div>
-      <Paper sx={{ height: 400, width: "100%" , marginTop: "2rem"}}>
+      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
         <DataGrid
           rows={filteredDevice}
           columns={columns}
-          initialState={{ pagination: { paginationModel } }}
+          pageSize={paginationModel.pageSize}
+          rowCount={totalRows}
+          paginationMode="server"
+          onPaginationModelChange={handlePaginationModelChange}
+          paginationModel={paginationModel}
           pageSizeOptions={[5, 10]}
           sx={{
             border: 0,
             "& .MuiDataGrid-columnHeader": {
-              background: "#C4BDFF",  
-              color: "White",  
+              background: "#C4BDFF",
+              color: "White",
             },
             "& .MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold",  
+              fontWeight: "bold",
               fontSize: "1.2rem",
             },
           }}

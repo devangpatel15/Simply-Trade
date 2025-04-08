@@ -19,24 +19,35 @@ import DialogBox from "../components/DialogBox";
 import DeleteDialog from "../components/DeleteDialog";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { getAllCapacity } from "../apis/CapacityApi";
 
-const CategoryTable = ({ fieldName }) => {
+const CategoryTable = () => {
   const [category, setCategory] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
-  // Function to fetch categories from API
-  const callApi = async () => {
-    const response = await getAllCategory();
-    setCategory(response.data.data);
-  };
-
-  // Fetch data on component mount
-  useEffect(() => {
-    callApi();
-  }, []);
-
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 5,
+  });
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [totalRows, setTotalRows] = useState(0);
+
+  const callApi = async () => {
+    const response = await getAllCategory(
+      paginationModel.page + 1,
+      paginationModel.pageSize
+    );
+    console.log(response, "responss");
+    console.log(response.data.totalCount, "totalRows");
+
+    setCategory(response.data.items);
+    setTotalRows(response.data.totalCount);
+  };
+
+  useEffect(() => {
+    callApi(); // +1 for 1-based API pagination
+  }, [paginationModel.page, paginationModel.pageSize]);
 
   const handleOpen = (data) => {
     setData(data);
@@ -44,8 +55,6 @@ const CategoryTable = ({ fieldName }) => {
   };
 
   const handleClose = () => setOpen(false);
-
-  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const openDeleteDialog = (id) => {
     setDeleteOpen(id);
@@ -64,6 +73,11 @@ const CategoryTable = ({ fieldName }) => {
     callApi();
   };
 
+  const handlePaginationModelChange = (newPaginationModel) => {
+    setPaginationModel(newPaginationModel);
+    callApi(newPaginationModel.page + 1, newPaginationModel.pageSize); // Pass page + 1 since API is likely 1-based
+  };
+
   // Column definition for DataGrid
   const columns = [
     {
@@ -72,9 +86,9 @@ const CategoryTable = ({ fieldName }) => {
       flex: 2,
       renderCell: (params) => (
         <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
+          <IconButton onClick={() => handleOpen(params.row)}>
             <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton> */}
+          </IconButton>
           <Link to={`/categoryForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -92,12 +106,14 @@ const CategoryTable = ({ fieldName }) => {
   ];
 
   // Prepare the rows for the DataGrid
-  const rows = category.map((cat) => ({
-    id: cat._id,
-    categoryName: cat.categoryName,
-    orgId: cat.orgId.organizationName,
-    branchName: cat.orgBranchId.branchName,
-  }));
+  const rows = Array.isArray(category)
+    ? category.map((cat) => ({
+        id: cat._id,
+        categoryName: cat.categoryName,
+        orgId: cat.orgId.organizationName,
+        branchName: cat.orgBranchId.branchName,
+      }))
+    : [];
 
   // Handle search term change
   const handleSearchChange = (event) => {
@@ -109,9 +125,7 @@ const CategoryTable = ({ fieldName }) => {
     return row.categoryName.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
-
-  const paginationModel = { page: 0, pageSize: 3 };
-
+  // const paginationModel = { page: 0, pageSize: 3 };
 
   return (
     <div>
@@ -142,8 +156,8 @@ const CategoryTable = ({ fieldName }) => {
                   sx={{
                     backgroundColor: "white",
                     borderRadius: 1,
-                    '& .MuiOutlinedInput-root': {
-                      '& fieldset': {
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
                         borderColor: "#6c5ce7", // Border color for the search input
                       },
                     },
@@ -153,7 +167,8 @@ const CategoryTable = ({ fieldName }) => {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <SearchIcon sx={{ color: "#6c5ce7" }} /> {/* Search icon color */}
+                        <SearchIcon sx={{ color: "#6c5ce7" }} />{" "}
+                        {/* Search icon color */}
                       </InputAdornment>
                     ),
                   }}
@@ -172,21 +187,25 @@ const CategoryTable = ({ fieldName }) => {
                 </Button>
               </Box>
             </Box>
-            <Paper sx={{ height: 400, width: "100%" , marginTop: "2rem"}}>
+            <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
               <DataGrid
                 rows={filteredCategories}
                 columns={columns}
-                initialState={{ pagination: { paginationModel } }}
+                pageSize={paginationModel.pageSize}
+                rowCount={totalRows}
+                paginationMode="server"
+                onPaginationModelChange={handlePaginationModelChange}
+                paginationModel={paginationModel}
                 pageSizeOptions={[5, 10]}
                 sx={{
                   border: 0,
                   "& .MuiDataGrid-columnHeader": {
-                    background: "#C4BDFF",  
-                    color: "White",  
+                    background: "#C4BDFF",
+                    color: "White",
                   },
                   "& .MuiDataGrid-columnHeaderTitle": {
-                    fontWeight: "bold", 
-                    fontSize: "1.2rem", 
+                    fontWeight: "bold",
+                    fontSize: "1.2rem",
                   },
                 }}
               />

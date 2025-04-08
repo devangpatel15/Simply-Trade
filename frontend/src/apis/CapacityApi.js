@@ -13,16 +13,19 @@ const createCapacity = async (formData) => {
   }
 };
 
-const getAllCapacity = async () => {
+const getAllCapacity = async (page = 1, limit = 5) => {
   try {
     const response = await axios.get("http://localhost:4000/api/allCapacity", {
-      headers: { "Content-Type ": "application/json",
+      params: { page, limit },
+      headers: {
+        "Content-Type ": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
-       },
+      },
     });
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error, "get Capacity error");
+    return { totalCount: 0, items: [] };
   }
 };
 
