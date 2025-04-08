@@ -17,21 +17,8 @@ import { Link } from "react-router-dom";
 
 //FIXME:edit,delete,update karvanu baki 6
 const StockPage = () => {
-  const [stock, setStock] = React.useState([]);
-  const [payment, setPayment] = React.useState([]);
-
-  const callApi = async () => {
-    const response = await getAllStocks();
-    setStock(response.data.data);
-    setPayment(response.data.data);
-
-  };
-
-  React.useEffect(() => {
-    callApi();
-  }, []);
-
-  console.log(stock);
+  // const [stock, setStock] = React.useState([]);
+  // const [payment, setPayment] = React.useState([]);
   
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -80,7 +67,7 @@ const StockPage = () => {
             </Box>
           </Box>
 
-          {stock &&
+          {/* {stock &&
             stock.map((stock) => {
               return (
                 <Box
@@ -151,25 +138,13 @@ const StockPage = () => {
                   </Box>
                 </Box>
               );
-            })}
+            })} */}
 
-          <PaymentDialog
-            handleClose={handleClose}
-            open={paymentDialog}
-            data={data}
-            callApi={callApi}
-            fieldName="paymentForm"
-          />
+          
 
-          <StockDialog
-            handleClose={handleClose}
-            open={open}
-            data={data}
-            callApi={callApi}
-            fieldName="stockForm"
-          />
+          
+        <StockTable />
         </Box>
-        <StockTable stock={stock} payment={payment} callApi={callApi}/>
        
       </Box>
     </Box>

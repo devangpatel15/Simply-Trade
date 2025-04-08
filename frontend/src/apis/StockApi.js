@@ -41,9 +41,9 @@ const getOneStock = async (id) => {
   }
 };
 
-const getAllStocks = async () => {
+const getAllStocks = async (page = 1, limit = 5) => {
   try {
-    const response = await axios.get("http://localhost:4000/api/allStock", {
+    const response = await axios.get("http://localhost:4000/api/allStock", {params: { page, limit },
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -52,6 +52,7 @@ const getAllStocks = async () => {
     return response;
   } catch (error) {
     console.log(error, "get All Stock error");
+    return { totalCount: 0, items: [] };
   }
 };
 const deleteStock = async (id) => {
