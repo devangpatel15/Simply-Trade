@@ -54,6 +54,7 @@ const StockForm = () => {
     upload: "",
   });
 
+
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("");
@@ -247,7 +248,7 @@ const StockForm = () => {
     (async () => {
       const findCustomerPhoneNumber = await getOneCustomer(selectedCustomer);
 
-      console.log(findCustomerPhoneNumber.data.data, "findCustomerPhone");
+      // console.log(findCustomerPhoneNumber.data.data, "findCustomerPhone");
       setFormData({
         ...formData,
         customerPhone: findCustomerPhoneNumber?.data?.data?.customerPhone,
@@ -462,7 +463,7 @@ const StockForm = () => {
             </Grid>
           </Grid>
 
-          {formData.device.map((item, deviceIndex) => (
+          {formData?.device?.map((item, deviceIndex) => (
             <Box
               key={deviceIndex}
               mt={3}

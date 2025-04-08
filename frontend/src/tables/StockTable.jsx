@@ -259,33 +259,7 @@ const StockTable = () => {
       headerName: "Action",
       flex: 2,
       renderCell: (params) => (
-        // <>
-        //   {/* <IconButton onClick={() => handleOpen(params.row)}>
-        //         <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-        //       </IconButton> */}
-        //   <Link to={`/stockForm/${params.row.id}`}>
-        //     <IconButton>
-        //       <EditIcon sx={{ color: "#6c5ce7" }} />
-        //     </IconButton>
-        //   </Link>
-        //   <IconButton onClick={() => openDeleteDialog(params.row.id)}>
-        //     <DeleteIcon sx={{ color: "#6c5ce7" }} />
-        //   </IconButton>
-        // </>
         <>
-          //{" "}
-          <IconButton
-            sx={{ backgroundColor: "#f5f5f5" }}
-            onClick={() => handlePaymentDialogOpen(payment)}
-          >
-            <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton>
-          {/* <IconButton
-                  sx={{ backgroundColor: "#f5f5f5" }}
-                  onClick={() => handleOpen(item)}
-                >
-                  <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-                </IconButton> */}
           <Link to={`/stockForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -294,16 +268,16 @@ const StockTable = () => {
           <IconButton onClick={() => openDeleteDialog(params.row.id)}>
             <DeleteIcon sx={{ color: "#6c5ce7" }} />
           </IconButton>
-          <IconButton
-            onClick={() => openDeleteDialog(params.row.id)}
-          ></IconButton>
+          <IconButton sx={{ backgroundColor: "#f5f5f5" }} onClick={() => handlePaymentDialogOpen(params.row)}>
+            <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
+          </IconButton>
         </>
       ),
     },
     { field: "organization", headerName: "organization", flex: 2 },
     { field: "categoryId", headerName: "Category", flex: 2 },
     { field: "modelId", headerName: "Model", flex: 2 },
-    { field: "organization", headerName: "Organization", flex: 2 },
+    { field: "deviceId", headerName: "Device", flex: 2 },
     { field: "branchName", headerName: "Branch Name", flex: 2 },
   ];
 
@@ -314,7 +288,8 @@ const StockTable = () => {
         organization: stock?.organization?.organizationName,
         categoryId: stock?.categoryName?.categoryName,
         modelId: stock?.modelName?.modelName,
-        branchName: stock?.branchName?.branchName,
+        deviceId: stock?.deviceName?.deviceName,
+        branchName: stock?.branch?.branchName,
       }))
     : [];
 
