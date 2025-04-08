@@ -17,30 +17,22 @@ import { getAllDevice } from "../apis/DeviceApi";
 import DeviceTable from "../tables/DeviceTable";
 
 const DevicePage = () => {
-  const [device, setDevice] = useState([]); 
   const [searchTerm, setSearchTerm] = useState(""); 
-  const [filteredDevices, setFilteredDevices] = useState([]); 
 
-  const callApi = async () => {
-    const response = await getAllDevice();
-    setDevice(response.data.data);
-    setFilteredDevices(response.data.data);
-  };
 
-  useEffect(() => {
-    callApi();
-  }, []);
+  // const callApi = async () => {
+  //   const response = await getAllDevice();
+  //   setDevice(response.data.data);
+  //   setFilteredDevices(response.data.data);
+  // };
+
+  // useEffect(() => {
+  //   callApi();
+  // }, []);
 
   const handleSearchChange = (event) => {
     const value = event.target.value;
     setSearchTerm(value);
-
-    const filteredData = device.filter((dev) =>
-      dev.deviceName.toLowerCase().includes(value.toLowerCase())  
-      // dev.modelId.toLowerCase().includes(value.toLowerCase())  
-    );
-
-    setFilteredDevices(filteredData);
   };
 
   const [open, setOpen] = useState(false);
@@ -95,13 +87,12 @@ const DevicePage = () => {
             </Box>
           </Box>
 
-          <DeviceTable device={filteredDevices} callApi={callApi} />
+          <DeviceTable />
 
           <DialogBox
             handleClose={handleClose}
             open={open}
             data={data}
-            callApi={callApi}
             fieldName="deviceForm"
           />
         </Box>

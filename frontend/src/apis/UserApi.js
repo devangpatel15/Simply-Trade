@@ -34,12 +34,13 @@ const updateUser = async (formData, id) => {
     console.log(error, "updateUser error");
   }
 };
-const getAllUsers = async () => {
+const getAllUsers = async (page = 1, limit = 5) => {
   try {
     const response = await axios.get(
       "http://localhost:4000/api/findAllUser",
 
       {
+        params: { page, limit },
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -49,6 +50,7 @@ const getAllUsers = async () => {
     return response;
   } catch (error) {
     console.log(error, "updateUser error");
+    return { totalCount: 0, items: [] };
   }
 };
 

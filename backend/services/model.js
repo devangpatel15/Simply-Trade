@@ -14,7 +14,7 @@ exports.findAllModelServices = async (userId, req) => {
     .limit(limit)
     .lean();
 
-  const totalCount = await Model.countDocuments();
+  const totalCount = await Model.countDocuments({isDeleted: false});
 
   return { totalCount, items };
 };

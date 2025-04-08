@@ -18,13 +18,37 @@ import DialogBox from "../components/DialogBox";
 import DeleteDialog from "../components/DeleteDialog";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteUser } from "../apis/UserApi";
+import { deleteUser, getAllUsers } from "../apis/UserApi";
 
-const UserTable = ({ userData, callApi }) => {
+const UserTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
+ const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 5,
+  });
+    const [userData, setUserData] = useState([]);
+      const [totalRows, setTotalRows] = useState(0);
+    
+  
+    const callApi = async () => {
+      const response = await getAllUsers( paginationModel.page + 1,
+        paginationModel.pageSize);
+      console.log(response.data.data.items, "API Response");
+      setUserData(response.data.data.items); // Set the items to orgData
+      setTotalRows(response.data.data.totalCount); // Set the total count (rowCount) from API response
+    };
+  
+    useEffect(() => {
+      callApi();
+    }, [paginationModel]);
+  
+    // Handle pagination model change (page or pageSize)
+  const handlePaginationModelChange = (newPaginationModel) => {
+    setPaginationModel(newPaginationModel);
+  };
 
   const handleOpen = (data) => {
     setData(data);
@@ -81,13 +105,15 @@ const UserTable = ({ userData, callApi }) => {
   ];
 
   // Prepare the rows for the DataGrid
-  const rows = userData.map((item) => ({
-    id: item._id,
-    userName: item.name,
-    email: item.email,
-    orgName: item.organization.organizationName,
-    branchName: item.orgBranch.branchName,
-  }));
+  const rows =  Array.isArray(userData)
+  ? userData.map((userData) => ({
+    id: userData._id,
+    userName: userData.name,
+    email: userData.email,
+    orgName: userData.organization.organizationName,
+    branchName: userData.orgBranch.branchName,
+  }))
+  : [];
 
   // Handle search term change
   const handleSearchChange = (event) => {
@@ -99,7 +125,6 @@ const UserTable = ({ userData, callApi }) => {
     return row.userName.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
-  const paginationModel = { page: 0, pageSize: 3 };
 
   return (
     <div>
@@ -107,8 +132,12 @@ const UserTable = ({ userData, callApi }) => {
         <DataGrid
           rows={filteredCategories}
           columns={columns}
-          initialState={{ pagination: { paginationModel } }}
-          rowsPerPageOptions={[5, 10]}
+          pageSize={paginationModel.pageSize}
+          rowCount={totalRows} // Ensure this is set to the total count of records
+          paginationMode="server" // Enable server-side pagination
+          onPaginationModelChange={handlePaginationModelChange}
+          paginationModel={paginationModel}
+          pageSizeOptions={[5, 10]}
           sx={{
             border: 0,
             "& .MuiDataGrid-columnHeader": {
