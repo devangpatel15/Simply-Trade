@@ -1,6 +1,11 @@
 const Stock = require("../models/stock");
 
-exports.getAllStockService = async (userOrgId, role, userId) => {
+exports.getAllStockService = async (userOrgId, role, userId, req) => {
+  const page = parseInt(req.query.page) || 1; // Default to page 1
+  const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+
+  const skip = (page - 1) * limit;
+
   const data = await Stock.find({ isDeleted: false })
     .populate({
       path: "organization",
@@ -9,10 +14,19 @@ exports.getAllStockService = async (userOrgId, role, userId) => {
     .populate(
       "branch customerName categoryName modelName deviceName capacityName color"
     )
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
     .lean();
-  return data.filter((item) => {
+  const filterData = data.filter((item) => {
     return item.organization != null;
   });
+
+  const totalCount = await Stock.countDocuments({
+    isDeleted: false,
+  });
+
+  return { totalCount, items: filterData };
 };
 
 exports.getStockService = async (stockId) => {
