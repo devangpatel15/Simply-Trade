@@ -28,7 +28,8 @@ exports.findUserOrganizationBranchServices = async (userId, req) => {
     .lean();
 
   const totalCount = await OrganizationBranch.countDocuments({
-    isDeleted: "false",
+    userId,
+    isDeleted: false,
   });
 
   return { totalCount, items };

@@ -18,8 +18,10 @@ const {
 } = require("../services/organizationBranch");
 
 exports.getAllOrganization = async (req, res) => {
+  const userId = req.user.id;
+
   try {
-    const org = await getAllOrganizationService(req);
+    const org = await getAllOrganizationService();
 
     if (!org) {
       return res.status(404).json({ message: "No Organization found" });

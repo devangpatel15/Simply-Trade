@@ -1,22 +1,46 @@
-import { IconButton, styled } from "@mui/material";
+import { IconButton, Paper } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
-import Paper from "@mui/material/Paper";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "../components/DeleteDialog";
 import DialogBox from "../components/DialogBox";
 import { deleteOrgBranch, getAllUserOrgBranch } from "../apis/OrganizationBranchApi";
-import { allUserOrg } from "../apis/OrganizationApi";
 
 const OrganizationBranchTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
-
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
+  const [orgData, setOrgData] = useState([]);
+  const [totalRows, setTotalRows] = useState(0);
 
+  // Function to fetch data from the API based on pagination model
+  const callApi = async () => {
+    try {
+      const response = await getAllUserOrgBranch(paginationModel.page + 1, paginationModel.pageSize); // +1 because API uses 1-based indexing
+      console.log(response, "API Response");
+      setOrgData(response.data.data.items); // Set the items to orgData
+      setTotalRows(response.data.data.totalCount); // Set the total count (rowCount) from API response
+    } catch (error) {
+      console.error("Error fetching organization branch data:", error);
+    }
+  };
+
+  // Fetch data when pagination model changes
+  useEffect(() => {
+    callApi(); // Call API when page or pageSize changes
+  }, [paginationModel]);
+
+  // Handle pagination model change (page or pageSize)
+  const handlePaginationModelChange = (newPaginationModel) => {
+    setPaginationModel(newPaginationModel);
+  };
+
+  // Open dialog to view details
   const handleOpen = (data) => {
     setData(data);
     setOpen(true);
@@ -24,29 +48,7 @@ const OrganizationBranchTable = () => {
 
   const handleClose = () => setOpen(false);
 
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
-  const [orgData, setOrgData] = useState([]);
-  const [totalRows, setTotalRows] = useState(0);
-
-  const callApi = async () => {
-    const response = await getAllUserOrgBranch(paginationModel.page + 1, paginationModel.pageSize)
-    console.log(response, "responss");
-    console.log(response.data.totalCount, "totalRows");
-    
-    setOrgData(response.data.data);
-    setTotalRows(response.data.totalCount);
-  };
-  
-  useEffect(() => {
-    callApi(); // +1 for 1-based API pagination
-  }, [paginationModel.page, paginationModel.pageSize]);
-
-  const handlePaginationModelChange = (newPaginationModel) => {
-    setPaginationModel(newPaginationModel);
-    callApi(newPaginationModel.page + 1, newPaginationModel.pageSize); // Pass page + 1 since API is likely 1-based
-  };
-
+  // Open delete dialog for confirmation
   const openDeleteDialog = (id) => {
     setDeleteOpen(id);
   };
@@ -57,13 +59,13 @@ const OrganizationBranchTable = () => {
   };
 
   const handleDelete = async (id) => {
-    deleteOrgBranch(id);
-
+    await deleteOrgBranch(id); // Call delete API
     setDeleteOpen(false);
     handleClose();
-    callApi();
+    callApi(); // Refresh the data after deletion
   };
 
+  // Define the columns for the DataGrid
   const columns = [
     {
       field: "action",
@@ -88,51 +90,43 @@ const OrganizationBranchTable = () => {
     { field: "branchName", headerName: "Branch Name", flex: 2 },
     { field: "organization", headerName: "Organization", flex: 2 },
     { field: "email", headerName: "Email", flex: 2 },
-    { field: "telePhone", headerName: "TelePhone", flex: 4 },
+    { field: "telePhone", headerName: "Telephone", flex: 4 },
   ];
 
-  // Prepare the rows for the DataGrid
-  const rows = Array.isArray(orgData)
-  ? orgData.map((orgData) => ({
-    id: orgData._id,
-    branchName: orgData?.branchName,
-    organization: orgData.organization.organizationName,
-    email: orgData.email,
-    telePhone: orgData?.telePhone,
-  }))
-  : [];;
+  // Map orgData to rows for the DataGrid
+  const rows = orgData.map((org) => ({
+    id: org._id,
+    branchName: org.branchName,
+    organization: org.organization.organizationName,
+    email: org.email,
+    telePhone: org.telePhone,
+  }));
 
-  // Handle search term change
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  // Filter categories based on search term
-  const filteredOrganizationBranch = rows.filter((row) => {
-    return row.branchName.toLowerCase().includes(searchTerm.toLowerCase());
-  });
-
+  // Filter the organization branches based on the search term
+  const filteredOrganizationBranch = rows.filter((row) =>
+    row.branchName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
-      <Paper sx={{ height: 400, width: "100%" , marginTop: "2rem"}}>
+      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
         <DataGrid
           rows={filteredOrganizationBranch}
           columns={columns}
           pageSize={paginationModel.pageSize}
-          rowCount={totalRows}
-          paginationMode="server"
+          rowCount={totalRows} // Ensure this is set to the total count of records
+          paginationMode="server" // Enable server-side pagination
           onPaginationModelChange={handlePaginationModelChange}
           paginationModel={paginationModel}
           pageSizeOptions={[5, 10]}
           sx={{
             border: 0,
             "& .MuiDataGrid-columnHeader": {
-              background: "#C4BDFF",  
-              color: "White",  
+              background: "#C4BDFF",
+              color: "White",
             },
             "& .MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold",  
+              fontWeight: "bold",
               fontSize: "1.2rem",
             },
           }}
