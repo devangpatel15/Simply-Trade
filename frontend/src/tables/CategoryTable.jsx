@@ -123,9 +123,9 @@ const CategoryTable = () => {
   };
 
   // Filter categories based on search term
-  const filteredCategories = rows.filter((row) => {
-    return row.categoryName.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  // const filteredCategories = rows.filter((row) => {
+  //   return row.categoryName.toLowerCase().includes(searchTerm.toLowerCase());
+  // });
 
   // const paginationModel = { page: 0, pageSize: 3 };
 
@@ -191,7 +191,7 @@ const CategoryTable = () => {
             </Box>
             <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
               <DataGrid
-                rows={filteredCategories}
+                rows={rows}
                 columns={columns}
                 pageSize={paginationModel.pageSize}
                 rowCount={totalRows}

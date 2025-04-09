@@ -121,9 +121,9 @@ const DeviceTable = () => {
   };
 
   // Filter categories based on search term
-  const filteredDevice = rows.filter((row) => {
-    return row.deviceName.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  // const filteredDevice = rows.filter((row) => {
+  //   return row.deviceName.toLowerCase().includes(searchTerm.toLowerCase());
+  // });
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -175,7 +175,7 @@ const DeviceTable = () => {
           </Box>
       <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
         <DataGrid
-          rows={filteredDevice}
+          rows={rows}
           columns={columns}
           pageSize={paginationModel.pageSize}
           rowCount={totalRows} // Ensure this is set to the total count of records

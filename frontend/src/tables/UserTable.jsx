@@ -124,9 +124,9 @@ const UserTable = () => {
   };
 
   // Filter categories based on search term
-  const filteredCategories = rows.filter((row) => {
-    return row.userName.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  // const filteredCategories = rows.filter((row) => {
+  //   return row.userName.toLowerCase().includes(searchTerm.toLowerCase());
+  // });
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -178,7 +178,7 @@ const UserTable = () => {
 
           <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
             <DataGrid
-              rows={filteredCategories}
+              rows={rows}
               columns={columns}
               pageSize={paginationModel.pageSize}
               rowCount={totalRows} // Ensure this is set to the total count of records

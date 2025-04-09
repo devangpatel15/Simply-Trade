@@ -39,7 +39,8 @@ exports.findUserServices = async (email) => {
 exports.findAllUserServices = async (req) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1
   const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
-  // const search = req.query.search || "";
+  const search = req.query.search || "";
+  
 
   const skip = (page - 1) * limit;
   const query = { name: { $regex: search, $options: "i" } };
