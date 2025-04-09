@@ -5,12 +5,13 @@ const mongoose = require("mongoose");
 exports.getAllCategoryService = async (userId, req) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1
   const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+  const search = req.query.search || "";
 
   const skip = (page - 1) * limit;
 
-  const items = await Category.find({
-    isDeleted: false,
-  })
+  const query = { categoryName: { $regex: search, $options: "i" } };
+
+  const items = await Category.find({ query, isDeleted: false })
     .populate({
       path: "orgId orgBranchId",
       match: { userId: userId },
@@ -21,7 +22,10 @@ exports.getAllCategoryService = async (userId, req) => {
     .limit(limit)
     .lean();
 
-  const totalCount = await Category.countDocuments({ isDeleted: "false" });
+  const totalCount = await Category.countDocuments({
+    query,
+    isDeleted: "false",
+  });
 
   return { totalCount, items };
 

@@ -17,10 +17,17 @@ exports.findOneOrganizationBranchServices = async (id) => {
 exports.findUserOrganizationBranchServices = async (userId, req) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1
   const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+  const search = req.query.search || "";
 
   const skip = (page - 1) * limit;
 
-  const items = await OrganizationBranch.find({ userId, isDeleted: false })
+  const query = { branchName: { $regex: search, $options: "i" } };
+
+  const items = await OrganizationBranch.find({
+    userId,
+    query,
+    isDeleted: false,
+  })
     .sort({ createdAt: -1 })
     .populate("userId organization")
     .skip(skip)
@@ -29,6 +36,7 @@ exports.findUserOrganizationBranchServices = async (userId, req) => {
 
   const totalCount = await OrganizationBranch.countDocuments({
     userId,
+    query,
     isDeleted: false,
   });
 
