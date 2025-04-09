@@ -200,8 +200,9 @@ exports.deleteOrganization = async (req, res) => {
 exports.searchOrganization = async (req, res) => {
   try {
     const orgText = req.query.text || "";
+    const userId = req.user.id;
 
-    const org = await searchOrganizationService(orgText);
+    const org = await searchOrganizationService(orgText , userId);
 
     if (!org) {
       return res.status(404).json({ message: "searchCustomer not found" });

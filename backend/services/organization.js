@@ -64,3 +64,16 @@ exports.softDeleteOrganizationService = async (orgId) => {
 exports.deleteOrganizationService = async (orgId) => {
   return await Organization.findByIdAndDelete(orgId);
 };
+
+
+exports.searchOrganizationService = async (orgText, userId) => {
+  let findObject = { userId, isDeleted: false };
+
+  if (orgText.trim() !== "") {
+    findObject.$or = [
+      { organizationName: { $regex: `^${orgText}`, $options: "i" } },
+    ];
+  }
+
+  return await Organization.find(findObject).limit(5); // Increase limit if needed
+};

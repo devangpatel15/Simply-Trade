@@ -1,4 +1,12 @@
-import { IconButton, Paper } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
@@ -7,21 +15,34 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "../components/DeleteDialog";
 import DialogBox from "../components/DialogBox";
-import { deleteOrgBranch, getAllUserOrgBranch } from "../apis/OrganizationBranchApi";
+import SearchIcon from "@mui/icons-material/Search";
+import {
+  deleteOrgBranch,
+  getAllUserOrgBranch,
+} from "../apis/OrganizationBranchApi";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
 
 const OrganizationBranchTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 5,
+  });
   const [orgData, setOrgData] = useState([]);
   const [totalRows, setTotalRows] = useState(0);
 
   // Function to fetch data from the API based on pagination model
   const callApi = async () => {
     try {
-      const response = await getAllUserOrgBranch(paginationModel.page + 1, paginationModel.pageSize); // +1 because API uses 1-based indexing
+      const response = await getAllUserOrgBranch(
+        paginationModel.page + 1,
+        paginationModel.pageSize,
+        searchTerm
+      ); // +1 because API uses 1-based indexing
       console.log(response, "API Response");
       setOrgData(response.data.data.items); // Set the items to orgData
       setTotalRows(response.data.data.totalCount); // Set the total count (rowCount) from API response
@@ -33,7 +54,7 @@ const OrganizationBranchTable = () => {
   // Fetch data when pagination model changes
   useEffect(() => {
     callApi(); // Call API when page or pageSize changes
-  }, [paginationModel]);
+  }, [paginationModel, searchTerm]);
 
   // Handle pagination model change (page or pageSize)
   const handlePaginationModelChange = (newPaginationModel) => {
@@ -101,51 +122,102 @@ const OrganizationBranchTable = () => {
     email: org.email,
     telePhone: org.telePhone,
   }));
-
+  // Handle search term change
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+    setPaginationModel((prev) => ({ ...prev, page: 0 }));
+  };
   // Filter the organization branches based on the search term
   const filteredOrganizationBranch = rows.filter((row) =>
     row.branchName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div>
-      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
-        <DataGrid
-          rows={filteredOrganizationBranch}
-          columns={columns}
-          pageSize={paginationModel.pageSize}
-          rowCount={totalRows} // Ensure this is set to the total count of records
-          paginationMode="server" // Enable server-side pagination
-          onPaginationModelChange={handlePaginationModelChange}
-          paginationModel={paginationModel}
-          pageSizeOptions={[5, 10]}
-          sx={{
-            border: 0,
-            "& .MuiDataGrid-columnHeader": {
-              background: "#C4BDFF",
-              color: "White",
-            },
-            "& .MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold",
-              fontSize: "1.2rem",
-            },
-          }}
-        />
-      </Paper>
-      <DialogBox
-        handleClose={handleClose}
-        open={open}
-        data={data}
-        callApi={callApi}
-        fieldName="organizationBranchForm"
-      />
-      <DeleteDialog
-        deleteOpen={deleteOpen}
-        handleClose={handleClose}
-        handleDelete={handleDelete}
-        closeDeleteDialog={closeDeleteDialog}
-      />
-    </div>
+    <Box sx={{ display: "flex", marginTop: "4rem" }}>
+      <Sidebar />
+      <Box sx={{ flexGrow: 1 }}>
+        <Header />
+        <Box sx={{ padding: 3 }}>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+            >
+              ORGANIZATIONS BRANCH
+            </Typography>
+            <Box display="flex" gap={2}>
+              <TextField
+                variant="outlined"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                size="small"
+                sx={{ backgroundColor: "white", borderRadius: 1 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon sx={{ color: "#6c5ce7" }} />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Button
+                variant="outlined"
+                sx={{
+                  color: "#6c5ce7",
+                  borderColor: "#6c5ce7",
+                  textTransform: "none",
+                }}
+                component={Link}
+                to="/organizationBranchForm"
+              >
+                Add Organization Branch
+              </Button>
+            </Box>
+          </Box>
+          <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+            <DataGrid
+              rows={filteredOrganizationBranch}
+              columns={columns}
+              pageSize={paginationModel.pageSize}
+              rowCount={totalRows} // Ensure this is set to the total count of records
+              paginationMode="server" // Enable server-side pagination
+              onPaginationModelChange={handlePaginationModelChange}
+              paginationModel={paginationModel}
+              pageSizeOptions={[5, 10]}
+              sx={{
+                border: 0,
+                "& .MuiDataGrid-columnHeader": {
+                  background: "#C4BDFF",
+                  color: "White",
+                },
+                "& .MuiDataGrid-columnHeaderTitle": {
+                  fontWeight: "bold",
+                  fontSize: "1.2rem",
+                },
+              }}
+            />
+          </Paper>
+          <DialogBox
+            handleClose={handleClose}
+            open={open}
+            data={data}
+            callApi={callApi}
+            fieldName="organizationBranchForm"
+          />
+          <DeleteDialog
+            deleteOpen={deleteOpen}
+            handleClose={handleClose}
+            handleDelete={handleDelete}
+            closeDeleteDialog={closeDeleteDialog}
+          />
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

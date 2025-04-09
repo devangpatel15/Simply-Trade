@@ -36,7 +36,8 @@ const CategoryTable = () => {
   const callApi = async () => {
     const response = await getAllCategory(
       paginationModel.page + 1,
-      paginationModel.pageSize
+      paginationModel.pageSize,
+      searchTerm
     );
     console.log(response, "responss");
     console.log(response.data.totalCount, "totalRows");
@@ -47,7 +48,7 @@ const CategoryTable = () => {
 
   useEffect(() => {
     callApi(); // +1 for 1-based API pagination
-  }, [paginationModel.page, paginationModel.pageSize]);
+  }, [paginationModel.page, paginationModel.pageSize, searchTerm]);
 
   const handleOpen = (data) => {
     setData(data);
@@ -118,6 +119,7 @@ const CategoryTable = () => {
   // Handle search term change
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+    setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
 
   // Filter categories based on search term

@@ -1,4 +1,4 @@
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { Box, Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
@@ -10,6 +10,8 @@ import DeleteDialog from "../components/DeleteDialog";
 import DialogBox from "../components/DialogBox";
 import { allUserOrg, deleteOrg } from "../apis/OrganizationApi";
 import SearchIcon from "@mui/icons-material/Search";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
 
 const OrganizationTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -126,8 +128,24 @@ const OrganizationTable = () => {
 
   // const paginationModel = { page: 0, pageSize: 5 };
 
-  return (
-    <div>
+  return (    
+  <Box sx={{ display: "flex", marginTop: "4rem" }}>
+      <Sidebar />
+      <Box sx={{ flexGrow: 1 }}>
+        <Header />
+        <Box sx={{ padding: 3 }}>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+            >
+              ORGANIZATIONS
+            </Typography>
+            <Box display="flex" gap={2}>
       <TextField
         variant="outlined"
         placeholder="Search"
@@ -143,6 +161,20 @@ const OrganizationTable = () => {
           ),
         }}
       />
+      <Button
+                variant="outlined"
+                sx={{
+                  color: "#6c5ce7",
+                  borderColor: "#6c5ce7",
+                  textTransform: "none",
+                }}
+                component={Link}
+                to="/organizationForm"
+              >
+                Add Organization
+              </Button>
+            </Box>
+          </Box>
       <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
         <DataGrid
           rows={filteredOrganization}
@@ -166,21 +198,24 @@ const OrganizationTable = () => {
           }}
         />
       </Paper>
-      <DialogBox
-        handleClose={handleClose}
-        open={open}
-        data={data}
-        callApi={callApi}
-        fieldName="organizationForm"
-      />
-      <DeleteDialog
-        deleteOpen={deleteOpen}
-        handleClose={handleClose}
-        handleDelete={handleDelete}
-        closeDeleteDialog={closeDeleteDialog}
-      />
-    </div>
-  );
+  
+<DialogBox
+  handleClose={handleClose}
+  open={open}
+  data={data}
+  callApi={callApi}
+  fieldName="organizationForm"
+/>
+<DeleteDialog
+  deleteOpen={deleteOpen}
+  handleClose={handleClose}
+  handleDelete={handleDelete}
+  closeDeleteDialog={closeDeleteDialog}
+/>
+    </Box>
+      </Box>
+  </Box>
+);
 };
 
 export default OrganizationTable;

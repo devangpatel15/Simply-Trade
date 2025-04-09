@@ -47,10 +47,10 @@ const updateColor = async (formData, id) => {
   }
 };
 
-const getAllColor = async (page = 1, limit = 5) => {
+const getAllColor = async (page = 1, limit = 5, search = "") => {
   try {
     const response = await axios.get("http://localhost:4000/api/findAllColor", {
-      params: { page, limit },
+      params: { page, limit, search  },
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
