@@ -128,9 +128,9 @@ const OrganizationBranchTable = () => {
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
   // Filter the organization branches based on the search term
-  const filteredOrganizationBranch = rows.filter((row) =>
-    row.branchName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredOrganizationBranch = rows.filter((row) =>
+  //   row.branchName.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -181,7 +181,7 @@ const OrganizationBranchTable = () => {
           </Box>
           <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
             <DataGrid
-              rows={filteredOrganizationBranch}
+              rows={rows}
               columns={columns}
               pageSize={paginationModel.pageSize}
               rowCount={totalRows} // Ensure this is set to the total count of records

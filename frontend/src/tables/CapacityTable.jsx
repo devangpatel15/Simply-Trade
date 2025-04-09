@@ -120,9 +120,9 @@ const CapacityTable = () => {
   };
 
   // Filter categories based on search term
-  const filteredDevice = rows.filter((row) => {
-    return row.capacityName.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  // const filteredDevice = rows.filter((row) => {
+  //   return row.capacityName.toLowerCase().includes(searchTerm.toLowerCase());
+  // });
 
   // const paginationModel = { page: 0, pageSize: 5 };
 
@@ -175,7 +175,7 @@ const CapacityTable = () => {
           </Box>
           <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
             <DataGrid
-              rows={filteredDevice}
+              rows={rows}
               columns={columns}
               pageSize={paginationModel.pageSize}
               rowCount={totalRows}

@@ -44,7 +44,7 @@ const ModelTable = () => {
     pageSize: 5,
   });
 
-  const callApi = async (page = 1, limit = 5, search = "") => {
+  const callApi = async (page = 1, limit = 5, search) => {
     const response = await axios.get("http://localhost:4000/api/findAllModel", {
       params: { page, limit, search },
       headers: {
@@ -130,9 +130,9 @@ const ModelTable = () => {
   };
 
   // Filter categories based on search term
-  const filteredDevice = rows.filter((row) => {
-    return row.modelName.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  // const filteredDevice = rows.filter((row) => {
+  //   return row.modelName.toLowerCase().includes(searchTerm.toLowerCase());
+  // });
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -184,7 +184,7 @@ const ModelTable = () => {
           </Box>
           <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
             <DataGrid
-              rows={filteredDevice}
+              rows={rows}
               columns={columns}
               pageSize={paginationModel.pageSize}
               rowCount={totalRows} // Ensure this is set to the total count of records

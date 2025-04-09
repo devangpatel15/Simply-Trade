@@ -120,11 +120,11 @@ const OrganizationTable = () => {
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
 
-  const filteredOrganization = rows.filter((row) => {
-    return row.organizationName
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-  });
+  // const filteredOrganization = rows.filter((row) => {
+  //   return row.organizationName
+  //     .toLowerCase()
+  //     .includes(searchTerm.toLowerCase());
+  // });
 
   // const paginationModel = { page: 0, pageSize: 5 };
 
@@ -177,7 +177,7 @@ const OrganizationTable = () => {
           </Box>
       <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
         <DataGrid
-          rows={filteredOrganization}
+          rows={rows}
           columns={columns}
           pageSize={paginationModel.pageSize}
           rowCount={totalRows}
