@@ -30,11 +30,13 @@ exports.getAllStockService = async (userOrgId, role, userId, req) => {
 };
 
 exports.getStockService = async (stockId) => {
-  return await Stock.findById(stockId)
-    .populate(
-      "organization branch customerName categoryName modelName deviceName capacityName color"
-    )
-    .lean();
+
+  const stockData= await Stock.findById(stockId)
+  .populate(
+    "organization branch customerName categoryName modelName deviceName capacityName color"
+  )
+  .lean();
+    return stockData
 };
 
 exports.createStockService = async (newStock) => {
@@ -42,7 +44,11 @@ exports.createStockService = async (newStock) => {
 };
 
 exports.updateStockService = async (stockId, stock) => {
-  return await Stock.findByIdAndUpdate(stockId, stock, { new: true }).lean();
+  const data= await Stock.findByIdAndUpdate(stockId, stock, { new: true }).populate(
+    "organization branch customerName categoryName modelName deviceName capacityName color"
+  ).lean();
+  console.log("uudata data+++++++++++++++++++++++++",data)
+  return data
 };
 
 exports.softDeleteStockService = async (stockId) => {
