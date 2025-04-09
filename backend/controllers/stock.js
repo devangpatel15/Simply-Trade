@@ -154,12 +154,42 @@ exports.createStock = async (req, res) => {
 exports.updateStock = async (req, res) => {
   try {
     const stockId = req.params.id;
-    const stock = req.body;
-    const updatedStock = await updateStockService(stockId, stock);
+
+    const newStock = req.body;
+    const { device } = newStock;
+
+    if (!device || !Array.isArray(device) || device.length === 0) {
+      return res.status(400).json({ message: "Invalid device data" });
+    }
+
+    let stockEntry
+    device.forEach((deviceItem) => {
+      if (deviceItem.imei && Array.isArray(deviceItem.imei)) {
+        deviceItem.imei.forEach((imeiItem) => {
+           stockEntry = {
+            organization: newStock.organization,
+            branch: newStock.branch,
+            customerName: newStock.customerName,
+            customerPhone: newStock.customerPhone,
+            categoryName: deviceItem.categoryName,
+            modelName: deviceItem.modelName,
+            deviceName: deviceItem.deviceName,
+            capacityName: deviceItem.capacityName,
+            color: deviceItem.color,
+            imeiNo: imeiItem.imeiNo,
+            srNo: imeiItem.srNo,
+            totalAmount: imeiItem.totalAmount,
+            paidToCustomer: imeiItem.paidToCustomer,
+            remainingAmount: imeiItem.remainingAmount,
+            upload: newStock.upload,
+          };
+        });
+      }
+    });
+    const updatedStock = await updateStockService(stockId, stockEntry);
     if (!updatedStock) {
       return res.status(404).json({ message: "Stock not found" });
     }
-
     return res
       .status(200)
       .json({ message: "Stock updated", data: updatedStock });
