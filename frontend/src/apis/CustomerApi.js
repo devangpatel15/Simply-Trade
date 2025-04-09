@@ -31,7 +31,7 @@ const updateCustomer = async (formData, id) => {
 
 const getOneCustomer = async (id) => {
   try {
-    const respone = await axios.get(
+    const response = await axios.get(
       `http://localhost:4000/api/customer/${id}`,
       {
         headers: {
@@ -40,7 +40,7 @@ const getOneCustomer = async (id) => {
         },
       }
     );
-    return respone;
+    return response;
   } catch (error) {
     console.log(error, "get Customer error");
   }

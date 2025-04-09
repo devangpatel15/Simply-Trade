@@ -18,7 +18,7 @@ const createOrgBranch = async (formData) => {
   }
 };
 
-const getAllUserOrgBranch = async (page = 1, limit = 5, search = "") => {
+const getAllUserOrgBranch = async (page = 1, limit = 5, search) => {
   try {
     const response = await axios.get(
       "http://localhost:4000/api/findAllUserOrganizationBranch",

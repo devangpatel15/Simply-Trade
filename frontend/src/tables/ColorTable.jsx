@@ -125,9 +125,9 @@ const ColorTable = () => {
   };
 
   // Filter categories based on search term
-  const filteredColor = rows.filter((row) => {
-    return row.colorName.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  // const filteredColor = rows.filter((row) => {
+  //   return row.colorName.toLowerCase().includes(searchTerm.toLowerCase());
+  // });
 
   // const paginationModel = { page: 0, pageSize: 5 };
 
@@ -181,7 +181,7 @@ const ColorTable = () => {
           </Box>
           <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
             <DataGrid
-              rows={filteredColor}
+              rows={rows}
               columns={columns}
               pageSize={paginationModel.pageSize}
               rowCount={totalRows}

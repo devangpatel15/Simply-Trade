@@ -11,7 +11,7 @@ exports.getAllCategoryService = async (userId, req) => {
 
   const query = { categoryName: { $regex: search, $options: "i" } };
 
-  const items = await Category.find({ query, isDeleted: false })
+  const items = await Category.find({ ... query, isDeleted: false })
     .populate({
       path: "orgId orgBranchId",
       match: { userId: userId },
@@ -23,7 +23,7 @@ exports.getAllCategoryService = async (userId, req) => {
     .lean();
 
   const totalCount = await Category.countDocuments({
-    query,
+    ...query,
     isDeleted: "false",
   });
 
