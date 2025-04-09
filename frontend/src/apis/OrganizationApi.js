@@ -35,7 +35,7 @@ const updateOrg = async (formData, id) => {
   }
 };
 
-const allUserOrg = async (page = 1, limit = 5, search = "") => {
+const allUserOrg = async (page = 1, limit = 5, search) => {
   try {
     const response = await axios.get("http://localhost:4000/api/allUserOrg", {
       params: { page, limit, search }, // Pass page and limit as query parameters

@@ -9,7 +9,7 @@ exports.findAllDeviceServices = async (userId, req) => {
 
   const query = { deviceName: { $regex: search, $options: "i" } };
 
-  const items = await Device.find({ query, isDeleted: false })
+  const items = await Device.find({ ...query, isDeleted: false })
     .populate({
       path: "organization",
       match: { userId: userId },
@@ -21,7 +21,7 @@ exports.findAllDeviceServices = async (userId, req) => {
     .limit(limit)
     .lean();
 
-  const totalCount = await Device.countDocuments({ query, isDeleted: false });
+  const totalCount = await Device.countDocuments({ ...query, isDeleted: false });
 
   return { totalCount, items };
 };

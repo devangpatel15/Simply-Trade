@@ -25,7 +25,7 @@ exports.findUserOrganizationBranchServices = async (userId, req) => {
 
   const items = await OrganizationBranch.find({
     userId,
-    query,
+    ...query,
     isDeleted: false,
   })
     .sort({ createdAt: -1 })
@@ -36,7 +36,7 @@ exports.findUserOrganizationBranchServices = async (userId, req) => {
 
   const totalCount = await OrganizationBranch.countDocuments({
     userId,
-    query,
+    ...query,
     isDeleted: false,
   });
 

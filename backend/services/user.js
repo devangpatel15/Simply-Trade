@@ -44,7 +44,7 @@ exports.findAllUserServices = async (req) => {
   const skip = (page - 1) * limit;
   const query = { name: { $regex: search, $options: "i" } };
 
-  const items = await User.find({ query, role: "user", isDeleted: false })
+  const items = await User.find({ ...query, role: "user", isDeleted: false })
     .sort({ createdAt: -1 })
     .populate("organization orgBranch")
     .skip(skip)
@@ -52,7 +52,7 @@ exports.findAllUserServices = async (req) => {
     .lean();
 
   const totalCount = await User.countDocuments({
-    query,
+    ...query,
     isDeleted: false,
     role: "user",
   });

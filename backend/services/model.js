@@ -9,7 +9,7 @@ exports.findAllModelServices = async (userId, req) => {
 
   const query = { modelName: { $regex: search, $options: "i" } };
 
-  const items = await Model.find({ query, isDeleted: false })
+  const items = await Model.find({ ...query, isDeleted: false })
     .populate({ path: "organization", match: { userId: userId } })
     .populate("branchName categoryId")
     .sort({ createdAt: -1 })
@@ -17,7 +17,7 @@ exports.findAllModelServices = async (userId, req) => {
     .limit(limit)
     .lean();
 
-  const totalCount = await Model.countDocuments({ query, isDeleted: false });
+  const totalCount = await Model.countDocuments({ ...query, isDeleted: false });
 
   return { totalCount, items };
 };

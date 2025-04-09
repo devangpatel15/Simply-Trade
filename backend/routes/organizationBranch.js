@@ -26,11 +26,11 @@ organizationBranchRoute.get(
   AuthUser,
   findAllOrganizationBranch
 );
-organizationBranchRoute.get(
-  "/findAllUserOrganizationBranch",
-  AuthUser,
-  findUserOrganizationBranch
-);
+// organizationBranchRoute.get(
+//   "/findAllUserOrganizationBranch",
+//   AuthUser,
+//   findUserOrganizationBranch
+// );
 organizationBranchRoute.get(
   "/findAllUserOrganizationBranch",
   AuthUser,

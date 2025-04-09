@@ -150,6 +150,8 @@ const UserTable = () => {
                 variant="outlined"
                 placeholder="Search"
                 size="small"
+                value={searchTerm}
+                onChange={handleSearchChange}
                 sx={{ backgroundColor: "white", borderRadius: 1 }}
                 InputProps={{
                   startAdornment: (

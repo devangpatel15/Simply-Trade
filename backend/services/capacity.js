@@ -11,7 +11,7 @@ exports.getAllCapacityService = async (userId, req) => {
 
   const query = { capacityName: { $regex: search, $options: "i" } };
 
-  const items = await Capacity.find({ query, isDeleted: false })
+  const items = await Capacity.find({ ...query, isDeleted: false })
     .populate({
       path: "organization",
       match: { userId: userId },
@@ -24,7 +24,7 @@ exports.getAllCapacityService = async (userId, req) => {
     .lean();
 
   const totalCount = await Capacity.countDocuments({
-    query,
+    ...query,
     isDeleted: "false",
   });
 
