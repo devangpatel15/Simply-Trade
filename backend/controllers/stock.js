@@ -161,7 +161,6 @@ exports.updateStock = async (req, res) => {
     if (!updatedStock) {
       return res.status(404).json({ message: "Stock not found" });
     }
-
     return res
       .status(200)
       .json({ message: "Stock updated", data: updatedStock });

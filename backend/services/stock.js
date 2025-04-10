@@ -44,6 +44,7 @@ exports.createStockService = async (newStock) => {
 };
 
 exports.updateStockService = async (stockId, stock) => {
+  
   const data= await Stock.findByIdAndUpdate(stockId, stock, { new: true }).populate(
     "organization branch customerName categoryName modelName deviceName capacityName color"
   ).lean();
