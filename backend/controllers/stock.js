@@ -155,6 +155,8 @@ exports.updateStock = async (req, res) => {
   try {
     const stockId = req.params.id;
     const stock = req.body;
+
+    console.log(stock, "stock");
     const updatedStock = await updateStockService(stockId, stock);
     if (!updatedStock) {
       return res.status(404).json({ message: "Stock not found" });
