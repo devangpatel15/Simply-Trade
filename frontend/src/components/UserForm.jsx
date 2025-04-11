@@ -19,6 +19,7 @@ import { createUser, getOneUser, updateUser } from "../apis/UserApi";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
+import { toast } from "react-toastify";
 
 const UserForm = () => {
   const { id } = useParams();
@@ -88,7 +89,7 @@ const UserForm = () => {
           },
           id
         );
-        navigate("/userPage");
+        toast.success("User updated successfully");
       } else {
         await createUser({
           ...formData,
@@ -96,10 +97,14 @@ const UserForm = () => {
           orgBranch: formData.orgBranch.value,
           role: "user",
         });
-        navigate("/userPage");
+        toast.success("User created successfully");
       }
+      navigate("/userPage");
     } catch (error) {
       console.error("Error submitting form:", error);
+      toast.error(
+        "An error occurred while submitting the form. Please try again."
+      );
     }
   };
 

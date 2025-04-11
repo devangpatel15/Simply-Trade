@@ -18,6 +18,7 @@ import { getBranchCategory } from "../apis/CategoryApi";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import CategoryInput from "./common/CategoryInput";
+import { toast } from "react-toastify";
 import { errorMessage } from "../../errorMessage";
 
 const ModelForm = () => {
@@ -75,7 +76,7 @@ const ModelForm = () => {
           },
           id
         );
-        navigate("/modelPage");
+        toast.success("Model updated successfully!");
       } else {
         createModel({
           ...formData,
@@ -83,11 +84,14 @@ const ModelForm = () => {
           branchName: formData.branchName.value,
           categoryId: formData.categoryId.value,
         });
-        navigate("/modelPage");
+        toast.success("Model added successfully!");
       }
+      navigate("/modelPage");
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("error");
+      toast.error(
+        "An error occurred while submitting the form. Please try again."
+      );
     }
   };
 

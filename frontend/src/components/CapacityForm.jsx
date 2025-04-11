@@ -22,6 +22,7 @@ import CategoryInput from "./common/CategoryInput";
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 import { errorMessage } from "../../errorMessage";
+import { toast } from "react-toastify";
 
 const CapacityForm = () => {
   const { id } = useParams();
@@ -85,7 +86,7 @@ const CapacityForm = () => {
           },
           id
         );
-        navigate("/capacityPage");
+        toast.success("Capacity updated successfully");
       } else {
         await createCapacity({
           ...formData,
@@ -95,11 +96,14 @@ const CapacityForm = () => {
           modelId: formData.modelId.value,
           deviceId: formData.deviceId.value,
         });
-        navigate("/capacityPage");
+        toast.success("Capacity added successfully");
       }
+      navigate("/capacityPage");
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("error");
+      toast.error(
+        "An error occurred while submitting the form. Please try again."
+      );
     }
   };
 
