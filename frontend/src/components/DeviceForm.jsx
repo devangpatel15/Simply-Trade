@@ -11,14 +11,13 @@ import Header from "./Header";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { createDevice, getOneDevice, updateDevice } from "../apis/DeviceApi";
-import { allUserOrg } from "../apis/OrganizationApi";
-import { getOrgBranch } from "../apis/OrganizationBranchApi";
-import { getBranchModel } from "../apis/ModelApi";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import CategoryInput from "./common/CategoryInput";
 import ModelInput from "./common/ModelInput";
 import { errorMessage } from "../../errorMessage";
+import { toast } from "react-toastify";
+
 
 const DeviceForm = () => {
   const { id } = useParams();
@@ -78,7 +77,8 @@ const DeviceForm = () => {
           },
           id
         );
-        navigate("/devicePage");
+        toast.success("Device updated successfully!");
+
       } else {
         createDevice({
           ...formData,
@@ -87,11 +87,14 @@ const DeviceForm = () => {
           categoryId: formData.categoryId.value,
           modelId: formData.modelId.value,
         });
-        navigate("/devicePage");
+        toast.success("Device added successfully!");
+
       }
+      navigate("/devicePage");
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("error");
+      toast.error("An error occurred while submitting the form. Please try again.");
+
     }
   };
 

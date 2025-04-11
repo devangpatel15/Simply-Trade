@@ -40,6 +40,11 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import StorageIcon from "@mui/icons-material/Storage";
 import ArticleIcon from "@mui/icons-material/Article";
 import PersonIcon from "@mui/icons-material/Person";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+import RestorePageIcon from "@mui/icons-material/RestorePage";
 
 const iconColor = "#5C4E89"; // Custom icon color
 
@@ -157,16 +162,6 @@ const Sidebar = () => {
 
                     <ListItemButton
                       sx={{ pl: 4, gap: "2rem" }}
-                      onClick={() => navigate("/userPage")}
-                    >
-                      <PeopleAltIcon>
-                        <Business sx={{ color: iconColor }} />
-                      </PeopleAltIcon>
-                      <ListItemText primary="Users" />
-                    </ListItemButton>
-
-                    <ListItemButton
-                      sx={{ pl: 4, gap: "2rem" }}
                       onClick={() => navigate("/category")}
                     >
                       <CategoryIcon>
@@ -217,6 +212,16 @@ const Sidebar = () => {
 
                     <ListItemButton
                       sx={{ pl: 4, gap: "2rem" }}
+                      onClick={() => navigate("/userPage")}
+                    >
+                      <PeopleAltIcon>
+                        <Business sx={{ color: iconColor }} />
+                      </PeopleAltIcon>
+                      <ListItemText primary="Users" />
+                    </ListItemButton>
+
+                    <ListItemButton
+                      sx={{ pl: 4, gap: "2rem" }}
                       onClick={() => navigate("/accountPage")}
                     >
                       <AccountCircleRoundedIcon>
@@ -258,6 +263,56 @@ const Sidebar = () => {
                     <Business sx={{ color: iconColor }} />
                   </PersonIcon>
                   <ListItemText primary="Customer" />
+                </ListItemButton>
+
+                <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/expensePage")}
+                >
+                  <AccountBalanceWalletIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </AccountBalanceWalletIcon>
+                  <ListItemText primary="Expense" />
+                </ListItemButton>
+
+                <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/customerLedgerPage")}
+                >
+                  <MenuBookIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </MenuBookIcon>
+                  <ListItemText primary="Customer Ledger" />
+                </ListItemButton>
+
+                <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/expensePage")}
+                >
+                  <AssessmentIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </AssessmentIcon>
+                  <ListItemText primary="Profit & Loss" />
+                </ListItemButton>
+
+                <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/expensePage")}
+                >
+                  <CurrencyExchangeIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </CurrencyExchangeIcon>
+                  <ListItemText primary="Transaction History" />
+                </ListItemButton>
+
+                <ListItemButton
+                  sx={{ pl: 4, gap: "2rem" }}
+                  onClick={() => navigate("/expensePage")}
+                >
+                  <RestorePageIcon>
+                    <Business sx={{ color: iconColor }} />
+                  </RestorePageIcon>
+                  <ListItemText primary="Customer History" />
                 </ListItemButton>
               </List>
             </Collapse>

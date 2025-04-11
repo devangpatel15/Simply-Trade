@@ -10,6 +10,7 @@ import {
   Alert,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -43,6 +44,10 @@ const SignupForm = () => {
         formData
       );
       setMessage("Registration successful! Please log in.");
+      toast.success("Registration successful! Please log in.");
+      setTimeout(() => {
+        navigate("/signIn");
+      }, 2000); // Redirect after 2 seconds
       navigate("/signIn");
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong!");

@@ -9,6 +9,7 @@ import {
   Box,
   Alert,
 } from "@mui/material";
+import { toast } from "react-toastify"; 
 
 const SigninForm = () => {
   const [formData, setFormData] = useState({
@@ -46,6 +47,7 @@ const SigninForm = () => {
       localStorage.setItem("role", JSON.stringify(role)); // Store token for authentication
 
       setMessage("Login successful! Redirecting...");
+      toast.success("Login successful! Redirecting...");
       setTimeout(() => {
         window.location.href = "/dashboard"; // Redirect after login
       }, 1500);

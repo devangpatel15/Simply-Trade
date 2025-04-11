@@ -1,16 +1,13 @@
 import * as React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import { getAllStocks } from "../apis/StockApi";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import { Box, Button, InputAdornment, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import StockTable from "../tables/StockTable";
 import { Link } from "react-router-dom";
@@ -19,7 +16,7 @@ import { Link } from "react-router-dom";
 const StockPage = () => {
   // const [stock, setStock] = React.useState([]);
   // const [payment, setPayment] = React.useState([]);
-  
+
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
@@ -67,85 +64,8 @@ const StockPage = () => {
             </Box>
           </Box>
 
-          {/* {stock &&
-            stock.map((stock) => {
-              return (
-                <Box
-                  key={stock._id}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    backgroundColor: "white",
-                    borderRadius: 10,
-                    boxShadow: 1,
-                    padding: 2,
-                    marginTop: 3,
-                  }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    <Avatar
-                      src="/path/to/avatar.jpg"
-                      alt="User Avatar"
-                      sx={{ width: 50, height: 50 }}
-                    />
-                    <Box>
-                      <Typography
-                        variant="h6"
-                        sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-                      >
-                        {stock.modelName.modelName}
-                      </Typography>
-
-                      <Box sx={{ display: "flex", gap: 2 }}>
-                        <Typography
-                          variant="body2"
-                          sx={{ color: "green", fontWeight: "bold" }}
-                        >
-                          Customer Name:{stock?.customerName?.customerName}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          sx={{ color: "red", fontWeight: "bold" }}
-                        >
-                          Organization Name:
-                          {stock?.organization?.organizationName}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          sx={{ color: "green", fontWeight: "bold" }}
-                        >
-                          Branch Name:
-                          {stock?.branch?.branchName}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-                  <Box sx={{ display: "flex", gap: 2 }}>
-                    <IconButton
-                      sx={{ backgroundColor: "#f5f5f5" }}
-                      onClick={() => handlePaymentDialogOpen(payment)}
-                    >
-                      <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
-                    </IconButton>
-
-                    <IconButton
-                      sx={{ backgroundColor: "#f5f5f5" }}
-                      onClick={() => handleOpen(stock)}
-                    >
-                      <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-                    </IconButton>
-                  </Box>
-                </Box>
-              );
-            })} */}
-
-          
-
-          
-        <StockTable />
+          <StockTable />
         </Box>
-       
       </Box>
     </Box>
   );

@@ -26,7 +26,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { createStock, getOneStock, updateStock } from "../apis/StockApi";
 import CustomerInput from "./common/CustomerInput";
 import { getOneCustomer } from "../apis/CustomerApi";
+<<<<<<< HEAD
 import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
+=======
+import { toast } from "react-toastify";
+>>>>>>> 08b029483232f9a0a050efeeedb2d3f83e420b33
 
 const StockForm = () => {
   const [errors, setErrors] = useState({});
@@ -68,8 +72,8 @@ const StockForm = () => {
   const [paidToCustomer, setPaidtoCustomer] = useState(0);
 
   const [loggedUserData, setLoggedUserData] = useState({});
-  const { id } = useParams();
 
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const handleChange = async (e) => {
@@ -210,10 +214,26 @@ const StockForm = () => {
 
   const handleImeiChange = (deviceIndex, imeiIndex, field, value) => {
     const updatedDeviceData = [...formData.device];
-    updatedDeviceData[deviceIndex].imei[imeiIndex][field] = value;
+    const imei = updatedDeviceData[deviceIndex].imei[imeiIndex];
+
+    // Update the field
+    imei[field] = value;
+
+    // Convert to numbers for safe calculations
+    const totalAmount = Number(
+      field === "totalAmount" ? value : imei.totalAmount
+    );
+    const paidToCustomer = Number(
+      field === "paidToCustomer" ? value : imei.paidToCustomer
+    );
+
+    // If totalAmount or paidToCustomer changes, update remainingAmount
+    if (field === "totalAmount" || field === "paidToCustomer") {
+      imei.remainingAmount = totalAmount - paidToCustomer;
+    }
+
     setFormData({ ...formData, device: updatedDeviceData });
   };
-
   const toggleImeiSr = (deviceIndex, imeiIndex, useImei) => {
     const updatedDeviceData = [...formData.device];
     updatedDeviceData[deviceIndex].imei[imeiIndex].useImei = useImei;
@@ -321,9 +341,10 @@ const StockForm = () => {
       }
 
       const data = response.data.data;
-      console.log("API update Response Data:", data); // Debugging
+      console.log("API Response Data:", data); // Debugging
 
       setFormData({
+        ...data,
         organization: {
           label: data?.organization?.organizationName || "",
           value: data?.organization?._id || "",
@@ -336,48 +357,31 @@ const StockForm = () => {
           label: data?.customerName?.customerName || "",
           value: data?.customerName?._id || "",
         },
-        customerPhone: data?.customerPhone || "",
-        device: [
-          {
-            categoryName: {
-              label: data?.categoryName?.categoryName || "",
-              value: data?.categoryName?._id || "",
-            },
-            modelName: {
-              label: data?.modelName?.modelName || "",
-              value: data?.modelName?._id || "",
-            },
-            deviceName: {
-              label: data?.deviceName?.deviceName || "",
-              value: data?.deviceName?._id || "",
-            },
-            capacityName: {
-              label: data?.capacityName?.capacityName || "",
-              value: data?.capacityName?._id || "",
-            },
-            color: {
-              label: data?.color?.colorName || "",
-              value: data?.color?._id || "",
-            },
-            imei: [
-              {
-                imeiNo: data.imeiNo,
-                srNo: data.srNo,
-                totalAmount: data.totalAmount,
-                paidToCustomer: data.paidToCustomer,
-                remainingAmount: data.remainingAmount,
-              },
-            ],
-          },
-        ],
+        categoryName: {
+          label: data?.categoryName?.categoryName || "",
+          value: data?.categoryName?._id || "",
+        },
+        modelName: {
+          label: data?.modelName?.modelName || "",
+          value: data?.modelName?._id || "",
+        },
+        deviceName: {
+          label: data?.deviceName?.deviceName || "",
+          value: data?.deviceName?._id || "",
+        },
+        capacityName: {
+          label: data?.capacityName?.capacityName || "",
+          value: data?.capacityName?._id || "",
+        },
+        color: {
+          label: data?.color?.color || "",
+          value: data?.color?._id || "",
+        },
       });
     } catch (error) {
       console.error("Error in callApi:", error);
     }
   };
-  if (id) {
-    console.log("update form data:", formData);
-  }
 
   useEffect(() => {
     if (id) {
@@ -510,16 +514,19 @@ const StockForm = () => {
         customerPhone: formData.customerPhone,
         device: formattedDevices,
       };
+
       if (id) {
         console.log("payload", payload);
         await updateStock(payload, id);
-        navigate("/stockPage");
+        toast.success("Stock updated successfully!");
       } else {
         await createStock(payload);
-        navigate("/stockPage");
+        toast.success("Stock created successfully!");
       }
+      navigate("/stockPage");
     } catch (error) {
       console.log(error.message);
+      toast.error("Error creating/updating stock!");
     }
   };
 
@@ -616,17 +623,13 @@ const StockForm = () => {
             >
               <Grid container spacing={2} mt={1}>
                 <Grid item sx={2}>
-                  {id ? (
-                    " "
-                  ) : (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={addDevice}
-                    >
-                      Add Device
-                    </Button>
-                  )}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={addDevice}
+                  >
+                    Add Device
+                  </Button>
                 </Grid>
                 {deviceIndex > 0 && (
                   <Grid item sx={2}>
@@ -784,17 +787,13 @@ const StockForm = () => {
                           </Grid>
                         )}
                         <Grid item sx={2}>
-                          {id ? (
-                            " "
-                          ) : (
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => addImei(deviceIndex)}
-                            >
-                              Add Imei
-                            </Button>
-                          )}
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => addImei(deviceIndex)}
+                          >
+                            Add Imei
+                          </Button>
                         </Grid>
                       </Grid>
                     </Box>
@@ -951,11 +950,7 @@ const StockForm = () => {
                         fullWidth
                         label="Remaining Amount"
                         name="remainingAmount"
-                        value={
-                          // imeiItem.remainingAmount ||
-                          (imeiItem.remainingAmount =
-                            totalAmount - paidToCustomer || "")
-                        }
+                        value={imeiItem.remainingAmount ?? ""}
                         onChange={(e) =>
                           handleImeiChange(
                             deviceIndex,

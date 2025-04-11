@@ -9,7 +9,7 @@ exports.getAllExpenseService = async (req) => {
   const items = await Expense.find({ isDeleted: false })
     .lean()
     .sort({ createdAt: -1 })
-    .populate("userId")
+    .populate("organization branchName")
     .skip(skip)
     .limit(limit)
     .lean();
