@@ -26,11 +26,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { createStock, getOneStock, updateStock } from "../apis/StockApi";
 import CustomerInput from "./common/CustomerInput";
 import { getOneCustomer } from "../apis/CustomerApi";
-<<<<<<< HEAD
 import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
-=======
 import { toast } from "react-toastify";
->>>>>>> 08b029483232f9a0a050efeeedb2d3f83e420b33
 
 const StockForm = () => {
   const [errors, setErrors] = useState({});
@@ -344,7 +341,6 @@ const StockForm = () => {
       console.log("API Response Data:", data); // Debugging
 
       setFormData({
-        ...data,
         organization: {
           label: data?.organization?.organizationName || "",
           value: data?.organization?._id || "",
@@ -357,27 +353,42 @@ const StockForm = () => {
           label: data?.customerName?.customerName || "",
           value: data?.customerName?._id || "",
         },
-        categoryName: {
-          label: data?.categoryName?.categoryName || "",
-          value: data?.categoryName?._id || "",
-        },
-        modelName: {
-          label: data?.modelName?.modelName || "",
-          value: data?.modelName?._id || "",
-        },
-        deviceName: {
-          label: data?.deviceName?.deviceName || "",
-          value: data?.deviceName?._id || "",
-        },
-        capacityName: {
-          label: data?.capacityName?.capacityName || "",
-          value: data?.capacityName?._id || "",
-        },
-        color: {
-          label: data?.color?.color || "",
-          value: data?.color?._id || "",
-        },
+        customerPhone: data?.customerPhone || "",
+        device: [
+          {
+            categoryName: {
+              label: data?.categoryName?.categoryName || "",
+              value: data?.categoryName?._id || "",
+            },
+            modelName: {
+              label: data?.modelName?.modelName || "",
+              value: data?.modelName?._id || "",
+            },
+            deviceName: {
+              label: data?.deviceName?.deviceName || "",
+              value: data?.deviceName?._id || "",
+            },
+            capacityName: {
+              label: data?.capacityName?.capacityName || "",
+              value: data?.capacityName?._id || "",
+            },
+            color: {
+              label: data?.color?.colorName || "",
+              value: data?.color?._id || "",
+            },
+            imei: [
+              {
+                imeiNo: data.imeiNo,
+                srNo: data.srNo,
+                totalAmount: data.totalAmount,
+                paidToCustomer: data.paidToCustomer,
+                remainingAmount: data.remainingAmount,
+              },
+            ],
+          },
+        ],
       });
+      
     } catch (error) {
       console.error("Error in callApi:", error);
     }
