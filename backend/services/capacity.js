@@ -25,7 +25,7 @@ exports.getAllCapacityService = async (userId, req) => {
 
   const totalCount = await Capacity.countDocuments({
     ...query,
-    isDeleted: "false",
+    isDeleted: false,
   });
 
   return { totalCount, items };

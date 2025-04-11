@@ -24,7 +24,7 @@ exports.getAllCategoryService = async (userId, req) => {
 
   const totalCount = await Category.countDocuments({
     ...query,
-    isDeleted: "false",
+    isDeleted:false,
   });
 
   return { totalCount, items };

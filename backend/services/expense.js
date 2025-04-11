@@ -14,7 +14,7 @@ exports.getAllExpenseService = async (req) => {
     .limit(limit)
     .lean();
 
-  const totalCount = await Expense.countDocuments({ isDeleted: "false" });
+  const totalCount = await Expense.countDocuments({ isDeleted: false });
 
   return { totalCount, items };
 };

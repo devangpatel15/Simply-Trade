@@ -7,7 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
 import CustomerDialog from "../CustomerDialog";
 
-const CustomerInput = ({ onChange, value, branchId }) => {
+const CustomerInput = ({ onChange, value, branchId, error }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,6 @@ const CustomerInput = ({ onChange, value, branchId }) => {
 
   const handleOpen = () => {
     setOpen(true);
-
     callApi();
   };
 
@@ -74,10 +73,12 @@ const CustomerInput = ({ onChange, value, branchId }) => {
 
   // Fetch organizations when inputValue changes
   useEffect(() => {
-    if (inputValue.trim() !== "") {
-      fetchOrganizations(inputValue);
-    } else {
-      fetchOrganizations(""); // Load default options
+    if (branchId) {
+      if (inputValue.trim() !== "") {
+        fetchOrganizations(inputValue);
+      } else {
+        fetchOrganizations(""); // Load default options
+      }
     }
   }, [inputValue, fetchOrganizations]);
 
@@ -96,6 +97,8 @@ const CustomerInput = ({ onChange, value, branchId }) => {
         noOptionsText={<Button onClick={handleOpen}>Create Customer</Button>} //No Option to Create Customer Button Add//
         renderInput={(params) => (
           <TextField
+            error={!!error}
+            helperText={error}
             {...params}
             label="Customer"
             variant="outlined"

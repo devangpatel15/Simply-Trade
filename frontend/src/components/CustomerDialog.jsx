@@ -84,7 +84,6 @@ const CustomerDialog = ({
     customerName: "",
     customerPhone: "",
   });
-  console.log("customerData======== ", customerData);
 
   // const { organization, branchName } = customerData;
 
@@ -229,8 +228,7 @@ const CustomerDialog = ({
             <Button
               variant="contained"
               color="error"
-              component={Link}
-              to="/stockPage"
+             onClick={() => setOpen(false)}
             >
               Cancel
             </Button>

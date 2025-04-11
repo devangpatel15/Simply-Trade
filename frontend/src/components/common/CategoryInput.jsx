@@ -44,18 +44,18 @@ const CategoryInput = ({ onChange, value, branchId, error }) => {
 
   // Fetch organizations when inputValue changes
   useEffect(() => {
-    if (inputValue.trim() !== "") {
-      fetchOrganizations(inputValue);
-    } else {
-      fetchOrganizations(""); // Load default options
+    if (branchId) {
+      if (inputValue.trim() !== "") {
+        fetchOrganizations(inputValue);
+      } else {
+        fetchOrganizations(""); // Load default options
+      }
     }
   }, [inputValue, fetchOrganizations]);
 
   return (
     <Autocomplete
       required
-      error={!!error}
-      helperText={error}
       options={options}
       getOptionLabel={(option) => option.label}
       loading={loading}

@@ -20,6 +20,12 @@ export const errorMessage = {
   deviceName: "Device Name is required",
   colorName: "Color Name is required",
   capacityName: "Capacity Name is required",
+  customerName: "customer Name is required",
+  imeiNo: "imei number is required",
+  srNo: "sr number is required",
+  paidToCustomer: "paidToCustomer is required",
+  remainingAmount:"remainingAmount is required ",
+  totalAmount:"totalAmount is required"
 };
 
 export const formatMessage = {

@@ -44,10 +44,12 @@ const ModelInput = ({ onChange, value, catId, error }) => {
 
   // Fetch organizations when inputValue changes
   useEffect(() => {
-    if (inputValue.trim() !== "") {
-      fetchOrganizations(inputValue);
-    } else {
-      fetchOrganizations(""); // Load default options
+    if (catId) {
+      if (inputValue.trim() !== "") {
+        fetchOrganizations(inputValue);
+      } else {
+        fetchOrganizations(""); // Load default options
+      }
     }
   }, [inputValue, fetchOrganizations]);
 

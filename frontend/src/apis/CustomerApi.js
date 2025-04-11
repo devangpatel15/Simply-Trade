@@ -31,6 +31,9 @@ const updateCustomer = async (formData, id) => {
 
 const getOneCustomer = async (id) => {
   try {
+    if (!id) {
+      return;
+    }
     const response = await axios.get(
       `http://localhost:4000/api/customer/${id}`,
       {

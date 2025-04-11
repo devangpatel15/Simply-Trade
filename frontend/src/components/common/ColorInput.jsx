@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const ColorInput = ({ onChange, value, deviceId }) => {
+const ColorInput = ({ onChange, value, deviceId,error }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -44,10 +44,12 @@ const ColorInput = ({ onChange, value, deviceId }) => {
 
   // Fetch organizations when inputValue changes
   useEffect(() => {
-    if (inputValue.trim() !== "") {
-      fetchOrganizations(inputValue);
-    } else {
-      fetchOrganizations(""); // Load default options
+    if (deviceId) {
+      if (inputValue.trim() !== "") {
+        fetchOrganizations(inputValue);
+      } else {
+        fetchOrganizations(""); // Load default options
+      }
     }
   }, [inputValue, fetchOrganizations]);
 
@@ -64,6 +66,8 @@ const ColorInput = ({ onChange, value, deviceId }) => {
       }}
       renderInput={(params) => (
         <TextField
+          error={!!error}
+          helperText={error}
           {...params}
           label="Color"
           variant="outlined"

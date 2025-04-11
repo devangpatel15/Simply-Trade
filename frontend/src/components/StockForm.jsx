@@ -26,8 +26,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { createStock, getOneStock, updateStock } from "../apis/StockApi";
 import CustomerInput from "./common/CustomerInput";
 import { getOneCustomer } from "../apis/CustomerApi";
+import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
 
 const StockForm = () => {
+  const [errors, setErrors] = useState({});
+
   const [formData, setFormData] = useState({
     organization: null,
     branch: null,
@@ -55,8 +58,8 @@ const StockForm = () => {
   });
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
-  const [branchId, setBranchId] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("");
+  const [branchId, setBranchId] = useState("");
   const [catId, setCatId] = useState("");
   const [modelId, setModelId] = useState("");
   const [deviceId, setDeviceId] = useState("");
@@ -100,21 +103,40 @@ const StockForm = () => {
     setFormData((prev) => ({
       ...prev,
       organization: selectedOrg,
+      
     }));
   };
+
   const handleOrganizationBranchChange = (selectedOrgBranch) => {
     setBranchId(selectedOrgBranch.value);
     setFormData((prev) => ({
       ...prev,
       branch: selectedOrgBranch,
+      
     }));
   };
 
-  const handleCustomerChange = (selectCustomer) => {
-    setSelectedCustomer(selectCustomer.value);
+  const handleCustomerChange = async (selectCustomer) => {
+    if (selectCustomer && selectCustomer !== null) {
+      const findCustomerPhoneNumber = await getOneCustomer(
+        selectCustomer.value
+      );
+
+      setFormData({
+        ...formData,
+        customerPhone: findCustomerPhoneNumber?.data?.data?.customerPhone || "",
+      });
+    } else {
+      setFormData({
+        ...formData,
+        customerPhone: "",
+      });
+    }
+
     setFormData((prev) => ({
       ...prev,
       customerName: selectCustomer,
+    
     }));
   };
 
@@ -125,8 +147,10 @@ const StockForm = () => {
       updatedDevices[index] = {
         ...updatedDevices[index],
         categoryName: selectedCategory,
-        modelName: null, // Reset dependent values
+        modelName: null,
         deviceName: null,
+        capacityName: null,
+        color: null,
       };
       return { ...prev, device: updatedDevices };
     });
@@ -140,6 +164,8 @@ const StockForm = () => {
         ...updatedDevices[index],
         modelName: selectedModel,
         deviceName: null, // Reset dependent values
+        capacityName: null,
+        color: null,
       };
       return { ...prev, device: updatedDevices };
     });
@@ -152,6 +178,8 @@ const StockForm = () => {
       updatedDevices[index] = {
         ...updatedDevices[index],
         deviceName: selectedDevice,
+        capacityName: null,
+        color: null,
       };
       return { ...prev, device: updatedDevices };
     });
@@ -163,6 +191,7 @@ const StockForm = () => {
       updatedDevices[index] = {
         ...updatedDevices[index],
         color: selectedColor,
+        capacityName: null,
       };
       return { ...prev, device: updatedDevices };
     });
@@ -242,18 +271,42 @@ const StockForm = () => {
     setFormData({ ...formData, device: updatedDeviceData });
   };
 
-  // console.log(id, "praamasId");
   useEffect(() => {
-    (async () => {
-      const findCustomerPhoneNumber = await getOneCustomer(selectedCustomer);
+    const userData = localStorage.getItem("role");
 
-      // console.log(findCustomerPhoneNumber.data.data, "findCustomerPhone");
-      setFormData({
-        ...formData,
-        customerPhone: findCustomerPhoneNumber?.data?.data?.customerPhone,
-      });
-    })();
-  }, [selectedCustomer]);
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+
+        setLoggedUserData(parsedData || {});
+        if (!parsedData?.organization || !parsedData?.orgBranch) {
+          console.warn("Organization or branch data is missing!");
+        }
+
+        // ✅ Set both organization and branch in a single update
+        setFormData((prev) => {
+          const updatedFormData = {
+            ...prev,
+            organization: parsedData?.organization?._id
+              ? {
+                  label: parsedData?.organization?.organizationName,
+                  value: parsedData.organization._id,
+                }
+              : null,
+            branch: parsedData?.orgBranch?._id
+              ? {
+                  label: parsedData?.orgBranch?.branchName,
+                  value: parsedData.orgBranch._id,
+                }
+              : null,
+          };
+          return updatedFormData;
+        });
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+  }, []);
 
   const callApi = async () => {
     try {
@@ -318,47 +371,12 @@ const StockForm = () => {
           },
         ],
       });
-      // setFormData({
-      //   ...data,
-      //   organization: {
-      //     label: data?.organization?.organizationName || "",
-      //     value: data?.organization?._id || "",
-      //   },
-      //   branch: {
-      //     label: data?.branch?.branchName || "",
-      //     value: data?.branch?._id || "",
-      //   },
-      //   customerName: {
-      //     label: data?.customerName?.customerName || "",
-      //     value: data?.customerName?._id || "",
-      //   },
-      //   categoryName: {
-      //     label: data?.categoryName?.categoryName || "",
-      //     value: data?.categoryName?._id || "",
-      //   },
-      //   modelName: {
-      //     label: data?.modelName?.modelName || "",
-      //     value: data?.modelName?._id || "",
-      //   },
-      //   deviceName: {
-      //     label: data?.deviceName?.deviceName || "",
-      //     value: data?.deviceName?._id || "",
-      //   },
-      //   capacityName: {
-      //     label: data?.capacityName?.capacityName || "",
-      //     value: data?.capacityName?._id || "",
-      //   },
-      //   color: {
-      //     label: data?.color?.color || "",
-      //     value: data?.color?._id || "",
-      //   },
-      // });
     } catch (error) {
       console.error("Error in callApi:", error);
     }
   };
   if (id) {
-    console.log("upsate form data:", formData);
+    console.log("update form data:", formData);
   }
 
   useEffect(() => {
@@ -367,8 +385,106 @@ const StockForm = () => {
     }
   }, [id]);
 
+  const validateStockForm = () => {
+    let newErrors = {};
+
+    // Validate organization, branch, and customerName
+    if (!formData.organization)
+      newErrors.organization = errorMessage.organizationName;
+    if (!formData.branch) newErrors.branch = errorMessage.branchName;
+    if (!formData.customerName)
+      newErrors.customerName = errorMessage.customerName;
+    if (!formData.customerPhone) newErrors.customerPhone = errorMessage.mobile;
+
+    // Validate customerPhone format (assuming it's a phone number, simple example)
+    if (formData.customerPhone && !/^\d+$/.test(formData.customerPhone)) {
+      newErrors.customerPhone = formatMessage.customerPhone;
+    } else if (formData.customerPhone && formData.customerPhone.length !== 10) {
+      newErrors.customerPhone = lengthMessage.mobile;
+    }
+
+    // Validate deviceData array
+    if (Array.isArray(formData.device)) {
+      formData.device.forEach((device, index) => {
+        if (!device.categoryName) {
+          if (!newErrors.device) newErrors.device = [];
+          newErrors.device[index] = newErrors.device[index] || {};
+          newErrors.device[index].categoryName = errorMessage.categoryName;
+        }
+        if (!device.modelName) {
+          if (!newErrors.device) newErrors.device = [];
+          newErrors.device[index] = newErrors.device[index] || {};
+          newErrors.device[index].modelName = errorMessage.modelName;
+        }
+        if (!device.deviceName) {
+          if (!newErrors.device) newErrors.device = [];
+          newErrors.device[index] = newErrors.device[index] || {};
+          newErrors.device[index].deviceName = errorMessage.deviceName;
+        }
+        if (!device.capacityName) {
+          if (!newErrors.device) newErrors.device = [];
+          newErrors.device[index] = newErrors.device[index] || {};
+          newErrors.device[index].capacityName = errorMessage.capacityName;
+        }
+        if (!device.color) {
+          if (!newErrors.device) newErrors.device = [];
+          newErrors.device[index] = newErrors.device[index] || {};
+          newErrors.device[index].color = errorMessage.colorName;
+        }
+
+        console.log("newErrors",newErrors);
+        
+        // Validate imei array inside each device
+        if (Array.isArray(device.imei)) {
+          device.imei.forEach((imei, imeiIndex) => {
+            if (!imei.imeiNo) {
+              if (!newErrors.device[index].imei)
+                newErrors.device[index].imei = [];
+              newErrors.device[index].imei[imeiIndex] =
+                newErrors.device[index].imei[imeiIndex] || {};
+              newErrors.device[index].imei[imeiIndex].imeiNo =
+                errorMessage.imeiNo;
+            }
+            if (!imei.totalAmount) {
+              if (!newErrors.device[index].imei)
+                newErrors.device[index].imei = [];
+              newErrors.device[index].imei[imeiIndex] =
+                newErrors.device[index].imei[imeiIndex] || {};
+              newErrors.device[index].imei[imeiIndex].totalAmount =
+                errorMessage.totalAmount;
+            }
+            if (!imei.paidToCustomer) {
+              if (!newErrors.device[index].imei)
+                newErrors.device[index].imei = [];
+              newErrors.device[index].imei[imeiIndex] =
+                newErrors.device[index].imei[imeiIndex] || {};
+              newErrors.device[index].imei[imeiIndex].paidToCustomer =
+                errorMessage.paidToCustomer;
+            }
+            if (!imei.remainingAmount) {
+              if (!newErrors.device[index].imei)
+                newErrors.device[index].imei = [];
+              newErrors.device[index].imei[imeiIndex] =
+                newErrors.device[index].imei[imeiIndex] || {};
+              newErrors.device[index].imei[imeiIndex].remainingAmount =
+                errorMessage.remainingAmount;
+            }
+          });
+        }
+      });
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
+
   const handleSubmit = async () => {
-    // console.log(formData);
+    console.log(formData,"formData");
+    
+    // if (!validateStockForm()) {
+    //   return;
+    // }
 
     try {
       const formattedDevices = formData.device.map((deviceItem) => ({
@@ -395,7 +511,7 @@ const StockForm = () => {
         device: formattedDevices,
       };
       if (id) {
-        console.log("payload",payload)
+        console.log("payload", payload);
         await updateStock(payload, id);
         navigate("/stockPage");
       } else {
@@ -406,36 +522,8 @@ const StockForm = () => {
       console.log(error.message);
     }
   };
-  useEffect(() => {
-    const userData = localStorage.getItem("role");
 
-    if (userData) {
-      try {
-        const parsedData = JSON.parse(userData);
-
-        setLoggedUserData(parsedData || {});
-
-        // ✅ Set both organization and branch in a single update
-        setFormData((prev) => ({
-          ...prev,
-          organization: parsedData?.organization?._id
-            ? {
-                label: parsedData.organization.organizationName, // ✅ Ensure correct format
-                value: parsedData.organization._id,
-              }
-            : null, // Prevent undefined
-          branch: parsedData?.orgBranch?._id
-            ? {
-                label: parsedData.orgBranch.branchName, // ✅ Ensure correct format
-                value: parsedData.orgBranch._id,
-              }
-            : null, // Prevent undefined
-        }));
-      } catch (error) {
-        console.error("Error parsing user data:", error);
-      }
-    }
-  }, []);
+  console.log("error", errors);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -466,12 +554,14 @@ const StockForm = () => {
                   role="admin"
                   onChange={handleOrganizationChange}
                   value={formData.organization} // Now it's an object, not undefined
+                  error={errors.organization}
                 />
               ) : (
                 <OrgInput
                   role="user"
                   onChange={handleOrganizationChange}
                   value={formData.organization || null} // ✅ Prevent undefined
+                  error={errors.organization}
                 />
               )}
             </Grid>
@@ -482,6 +572,7 @@ const StockForm = () => {
                   onChange={handleOrganizationBranchChange}
                   value={formData.branch || null} // ✅ Ensure branch is always an object or null
                   selectedOrganization={selectedOrganization}
+                  error={errors.branch}
                 />
               ) : (
                 <OrgBranchInput
@@ -489,6 +580,7 @@ const StockForm = () => {
                   onChange={handleOrganizationBranchChange}
                   value={formData.branch || null} // ✅ Ensure branch is always an object or null
                   selectedOrganization={selectedOrganization}
+                  // error={errors.branch}
                 />
               )}
             </Grid>
@@ -497,6 +589,7 @@ const StockForm = () => {
                 onChange={handleCustomerChange}
                 value={formData.customerName}
                 branchId={formData?.branch?.value}
+                error={errors.customerName}
               />
             </Grid>
             <Grid item xs={6}>
@@ -516,7 +609,7 @@ const StockForm = () => {
 
           {formData?.device?.map((item, deviceIndex) => (
             <Box
-              key={deviceIndex}
+              key={`device-${deviceIndex}`}
               mt={3}
               p={2}
               sx={{ border: "1px solid #ccc", borderRadius: 2 }}
@@ -556,6 +649,13 @@ const StockForm = () => {
                     }
                     value={formData.device[deviceIndex]?.categoryName}
                     branchId={formData?.branch?.value}
+                    error={
+                      (errors &&
+                        errors.device &&
+                        errors.device[deviceIndex] &&
+                        errors.device[deviceIndex].categoryName) ||
+                      ""
+                    }
                   />
                 </Grid>
                 <Grid item xs={4}>
@@ -565,6 +665,13 @@ const StockForm = () => {
                     }
                     value={formData.device[deviceIndex]?.modelName}
                     catId={catId}
+                    error={
+                      (errors &&
+                        errors.device &&
+                        errors.device[deviceIndex] &&
+                        errors.device[deviceIndex].modelName) ||
+                      ""
+                    }
                   />
                 </Grid>
                 <Grid item xs={4}>
@@ -574,6 +681,13 @@ const StockForm = () => {
                     }
                     value={formData.device[deviceIndex]?.deviceName}
                     modelId={modelId}
+                    error={
+                      (errors &&
+                        errors.device &&
+                        errors.device[deviceIndex] &&
+                        errors.device[deviceIndex].deviceName) ||
+                      ""
+                    }
                   />
                 </Grid>
               </Grid>
@@ -585,6 +699,13 @@ const StockForm = () => {
                     }
                     value={formData.device[deviceIndex]?.color}
                     deviceId={deviceId}
+                    error={
+                      (errors &&
+                        errors.device &&
+                        errors.device[deviceIndex] &&
+                        errors.device[deviceIndex].color) ||
+                      ""
+                    }
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -594,6 +715,13 @@ const StockForm = () => {
                     }
                     value={formData.device[deviceIndex]?.capacityName}
                     deviceId={deviceId}
+                    error={
+                      (errors &&
+                        errors.device &&
+                        errors.device[deviceIndex] &&
+                        errors.device[deviceIndex].capacityName) ||
+                      ""
+                    }
                   />
                 </Grid>
                 {/* <Grid item xs={4}>
@@ -610,9 +738,8 @@ const StockForm = () => {
               </Grid>
 
               {item.imei.map((imeiItem, imeiIndex) => (
-                <>
+                <Box key={`imei-${deviceIndex}-${imeiIndex}`}>
                   <Box
-                    key={imeiIndex}
                     mt={2}
                     sx={{
                       display: "flex",
@@ -686,6 +813,26 @@ const StockForm = () => {
                               e.target.value
                             )
                           }
+                          required
+                         
+                          error={
+                            !!(
+                              errors &&
+                              errors.device &&
+                              errors.device[deviceIndex] &&
+                              errors.device[deviceIndex].imei[imeiIndex] &&
+                              errors.device[deviceIndex].imei[imeiIndex].imeiNo
+                            ) 
+                          }
+                          helperText={
+                            (
+                              errors &&
+                              errors.device &&
+                              errors.device[deviceIndex] &&
+                              errors.device[deviceIndex].imei[imeiIndex] &&
+                              errors.device[deviceIndex].imei[imeiIndex].imeiNo
+                            ) || ""
+                          }
                           fullWidth
                           margin="normal"
                         />
@@ -700,6 +847,24 @@ const StockForm = () => {
                               "srNo",
                               e.target.value
                             )
+                          }
+                          error={
+                            !!(
+                              errors &&
+                              errors.device &&
+                              errors.device[deviceIndex] &&
+                              errors.device[deviceIndex].imei[imeiIndex] &&
+                              errors.device[deviceIndex].imei[imeiIndex].srNo
+                            ) 
+                          }
+                          helperText={
+                            (
+                              errors &&
+                              errors.device &&
+                              errors.device[deviceIndex] &&
+                              errors.device[deviceIndex].imei[imeiIndex] &&
+                              errors.device[deviceIndex].imei[imeiIndex].srNo
+                            ) || ""
                           }
                           fullWidth
                           margin="normal"
@@ -723,6 +888,24 @@ const StockForm = () => {
                           );
                           setTotalAmount(e.target.value);
                         }}
+                        error={
+                          !!(
+                            errors &&
+                            errors.device &&
+                            errors.device[deviceIndex] &&
+                            errors.device[deviceIndex].imei[imeiIndex] &&
+                            errors.device[deviceIndex].imei[imeiIndex].totalAmount
+                          ) 
+                        }
+                        helperText={
+                          (
+                            errors &&
+                            errors.device &&
+                            errors.device[deviceIndex] &&
+                            errors.device[deviceIndex].imei[imeiIndex] &&
+                            errors.device[deviceIndex].imei[imeiIndex].totalAmount
+                          ) || ""
+                        }
                       />
                     </Grid>
                     <Grid item xs={4}>
@@ -741,6 +924,24 @@ const StockForm = () => {
                           );
                           setPaidtoCustomer(e.target.value);
                         }}
+                        error={
+                          !!(
+                            errors &&
+                            errors.device &&
+                            errors.device[deviceIndex] &&
+                            errors.device[deviceIndex].imei[imeiIndex] &&
+                            errors.device[deviceIndex].imei[imeiIndex].paidToCustomer
+                          ) 
+                        }
+                        helperText={
+                          (
+                            errors &&
+                            errors.device &&
+                            errors.device[deviceIndex] &&
+                            errors.device[deviceIndex].imei[imeiIndex] &&
+                            errors.device[deviceIndex].imei[imeiIndex].paidToCustomer
+                          ) || ""
+                        }
                       />
                     </Grid>
                     <Grid item xs={4}>
@@ -751,7 +952,7 @@ const StockForm = () => {
                         label="Remaining Amount"
                         name="remainingAmount"
                         value={
-                          imeiItem.remainingAmount ||
+                          // imeiItem.remainingAmount ||
                           (imeiItem.remainingAmount =
                             totalAmount - paidToCustomer || "")
                         }
@@ -766,7 +967,7 @@ const StockForm = () => {
                       />
                     </Grid>
                   </Grid>
-                </>
+                </Box>
               ))}
             </Box>
           ))}

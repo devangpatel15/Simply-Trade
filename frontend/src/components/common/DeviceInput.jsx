@@ -44,10 +44,12 @@ const DeviceInput = ({ onChange, value, modelId, error }) => {
 
   // Fetch organizations when inputValue changes
   useEffect(() => {
-    if (inputValue.trim() !== "") {
-      fetchOrganizations(inputValue);
-    } else {
-      fetchOrganizations(""); // Load default options
+    if (modelId) {
+      if (inputValue.trim() !== "") {
+        fetchOrganizations(inputValue);
+      } else {
+        fetchOrganizations(""); // Load default options
+      }
     }
   }, [inputValue, fetchOrganizations]);
 
