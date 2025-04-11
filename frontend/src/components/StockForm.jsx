@@ -181,10 +181,26 @@ const StockForm = () => {
 
   const handleImeiChange = (deviceIndex, imeiIndex, field, value) => {
     const updatedDeviceData = [...formData.device];
-    updatedDeviceData[deviceIndex].imei[imeiIndex][field] = value;
+    const imei = updatedDeviceData[deviceIndex].imei[imeiIndex];
+
+    // Update the field
+    imei[field] = value;
+
+    // Convert to numbers for safe calculations
+    const totalAmount = Number(
+      field === "totalAmount" ? value : imei.totalAmount
+    );
+    const paidToCustomer = Number(
+      field === "paidToCustomer" ? value : imei.paidToCustomer
+    );
+
+    // If totalAmount or paidToCustomer changes, update remainingAmount
+    if (field === "totalAmount" || field === "paidToCustomer") {
+      imei.remainingAmount = totalAmount - paidToCustomer;
+    }
+
     setFormData({ ...formData, device: updatedDeviceData });
   };
-
   const toggleImeiSr = (deviceIndex, imeiIndex, useImei) => {
     const updatedDeviceData = [...formData.device];
     updatedDeviceData[deviceIndex].imei[imeiIndex].useImei = useImei;
@@ -395,7 +411,7 @@ const StockForm = () => {
         device: formattedDevices,
       };
       if (id) {
-        console.log("payload",payload)
+        console.log("payload", payload);
         await updateStock(payload, id);
         navigate("/stockPage");
       } else {
@@ -750,11 +766,7 @@ const StockForm = () => {
                         fullWidth
                         label="Remaining Amount"
                         name="remainingAmount"
-                        value={
-                          imeiItem.remainingAmount ||
-                          (imeiItem.remainingAmount =
-                            totalAmount - paidToCustomer || "")
-                        }
+                        value={imeiItem.remainingAmount ?? ""}
                         onChange={(e) =>
                           handleImeiChange(
                             deviceIndex,
