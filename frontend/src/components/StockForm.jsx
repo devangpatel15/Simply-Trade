@@ -26,6 +26,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { createStock, getOneStock, updateStock } from "../apis/StockApi";
 import CustomerInput from "./common/CustomerInput";
 import { getOneCustomer } from "../apis/CustomerApi";
+import { toast } from "react-toastify";
 
 const StockForm = () => {
   const [formData, setFormData] = useState({
@@ -65,8 +66,8 @@ const StockForm = () => {
   const [paidToCustomer, setPaidtoCustomer] = useState(0);
 
   const [loggedUserData, setLoggedUserData] = useState({});
-  const { id } = useParams();
 
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const handleChange = async (e) => {
@@ -284,9 +285,10 @@ const StockForm = () => {
       }
 
       const data = response.data.data;
-      console.log("API update Response Data:", data); // Debugging
+      console.log("API Response Data:", data); // Debugging
 
       setFormData({
+        ...data,
         organization: {
           label: data?.organization?.organizationName || "",
           value: data?.organization?._id || "",
@@ -299,83 +301,31 @@ const StockForm = () => {
           label: data?.customerName?.customerName || "",
           value: data?.customerName?._id || "",
         },
-        customerPhone: data?.customerPhone || "",
-        device: [
-          {
-            categoryName: {
-              label: data?.categoryName?.categoryName || "",
-              value: data?.categoryName?._id || "",
-            },
-            modelName: {
-              label: data?.modelName?.modelName || "",
-              value: data?.modelName?._id || "",
-            },
-            deviceName: {
-              label: data?.deviceName?.deviceName || "",
-              value: data?.deviceName?._id || "",
-            },
-            capacityName: {
-              label: data?.capacityName?.capacityName || "",
-              value: data?.capacityName?._id || "",
-            },
-            color: {
-              label: data?.color?.colorName || "",
-              value: data?.color?._id || "",
-            },
-            imei: [
-              {
-                imeiNo: data.imeiNo,
-                srNo: data.srNo,
-                totalAmount: data.totalAmount,
-                paidToCustomer: data.paidToCustomer,
-                remainingAmount: data.remainingAmount,
-              },
-            ],
-          },
-        ],
+        categoryName: {
+          label: data?.categoryName?.categoryName || "",
+          value: data?.categoryName?._id || "",
+        },
+        modelName: {
+          label: data?.modelName?.modelName || "",
+          value: data?.modelName?._id || "",
+        },
+        deviceName: {
+          label: data?.deviceName?.deviceName || "",
+          value: data?.deviceName?._id || "",
+        },
+        capacityName: {
+          label: data?.capacityName?.capacityName || "",
+          value: data?.capacityName?._id || "",
+        },
+        color: {
+          label: data?.color?.color || "",
+          value: data?.color?._id || "",
+        },
       });
-      // setFormData({
-      //   ...data,
-      //   organization: {
-      //     label: data?.organization?.organizationName || "",
-      //     value: data?.organization?._id || "",
-      //   },
-      //   branch: {
-      //     label: data?.branch?.branchName || "",
-      //     value: data?.branch?._id || "",
-      //   },
-      //   customerName: {
-      //     label: data?.customerName?.customerName || "",
-      //     value: data?.customerName?._id || "",
-      //   },
-      //   categoryName: {
-      //     label: data?.categoryName?.categoryName || "",
-      //     value: data?.categoryName?._id || "",
-      //   },
-      //   modelName: {
-      //     label: data?.modelName?.modelName || "",
-      //     value: data?.modelName?._id || "",
-      //   },
-      //   deviceName: {
-      //     label: data?.deviceName?.deviceName || "",
-      //     value: data?.deviceName?._id || "",
-      //   },
-      //   capacityName: {
-      //     label: data?.capacityName?.capacityName || "",
-      //     value: data?.capacityName?._id || "",
-      //   },
-      //   color: {
-      //     label: data?.color?.color || "",
-      //     value: data?.color?._id || "",
-      //   },
-      // });
     } catch (error) {
       console.error("Error in callApi:", error);
     }
   };
-  if (id) {
-    console.log("upsate form data:", formData);
-  }
 
   useEffect(() => {
     if (id) {
@@ -384,7 +334,7 @@ const StockForm = () => {
   }, [id]);
 
   const handleSubmit = async () => {
-    // console.log(formData);
+    console.log(formData);
 
     try {
       const formattedDevices = formData.device.map((deviceItem) => ({
@@ -410,16 +360,19 @@ const StockForm = () => {
         customerPhone: formData.customerPhone,
         device: formattedDevices,
       };
+
       if (id) {
         console.log("payload", payload);
         await updateStock(payload, id);
-        navigate("/stockPage");
+        toast.success("Stock updated successfully!");
       } else {
         await createStock(payload);
-        navigate("/stockPage");
+        toast.success("Stock created successfully!");
       }
+      navigate("/stockPage");
     } catch (error) {
       console.log(error.message);
+      toast.error("Error creating/updating stock!");
     }
   };
   useEffect(() => {
@@ -539,17 +492,13 @@ const StockForm = () => {
             >
               <Grid container spacing={2} mt={1}>
                 <Grid item sx={2}>
-                  {id ? (
-                    " "
-                  ) : (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={addDevice}
-                    >
-                      Add Device
-                    </Button>
-                  )}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={addDevice}
+                  >
+                    Add Device
+                  </Button>
                 </Grid>
                 {deviceIndex > 0 && (
                   <Grid item sx={2}>
@@ -673,17 +622,13 @@ const StockForm = () => {
                           </Grid>
                         )}
                         <Grid item sx={2}>
-                          {id ? (
-                            " "
-                          ) : (
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => addImei(deviceIndex)}
-                            >
-                              Add Imei
-                            </Button>
-                          )}
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => addImei(deviceIndex)}
+                          >
+                            Add Imei
+                          </Button>
                         </Grid>
                       </Grid>
                     </Box>

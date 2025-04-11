@@ -31,6 +31,9 @@ import StockPage from "./pages/StockPage";
 import OrganizationPage from "./pages/OrganizationPage";
 import MuiTable from "./pages/MuiTable copy";
 import CategoryTable from "./tables/CategoryTable";
+import ExpensePage from "./pages/ExpensePage";
+import ExpenseForm from "./components/ExpenseForm";
+import CustomerLedgerPage from "./pages/CustomerLedgerPage";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -366,6 +369,40 @@ function App() {
           element={
             <PrivateRoute>
               <AccountForm />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/expensePage"
+          element={
+            <PrivateRoute>
+              <ExpensePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/expenseForm"
+          element={
+            <PrivateRoute>
+              <ExpenseForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/expenseForm/:id"
+          element={
+            <PrivateRoute>
+              <ExpenseForm />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/customerLedgerPage"
+          element={
+            <PrivateRoute>
+              <CustomerLedgerPage />
             </PrivateRoute>
           }
         />
