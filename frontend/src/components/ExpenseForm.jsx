@@ -6,7 +6,11 @@ import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { createExpense, getOneExpense, updateExpense } from "../apis/ExpenseApi";
+import {
+  createExpense,
+  getOneExpense,
+  updateExpense,
+} from "../apis/ExpenseApi";
 
 const ExpenseForm = () => {
   const { id } = useParams();
@@ -36,12 +40,14 @@ const ExpenseForm = () => {
 
   const validateForm = () => {
     let newErrors = {};
-    if (!formData.organization) newErrors.organization = "Organization is required";
+    if (!formData.organization)
+      newErrors.organization = "Organization is required";
     if (!formData.branchName) newErrors.branchName = "Branch Name is required";
     if (!formData.category) newErrors.category = "Category is required";
     if (!formData.date) newErrors.date = "Date is required";
     if (!formData.amount) newErrors.amount = "Amount is required";
-    if (!formData.description) newErrors.description = "Description is required";
+    if (!formData.description)
+      newErrors.description = "Description is required";
 
     setErrors(newErrors);
 
@@ -54,13 +60,13 @@ const ExpenseForm = () => {
     }
 
     console.log("Submitting form data: ", {
-        organization: formData.organization?.value || "",
-        branchName: formData.branchName?.value || "",
-        category: formData.category || "",
-        amount: formData.amount || "",
-        date: formData.date || "",
-        description: formData.description || "",
-      });
+      organization: formData.organization?.value || "",
+      branchName: formData.branchName?.value || "",
+      category: formData.category || "",
+      amount: formData.amount || "",
+      date: formData.date || "",
+      description: formData.description || "",
+    });
 
     const payload = {
       organization: formData.organization?.value || "",
@@ -73,16 +79,21 @@ const ExpenseForm = () => {
 
     try {
       if (id) {
-        await updateExpense(payload, id);  // Update expense using API call
+        await updateExpense(payload, id); // Update expense using API call
         toast.success("Expense updated successfully!");
       } else {
-        await createExpense(payload);  // Create new expense using API call
-        toast.success("Expense added successfully!");
+        const response = await createExpense(payload); // Create new expense using API call
+        // toast.success("Expense added successfully!");
+        if (response.data.data) {
+          toast.success("Expense added successfully!");
+        }
       }
       navigate("/expensePage");
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error("An error occurred while submitting the form. Please try again.");
+      toast.error(
+        "An error occurred while submitting the form. Please try again."
+      );
     }
   };
 
@@ -135,7 +146,7 @@ const ExpenseForm = () => {
     const { value } = event.target;
     setFormData((prev) => ({
       ...prev,
-      date:value, 
+      date: value,
     }));
   };
 
@@ -155,10 +166,17 @@ const ExpenseForm = () => {
               marginTop: "4rem",
             }}
           >
-            <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+            >
               EXPENSE
             </Typography>
-            <Box display="flex" alignItems="center" justifyContent="space-between">
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+            >
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <OrgInput
@@ -183,7 +201,7 @@ const ExpenseForm = () => {
                     type="date"
                     label="Date"
                     name="date"
-                    value={formData.date} 
+                    value={formData.date}
                     onChange={handleNativeDateChange}
                     InputLabelProps={{
                       shrink: true,
@@ -237,11 +255,24 @@ const ExpenseForm = () => {
               </Grid>
             </Box>
 
-            <Grid item xs={12} sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Button variant="contained" color="error" component={Link} to="/expensePage">
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <Button
+                variant="contained"
+                color="error"
+                component={Link}
+                to="/expensePage"
+              >
                 Cancel
               </Button>
-              <Button variant="contained" color="primary" onClick={handleSubmit}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+              >
                 {id ? "Update" : "Add"} Expense
               </Button>
             </Grid>
