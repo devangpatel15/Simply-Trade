@@ -1,4 +1,15 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
@@ -11,6 +22,8 @@ import {
   getOneExpense,
   updateExpense,
 } from "../apis/ExpenseApi";
+import ModelInput from "./common/ModelInput";
+import DeviceInput from "./common/DeviceInput";
 
 const ExpenseForm = () => {
   const { id } = useParams();
@@ -21,12 +34,16 @@ const ExpenseForm = () => {
     branchName: null,
     date: "",
     category: "",
+    modelName: null,
+    deviceName: null,
     amount: "",
     description: "",
   });
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
+  const [selectedDevice, setSelectedDevice] = useState("");
   const [catId, setCatId] = useState("");
 
   const handleChange = (e) => {
@@ -44,6 +61,8 @@ const ExpenseForm = () => {
       newErrors.organization = "Organization is required";
     if (!formData.branchName) newErrors.branchName = "Branch Name is required";
     if (!formData.category) newErrors.category = "Category is required";
+    if (!formData.modelName) newErrors.modelName = "modelName is required";
+    if (!formData.deviceName) newErrors.deviceName = "deviceName is required";
     if (!formData.date) newErrors.date = "Date is required";
     if (!formData.amount) newErrors.amount = "Amount is required";
     if (!formData.description)
@@ -59,19 +78,14 @@ const ExpenseForm = () => {
       return;
     }
 
-    console.log("Submitting form data: ", {
-      organization: formData.organization?.value || "",
-      branchName: formData.branchName?.value || "",
-      category: formData.category || "",
-      amount: formData.amount || "",
-      date: formData.date || "",
-      description: formData.description || "",
-    });
+    console.log("Submitting form data: ", formData);
 
     const payload = {
       organization: formData.organization?.value || "",
       branchName: formData.branchName?.value || "",
       category: formData.category || "",
+      modelName: formData.modelName || "",
+      deviceName: formData.deviceName || "",
       amount: formData.amount || "",
       date: formData.date || "",
       description: formData.description || "",
@@ -82,11 +96,8 @@ const ExpenseForm = () => {
         await updateExpense(payload, id); // Update expense using API call
         toast.success("Expense updated successfully!");
       } else {
-        const response = await createExpense(payload); // Create new expense using API call
-        // toast.success("Expense added successfully!");
-        if (response.data.data) {
-          toast.success("Expense added successfully!");
-        }
+        await createExpense(payload); // Create new expense using API call
+        toast.success("Expense added successfully!");
       }
       navigate("/expensePage");
     } catch (error) {
@@ -134,11 +145,25 @@ const ExpenseForm = () => {
     }));
   };
 
-  const handleCategoryChange = (selectedCategory) => {
-    setCatId(selectedCategory.value);
+  // const handleCategoryChange = (selectedCategory) => {
+  //   setCatId(selectedCategory.value);
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     category: selectedCategory,
+  //   }));
+  // };
+  const handleModelChange = (selectedModel) => {
+    setSelectedModel(selectedModel.value);
     setFormData((prev) => ({
       ...prev,
-      category: selectedCategory,
+      modelName: selectedModel,
+    }));
+  };
+  const handleDeviceChange = (selectedDevice) => {
+    setSelectedDevice(selectedDevice.value);
+    setFormData((prev) => ({
+      ...prev,
+      modelName: selectedDevice,
     }));
   };
 
@@ -212,7 +237,29 @@ const ExpenseForm = () => {
                 </Grid>
 
                 <Grid item xs={6}>
-                  <TextField
+                  <FormControl
+                    fullWidth
+                    variant="outlined"
+                    error={!!errors.category}
+                    required
+                  >
+                    <InputLabel id="category-label">Category</InputLabel>
+                    <Select
+                      labelId="category-label"
+                      id="category"
+                      name="category"
+                      value={formData.category || ""}
+                      onChange={handleChange}
+                      label="Category"
+                    >
+                      <MenuItem value="Phone">Phone</MenuItem>
+                      <MenuItem value="General">General</MenuItem>
+                    </Select>
+                    {errors.category && (
+                      <FormHelperText>{errors.category}</FormHelperText>
+                    )}
+                  </FormControl>
+                  {/* <TextField
                     fullWidth
                     label="Category"
                     variant="outlined"
@@ -222,8 +269,31 @@ const ExpenseForm = () => {
                     required
                     error={!!errors.category}
                     helperText={errors.category}
-                  />
+                  /> */}
                 </Grid>
+
+                {formData.category == "Phone" ? (
+                  <>
+                    <Grid item xs={6}>
+                      <ModelInput
+                        branchId={branchId}
+                        onChange={handleModelChange}
+                        value={formData.modelName}
+                        error={errors.modelName}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <DeviceInput
+                        modelId={selectedModel}
+                        onChange={handleDeviceChange}
+                        value={formData.deviceName}
+                        error={errors.deviceName}
+                      />
+                    </Grid>
+                  </>
+                ) : (
+                  ""
+                )}
 
                 <Grid item xs={6}>
                   <TextField
