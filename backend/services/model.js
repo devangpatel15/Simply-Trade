@@ -71,6 +71,21 @@ exports.deleteModelServices = async (modelId) => {
   return data;
 };
 
+exports.selectModelByBranchServices = async (branchId, orgText) => {
+  let findObject = { isDeleted: false };
+
+  if (orgText.trim() !== "") {
+    findObject.$or = [{ modelName: { $regex: `^${orgText}`, $options: "i" } }];
+  }
+  if (branchId) {
+    findObject.branchName = branchId;
+  }
+
+  return await Model.find(findObject)
+    .populate("organization branchName categoryId")
+    .limit(5);
+};
+
 // exports.searchModelService = async (orgText) => {
 //   let findObject = { isDeleted: false };
 

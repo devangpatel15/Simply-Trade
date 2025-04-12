@@ -7,7 +7,7 @@ const {
   findUserModelServices,
   softDeleteModelService,
   selectModelByCatServices,
-  searchModelService,
+  selectModelByBranchServices,
 } = require("../services/model");
 
 exports.findAllModel = async (req, res) => {
@@ -149,6 +149,29 @@ exports.deleteModel = async (req, res) => {
       return res.status(404).json({ message: "Model not found" });
     }
     return res.status(200).json({ message: "Model deleted", data: modelData });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.selectModelByBranch = async (req, res) => {
+  try {
+    const branchId = req.params.id;
+    const orgText = req?.query?.text || "";
+
+    console.log("branchID", branchId);
+    const modelData = await selectModelByBranchServices(branchId, orgText);
+
+    if (!modelData) {
+      return res.status(404).json({ message: "No Model found" });
+    }
+
+    return res.status(200).json({
+      message: "Model retrieved successfully",
+      data: modelData,
+    });
   } catch (err) {
     return res
       .status(500)

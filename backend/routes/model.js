@@ -8,6 +8,7 @@ const {
   softDeleteModel,
   selectModelByCat,
   searchModel,
+  selectModelByBranch,
 } = require("../controllers/model");
 const {
   validateGetOneModelData,
@@ -29,5 +30,10 @@ modelRoute.get(
 modelRoute.post("/createModel", validateCreateModelData, createModel);
 modelRoute.put("/updateModel/:id", validateUpdateModelData, updateModel);
 modelRoute.put("/deleteModel/:id", validateDeleteModelData, softDeleteModel);
+modelRoute.get(
+  "/selectModelByBranch/:id",
+  validateGetOneModelData,
+  selectModelByBranch
+);
 
 module.exports = modelRoute;
