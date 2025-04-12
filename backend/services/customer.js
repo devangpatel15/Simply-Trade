@@ -1,16 +1,19 @@
 const Customer = require("../models/customer");
 
 exports.getAllCustomerService = async (userId, role, userBranchId) => {
-  const data= await Customer.find({
+  const data = await Customer.find({
     isDeleted: false,
   })
     .populate({
       path: role == "user" ? "branchName" : "organization",
       match: role == "user" ? { _id: userBranchId } : { userId: userId },
-    }).populate("organization branchName")
+    })
+    .populate("organization branchName")
     .lean();
 
-    return data.filter((item)=>{return item.branchName!=null})
+  return data.filter((item) => {
+    return item.branchName != null;
+  });
 };
 
 exports.getCustomerService = async (cusId) => {
@@ -73,4 +76,8 @@ exports.selectCustomerServices = async (branchId, orgText) => {
     .populate("branchName organization")
     .limit(5)
     .lean();
+};
+
+exports.getCustomerByOrgService = async (orgId) => {
+  return await Customer.find({ organization: orgId, isDeleted: false }).lean();
 };
