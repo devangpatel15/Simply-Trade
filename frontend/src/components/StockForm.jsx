@@ -26,11 +26,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { createStock, getOneStock, updateStock } from "../apis/StockApi";
 import CustomerInput from "./common/CustomerInput";
 import { getOneCustomer } from "../apis/CustomerApi";
-<<<<<<< HEAD
 import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
-=======
 import { toast } from "react-toastify";
->>>>>>> 08b029483232f9a0a050efeeedb2d3f83e420b33
 
 const StockForm = () => {
   const [errors, setErrors] = useState({});
@@ -107,7 +104,6 @@ const StockForm = () => {
     setFormData((prev) => ({
       ...prev,
       organization: selectedOrg,
-      
     }));
   };
 
@@ -116,7 +112,6 @@ const StockForm = () => {
     setFormData((prev) => ({
       ...prev,
       branch: selectedOrgBranch,
-      
     }));
   };
 
@@ -140,7 +135,6 @@ const StockForm = () => {
     setFormData((prev) => ({
       ...prev,
       customerName: selectCustomer,
-    
     }));
   };
 
@@ -436,8 +430,8 @@ const StockForm = () => {
           newErrors.device[index].color = errorMessage.colorName;
         }
 
-        console.log("newErrors",newErrors);
-        
+        console.log("newErrors", newErrors);
+
         // Validate imei array inside each device
         if (Array.isArray(device.imei)) {
           device.imei.forEach((imei, imeiIndex) => {
@@ -484,8 +478,8 @@ const StockForm = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(formData,"formData");
-    
+    console.log(formData, "formData");
+
     // if (!validateStockForm()) {
     //   return;
     // }
@@ -813,7 +807,6 @@ const StockForm = () => {
                             )
                           }
                           required
-                         
                           error={
                             !!(
                               errors &&
@@ -821,16 +814,16 @@ const StockForm = () => {
                               errors.device[deviceIndex] &&
                               errors.device[deviceIndex].imei[imeiIndex] &&
                               errors.device[deviceIndex].imei[imeiIndex].imeiNo
-                            ) 
+                            )
                           }
                           helperText={
-                            (
-                              errors &&
+                            (errors &&
                               errors.device &&
                               errors.device[deviceIndex] &&
                               errors.device[deviceIndex].imei[imeiIndex] &&
-                              errors.device[deviceIndex].imei[imeiIndex].imeiNo
-                            ) || ""
+                              errors.device[deviceIndex].imei[imeiIndex]
+                                .imeiNo) ||
+                            ""
                           }
                           fullWidth
                           margin="normal"
@@ -854,16 +847,16 @@ const StockForm = () => {
                               errors.device[deviceIndex] &&
                               errors.device[deviceIndex].imei[imeiIndex] &&
                               errors.device[deviceIndex].imei[imeiIndex].srNo
-                            ) 
+                            )
                           }
                           helperText={
-                            (
-                              errors &&
+                            (errors &&
                               errors.device &&
                               errors.device[deviceIndex] &&
                               errors.device[deviceIndex].imei[imeiIndex] &&
-                              errors.device[deviceIndex].imei[imeiIndex].srNo
-                            ) || ""
+                              errors.device[deviceIndex].imei[imeiIndex]
+                                .srNo) ||
+                            ""
                           }
                           fullWidth
                           margin="normal"
@@ -893,17 +886,18 @@ const StockForm = () => {
                             errors.device &&
                             errors.device[deviceIndex] &&
                             errors.device[deviceIndex].imei[imeiIndex] &&
-                            errors.device[deviceIndex].imei[imeiIndex].totalAmount
-                          ) 
+                            errors.device[deviceIndex].imei[imeiIndex]
+                              .totalAmount
+                          )
                         }
                         helperText={
-                          (
-                            errors &&
+                          (errors &&
                             errors.device &&
                             errors.device[deviceIndex] &&
                             errors.device[deviceIndex].imei[imeiIndex] &&
-                            errors.device[deviceIndex].imei[imeiIndex].totalAmount
-                          ) || ""
+                            errors.device[deviceIndex].imei[imeiIndex]
+                              .totalAmount) ||
+                          ""
                         }
                       />
                     </Grid>
@@ -929,17 +923,18 @@ const StockForm = () => {
                             errors.device &&
                             errors.device[deviceIndex] &&
                             errors.device[deviceIndex].imei[imeiIndex] &&
-                            errors.device[deviceIndex].imei[imeiIndex].paidToCustomer
-                          ) 
+                            errors.device[deviceIndex].imei[imeiIndex]
+                              .paidToCustomer
+                          )
                         }
                         helperText={
-                          (
-                            errors &&
+                          (errors &&
                             errors.device &&
                             errors.device[deviceIndex] &&
                             errors.device[deviceIndex].imei[imeiIndex] &&
-                            errors.device[deviceIndex].imei[imeiIndex].paidToCustomer
-                          ) || ""
+                            errors.device[deviceIndex].imei[imeiIndex]
+                              .paidToCustomer) ||
+                          ""
                         }
                       />
                     </Grid>
