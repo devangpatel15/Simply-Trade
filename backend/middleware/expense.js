@@ -15,11 +15,11 @@ exports.createValidation = [
   body("category").isString().notEmpty().withMessage("category is required"),
   body("modelName")
     .isMongoId()
-    .notEmpty()
+    .optional()
     .withMessage("ModelName must be valid mongoDb Id"),
   body("deviceName")
     .isMongoId()
-    .notEmpty()
+    .optional()
     .withMessage("deviceName must be valid mongoDb Id"),
   body("amount").isNumeric().notEmpty().withMessage("Amount is required"),
   body("description")

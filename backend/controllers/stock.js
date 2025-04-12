@@ -5,6 +5,7 @@ const {
   updateStockService,
   deleteStockService,
   softDeleteStockService,
+  getStockByOrgAndCusService,
 } = require("../services/stock");
 
 exports.getAllStock = async (req, res) => {
@@ -195,6 +196,27 @@ exports.deleteStock = async (req, res) => {
       return res.status(404).json({ message: "Stock not found" });
     }
     return res.status(200).json({ message: "Stock deleted", data: stock });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.findStockByOrgAndCustomer = async (req, res) => {
+  try {
+    const orgId = req?.query?.orgId;
+    const cusId = req?.query?.cusId;
+
+    const stock = await getStockByOrgAndCusService(orgId, cusId);
+    if (!stock) {
+      return res.status(404).json({ message: "No Stock found" });
+    }
+
+    return res.status(200).json({
+      message: "Stock retrieved successfully",
+      data: stock,
+    });
   } catch (err) {
     return res
       .status(500)
