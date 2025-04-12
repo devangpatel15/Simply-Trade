@@ -30,13 +30,12 @@ exports.getAllStockService = async (userOrgId, role, userId, req) => {
 };
 
 exports.getStockService = async (stockId) => {
-
-  const stockData= await Stock.findById(stockId)
-  .populate(
-    "organization branch customerName categoryName modelName deviceName capacityName color"
-  )
-  .lean();
-    return stockData
+  const stockData = await Stock.findById(stockId)
+    .populate(
+      "organization branch customerName categoryName modelName deviceName capacityName color"
+    )
+    .lean();
+  return stockData;
 };
 
 exports.createStockService = async (newStock) => {
@@ -44,12 +43,13 @@ exports.createStockService = async (newStock) => {
 };
 
 exports.updateStockService = async (stockId, stock) => {
-  
-  const data= await Stock.findByIdAndUpdate(stockId, stock, { new: true }).populate(
-    "organization branch customerName categoryName modelName deviceName capacityName color"
-  ).lean();
-  console.log("uudata data+++++++++++++++++++++++++",data)
-  return data
+  const data = await Stock.findByIdAndUpdate(stockId, stock, { new: true })
+    .populate(
+      "organization branch customerName categoryName modelName deviceName capacityName color"
+    )
+    .lean();
+  console.log("uudata data+++++++++++++++++++++++++", data);
+  return data;
 };
 
 exports.softDeleteStockService = async (stockId) => {
@@ -69,3 +69,15 @@ exports.deleteStockService = async (stockId) => {
 
 //   return await Model.find(findObject).limit(5); // Increase limit if needed
 // };
+
+exports.getStockByOrgAndCusService = async (orgId, cusId) => {
+  const stockData = await Stock.find({
+    organization: orgId,
+    customerName: cusId,
+    isDeleted: false,
+  }).lean();
+
+  console.log(stockData);
+
+  return stockData;
+};
