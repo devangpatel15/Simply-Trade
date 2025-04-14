@@ -32,7 +32,7 @@ const repairSchema = new mongoose.Schema({
     default: "Pending",
   },
   date: { type: Date, required: true },
-  upload: { type: String },
+  //   upload: { type: String },
 });
 
-module.exports = mongoose.model("repair", repairSchema);
+module.exports = mongoose.model("Repair", repairSchema);
