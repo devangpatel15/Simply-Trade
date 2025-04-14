@@ -75,7 +75,9 @@ exports.getStockByOrgAndCusService = async (orgId, cusId) => {
     organization: orgId,
     customerName: cusId,
     isDeleted: false,
-  }).lean();
+  })
+    .populate("customerName deviceName")
+    .lean();
 
   console.log(stockData);
 
