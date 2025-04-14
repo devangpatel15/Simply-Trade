@@ -32,6 +32,8 @@ const ExpenseForm = () => {
   const [formData, setFormData] = useState({
     organization: null,
     branchName: null,
+    modelName: null,
+    deviceName: null,
     date: "",
     category: "",
     amount: "",
@@ -133,6 +135,15 @@ const ExpenseForm = () => {
           label: response.data.data.branchName.branchName,
           value: response.data.data.branchName._id || "",
         },
+        
+        modelName: {
+          label: response.data.data?.modelName?.modelName,
+          value: response.data.data?.modelName?._id || "",
+        },
+        deviceName: {
+          label: response.data.data?.deviceName?.deviceName,
+          value: response.data.data?.deviceName?._id || "",
+        },
       });
     }
   };
@@ -157,13 +168,6 @@ const ExpenseForm = () => {
     }));
   };
 
-  // const handleCategoryChange = (selectedCategory) => {
-  //   setCatId(selectedCategory.value);
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     category: selectedCategory,
-  //   }));
-  // };
   const handleModelChange = (selectedModel) => {
     console.log(selectedModel);
     setSelectedModel(selectedModel?.value);
@@ -272,17 +276,7 @@ const ExpenseForm = () => {
                       <FormHelperText>{errors.category}</FormHelperText>
                     )}
                   </FormControl>
-                  {/* <TextField
-                    fullWidth
-                    label="Category"
-                    variant="outlined"
-                    name="category"
-                    value={formData.category || ""}
-                    onChange={handleChange}
-                    required
-                    error={!!errors.category}
-                    helperText={errors.category}
-                  /> */}
+        
                 </Grid>
 
                 {formData.category == "Phone" ? (
@@ -291,7 +285,7 @@ const ExpenseForm = () => {
                       <ModelInput
                         branchId={branchId}
                         onChange={handleModelChange}
-                        value={formData.modelName}
+                        value={formData.modelName || ""}
                         error={errors.modelName}
                       />
                     </Grid>
@@ -299,7 +293,7 @@ const ExpenseForm = () => {
                       <DeviceInput
                         modelId={selectedModel}
                         onChange={handleDeviceChange}
-                        value={formData.deviceName}
+                        value={formData.deviceName || ""}
                         error={errors.deviceName}
                       />
                     </Grid>
@@ -356,7 +350,7 @@ const ExpenseForm = () => {
                 color="primary"
                 onClick={handleSubmit}
               >
-                {id ? "Update" : "Add"} Expense
+                {id ? "Update" : "Add"} 
               </Button>
             </Grid>
           </Box>

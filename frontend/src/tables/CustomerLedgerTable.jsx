@@ -10,10 +10,14 @@ import { deleteStock, getAllStocks } from "../apis/StockApi";
 import StockDialog from "../components/StockDialog";
 import PaymentDialog from "../components/PaymentDialog";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import axios from "axios";
 
-const CustomerLedgerTable = ({filterData}) => {
-
-    const [searchTerm, setSearchTerm] = useState("");
+const CustomerLedgerTable = ({
+  filterData,
+  selectedOrganization,
+  selectedCustomer,
+}) => {
+  const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
   const [paymentDialog, setPaymentDialog] = React.useState(false);
@@ -27,23 +31,44 @@ const CustomerLedgerTable = ({filterData}) => {
 
   // Function to fetch data from the API based on pagination model
   const callApi = async () => {
-    try {
-      const response = await getAllStocks(
-        paginationModel.page + 1,
-        paginationModel.pageSize
-      ); // +1 because API uses 1-based indexing
-      console.log(response, "API Response");
-      setStock(response.data.data.items); // Set the items to orgData
-      setTotalRows(response.data.data.totalCount); // Set the total count (rowCount) from API response
-    } catch (error) {
-      console.error("Error fetching organization branch data:", error);
+    if (selectedOrganization && selectedCustomer) {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/api/stockByOrgAndCus`,
+          {
+            params: {
+              orgId: selectedOrganization && selectedOrganization.value,
+              cusId: selectedCustomer && selectedCustomer.value,
+            },
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setStock(response.data.data);
+      } catch (error) {
+        console.error("Error fetching organizations:", error);
+      }
+    } else {
+      try {
+        const response = await getAllStocks(
+          paginationModel.page + 1,
+          paginationModel.pageSize
+        ); // +1 because API uses 1-based indexing
+        console.log(response, "API Response");
+        setStock(response.data.data.items); // Set the items to orgData
+        setTotalRows(response.data.data.totalCount); // Set the total count (rowCount) from API response
+      } catch (error) {
+        console.error("Error fetching organization branch data:", error);
+      }
     }
   };
 
   // Fetch data when pagination model changes
   useEffect(() => {
     callApi(); // Call API when page or pageSize changes
-  }, [paginationModel]);
+  }, [paginationModel, selectedCustomer]);
 
   // Handle pagination model change (page or pageSize)
   const handlePaginationModelChange = (newPaginationModel) => {
@@ -57,9 +82,8 @@ const CustomerLedgerTable = ({filterData}) => {
 
   const handleClose = () => {
     setOpen(false);
-    setPaymentDialog(false);  // Ensuring PaymentDialog closes separately
+    setPaymentDialog(false); // Ensuring PaymentDialog closes separately
   };
-  
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
@@ -181,8 +205,8 @@ const CustomerLedgerTable = ({filterData}) => {
         handleDelete={handleDelete}
         closeDeleteDialog={closeDeleteDialog}
       />
-      </>
-  )
-}
+    </>
+  );
+};
 
-export default CustomerLedgerTable
+export default CustomerLedgerTable;

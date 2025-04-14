@@ -57,11 +57,15 @@ const OrgInput = ({ onChange, value, error, role }) => {
       options={options}
       getOptionLabel={(option) => option.label}
       loading={loading}
-      value={value}
+      value={value || null}
       isOptionEqualToValue={(option, val) => option.value === val?.value}
       onInputChange={(_, newInputValue) => setInputValue(newInputValue)}
       onChange={(_, newValue) => {
-        if (onChange) onChange(newValue); // Ensure onChange gets an object
+        if (newValue) {
+          onChange(newValue);
+        } else {
+          onChange(null);
+        }
       }}
       renderInput={(params) => (
         <TextField

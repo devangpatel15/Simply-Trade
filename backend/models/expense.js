@@ -7,7 +7,7 @@ const expenseSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "OrganizationBranch",
     },
-    date: { type: Date, require: true },
+    date: { type: String, require: true },
     amount: { type: Number, require: true },
     category: {
       type: String,

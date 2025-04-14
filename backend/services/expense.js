@@ -9,7 +9,7 @@ exports.getAllExpenseService = async (req) => {
   const items = await Expense.find({ isDeleted: false })
     .lean()
     .sort({ createdAt: -1 })
-    .populate("organization branchName")
+    .populate("organization branchName category modelName deviceName")
     .skip(skip)
     .limit(limit)
     .lean();
@@ -21,7 +21,7 @@ exports.getAllExpenseService = async (req) => {
 
 exports.getExpenseService = async (exId) => {
   return await Expense.findById(exId)
-    .populate("organization branchName category")
+    .populate("organization branchName category modelName deviceName")
     .lean();
 };
 // exports.selectExpenseByDeviceService = async (deviceId) => {
