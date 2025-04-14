@@ -5,7 +5,6 @@ const {
   updateExpenseService,
   softDeleteExpenseService,
 } = require("../services/expense");
-const moment = require("moment");
 
 exports.getAllExpense = async (req, res) => {
   try {
@@ -43,11 +42,6 @@ exports.getExpense = async (req, res) => {
 exports.createExpense = async (req, res) => {
   try {
     const newEx = req.body;
-
-    // Convert date to JavaScript Date using moment
-    if (newEx.date) {
-      newEx.date = moment(newEx.date).toDate(); // ensure proper Date object
-    }
 
     const createdEx = await createExpenseService(newEx);
     return res.status(200).json({ message: "Expense added", data: createdEx });
