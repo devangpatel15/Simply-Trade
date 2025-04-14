@@ -1,6 +1,6 @@
 const Repair = require("../models/repair");
 
-exports.getAllRepairDataService = async (userOrgId, role, userId, req) => {
+exports.getAllRepairDataServices = async (userOrgId, role, userId, req) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1
   const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
 
@@ -20,7 +20,7 @@ exports.getAllRepairDataService = async (userOrgId, role, userId, req) => {
     return item.organization != null;
   });
 
-  const totalCount = await Stock.countDocuments({
+  const totalCount = await Repair.countDocuments({
     isDeleted: false,
   });
 

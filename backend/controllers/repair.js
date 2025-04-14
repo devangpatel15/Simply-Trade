@@ -4,6 +4,7 @@ const {
   updateRepairServices,
   softDeleteRepairService,
   deleteRepairService,
+  getRepairService,
 } = require("../services/repair");
 
 exports.getAllRepairData = async (req, res) => {
@@ -35,7 +36,7 @@ exports.getAllRepairData = async (req, res) => {
 exports.getRepair = async (req, res) => {
   try {
     const repairId = req.params.id;
-    const repair = await getStockService(repairId);
+    const repair = await getRepairService(repairId);
     if (!repair) {
       return res.status(404).json({ message: "No Repair found" });
     }
