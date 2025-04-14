@@ -13,6 +13,8 @@ const CustomerInput = ({ onChange, value, branchId, error, orgId }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [customerData, setCustomerdata] = useState({});
+  console.log(branchId,"branchId cus");
+  
 
   const callApi = async () => {
     try {
@@ -48,7 +50,7 @@ const CustomerInput = ({ onChange, value, branchId, error, orgId }) => {
           `http://localhost:4000/api/${
             orgId
               ? `getCustomerByOrg/${orgId}`
-              : `findOneOrganizationBranch/${branchId}`
+              : `selectCustomer/${branchId}`
           }`,
           {
             params: { text: query }, // Query parameters
@@ -58,11 +60,14 @@ const CustomerInput = ({ onChange, value, branchId, error, orgId }) => {
             }, // Request headers
           }
         );
-
+        console.log(response.data.data );
+        
         const formattedOptions = (response.data.data || []).map((org) => ({
           label: org.customerName,
           value: org._id,
         }));
+
+        console.log(formattedOptions)
 
         setOptions(formattedOptions);
       } catch (error) {
