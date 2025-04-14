@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
   Radio,
   RadioGroup,
   FormControlLabel,
@@ -59,8 +55,6 @@ const StockForm = () => {
   });
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
-  const [selectedCustomer, setSelectedCustomer] = useState("");
-  const [branchId, setBranchId] = useState("");
   const [catId, setCatId] = useState("");
   const [modelId, setModelId] = useState("");
   const [deviceId, setDeviceId] = useState("");

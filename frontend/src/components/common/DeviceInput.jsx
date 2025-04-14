@@ -56,7 +56,7 @@ const DeviceInput = ({ onChange, value, modelId, error }) => {
   return (
     <Autocomplete
       options={options}
-      getOptionLabel={(option) => option.label}
+      getOptionLabel={(option) => option.label || ""}
       loading={loading}
       value={value}
       isOptionEqualToValue={(option, val) => option.value === val?.value}

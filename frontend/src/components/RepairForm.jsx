@@ -1,12 +1,8 @@
 import {
   Box,
   Button,
-  FormControl,
-  FormHelperText,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -25,15 +21,13 @@ import {
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 
-const ExpenseForm = () => {
+const RepairForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     organization: null,
     branchName: null,
-    modelName: null,
-    deviceName: null,
     date: "",
     category: "",
     amount: "",
@@ -135,15 +129,6 @@ const ExpenseForm = () => {
           label: response.data.data.branchName.branchName,
           value: response.data.data.branchName._id || "",
         },
-        
-        modelName: {
-          label: response.data.data?.modelName?.modelName,
-          value: response.data.data?.modelName?._id || "",
-        },
-        deviceName: {
-          label: response.data.data?.deviceName?.deviceName,
-          value: response.data.data?.deviceName?._id || "",
-        },
       });
     }
   };
@@ -212,7 +197,7 @@ const ExpenseForm = () => {
               variant="h4"
               sx={{ fontWeight: "bold", color: "#6c5ce7" }}
             >
-              EXPENSE
+              REPAIR
             </Typography>
             <Box
               display="flex"
@@ -238,6 +223,124 @@ const ExpenseForm = () => {
                 </Grid>
 
                 <Grid item xs={6}>
+                  {/* textfield for phonenumber change values and onChange also validation */}
+                  <TextField
+                    fullWidth
+                    type="text"
+                    label="Phone Number"
+                    name="phoneNumber"
+                    value={formData.date}
+                    onChange={handleNativeDateChange}
+                    error={!!errors.date}
+                    helperText={errors.date}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  {/* textfield for customerName change values and onChange also validation */}
+                  <TextField
+                    fullWidth
+                    label="Customer Name"
+                    variant="outlined"
+                    name="customerName"
+                    value={formData.description || ""}
+                    onChange={handleChange}
+                    required
+                    error={!!errors.description}
+                    helperText={errors.description}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  {/* textfield for email change values and onChange also validation */}
+                  <TextField
+                    fullWidth
+                    label="Email"
+                    variant="outlined"
+                    name="email"
+                    value={formData.description || ""}
+                    onChange={handleChange}
+                    required
+                    error={!!errors.description}
+                    helperText={errors.description}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Box sx={{ display: "flex", justifyContent: "end" }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleSubmit}
+                    >
+                      ADD DEVICE
+                    </Button>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={6}>
+                  <ModelInput
+                    branchId={branchId}
+                    onChange={handleModelChange}
+                    value={formData.modelName}
+                    error={errors.modelName}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <DeviceInput
+                    modelId={selectedModel}
+                    onChange={handleDeviceChange}
+                    value={formData.deviceName}
+                    error={errors.deviceName}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  {/* textfield for amount change values and onChange also validation */}
+                  <TextField
+                    fullWidth
+                    label="Amount"
+                    variant="outlined"
+                    name="amount"
+                    value={formData.amount || ""}
+                    onChange={handleChange}
+                    required
+                    error={!!errors.amount}
+                    helperText={errors.amount}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  {/* textfield for estimatedCost change values and onChange also validation */}
+                  <TextField
+                    fullWidth
+                    label="Estimated Cost"
+                    variant="outlined"
+                    name="estimatedCost"
+                    value={formData.amount || ""}
+                    onChange={handleChange}
+                    required
+                    error={!!errors.amount}
+                    helperText={errors.amount}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  {/* textfield for status change values and onChange also validation */}
+                  <TextField
+                    fullWidth
+                    label="Status"
+                    variant="outlined"
+                    name="status"
+                    value={formData.description || ""}
+                    onChange={handleChange}
+                    required
+                    error={!!errors.description}
+                    helperText={errors.description}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
                   <TextField
                     fullWidth
                     type="date"
@@ -253,81 +356,16 @@ const ExpenseForm = () => {
                   />
                 </Grid>
 
-                <Grid item xs={6}>
-                  <FormControl
-                    fullWidth
-                    variant="outlined"
-                    error={!!errors.category}
-                    required
-                  >
-                    <InputLabel id="category-label">Category</InputLabel>
-                    <Select
-                      labelId="category-label"
-                      id="category"
-                      name="category"
-                      value={formData.category || ""}
-                      onChange={handleChange}
-                      label="Category"
+                <Grid item xs={12}>
+                  <Stack>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleSubmit}
                     >
-                      <MenuItem value="Phone">Phone</MenuItem>
-                      <MenuItem value="General">General</MenuItem>
-                    </Select>
-                    {errors.category && (
-                      <FormHelperText>{errors.category}</FormHelperText>
-                    )}
-                  </FormControl>
-        
-                </Grid>
-
-                {formData.category == "Phone" ? (
-                  <>
-                    <Grid item xs={6}>
-                      <ModelInput
-                        branchId={branchId}
-                        onChange={handleModelChange}
-                        value={formData.modelName || ""}
-                        error={errors.modelName}
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <DeviceInput
-                        modelId={selectedModel}
-                        onChange={handleDeviceChange}
-                        value={formData.deviceName || ""}
-                        error={errors.deviceName}
-                      />
-                    </Grid>
-                  </>
-                ) : (
-                  ""
-                )}
-
-                <Grid item xs={6}>
-                  <TextField
-                    fullWidth
-                    label="Description"
-                    variant="outlined"
-                    name="description"
-                    value={formData.description || ""}
-                    onChange={handleChange}
-                    required
-                    error={!!errors.description}
-                    helperText={errors.description}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <TextField
-                    fullWidth
-                    label="Amount"
-                    variant="outlined"
-                    name="amount"
-                    value={formData.amount || ""}
-                    onChange={handleChange}
-                    required
-                    error={!!errors.amount}
-                    helperText={errors.amount}
-                  />
+                      UPLOAD
+                    </Button>
+                  </Stack>
                 </Grid>
               </Grid>
             </Box>
@@ -341,7 +379,7 @@ const ExpenseForm = () => {
                 variant="contained"
                 color="error"
                 component={Link}
-                to="/expensePage"
+                to="/repairPage"
               >
                 Cancel
               </Button>
@@ -350,7 +388,7 @@ const ExpenseForm = () => {
                 color="primary"
                 onClick={handleSubmit}
               >
-                {id ? "Update" : "Add"} 
+                {id ? "Update" : "Add"}
               </Button>
             </Grid>
           </Box>
@@ -360,4 +398,4 @@ const ExpenseForm = () => {
   );
 };
 
-export default ExpenseForm;
+export default RepairForm;

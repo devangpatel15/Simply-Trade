@@ -60,7 +60,7 @@ const ModelInput = ({ onChange, value, catId, error, branchId }) => {
   return (
     <Autocomplete
       options={options}
-      getOptionLabel={(option) => option.label}
+      getOptionLabel={(option) => option.label || ""}
       loading={loading}
       value={value}
       isOptionEqualToValue={(option, val) => option.value === val?.value}
