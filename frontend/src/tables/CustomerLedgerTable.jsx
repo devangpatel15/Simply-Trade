@@ -11,7 +11,7 @@ import StockDialog from "../components/StockDialog";
 import PaymentDialog from "../components/PaymentDialog";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 
-const CustomerLedgerTable = () => {
+const CustomerLedgerTable = ({filterData}) => {
 
     const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);

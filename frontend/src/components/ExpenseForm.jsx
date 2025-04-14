@@ -34,8 +34,6 @@ const ExpenseForm = () => {
     branchName: null,
     date: "",
     category: "",
-    modelName: null,
-    deviceName: null,
     amount: "",
     description: "",
   });
@@ -61,8 +59,10 @@ const ExpenseForm = () => {
       newErrors.organization = "Organization is required";
     if (!formData.branchName) newErrors.branchName = "Branch Name is required";
     if (!formData.category) newErrors.category = "Category is required";
-    if (!formData.modelName) newErrors.modelName = "modelName is required";
-    if (!formData.deviceName) newErrors.deviceName = "deviceName is required";
+    if (formData.category == "Phone") {
+      if (!formData.modelName) newErrors.modelName = "modelName is required";
+      if (!formData.deviceName) newErrors.deviceName = "deviceName is required";
+    }
     if (!formData.date) newErrors.date = "Date is required";
     if (!formData.amount) newErrors.amount = "Amount is required";
     if (!formData.description)
@@ -80,16 +80,28 @@ const ExpenseForm = () => {
 
     console.log("Submitting form data: ", formData);
 
-    const payload = {
-      organization: formData.organization?.value || "",
-      branchName: formData.branchName?.value || "",
-      category: formData.category || "",
-      modelName: formData.modelName || "",
-      deviceName: formData.deviceName || "",
-      amount: formData.amount || "",
-      date: formData.date || "",
-      description: formData.description || "",
-    };
+    let payload;
+    if (formData.category == "Phone") {
+      payload = {
+        organization: formData.organization?.value || "",
+        branchName: formData.branchName?.value || "",
+        category: formData.category || "",
+        modelName: formData.modelName?.value || "",
+        deviceName: formData.deviceName?.value || "",
+        amount: formData.amount || "",
+        date: formData.date || "",
+        description: formData.description || "",
+      };
+    } else {
+      payload = {
+        organization: formData.organization?.value || "",
+        branchName: formData.branchName?.value || "",
+        category: formData.category || "",
+        amount: formData.amount || "",
+        date: formData.date || "",
+        description: formData.description || "",
+      };
+    }
 
     try {
       if (id) {
@@ -153,7 +165,8 @@ const ExpenseForm = () => {
   //   }));
   // };
   const handleModelChange = (selectedModel) => {
-    setSelectedModel(selectedModel.value);
+    console.log(selectedModel);
+    setSelectedModel(selectedModel?.value);
     setFormData((prev) => ({
       ...prev,
       modelName: selectedModel,
@@ -163,7 +176,7 @@ const ExpenseForm = () => {
     setSelectedDevice(selectedDevice.value);
     setFormData((prev) => ({
       ...prev,
-      modelName: selectedDevice,
+      deviceName: selectedDevice,
     }));
   };
 
