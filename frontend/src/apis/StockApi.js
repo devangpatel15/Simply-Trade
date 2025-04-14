@@ -43,7 +43,8 @@ const getOneStock = async (id) => {
 
 const getAllStocks = async (page = 1, limit = 5) => {
   try {
-    const response = await axios.get("http://localhost:4000/api/allStock", {params: { page, limit },
+    const response = await axios.get("http://localhost:4000/api/allStock", {
+      params: { page, limit },
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

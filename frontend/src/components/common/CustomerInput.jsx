@@ -7,7 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
 import CustomerDialog from "../CustomerDialog";
 
-const CustomerInput = ({ onChange, value, branchId, error }) => {
+const CustomerInput = ({ onChange, value, branchId, error, orgId }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -45,7 +45,11 @@ const CustomerInput = ({ onChange, value, branchId, error }) => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/selectCustomer/${branchId}`,
+          `http://localhost:4000/api/${
+            orgId
+              ? `getCustomerByOrg/${orgId}`
+              : `findOneOrganizationBranch/${branchId}`
+          }`,
           {
             params: { text: query }, // Query parameters
             headers: {
@@ -68,19 +72,19 @@ const CustomerInput = ({ onChange, value, branchId, error }) => {
         setLoading(false);
       }
     }, 500),
-    [branchId]
+    [branchId, orgId]
   );
 
   // Fetch organizations when inputValue changes
   useEffect(() => {
-    if (branchId) {
+    if (branchId || orgId) {
       if (inputValue.trim() !== "") {
         fetchOrganizations(inputValue);
       } else {
         fetchOrganizations(""); // Load default options
       }
     }
-  }, [inputValue, fetchOrganizations]);
+  }, [inputValue, branchId, orgId]);
 
   return (
     <>
