@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const ModelInput = ({ onChange, value, catId, error }) => {
+const ModelInput = ({ onChange, value, catId, error, branchId }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,11 @@ const ModelInput = ({ onChange, value, catId, error }) => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/selectModelByCat/${catId}`,
+          `http://localhost:4000/api/${
+            branchId
+              ? `selectModelByBranch/${branchId}`
+              : `selectModelByCat/${catId}`
+          }`,
           {
             params: { text: query }, // Query parameters
             headers: {
@@ -39,12 +43,12 @@ const ModelInput = ({ onChange, value, catId, error }) => {
         setLoading(false);
       }
     }, 500),
-    [catId]
+    [catId, branchId]
   );
 
   // Fetch organizations when inputValue changes
   useEffect(() => {
-    if (catId) {
+    if (catId || branchId) {
       if (inputValue.trim() !== "") {
         fetchOrganizations(inputValue);
       } else {

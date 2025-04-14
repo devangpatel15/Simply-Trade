@@ -7,25 +7,26 @@ const {
   softDeleteCustomerService,
   searchCustomerServices,
   selectCustomerServices,
+  getCustomerByOrgService,
 } = require("../services/customer");
 
 exports.getAllCustomer = async (req, res) => {
   try {
-    const userId=req.user.id
-    const userBranchId=req.user.orgBranch;
-    const role=req.user.role;
-    const cus = await getAllCustomerService(userId,role,userBranchId);
+    const userId = req.user.id;
+    const userBranchId = req.user.orgBranch;
+    const role = req.user.role;
+    const cus = await getAllCustomerService(userId, role, userBranchId);
     if (!cus) {
       return res.status(404).json({ message: "No Customer found" });
     }
     return res.status(200).json({
       message: "Customer retrieved successfully",
-      data: cus
+      data: cus,
     });
   } catch (err) {
     return res
       .status(500)
-      
+
       .json({ message: "Internal server error", error: err.message });
   }
 };
@@ -181,5 +182,21 @@ exports.selectCustomer = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.getCustomerByOrg = async (req, res) => {
+  try {
+    const orgId = req?.params?.id;
+    const cus = await getCustomerByOrgService(orgId);
+    if (!cus) {
+      return res.status(404).json({ message: "No Customer found" });
+    }
+    return res.status(200).json({
+      message: "Customer retrieved successfully",
+      data: cus,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };

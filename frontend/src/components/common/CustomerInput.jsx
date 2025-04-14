@@ -7,12 +7,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
 import CustomerDialog from "../CustomerDialog";
 
-const CustomerInput = ({ onChange, value, branchId, error }) => {
+const CustomerInput = ({ onChange, value, branchId, error, orgId }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [customerData, setCustomerdata] = useState({});
+  console.log(branchId,"branchId cus");
+  
 
   const callApi = async () => {
     try {
@@ -45,7 +47,11 @@ const CustomerInput = ({ onChange, value, branchId, error }) => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/selectCustomer/${branchId}`,
+          `http://localhost:4000/api/${
+            orgId
+              ? `getCustomerByOrg/${orgId}`
+              : `selectCustomer/${branchId}`
+          }`,
           {
             params: { text: query }, // Query parameters
             headers: {
@@ -54,11 +60,14 @@ const CustomerInput = ({ onChange, value, branchId, error }) => {
             }, // Request headers
           }
         );
-
+        console.log(response.data.data );
+        
         const formattedOptions = (response.data.data || []).map((org) => ({
           label: org.customerName,
           value: org._id,
         }));
+
+        console.log(formattedOptions)
 
         setOptions(formattedOptions);
       } catch (error) {
@@ -68,19 +77,19 @@ const CustomerInput = ({ onChange, value, branchId, error }) => {
         setLoading(false);
       }
     }, 500),
-    [branchId]
+    [branchId, orgId]
   );
 
   // Fetch organizations when inputValue changes
   useEffect(() => {
-    if (branchId) {
+    if (branchId || orgId) {
       if (inputValue.trim() !== "") {
         fetchOrganizations(inputValue);
       } else {
         fetchOrganizations(""); // Load default options
       }
     }
-  }, [inputValue, fetchOrganizations]);
+  }, [inputValue, branchId, orgId]);
 
   return (
     <>

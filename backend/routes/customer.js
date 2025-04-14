@@ -9,6 +9,7 @@ const {
   searchCustomer,
   selectCustomer,
   selectCustomerTest,
+  getCustomerByOrg,
 } = require("../controllers/customer");
 const {
   customerIdValidation,
@@ -27,5 +28,6 @@ cusRouter.get("/customer/:id", customerIdValidation, getCustomer);
 cusRouter.post("/createCustomer", createCustomerValidation, createCustomer);
 cusRouter.put("/updateCustomer/:id", updateCustomerValidation, updateCustomer);
 cusRouter.put("/deleteCustomer/:id", customerIdValidation, softDeleteCustomer);
+cusRouter.get("/getCustomerByOrg/:id", getCustomerByOrg);
 
 module.exports = cusRouter;
