@@ -1,4 +1,4 @@
-const { body, check, validationResult } = require("express-validator");
+const { body, check, validationResult, param } = require("express-validator");
 
 exports.createRepairData = [
   body("organization")
@@ -13,6 +13,7 @@ exports.createRepairData = [
     .isMongoId()
     .notEmpty()
     .withMessage("customerName is required"),
+  body("email").isEmail().notEmpty().withMessage("email is required"),
 
   check("device")
     .isArray({ min: 1 })
@@ -33,8 +34,7 @@ exports.createRepairData = [
     .isNumeric()
     .notEmpty()
     .withMessage("estimatedCost must be a number and is required"),
-  check("device.*.status").isString().notEmpty(),
-  withMessage("Status Required"),
+  check("device.*.status").isString().notEmpty().withMessage("Status Required"),
   check("device.*.date").isDate().notEmpty().withMessage("date is required"),
 
   (req, res, next) => {
@@ -69,7 +69,7 @@ exports.deleteRepairValidation = [
   },
 ];
 
-exports.updateRepairData = [
+exports.updateRepairDataValidate = [
   body("organization")
     .isMongoId()
     .optional()
@@ -82,10 +82,11 @@ exports.updateRepairData = [
     .isMongoId()
     .optional()
     .withMessage("customerName is required"),
+  body("email").isEmail().optional().withMessage("email is required"),
 
   body("modelName").isMongoId().optional().withMessage("model in string"),
   body("deviceName").isMongoId().optional().withMessage("device in string"),
-  body("amount").isNumeric().optional.withMessage("Amount in Number"),
+  body("amount").isNumeric().optional().withMessage("Amount in Number"),
   body("estimatedCost")
     .isNumeric()
     .optional()

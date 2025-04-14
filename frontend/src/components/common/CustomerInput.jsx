@@ -13,8 +13,7 @@ const CustomerInput = ({ onChange, value, branchId, error, orgId }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [customerData, setCustomerdata] = useState({});
-  console.log(branchId,"branchId cus");
-  
+  console.log(branchId, "branchId cus");
 
   const callApi = async () => {
     try {
@@ -49,7 +48,7 @@ const CustomerInput = ({ onChange, value, branchId, error, orgId }) => {
         const response = await axios.get(
           `http://localhost:4000/api/${
             orgId
-              ? `getCustomerByOrg/${orgId}`
+              ? `getCustomerByOrg/${orgId?.value}`
               : `selectCustomer/${branchId}`
           }`,
           {
@@ -60,14 +59,14 @@ const CustomerInput = ({ onChange, value, branchId, error, orgId }) => {
             }, // Request headers
           }
         );
-        console.log(response.data.data );
-        
+        console.log(response.data.data);
+
         const formattedOptions = (response.data.data || []).map((org) => ({
           label: org.customerName,
           value: org._id,
         }));
 
-        console.log(formattedOptions)
+        console.log(formattedOptions);
 
         setOptions(formattedOptions);
       } catch (error) {
@@ -97,13 +96,25 @@ const CustomerInput = ({ onChange, value, branchId, error, orgId }) => {
         options={options}
         getOptionLabel={(option) => option.label}
         loading={loading}
-        value={value}
+        value={value || null}
         isOptionEqualToValue={(option, val) => option.value === val?.value}
         onInputChange={(_, newInputValue) => setInputValue(newInputValue)}
         onChange={(_, newValue) => {
-          if (onChange) onChange(newValue); // Ensure onChange gets an object
+          if (newValue) {
+            onChange(newValue);
+          } else {
+            onChange(null);
+          }
         }}
-        noOptionsText={<Button onClick={handleOpen}>Create Customer</Button>} //No Option to Create Customer Button Add//
+        noOptionsText={
+          branchId ? (
+            <>
+              <Button onClick={handleOpen}>Create New Customer</Button>
+            </>
+          ) : (
+            "No customers found."
+          )
+        }
         renderInput={(params) => (
           <TextField
             error={!!error}

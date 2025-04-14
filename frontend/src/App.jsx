@@ -34,6 +34,8 @@ import CategoryTable from "./tables/CategoryTable";
 import ExpensePage from "./pages/ExpensePage";
 import ExpenseForm from "./components/ExpenseForm";
 import CustomerLedgerPage from "./pages/CustomerLedgerPage";
+import RepairPage from "./pages/RepairPage";
+import RepairForm from "./components/RepairForm";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -403,6 +405,31 @@ function App() {
           element={
             <PrivateRoute>
               <CustomerLedgerPage />
+            </PrivateRoute>
+          }
+        />
+
+<Route
+          path="/repairPage"
+          element={
+            <PrivateRoute>
+              <RepairPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/repairForm"
+          element={
+            <PrivateRoute>
+              <RepairForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/repairForm/:id"
+          element={
+            <PrivateRoute>
+              <RepairForm />
             </PrivateRoute>
           }
         />

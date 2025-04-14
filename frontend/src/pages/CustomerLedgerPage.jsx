@@ -19,42 +19,15 @@ import OrgBranchInput from "../components/common/OrgBranchInput";
 import CustomerInput from "../components/common/CustomerInput";
 import axios from "axios";
 const CustomerLedgerPage = () => {
-  const [selectedOrganization, setSelectedOrganization] = React.useState("");
-  const [selectedCustomer, setSelectedCustomer] = React.useState("");
-  const [filterData, setFilterData] = React.useState([]);
+  const [selectedOrganization, setSelectedOrganization] = React.useState(null);
+  const [selectedCustomer, setSelectedCustomer] = React.useState(null);
 
   const handleOrganizationChange = (selectedOrg) => {
-    setSelectedOrganization(selectedOrg.value);
+    setSelectedOrganization(selectedOrg);
   };
   const handleCustomerChange = (selectedCustomer) => {
-    setSelectedCustomer(selectedCustomer.value);
+    setSelectedCustomer(selectedCustomer);
   };
-
-  const callApi = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:4000/api/stockByOrgAndCus`,
-        {
-          params: { orgId: selectedOrganization, cusId: selectedCustomer },
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          }, // Request headers
-        }
-      );
-      // console.log(response.data, "RESPONSESSSSSSSSSSSSSSS");
-      setFilterData(response.data.data);
-    } catch (error) {
-      console.error("Error fetching organizations:", error);
-    }
-  };
-  React.useEffect(() => {
-    if (selectedCustomer) {
-      callApi();
-    }
-  }, [selectedCustomer]);
-
-  console.log(filterData,"filterData");
   
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -142,19 +115,19 @@ const CustomerLedgerPage = () => {
               </Grid>
 
               <Grid item xs={3}>
-                <OrgInput onChange={handleOrganizationChange} />
+                <OrgInput onChange={handleOrganizationChange} value={selectedOrganization} />
               </Grid>
 
               <Grid item xs={3}>
                 <CustomerInput
                   onChange={handleCustomerChange}
                   orgId={selectedOrganization}
+                  value={selectedCustomer}
                 />
               </Grid>
             </Grid>
           </Box>
-        {/* FIXME:show filterData is pending */}
-          <CustomerLedgerTable filterData={filterData} />
+          <CustomerLedgerTable  selectedOrganization={selectedOrganization} selectedCustomer={selectedCustomer}/>
         </Box>
       </Box>
     </Box>

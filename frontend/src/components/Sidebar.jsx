@@ -45,6 +45,8 @@ import AssessmentIcon from "@mui/icons-material/Assessment";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import RestorePageIcon from "@mui/icons-material/RestorePage";
+import BuildIcon from '@mui/icons-material/Build';
+import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
 
 const iconColor = "#5C4E89"; // Custom icon color
 
@@ -241,6 +243,15 @@ const Sidebar = () => {
               <ListItemText primary="Stock" />
             </ListItemButton>
 
+
+            {/* sell device */}
+            <ListItemButton onClick={() => navigate("/stockPage")}>
+              <ListItemIcon>
+                <MobileFriendlyIcon sx={{ color: iconColor }} />
+              </ListItemIcon>
+              <ListItemText primary="Sell Devices" />
+            </ListItemButton>
+
             <ListItemButton onClick={() => setOpenReport(!openReport)}>
               <ArticleIcon>
                 <People sx={{ color: iconColor }} />
@@ -316,6 +327,15 @@ const Sidebar = () => {
                 </ListItemButton>
               </List>
             </Collapse>
+
+              {/* repair device */}
+            <ListItemButton onClick={() => navigate("/repairPage")}>
+              <ListItemIcon>
+                <BuildIcon sx={{ color: iconColor }} />
+              </ListItemIcon>
+              <ListItemText primary="Repair" />
+            </ListItemButton>
+           
           </List>
         </Box>
 

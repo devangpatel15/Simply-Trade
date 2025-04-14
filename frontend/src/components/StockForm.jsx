@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
   Radio,
   RadioGroup,
   FormControlLabel,
@@ -59,8 +55,6 @@ const StockForm = () => {
   });
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
-  const [selectedCustomer, setSelectedCustomer] = useState("");
-  const [branchId, setBranchId] = useState("");
   const [catId, setCatId] = useState("");
   const [modelId, setModelId] = useState("");
   const [deviceId, setDeviceId] = useState("");
@@ -385,7 +379,6 @@ const StockForm = () => {
           },
         ],
       });
-      
     } catch (error) {
       console.error("Error in callApi:", error);
     }
@@ -629,28 +622,34 @@ const StockForm = () => {
               p={2}
               sx={{ border: "1px solid #ccc", borderRadius: 2 }}
             >
-              <Grid container spacing={2} mt={1}>
-                <Grid item sx={2}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={addDevice}
-                  >
-                    Add Device
-                  </Button>
-                </Grid>
-                {deviceIndex > 0 && (
-                  <Grid item sx={2}>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      onClick={() => removeDevice(deviceIndex)}
-                    >
-                      Remove Device
-                    </Button>
+              {id ? (
+                ""
+              ) : (
+                <>
+                  <Grid container spacing={2} mt={1}>
+                    <Grid item sx={2}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={addDevice}
+                      >
+                        Add Device
+                      </Button>
+                    </Grid>
+                    {deviceIndex > 0 && (
+                      <Grid item sx={2}>
+                        <Button
+                          variant="contained"
+                          color="error"
+                          onClick={() => removeDevice(deviceIndex)}
+                        >
+                          Remove Device
+                        </Button>
+                      </Grid>
+                    )}
                   </Grid>
-                )}
-              </Grid>
+                </>
+              )}
 
               <Grid container spacing={2} mt={1}>
                 <Grid item xs={4}>
@@ -770,11 +769,13 @@ const StockForm = () => {
                       }
                     >
                       <FormControlLabel
+                        disabled={id ? true : false}
                         value="imei"
                         control={<Radio />}
                         label="IMEI No"
                       />
                       <FormControlLabel
+                        disabled={id ? true : false}
                         value="sr"
                         control={<Radio />}
                         label="Serial No"
@@ -794,15 +795,21 @@ const StockForm = () => {
                             </Button>
                           </Grid>
                         )}
-                        <Grid item sx={2}>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => addImei(deviceIndex)}
-                          >
-                            Add Imei
-                          </Button>
-                        </Grid>
+                        {id ? (
+                          ""
+                        ) : (
+                          <>
+                            <Grid item sx={2}>
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => addImei(deviceIndex)}
+                              >
+                                Add Imei
+                              </Button>
+                            </Grid>
+                          </>
+                        )}
                       </Grid>
                     </Box>
                   </Box>
