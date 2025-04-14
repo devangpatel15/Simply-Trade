@@ -161,7 +161,7 @@ exports.selectModelByBranch = async (req, res) => {
     const branchId = req.params.id;
     const orgText = req?.query?.text || "";
 
-    console.log("branchID", branchId);
+    console.log("branchID", orgText);
     const modelData = await selectModelByBranchServices(branchId, orgText);
 
     if (!modelData) {
