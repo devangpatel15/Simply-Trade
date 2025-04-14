@@ -32,7 +32,7 @@ modelRoute.put("/updateModel/:id", validateUpdateModelData, updateModel);
 modelRoute.put("/deleteModel/:id", validateDeleteModelData, softDeleteModel);
 modelRoute.get(
   "/selectModelByBranch/:id",
-  validateGetOneModelData,
+  // validateGetOneModelData,
   selectModelByBranch
 );
 
