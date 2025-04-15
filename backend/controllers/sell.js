@@ -5,6 +5,7 @@ const {
   updateSellService,
   softDeleteSellService,
   deleteSellService,
+  getAllStockSellRepairService,
 } = require("../services/sell");
 
 exports.getAllSell = async (req, res) => {
@@ -137,6 +138,34 @@ exports.deleteSell = async (req, res) => {
     }
     return res.status(200).json({ message: "Sell deleted", data: sell });
   } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.getAllStockSellRepair = async (req, res) => {
+  try {
+    const userOrgId = req.user?.org;
+    const role = req.user?.role;
+    const userId = req.user?.id;
+    const allData = await getAllStockSellRepairService(
+      userOrgId,
+      role,
+      userId,
+      req
+    );
+    if (!allData) {
+      return res.status(404).json({ message: "No Data found" });
+    }
+
+    return res.status(200).json({
+      message: "Data retrieved successfully",
+      data: allData,
+    });
+  } catch (err) {
+    console.log(err);
+
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

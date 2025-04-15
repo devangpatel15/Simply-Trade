@@ -18,6 +18,7 @@ const accountRouter = require("./routes/account.js");
 const expenseRouter = require("./routes/expense.js");
 const sellRouter = require("./routes/sell.js");
 const repairRouter = require("./routes/repair.js");
+const cusLeaderRouter = require("./routes/cusLeadger.js");
 
 const PORT = process.env.PORT;
 connectMongoDB();
@@ -40,7 +41,8 @@ app.use(
   accountRouter,
   expenseRouter,
   sellRouter,
-  repairRouter
+  repairRouter,
+  cusLeaderRouter
 );
 
 app.get("/", (req, res) => {
