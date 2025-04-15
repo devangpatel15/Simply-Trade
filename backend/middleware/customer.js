@@ -8,16 +8,16 @@ exports.createCustomerValidation = [
     .notEmpty()
     .withMessage("Customer name is required"),
 
-    body("organization")
+  body("organization")
     .isMongoId()
     .notEmpty()
     .withMessage("Valid orgId is required"),
+  body("role").isString().notEmpty().withMessage("Valid role is required"),
 
   body("branchName")
     .isMongoId()
     .notEmpty()
     .withMessage("Valid orgBranchId is required"),
-
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -29,12 +29,12 @@ exports.createCustomerValidation = [
 ];
 
 exports.updateCustomerValidation = [
-    body("customerName")
+  body("customerName")
     .isString()
     .optional()
     .withMessage("Customer name is required"),
 
-    body("organization")
+  body("organization")
     .isMongoId()
     .optional()
     .withMessage("Valid orgId is required"),
@@ -43,7 +43,7 @@ exports.updateCustomerValidation = [
     .isMongoId()
     .optional()
     .withMessage("Valid orgBranchId is required"),
-
+  body("role").isString().optional().withMessage("Valid role is required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -55,9 +55,7 @@ exports.updateCustomerValidation = [
 ];
 
 exports.customerIdValidation = [
-  param("id")
-    .isMongoId()
-    .withMessage("Valid category ID is required"),
+  param("id").isMongoId().withMessage("Valid category ID is required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
