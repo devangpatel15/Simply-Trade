@@ -1,19 +1,31 @@
 const Customer = require("../models/customer");
 
-exports.getAllCustomerService = async (userId, role, userBranchId) => {
-  const data = await Customer.find({
-    isDeleted: false,
-  })
+exports.getAllCustomerService = async (userId, role, userBranchId, req) => {
+  const page = parseInt(req.query.page) || 1; // Default to page 1
+  const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+  // const search = req.query.search || "";
+
+  const skip = (page - 1) * limit;
+
+  // const query = { branchName: { $regex: search, $options: "i" } };
+
+  const data = await Customer.find({ isDeleted: false })
     .populate({
       path: role == "user" ? "branchName" : "organization",
       match: role == "user" ? { _id: userBranchId } : { userId: userId },
     })
     .populate("organization branchName")
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
     .lean();
 
-  return data.filter((item) => {
-    return item.branchName != null;
+  const totalCount = await Customer.countDocuments({
+    // ...query,
+    isDeleted: false,
   });
+
+  return { totalCount, items: data };
 };
 
 exports.getCustomerService = async (cusId) => {
