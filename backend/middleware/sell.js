@@ -13,7 +13,6 @@ exports.createSellData = [
     .isMongoId()
     .notEmpty()
     .withMessage("customerName is required"),
-  body("email").isEmail().notEmpty().withMessage("email is required"),
 
   check("device")
     .isArray({ min: 1 })
@@ -84,7 +83,6 @@ exports.updateSellData = [
     .isMongoId()
     .optional()
     .withMessage("customerName is required"),
-  body("email").isEmail().optional().withMessage("email is invalid"),
 
   body("modelName").isMongoId().optional().withMessage("model in string"),
   body("deviceName").isMongoId().optional().withMessage("device in string"),

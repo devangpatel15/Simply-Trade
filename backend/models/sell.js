@@ -14,7 +14,6 @@ const sellSchema = new mongoose.Schema(
     },
     customerName: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
     customerPhone: { type: String, required: true },
-    email: { type: String, required: true },
     modelName: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Model",
