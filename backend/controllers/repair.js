@@ -54,7 +54,7 @@ exports.getRepair = async (req, res) => {
 
 exports.createRepair = async (req, res) => {
   try {
-    console.log(req.body , "777777777");
+    console.log(req.body, "777777777");
 
     const newData = req.body;
     const { device } = newData;
@@ -100,17 +100,37 @@ exports.createRepair = async (req, res) => {
 exports.updateRepairData = async (req, res) => {
   try {
     const repairId = req.params.id;
-    const repair = req.body;
+    const newData = req.body;
+    const { device } = newData;
 
-    const updatedRepair = await updateRepairServices(repairId, repair);
-
-    if (!updatedRepair) {
-      return res.status(404).json({ message: "RepairData not found" });
+    if (!device || !Array.isArray(device) || device.length === 0) {
+      return res.status(400).json({ message: "Invalid device data" });
     }
 
+    let repairEntry;
+    device.forEach((deviceItem) => {
+      repairEntry = {
+        organization: newData.organization,
+        branch: newData.branch,
+        customerName: newData.customerName,
+        customerPhone: newData.customerPhone,
+        email: newData.email,
+        modelName: deviceItem.modelName,
+        deviceName: deviceItem.deviceName,
+        amount: deviceItem.amount,
+        estimatedCost: deviceItem.estimatedCost,
+        status: deviceItem.status,
+        date: deviceItem.date,
+      };
+    });
+
+    const updatedRepair = await updateRepairServices(repairId, repairEntry);
+    if (!updatedRepair) {
+      return res.status(404).json({ message: "Stock not found" });
+    }
     return res
       .status(200)
-      .json({ message: "Repair updated", data: updatedRepair });
+      .json({ message: "Stock updated", data: updatedRepair });
   } catch (err) {
     return res
       .status(500)
