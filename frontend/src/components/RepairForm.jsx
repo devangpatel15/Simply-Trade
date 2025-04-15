@@ -344,7 +344,7 @@ const RepairForm = () => {
                         </Button>
                       )}
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={1}>
                       <Box sx={{ display: "flex", justifyContent: "end" }}>
                         <Button
                           variant="contained"
