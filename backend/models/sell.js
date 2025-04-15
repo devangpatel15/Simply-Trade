@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const repairSchema = new mongoose.Schema(
+const sellSchema = new mongoose.Schema(
   {
     organization: {
       type: mongoose.Schema.Types.ObjectId,
@@ -26,17 +26,12 @@ const repairSchema = new mongoose.Schema(
       required: true,
     },
     amount: { type: Number, required: true },
-    estimatedCost: { type: Number, required: true },
-    status: {
-      type: String,
-      enum: ["Pending", "InProcess", "Completed"],
-      default: "Pending",
-    },
-    date: { type: Date, required: true },
-    //   upload: { type: String },
+    customerPaid: { type: Number, required: true },
+    remainingAmount: { type: Number, required: true },
+    upload: { type: String },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Repair", repairSchema);
+module.exports = mongoose.model("Sell", sellSchema);

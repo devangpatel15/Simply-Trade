@@ -1,6 +1,6 @@
 const { body, check, validationResult, param } = require("express-validator");
 
-exports.createRepairData = [
+exports.createSellData = [
   body("organization")
     .isMongoId()
     .notEmpty()
@@ -30,12 +30,14 @@ exports.createRepairData = [
     .isNumeric()
     .notEmpty()
     .withMessage("amount must be a number and is required"),
-  check("device.*.estimatedCost")
+  check("device.*.customerPaid")
     .isNumeric()
     .notEmpty()
-    .withMessage("estimatedCost must be a number and is required"),
-  check("device.*.status").isString().notEmpty().withMessage("Status Required"),
-  check("device.*.date").isDate().notEmpty().withMessage("date is required"),
+    .withMessage("customerPaid must be a number and is required"),
+  check("device.*.remainingAmount")
+    .isNumeric()
+    .notEmpty()
+    .withMessage("remainingAmount must be a number and is required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -46,7 +48,7 @@ exports.createRepairData = [
   },
 ];
 
-exports.getRepairValidation = [
+exports.getSellValidation = [
   param("id").optional().isMongoId().withMessage("valid id required"),
 
   (req, res, next) => {
@@ -57,7 +59,7 @@ exports.getRepairValidation = [
     next();
   },
 ];
-exports.deleteRepairValidation = [
+exports.deleteSellValidation = [
   param("id").isMongoId().withMessage("valid id required"),
 
   (req, res, next) => {
@@ -69,7 +71,7 @@ exports.deleteRepairValidation = [
   },
 ];
 
-exports.updateRepairDataValidate = [
+exports.updateSellData = [
   body("organization")
     .isMongoId()
     .optional()
@@ -82,17 +84,19 @@ exports.updateRepairDataValidate = [
     .isMongoId()
     .optional()
     .withMessage("customerName is required"),
-  body("email").isEmail().optional().withMessage("email is required"),
+  body("email").isEmail().optional().withMessage("email is invalid"),
 
   body("modelName").isMongoId().optional().withMessage("model in string"),
   body("deviceName").isMongoId().optional().withMessage("device in string"),
   body("amount").isNumeric().optional().withMessage("Amount in Number"),
-  body("estimatedCost")
+  body("customerPaid")
     .isNumeric()
     .optional()
-    .withMessage("Estimated Cost in Number"),
-  body("status").isString().optional().withMessage("Status in String"),
-  body("date").isDate().optional().withMessage("Date Required"),
+    .withMessage("customerPaid in Number"),
+  body("remainingAmount")
+    .isNumeric()
+    .optional()
+    .withMessage("remainingAmount in Number"),
 
   (req, res, next) => {
     const errors = validationResult(req);
