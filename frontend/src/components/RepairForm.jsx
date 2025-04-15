@@ -83,7 +83,7 @@ const RepairForm = () => {
 
     setErrors(newErrors);
 
-    return Object.keys(newErrors).length === 0; 
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async () => {
@@ -93,13 +93,13 @@ const RepairForm = () => {
 
     const payload = {
       organization: formData.organization?.value || null,
-      branch: formData.branch?.value || null, 
-      customerName: formData.customerName.value || null, 
+      branch: formData.branch?.value || null,
+      customerName: formData.customerName.value || null,
       customerPhone: formData.customerPhone || "",
       email: formData.email || "",
       device: formData.device.map((d) => ({
-        modelName: d.modelName?.value || null, 
-        deviceName: d.deviceName?.value || null, 
+        modelName: d.modelName?.value || null,
+        deviceName: d.deviceName?.value || null,
         amount: d.amount || "",
         estimatedCost: d.estimatedCost || "",
         status: d.status || "",
@@ -152,6 +152,10 @@ const RepairForm = () => {
               label: response.data.data?.deviceName?.deviceName,
               value: response.data.data?.deviceName?._id || "",
             },
+            amount: response.data.data.amount || "",
+            estimatedCost: response.data.data.estimatedCost || "",
+            status: response.data.data.status || "",
+            date: response.data.data.date || "",
           },
         ],
       });
