@@ -96,20 +96,23 @@ const [searchTerm, setSearchTerm] = useState("");
         </>
       ),
     },
+    { field: "organization", headerName: "Organization", flex: 2 },
+    { field: "branchName", headerName: "Branch", flex: 2 },
     { field: "category", headerName: "Category", flex: 2 },
-    { field: "description", headerName: "Description", flex: 2 },
+    { field: "modelName", headerName: "Model", flex: 2 },
+    { field: "deviceName", headerName: "Device", flex: 2 },
     { field: "amount", headerName: "Amount", flex: 2 },
     { field: "date", headerName: "Date", flex: 2 },
-    // { field: "organization", headerName: "Organization", flex: 2 },
-    // { field: "branchName", headerName: "Branch", flex: 2 },
 
   ];
 
   // Prepare the rows for the DataGrid
   const rows = expense.map((expense) => ({
     id: expense._id,
-    // organization: expense.organization.organizationName,
-    // branchName: expense.branchName.branchName,
+    organization: expense.organization.organizationName,
+    branchName: expense.branchName.branchName,
+    modelName: expense.modelName?.modelName || "N/A",
+    deviceName: expense.deviceName?.deviceName || "N/A",
     date: moment(expense.date).format("DD-MM-YYYY"),
     amount: expense.amount,
     category: expense.category,

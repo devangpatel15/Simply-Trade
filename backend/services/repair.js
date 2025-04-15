@@ -11,7 +11,7 @@ exports.getAllRepairDataServices = async (userOrgId, role, userId, req) => {
       path: "organization",
       match: role == "user" ? { _id: userOrgId } : { userId: userId },
     })
-    .populate("branch customerName  modelName deviceName ")
+    .populate("branch customerName modelName deviceName")
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
