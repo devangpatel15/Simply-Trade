@@ -16,11 +16,11 @@ const { AuthUser } = require("../middleware/user");
 
 const repairRouter = express.Router();
 
-repairRouter.get("/getAllRepairData", AuthUser, getAllRepairData);
+repairRouter.get("/getAllRepair", AuthUser, getAllRepairData);
 repairRouter.get("/getRepair/:id", getRepairValidation, getRepair);
-repairRouter.post("/createRepairData", createRepairData, createRepair);
+repairRouter.post("/createRepair", createRepairData, createRepair);
 repairRouter.put(
-  "/updateRepairData/:id",
+  "/updateRepair/:id",
   updateRepairDataValidate,
   updateRepairData
 );

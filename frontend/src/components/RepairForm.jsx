@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Grid,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
@@ -13,32 +6,56 @@ import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import {
-  createExpense,
-  getOneExpense,
-  updateExpense,
-} from "../apis/ExpenseApi";
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
+import { createRepair, getOneRepair, updateRepair } from "../apis/RepairApi";
+import { getOneCustomer } from "../apis/CustomerApi";
+import CustomerInput from "./common/CustomerInput";
 
 const RepairForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({
-    organization: null,
-    branchName: null,
-    date: "",
-    category: "",
-    amount: "",
-    description: "",
-  });
-
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectedDevice, setSelectedDevice] = useState("");
-  const [catId, setCatId] = useState("");
+
+  const [formData, setFormData] = useState({
+    organization: null,
+    branch: null,
+    customerName: null,
+    customerPhone: "",
+    email: "",
+    device: [
+      {
+        modelName: null,
+        deviceName: null,
+        amount: "",
+        estimatedCost: "",
+        status: "",
+        date: "",
+      },
+    ],
+  });
+  console.log(formData, "formData");
+
+  const handleAddDevice = () => {
+    setFormData((prev) => ({
+      ...prev,
+      device: [
+        ...prev.device,
+        {
+          modelName: null,
+          deviceName: null,
+          amount: "",
+          estimatedCost: "",
+          status: "",
+          date: "",
+        },
+      ],
+    }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,48 +83,40 @@ const RepairForm = () => {
 
     setErrors(newErrors);
 
-    return Object.keys(newErrors).length === 0; // Returns true if no errors
+    return Object.keys(newErrors).length === 0; 
   };
 
   const handleSubmit = async () => {
-    if (!validateForm()) {
-      return;
-    }
+    // if (!validateForm()) return;
 
     console.log("Submitting form data: ", formData);
 
-    let payload;
-    if (formData.category == "Phone") {
-      payload = {
-        organization: formData.organization?.value || "",
-        branchName: formData.branchName?.value || "",
-        category: formData.category || "",
-        modelName: formData.modelName?.value || "",
-        deviceName: formData.deviceName?.value || "",
-        amount: formData.amount || "",
-        date: formData.date || "",
-        description: formData.description || "",
-      };
-    } else {
-      payload = {
-        organization: formData.organization?.value || "",
-        branchName: formData.branchName?.value || "",
-        category: formData.category || "",
-        amount: formData.amount || "",
-        date: formData.date || "",
-        description: formData.description || "",
-      };
-    }
+    const payload = {
+      organization: formData.organization?.value || null,
+      branch: formData.branchName?.value || null, 
+      customer: formData.customerName.value || null, 
+      customerPhone: formData.customerPhone || "",
+      email: formData.email || "",
+      device: formData.device.map((d) => ({
+        modelName: d.modelName?.value || null, 
+        deviceName: d.deviceName?.value || null, 
+        amount: d.amount || "",
+        estimatedCost: d.estimatedCost || "",
+        status: d.status || "",
+        date: d.date || "",
+      })),
+    };
 
     try {
       if (id) {
-        await updateExpense(payload, id); // Update expense using API call
-        toast.success("Expense updated successfully!");
+        await updateRepair(payload, id);
+        toast.success("Repair updated successfully!");
       } else {
-        await createExpense(payload); // Create new expense using API call
-        toast.success("Expense added successfully!");
+        await createRepair(payload);
+        toast.success("Repair added successfully!");
+        console.log("Final Payload:", payload);
       }
-      navigate("/expensePage");
+      navigate("/repairPage");
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error(
@@ -118,17 +127,33 @@ const RepairForm = () => {
 
   const callApi = async () => {
     if (id) {
-      const response = await getOneExpense(id);
+      const response = await getOneRepair(id);
       setFormData({
         ...response.data.data,
         organization: {
           label: response.data.data.organization.organizationName,
           value: response.data.data.organization._id || "",
         },
-        branchName: {
+        branch: {
           label: response.data.data.branchName.branchName,
           value: response.data.data.branchName._id || "",
         },
+        customerName: {
+          label: response.data.data.customerName.customerName,
+          value: response.data.data.customerName._id || "",
+        },
+        device: [
+          {
+            modelName: {
+              label: response.data.data?.modelName?.modelName,
+              value: response.data.data?.modelName?._id || "",
+            },
+            deviceName: {
+              label: response.data.data?.deviceName?.deviceName,
+              value: response.data.data?.deviceName?._id || "",
+            },
+          },
+        ],
       });
     }
   };
@@ -149,33 +174,82 @@ const RepairForm = () => {
     setBranchId(selectedOrgBranch.value);
     setFormData((prev) => ({
       ...prev,
-      branchName: selectedOrgBranch,
+      branch: selectedOrgBranch,
     }));
   };
 
-  const handleModelChange = (selectedModel) => {
-    console.log(selectedModel);
+  const handleDeviceChange = (index, field, value) => {
+    const updatedDevices = [...formData.device];
+    updatedDevices[index][field] = value;
+    setFormData((prev) => ({
+      ...prev,
+      device: updatedDevices,
+    }));
+  };
+  const handleModelInputChange = (index, selectedModel) => {
     setSelectedModel(selectedModel?.value);
-    setFormData((prev) => ({
-      ...prev,
-      modelName: selectedModel,
-    }));
+    handleDeviceChange(index, "modelName", selectedModel);
   };
-  const handleDeviceChange = (selectedDevice) => {
+
+  const handleDeviceInputChange = (index, selectedDevice) => {
     setSelectedDevice(selectedDevice.value);
+    handleDeviceChange(index, "deviceName", selectedDevice);
+  };
+
+  const handleCustomerChange = async (selectCustomer) => {
+    if (selectCustomer && selectCustomer !== null) {
+      const findCustomerPhoneNumber = await getOneCustomer(
+        selectCustomer.value
+      );
+
+      setFormData({
+        ...formData,
+        customerPhone: findCustomerPhoneNumber?.data?.data?.customerPhone || "",
+      });
+    } else {
+      setFormData({
+        ...formData,
+        customerPhone: "",
+      });
+    }
+
     setFormData((prev) => ({
       ...prev,
-      deviceName: selectedDevice,
+      customerName: selectCustomer,
     }));
   };
 
-  const handleNativeDateChange = (event) => {
-    const { value } = event.target;
+  const handleRemoveDevice = (index) => {
+    const updatedDevices = formData.device.filter((_, i) => i !== index);
     setFormData((prev) => ({
       ...prev,
-      date: value,
+      device: updatedDevices,
     }));
   };
+
+  // const handleModelInputChange = (selectedModel) => {
+  //   console.log(selectedModel);
+  //   setSelectedModel(selectedModel?.value);
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     modelName: selectedModel,
+  //   }));
+  // };
+  // const handleDeviceInputChange = (selectedDevice) => {
+  //   setSelectedDevice(selectedDevice.value);
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     deviceName: selectedDevice,
+  //   }));
+  // };
+
+  // const handleNativeDateChange = (event) => {
+  //   const { value } = event.target;
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     date: value,
+  //   }));
+  // };
 
   return (
     <div>
@@ -216,38 +290,29 @@ const RepairForm = () => {
                 <Grid item xs={6}>
                   <OrgBranchInput
                     onChange={handleOrganizationBranchChange}
-                    value={formData.branchName}
+                    value={formData.branch}
                     selectedOrganization={selectedOrganization}
-                    error={errors.branchName}
+                    error={errors.branch}
                   />
                 </Grid>
 
+                <Grid item xs={6}>
+                  <CustomerInput
+                    onChange={handleCustomerChange}
+                    value={formData.customerName}
+                    branchId={formData?.branch?.value}
+                    error={errors.customerName}
+                  />
+                </Grid>
                 <Grid item xs={6}>
                   {/* textfield for phonenumber change values and onChange also validation */}
                   <TextField
                     fullWidth
                     type="text"
                     label="Phone Number"
-                    name="phoneNumber"
-                    value={formData.date}
-                    onChange={handleNativeDateChange}
-                    error={!!errors.date}
-                    helperText={errors.date}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  {/* textfield for customerName change values and onChange also validation */}
-                  <TextField
-                    fullWidth
-                    label="Customer Name"
-                    variant="outlined"
-                    name="customerName"
-                    value={formData.description || ""}
+                    name="customerPhone"
+                    value={formData.customerPhone}
                     onChange={handleChange}
-                    required
-                    error={!!errors.description}
-                    helperText={errors.description}
                   />
                 </Grid>
 
@@ -256,105 +321,115 @@ const RepairForm = () => {
                   <TextField
                     fullWidth
                     label="Email"
-                    variant="outlined"
                     name="email"
-                    value={formData.description || ""}
+                    value={formData.email}
                     onChange={handleChange}
-                    required
-                    error={!!errors.description}
-                    helperText={errors.description}
                   />
                 </Grid>
 
-                <Grid item xs={12}>
-                  <Box sx={{ display: "flex", justifyContent: "end" }}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleSubmit}
+                {formData.device.map((device, index) => (
+                  <React.Fragment key={index}>
+                    <Grid
+                      item
+                      xs={11}
+                      sx={{ display: "flex", justifyContent: "flex-end" }}
                     >
-                      ADD DEVICE
-                    </Button>
-                  </Box>
-                </Grid>
+                      {index > 0 && (
+                        <Button
+                          variant="outlined"
+                          color="error"
+                          onClick={() => handleRemoveDevice(index)}
+                        >
+                          Remove
+                        </Button>
+                      )}
+                    </Grid>
+                    <Grid item xs={1}>
+                      <Box sx={{ display: "flex", justifyContent: "end" }}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleAddDevice}
+                        >
+                          ADD DEVICE
+                        </Button>
+                      </Box>
+                    </Grid>
 
-                <Grid item xs={6}>
-                  <ModelInput
-                    branchId={branchId}
-                    onChange={handleModelChange}
-                    value={formData.modelName}
-                    error={errors.modelName}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <DeviceInput
-                    modelId={selectedModel}
-                    onChange={handleDeviceChange}
-                    value={formData.deviceName}
-                    error={errors.deviceName}
-                  />
-                </Grid>
+                    <Grid item xs={6}>
+                      <ModelInput
+                        branchId={branchId}
+                        value={device.modelName || ""}
+                        onChange={(value) =>
+                          handleModelInputChange(index, value)
+                        }
+                        error={errors.modelName}
+                      />
+                    </Grid>
 
-                <Grid item xs={6}>
-                  {/* textfield for amount change values and onChange also validation */}
-                  <TextField
-                    fullWidth
-                    label="Amount"
-                    variant="outlined"
-                    name="amount"
-                    value={formData.amount || ""}
-                    onChange={handleChange}
-                    required
-                    error={!!errors.amount}
-                    helperText={errors.amount}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  {/* textfield for estimatedCost change values and onChange also validation */}
-                  <TextField
-                    fullWidth
-                    label="Estimated Cost"
-                    variant="outlined"
-                    name="estimatedCost"
-                    value={formData.amount || ""}
-                    onChange={handleChange}
-                    required
-                    error={!!errors.amount}
-                    helperText={errors.amount}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  {/* textfield for status change values and onChange also validation */}
-                  <TextField
-                    fullWidth
-                    label="Status"
-                    variant="outlined"
-                    name="status"
-                    value={formData.description || ""}
-                    onChange={handleChange}
-                    required
-                    error={!!errors.description}
-                    helperText={errors.description}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    label="Date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleNativeDateChange}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    error={!!errors.date}
-                    helperText={errors.date}
-                  />
-                </Grid>
+                    <Grid item xs={6}>
+                      <DeviceInput
+                        modelId={selectedModel}
+                        value={device.deviceName || ""}
+                        onChange={(value) =>
+                          handleDeviceInputChange(index, value)
+                        }
+                        error={errors.deviceName}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        fullWidth
+                        label="Amount"
+                        name="amount"
+                        value={device.amount}
+                        onChange={(e) =>
+                          handleDeviceChange(index, "amount", e.target.value)
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        fullWidth
+                        label="Estimated Cost"
+                        name="estimatedCost"
+                        value={device.estimatedCost}
+                        onChange={(e) =>
+                          handleDeviceChange(
+                            index,
+                            "estimatedCost",
+                            e.target.value
+                          )
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        fullWidth
+                        label="Status"
+                        name="status"
+                        value={device.status}
+                        onChange={(e) =>
+                          handleDeviceChange(index, "status", e.target.value)
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        fullWidth
+                        type="date"
+                        label="Date"
+                        name="date"
+                        InputLabelProps={{ shrink: true }}
+                        value={device.date}
+                        onChange={(e) =>
+                          handleDeviceChange(index, "date", e.target.value)
+                        }
+                      />
+                    </Grid>
+                    {/* Remove button */}
+                  </React.Fragment>
+                ))}
 
                 <Grid item xs={12}>
                   <Stack>
