@@ -101,6 +101,7 @@ const [searchTerm, setSearchTerm] = useState("");
     { field: "category", headerName: "Category", flex: 2 },
     { field: "modelName", headerName: "Model", flex: 2 },
     { field: "deviceName", headerName: "Device", flex: 2 },
+    { field: "description", headerName: "Description", flex: 2 },
     { field: "amount", headerName: "Amount", flex: 2 },
     { field: "date", headerName: "Date", flex: 2 },
 
@@ -113,10 +114,10 @@ const [searchTerm, setSearchTerm] = useState("");
     branchName: expense.branchName.branchName,
     modelName: expense.modelName?.modelName || "N/A",
     deviceName: expense.deviceName?.deviceName || "N/A",
+    description: expense.description,
     date: moment(expense.date).format("DD-MM-YYYY"),
     amount: expense.amount,
     category: expense.category,
-    description: expense.description,
   }));
 
   // Handle search term change
