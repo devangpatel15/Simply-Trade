@@ -62,9 +62,7 @@ exports.createSell = async (req, res) => {
 
     const sellEntries = [];
 
-    // Loop through device and imei
     device.forEach((deviceItem) => {
-      // Create a stock entry for each imei
       const sellEntry = {
         organization: newSell.organization,
         branch: newSell.branch,
