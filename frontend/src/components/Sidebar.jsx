@@ -245,7 +245,7 @@ const Sidebar = () => {
 
 
             {/* sell device */}
-            <ListItemButton onClick={() => navigate("/stockPage")}>
+            <ListItemButton onClick={() => navigate("/sellPage")}>
               <ListItemIcon>
                 <MobileFriendlyIcon sx={{ color: iconColor }} />
               </ListItemIcon>

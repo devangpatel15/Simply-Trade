@@ -36,6 +36,8 @@ import ExpenseForm from "./components/ExpenseForm";
 import CustomerLedgerPage from "./pages/CustomerLedgerPage";
 import RepairPage from "./pages/RepairPage";
 import RepairForm from "./components/RepairForm";
+import SellPage from "./pages/SellPage";
+import SellForm from "./components/SellForm";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -409,7 +411,7 @@ function App() {
           }
         />
 
-<Route
+        <Route
           path="/repairPage"
           element={
             <PrivateRoute>
@@ -430,6 +432,30 @@ function App() {
           element={
             <PrivateRoute>
               <RepairForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/sellPage"
+          element={
+            <PrivateRoute>
+              <SellPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/sellForm"
+          element={
+            <PrivateRoute>
+              <SellForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/sellForm/:id"
+          element={
+            <PrivateRoute>
+              <SellForm />
             </PrivateRoute>
           }
         />
