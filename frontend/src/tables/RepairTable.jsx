@@ -19,7 +19,7 @@ import DeleteDialog from "../components/DeleteDialog";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import SearchIcon from "@mui/icons-material/Search";
-import { getAllRepair } from "../apis/RepairApi";
+import { deleteRepair, getAllRepair } from "../apis/RepairApi";
 import moment from "moment";
 
 const RepairTable = () => {
@@ -82,7 +82,7 @@ const RepairTable = () => {
   };
 
   const handleDelete = async (id) => {
-    deleteDevice(id);
+    deleteRepair(id);
 
     setDeleteOpen(false);
     handleClose();
@@ -127,7 +127,7 @@ const RepairTable = () => {
         id: repair._id,
         organization: repair.organization.organizationName,
         branch: repair.branch.branchName,
-        customerName: repair.customerName.customerName,
+        customerName: repair.customerName?.customerName,
         email: repair.email,
         modelName: repair.modelName.modelName,
         deviceName: repair.deviceName.deviceName,

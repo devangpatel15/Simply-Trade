@@ -93,8 +93,8 @@ const RepairForm = () => {
 
     const payload = {
       organization: formData.organization?.value || null,
-      branch: formData.branchName?.value || null, 
-      customer: formData.customerName.value || null, 
+      branch: formData.branch?.value || null, 
+      customerName: formData.customerName.value || null, 
       customerPhone: formData.customerPhone || "",
       email: formData.email || "",
       device: formData.device.map((d) => ({
@@ -135,8 +135,8 @@ const RepairForm = () => {
           value: response.data.data.organization._id || "",
         },
         branch: {
-          label: response.data.data.branchName.branchName,
-          value: response.data.data.branchName._id || "",
+          label: response.data.data.branch.branchName,
+          value: response.data.data.branch._id || "",
         },
         customerName: {
           label: response.data.data.customerName.customerName,
@@ -305,7 +305,6 @@ const RepairForm = () => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  {/* textfield for phonenumber change values and onChange also validation */}
                   <TextField
                     fullWidth
                     type="text"
