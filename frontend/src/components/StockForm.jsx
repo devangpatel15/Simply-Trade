@@ -58,6 +58,7 @@ const StockForm = () => {
   const [catId, setCatId] = useState("");
   const [modelId, setModelId] = useState("");
   const [deviceId, setDeviceId] = useState("");
+  const [branchId, setBranchId] = useState("");
 
   const [totalAmount, setTotalAmount] = useState(0);
   const [paidToCustomer, setPaidtoCustomer] = useState(0);
