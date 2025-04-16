@@ -142,7 +142,7 @@ const StockTable = () => {
         modelId: stock?.modelName?.modelName,
         deviceId: stock?.deviceName?.deviceName,
         branchName: stock?.branch?.branchName,
-        expenseAmount: stock?.expenseAmount,
+        expenseAmount: stock?.expenseAmount || "N/A",
       }))
     : [];
 
