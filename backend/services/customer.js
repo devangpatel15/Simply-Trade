@@ -82,6 +82,7 @@ exports.selectCustomerServices = async (branchId, orgText) => {
 
   if (branchId) {
     findObject.branchName = branchId;
+    findObject.role = "Buyer";
   }
 
   return await Customer.find(findObject)
@@ -92,4 +93,26 @@ exports.selectCustomerServices = async (branchId, orgText) => {
 
 exports.getCustomerByOrgService = async (orgId) => {
   return await Customer.find({ organization: orgId, isDeleted: false }).lean();
+};
+
+exports.getSellerByOrgService = async (orgId) => {
+  return await Customer.find({
+    organization: orgId,
+    role: "Seller",
+    isDeleted: false,
+  }).lean();
+};
+exports.getBuyerByOrgService = async (orgId) => {
+  return await Customer.find({
+    organization: orgId,
+    role: "Buyer",
+    isDeleted: false,
+  }).lean();
+};
+exports.getSellerByBranchService = async (branchId) => {
+  return await Customer.find({
+    branchName: branchId,
+    role: "Seller",
+    isDeleted: false,
+  }).lean();
 };
