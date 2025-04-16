@@ -24,9 +24,10 @@ import {
 } from "../apis/ExpenseApi";
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
+import { getOneStock } from "../apis/StockApi";
 
-const ExpenseForm = ({stockId}) => {
-  console.log(stockId,"stockId+++++++++++++++++++++++++++++++++")
+const ExpenseForm = ({ stockId }) => {
+  console.log(stockId, "stockId+++++++++++++++++++++++++++++++++");
   const { id } = useParams();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
@@ -108,17 +109,13 @@ const ExpenseForm = ({stockId}) => {
 
     try {
       if (id) {
-        await updateExpense(payload, id); // Update expense using API call
+        await updateExpense(payload, id);
         toast.success("Expense updated successfully!");
-      }
-      else if (id === stockId) {
-        await createExpense(payload); // Create new expense using API call
+      } else if (stockId) {
+        await createExpense(payload);
         toast.success("Expense added successfully!");
-
-      }
-    
-       else {
-        await createExpense(payload); // Create new expense using API call
+      } else {
+        await createExpense(payload);
         toast.success("Expense added successfully!");
       }
       navigate("/expensePage");
@@ -131,32 +128,68 @@ const ExpenseForm = ({stockId}) => {
   };
 
   const callApi = async () => {
-    
+    console.log("call api by id...................")
     if (id) {
-      const response = await getOneExpense(id);
-      setFormData({
-        ...response.data.data,
-        organization: {
-          label: response.data.data.organization.organizationName,
-          value: response.data.data.organization._id || "",
-        },
-        branchName: {
-          label: response.data.data.branchName.branchName,
-          value: response.data.data.branchName._id || "",
-        },
+      let response;
+      if (stockId) {
+        console.log("getOneStock api call");
         
-        modelName: {
-          label: response.data.data?.modelName?.modelName,
-          value: response.data.data?.modelName?._id || "",
-        },
-        deviceName: {
-          label: response.data.data?.deviceName?.deviceName,
-          value: response.data.data?.deviceName?._id || "",
-        },
-      });
+        response = await getOneStock(id);
+        console.log(response.data.data)
+
+        setFormData({
+          ...response.data.data,
+          organization: {
+            label: response.data.data.organization.organizationName,
+            value: response.data.data.organization._id || "",
+          },
+          branchName: {
+            label: response.data.data.branchName.branchName,
+            value: response.data.data.branchName._id || "",
+          },
+  
+          modelName: {
+            label: response.data.data?.modelName?.modelName,
+            value: response.data.data?.modelName?._id || "",
+          },
+          deviceName: {
+            label: response.data.data?.deviceName?.deviceName,
+            value: response.data.data?.deviceName?._id || "",
+          },
+        });
+      } else {
+        response = await getOneExpense(id);
+
+        setFormData({
+          ...response.data.data,
+          organization: {
+            label: response.data.data.organization.organizationName,
+            value: response.data.data.organization._id || "",
+          },
+          branchName: {
+            label: response.data.data.branchName.branchName,
+            value: response.data.data.branchName._id || "",
+          },
+  
+          modelName: {
+            label: response.data.data?.modelName?.modelName,
+            value: response.data.data?.modelName?._id || "",
+          },
+          deviceName: {
+            label: response.data.data?.deviceName?.deviceName,
+            value: response.data.data?.deviceName?._id || "",
+          },
+        });
+      }
+      
+      const data=response.data.data
+      
+      console.log("hiiii");
     }
   };
 
+  console.log("formdata,,,,,,,,,,,,,,,,,,,,,,,",formData);
+  
   useEffect(() => {
     callApi();
   }, []);
@@ -285,7 +318,6 @@ const ExpenseForm = ({stockId}) => {
                       <FormHelperText>{errors.category}</FormHelperText>
                     )}
                   </FormControl>
-        
                 </Grid>
 
                 {formData.category == "Phone" ? (
@@ -359,7 +391,7 @@ const ExpenseForm = ({stockId}) => {
                 color="primary"
                 onClick={handleSubmit}
               >
-                {id ? "Update" : "Add"} 
+                {id ? (stockId ? "Add" : "Update") : "Add"}
               </Button>
             </Grid>
           </Box>
