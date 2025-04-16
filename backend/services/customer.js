@@ -82,6 +82,7 @@ exports.selectCustomerServices = async (branchId, orgText) => {
 
   if (branchId) {
     findObject.branchName = branchId;
+    findObject.role = "Buyer";
   }
 
   return await Customer.find(findObject)
