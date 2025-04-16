@@ -36,5 +36,6 @@ cusRouter.get("/getCustomerByOrg/:id", getCustomerByOrg);
 cusRouter.get("/getSellerByOrg/:id", getSellerByOrg);
 cusRouter.get("/getSellerByBranch/:id", getSellerByBranch);
 cusRouter.get("/getBuyerByBranch/:id", getBuyerByBranch);
+cusRouter.get("/getBuyerByOrg/:id", getBuyerByOrg);
 
 module.exports = cusRouter;

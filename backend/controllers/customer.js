@@ -236,6 +236,21 @@ exports.getBuyerByBranch = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+exports.getBuyerByOrg = async (req, res) => {
+  try {
+    const orgId = req?.params?.id;
+    const buyer = await getBuyerByOrgService(orgId);
+    if (!buyer) {
+      return res.status(404).json({ message: "No Buyer found" });
+    }
+    return res.status(200).json({
+      message: "Buyer retrieved successfully",
+      data: buyer,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 exports.getSellerByBranch = async (req, res) => {
   try {
