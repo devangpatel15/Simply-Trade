@@ -1,6 +1,6 @@
 import { IconButton } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
@@ -10,10 +10,12 @@ import { deleteStock, getAllStocks } from "../apis/StockApi";
 import StockDialog from "../components/StockDialog";
 import PaymentDialog from "../components/PaymentDialog";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
+import MobileFriendlyIcon from "@mui/icons-material/MobileFriendly";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 const StockTable = () => {
+  const location = useLocation();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
@@ -58,9 +60,8 @@ const StockTable = () => {
 
   const handleClose = () => {
     setOpen(false);
-    setPaymentDialog(false);  // Ensuring PaymentDialog closes separately
+    setPaymentDialog(false); // Ensuring PaymentDialog closes separately
   };
-  
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
@@ -103,7 +104,15 @@ const StockTable = () => {
           <IconButton onClick={() => handlePaymentDialogOpen(params.row)}>
             <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
           </IconButton>
-          <Link to={`/expenseForm/${params.row.id}`}>
+          <Link
+            // to={`/expenseForm/${params.row.id}`}
+            to={
+              location.pathname.includes("stockPage")
+                ? `/stockPage/expenseForm/${params.row.id}`
+                : `/expenseForm/${params.row.id}`
+            }
+            stockId="stockId"
+          >
             <IconButton>
               <AccountBalanceWalletIcon sx={{ color: "#6c5ce7" }} />
             </IconButton>

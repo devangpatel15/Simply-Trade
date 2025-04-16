@@ -401,6 +401,14 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="stockPage/expenseForm/:id"
+          element={
+            <PrivateRoute>
+              <ExpenseForm stockId="stockId"/>
+            </PrivateRoute>
+          }
+        />
 
         <Route
           path="/customerLedgerPage"

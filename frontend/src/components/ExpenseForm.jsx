@@ -25,7 +25,8 @@ import {
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 
-const ExpenseForm = () => {
+const ExpenseForm = ({stockId}) => {
+  console.log(stockId,"stockId+++++++++++++++++++++++++++++++++")
   const { id } = useParams();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
@@ -109,7 +110,14 @@ const ExpenseForm = () => {
       if (id) {
         await updateExpense(payload, id); // Update expense using API call
         toast.success("Expense updated successfully!");
-      } else {
+      }
+      else if (id === stockId) {
+        await createExpense(payload); // Create new expense using API call
+        toast.success("Expense added successfully!");
+
+      }
+    
+       else {
         await createExpense(payload); // Create new expense using API call
         toast.success("Expense added successfully!");
       }
@@ -123,6 +131,7 @@ const ExpenseForm = () => {
   };
 
   const callApi = async () => {
+    
     if (id) {
       const response = await getOneExpense(id);
       setFormData({
