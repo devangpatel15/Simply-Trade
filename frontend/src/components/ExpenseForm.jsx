@@ -109,7 +109,14 @@ const ExpenseForm = () => {
       if (id) {
         await updateExpense(payload, id); // Update expense using API call
         toast.success("Expense updated successfully!");
-      } else {
+      }
+      else if (id === stockId) {
+        await createExpense(payload); // Create new expense using API call
+        toast.success("Expense added successfully!");
+
+      }
+    
+       else {
         await createExpense(payload); // Create new expense using API call
         toast.success("Expense added successfully!");
       }
