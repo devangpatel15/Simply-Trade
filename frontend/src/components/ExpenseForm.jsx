@@ -97,7 +97,7 @@ const ExpenseForm = ({ stockId }) => {
         amount: formData.amount || "",
         date: formData.date || "",
         description: formData.description || "",
-        stockId:id
+        stock :id
       };
     } else {
       payload = {
@@ -122,7 +122,6 @@ const ExpenseForm = ({ stockId }) => {
       
       if (stockId) {
         await createExpense(payload);
-        await updateStock(data , id)
         toast.success("Expense added successfully!");
       } else if (id) {
         await updateExpense(payload, id);

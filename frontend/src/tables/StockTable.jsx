@@ -130,7 +130,7 @@ const StockTable = () => {
     { field: "modelId", headerName: "Model", flex: 1.5 },
     { field: "deviceId", headerName: "Device", flex: 1.5 },
     { field: "branchName", headerName: "Branch Name", flex: 1.5 },
-    { field: "expensesAmount", headerName: "Expenses Amount", flex: 1.5 },
+    { field: "expenseAmount", headerName: "Expenses Amount", flex: 1.5 },
   ];
 
   // Prepare the rows for the DataGrid
