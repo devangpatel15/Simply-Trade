@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
@@ -407,15 +407,32 @@ const RepairForm = () => {
                       />
                     </Grid>
                     <Grid item xs={6}>
-                      <TextField
-                        fullWidth
-                        label="Status"
-                        name="status"
-                        value={device.status}
-                        onChange={(e) =>
-                          handleDeviceChange(index, "status", e.target.value)
-                        }
-                      />
+                     
+                      <FormControl
+                    fullWidth
+                    variant="outlined"
+                    // error={!!errors.role}
+                    required
+                  >
+                    <InputLabel id="status-label">Status</InputLabel>
+                    <Select
+                      labelId="status-label"
+                      id="status"
+                      name="status"
+                      value={formData.status || ""}
+                      onChange={(e) =>
+                        handleDeviceChange(index, "status", e.target.value)
+                      }
+                      label="Status"
+                    >
+                      <MenuItem value="Pending">Pending</MenuItem>
+                      <MenuItem value="InProcess">In-Process</MenuItem>
+                      <MenuItem value="Completed">Completed</MenuItem>
+                    </Select>
+                    {/* {errors.role && (
+                      <FormHelperText>{errors.role}</FormHelperText>
+                    )} */}
+                  </FormControl>
                     </Grid>
                     <Grid item xs={6}>
                       <TextField

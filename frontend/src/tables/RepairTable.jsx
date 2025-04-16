@@ -156,7 +156,7 @@ const RepairTable = () => {
             </Typography>
 
             <Box display="flex" gap={2}>
-              {/* <TextField
+              <TextField
                 variant="outlined"
                 placeholder="Search"
                 size="small"
@@ -170,7 +170,7 @@ const RepairTable = () => {
                     </InputAdornment>
                   ),
                 }}
-              /> */}
+              />
               <Button
                 variant="outlined"
                 sx={{
