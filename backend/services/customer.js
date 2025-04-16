@@ -81,3 +81,18 @@ exports.selectCustomerServices = async (branchId, orgText) => {
 exports.getCustomerByOrgService = async (orgId) => {
   return await Customer.find({ organization: orgId, isDeleted: false }).lean();
 };
+
+exports.getSellerByOrgService = async (orgId) => {
+  return await Customer.find({
+    organization: orgId,
+    role: "Seller",
+    isDeleted: false,
+  }).lean();
+};
+exports.getBuyerByOrgService = async (orgId) => {
+  return await Customer.find({
+    organization: orgId,
+    role: "Buyer",
+    isDeleted: false,
+  }).lean();
+};

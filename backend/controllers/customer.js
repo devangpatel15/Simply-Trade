@@ -8,6 +8,8 @@ const {
   searchCustomerServices,
   selectCustomerServices,
   getCustomerByOrgService,
+  getSellerByOrgService,
+  getBuyerByOrgService,
 } = require("../services/customer");
 
 exports.getAllCustomer = async (req, res) => {
@@ -195,6 +197,38 @@ exports.getCustomerByOrg = async (req, res) => {
     return res.status(200).json({
       message: "Customer retrieved successfully",
       data: cus,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getSellerByOrg = async (req, res) => {
+  try {
+    const orgId = req?.params?.id;
+    const seller = await getSellerByOrgService(orgId);
+    if (!seller) {
+      return res.status(404).json({ message: "No Seller found" });
+    }
+    return res.status(200).json({
+      message: "Seller retrieved successfully",
+      data: seller,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getBuyerByOrg = async (req, res) => {
+  try {
+    const orgId = req?.params?.id;
+    const buyer = await getBuyerByOrgService(orgId);
+    if (!buyer) {
+      return res.status(404).json({ message: "No Buyer found" });
+    }
+    return res.status(200).json({
+      message: "Buyer retrieved successfully",
+      data: buyer,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
