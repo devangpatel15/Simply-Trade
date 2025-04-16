@@ -102,9 +102,9 @@ exports.getSellerByOrgService = async (orgId) => {
     isDeleted: false,
   }).lean();
 };
-exports.getBuyerByOrgService = async (orgId) => {
+exports.getBuyerByBranchService = async (branchId) => {
   return await Customer.find({
-    organization: orgId,
+    branchName: branchId,
     role: "Buyer",
     isDeleted: false,
   }).lean();
@@ -113,6 +113,14 @@ exports.getSellerByBranchService = async (branchId) => {
   return await Customer.find({
     branchName: branchId,
     role: "Seller",
+    isDeleted: false,
+  }).lean();
+};
+
+exports.getBuyerByOrgService = async (orgId) => {
+  return await Customer.find({
+    organization: orgId,
+    role: "Buyer",
     isDeleted: false,
   }).lean();
 };

@@ -13,28 +13,22 @@ exports.getAllSellService = async (userOrgId, role, userId, req) => {
       path: "organization",
       match: role == "user" ? { _id: userOrgId } : { userId: userId },
     })
-    .populate("branch customerName modelName deviceName")
+    .populate("branch customerName modelName deviceName stock")
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
     .lean();
 
-  const filterData = data.filter((item) => {
-    return item.organization != null;
-  });
-
-  console.log("data", filterData);
-
   const totalCount = await Sell.countDocuments({
     isDeleted: false,
   });
 
-  return { totalCount, items: filterData };
+  return { totalCount, items: data };
 };
 
 exports.getSellService = async (sellId) => {
-  const stockData = await Sell.findById(sellId)
-    .populate("branch customerName modelName deviceName")
+  const sellData = await Sell.findById(sellId)
+    .populate("branch customerName modelName deviceName stock")
     .lean();
   return sellData;
 };

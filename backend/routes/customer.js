@@ -13,6 +13,7 @@ const {
   getSellerByOrg,
   getBuyerByOrg,
   getSellerByBranch,
+  getBuyerByBranch,
 } = require("../controllers/customer");
 const {
   customerIdValidation,
@@ -34,6 +35,7 @@ cusRouter.put("/deleteCustomer/:id", customerIdValidation, softDeleteCustomer);
 cusRouter.get("/getCustomerByOrg/:id", getCustomerByOrg);
 cusRouter.get("/getSellerByOrg/:id", getSellerByOrg);
 cusRouter.get("/getSellerByBranch/:id", getSellerByBranch);
+cusRouter.get("/getBuyerByBranch/:id", getBuyerByBranch);
 cusRouter.get("/getBuyerByOrg/:id", getBuyerByOrg);
 
 module.exports = cusRouter;

@@ -3,27 +3,28 @@ const { body, check, validationResult, param } = require("express-validator");
 exports.createSellData = [
   body("organization")
     .isMongoId()
-    .notEmpty()
+    .optional()
     .withMessage("organization must be a valid MongoID and is required"),
   body("branch")
     .isMongoId()
-    .notEmpty()
+    .optional()
     .withMessage("organizationBranch must be a valid MongoID and is required"),
   body("customerName")
     .isMongoId()
     .notEmpty()
     .withMessage("customerName is required"),
+  body("stock").isMongoId().notEmpty().withMessage("Stock is required"),
 
   check("device")
     .isArray({ min: 1 })
     .withMessage("device must be an array with at least one item"),
   check("device.*.modelName")
     .isMongoId()
-    .notEmpty()
+    .optional()
     .withMessage("modelName must be a valid MongoID and is required"),
   check("device.*.deviceName")
     .isMongoId()
-    .notEmpty()
+    .optional()
     .withMessage("deviceName must be a valid MongoID and is required"),
   check("device.*.amount")
     .isNumeric()

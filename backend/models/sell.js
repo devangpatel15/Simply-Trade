@@ -5,29 +5,33 @@ const sellSchema = new mongoose.Schema(
     organization: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Organization",
-      required: true,
+      // required: true,
     },
     branch: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "OrganizationBranch",
-      required: true,
+      // required: true,
     },
     customerName: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
-    customerPhone: { type: String, required: true },
+    customerPhone: {
+      type: String,
+      required: true,
+    },
     modelName: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Model",
-      required: true,
+      // required: true,
     },
     deviceName: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Device",
-      required: true,
+      // required: true,
     },
     amount: { type: Number, required: true },
     customerPaid: { type: Number, required: true },
     remainingAmount: { type: Number, required: true },
     upload: { type: String },
+    stock: { type: mongoose.Schema.Types.ObjectId, ref: "Stock" },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
