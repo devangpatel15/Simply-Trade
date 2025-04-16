@@ -17,7 +17,7 @@ exports.getAllCustomer = async (req, res) => {
     const userId = req.user.id;
     const userBranchId = req.user.orgBranch;
     const role = req.user.role;
-    const cus = await getAllCustomerService(userId, role, userBranchId);
+    const cus = await getAllCustomerService(userId, role, userBranchId, req);
     if (!cus) {
       return res.status(404).json({ message: "No Customer found" });
     }

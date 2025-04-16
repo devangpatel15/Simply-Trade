@@ -28,7 +28,7 @@ const CustomerLedgerPage = () => {
   const handleCustomerChange = (selectedCustomer) => {
     setSelectedCustomer(selectedCustomer);
   };
-  
+
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
@@ -47,12 +47,38 @@ const CustomerLedgerPage = () => {
               CUSTOMER LEDGER
             </Typography>
 
-            <Box display="flex" gap={2}>
+            <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
+              <TextField
+                fullWidth
+                type="date"
+                label="Start Date"
+                name="date"
+                // value={formData.date}
+                // onChange={handleNativeDateChange}
+                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+
+              <TextField
+                fullWidth
+                type="date"
+                label="End Date"
+                name="date"
+                // value={formData.date}
+                // onChange={handleNativeDateChange}
+                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+
               <TextField
                 variant="outlined"
                 placeholder="Search"
-                size="small"
-                sx={{ backgroundColor: "white", borderRadius: 1 }}
+                size="medium"
+                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -67,6 +93,9 @@ const CustomerLedgerPage = () => {
                   color: "#6c5ce7",
                   borderColor: "#6c5ce7",
                   textTransform: "none",
+                  // fontWeight: "bold",
+                  fontSize: "1rem",
+                  width: "30%",
                 }}
                 // component={Link}
                 // to="/stockForm"
@@ -115,7 +144,10 @@ const CustomerLedgerPage = () => {
               </Grid>
 
               <Grid item xs={3}>
-                <OrgInput onChange={handleOrganizationChange} value={selectedOrganization} />
+                <OrgInput
+                  onChange={handleOrganizationChange}
+                  value={selectedOrganization}
+                />
               </Grid>
 
               <Grid item xs={3}>
@@ -127,7 +159,10 @@ const CustomerLedgerPage = () => {
               </Grid>
             </Grid>
           </Box>
-          <CustomerLedgerTable  selectedOrganization={selectedOrganization} selectedCustomer={selectedCustomer}/>
+          <CustomerLedgerTable
+            selectedOrganization={selectedOrganization}
+            selectedCustomer={selectedCustomer}
+          />
         </Box>
       </Box>
     </Box>

@@ -10,6 +10,8 @@ import { deleteStock, getAllStocks } from "../apis/StockApi";
 import StockDialog from "../components/StockDialog";
 import PaymentDialog from "../components/PaymentDialog";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 const StockTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -98,17 +100,27 @@ const StockTable = () => {
           <IconButton onClick={() => openDeleteDialog(params.row.id)}>
             <DeleteIcon sx={{ color: "#6c5ce7" }} />
           </IconButton>
-          <IconButton sx={{ backgroundColor: "#f5f5f5" }} onClick={() => handlePaymentDialogOpen(params.row)}>
+          <IconButton onClick={() => handlePaymentDialogOpen(params.row)}>
             <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
           </IconButton>
+          <Link to={`/expenseForm/${params.row.id}`}>
+            <IconButton>
+              <AccountBalanceWalletIcon sx={{ color: "#6c5ce7" }} />
+            </IconButton>
+          </Link>
+          <Link to={`/sellForm/${params.row.id}`}>
+            <IconButton>
+              <MobileFriendlyIcon sx={{ color: "#6c5ce7" }} />
+            </IconButton>
+          </Link>
         </>
       ),
     },
-    { field: "organization", headerName: "organization", flex: 2 },
-    { field: "categoryId", headerName: "Category", flex: 2 },
-    { field: "modelId", headerName: "Model", flex: 2 },
-    { field: "deviceId", headerName: "Device", flex: 2 },
-    { field: "branchName", headerName: "Branch Name", flex: 2 },
+    { field: "organization", headerName: "organization", flex: 1.5 },
+    { field: "categoryId", headerName: "Category", flex: 1.5 },
+    { field: "modelId", headerName: "Model", flex: 1.5 },
+    { field: "deviceId", headerName: "Device", flex: 1.5 },
+    { field: "branchName", headerName: "Branch Name", flex: 1.5 },
   ];
 
   // Prepare the rows for the DataGrid

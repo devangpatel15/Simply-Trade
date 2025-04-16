@@ -146,6 +146,16 @@ const SellForm = () => {
       return { ...prev, device: updatedDevices };
     });
   };
+  const handleCustomerPaidChange = (index, customerPaid) => {
+    setFormData((prev) => {
+      const updatedDevices = [...prev.device];
+      updatedDevices[index] = {
+        ...updatedDevices[index],
+        customerPaid: customerPaid,
+      };
+      return { ...prev, device: updatedDevices };
+    });
+  };
 
   const handleAmountChange = (index, amount) => {
     setFormData((prev) => {
@@ -300,7 +310,6 @@ const SellForm = () => {
   //   }, [id]);
 
   const handleSubmit = async () => {
-    console.log(formData, "formData");
 
     // if (!validateStockForm()) {
     //   return;
@@ -313,7 +322,7 @@ const SellForm = () => {
         amount: deviceItem.amount || "",
         customerPaid: deviceItem.customerPaid || "",
         remainingAmount: deviceItem.remainingAmount || "",
-        upload: deviceItem || "",
+        upload: deviceItem.upload || "",
       }));
 
       const payload = {
@@ -325,15 +334,17 @@ const SellForm = () => {
         device: formattedDevices,
       };
 
+      console.log(payload,"payload");
+      
       if (id) {
         console.log("payload", payload);
         await updateSell(payload, id);
         toast.success("sell updated successfully!");
       } else {
         await createSell(payload);
+        navigate("/sellPage");
         toast.success("sell created successfully!");
       }
-      navigate("/stockPage");
     } catch (error) {
       console.log(error.message);
       toast.error("Error creating/updating stock!");
@@ -475,18 +486,59 @@ const SellForm = () => {
                     // }
                   />
                 </Grid>
-                
-              </Grid>
-              <Grid item xs={4}>
-                  <TextField
-                    fullWidth
-                    label="Amount"
-                    name="amount"
-                    value={formData.amount}
-                    type="number"
-                    onChange={(e)=>handleAmountChange(deviceIndex,e.target.value)}
+                <Grid item xs={4}>
+                  <DeviceInput
+                    onChange={(selectedDevice) =>
+                      handleDeviceChange(deviceIndex, selectedDevice)
+                    }
+                    value={formData.device[deviceIndex]?.deviceName}
+                    modelId={modelId}
+                    // error={
+                    //   (errors &&
+                    //     errors.device &&
+                    //     errors.device[deviceIndex] &&
+                    //     errors.device[deviceIndex].modelName) ||
+                    //   ""
+                    // }
                   />
                 </Grid>
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  fullWidth
+                  label="Amount"
+                  name="amount"
+                  value={formData.amount}
+                  type="number"
+                  onChange={(e) =>
+                    handleAmountChange(deviceIndex, e.target.value)
+                  }
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  fullWidth
+                  label="customerPaid"
+                  name="customerPaid"
+                  value={formData.customerPaid}
+                  type="number"
+                  onChange={(e) =>
+                    handleCustomerPaidChange(deviceIndex, e.target.value)
+                  }
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  fullWidth
+                  label="RemainingAmount"
+                  name="remainingAmount"
+                  value={formData.remainingAmount}
+                  type="number"
+                  onChange={(e) =>
+                    handleRemainingAmountChange(deviceIndex, e.target.value)
+                  }
+                />
+              </Grid>
 
               {/* {item.imei.map((imeiItem, imeiIndex) => (
                

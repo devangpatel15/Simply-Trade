@@ -1,8 +1,12 @@
 import {
   Box,
   Button,
+  FormControl,
+  FormHelperText,
   Grid,
+  InputLabel,
   MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -29,6 +33,7 @@ const CustomerForm = () => {
     branchName: null,
     customerName: "",
     customerPhone: "",
+    role:"",
   });
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
@@ -173,6 +178,32 @@ const CustomerForm = () => {
                   required
                 />
               </Grid>
+
+              <Grid item xs={12}>
+              <FormControl
+                    fullWidth
+                    variant="outlined"
+                    // error={!!errors.role}
+                    required
+                  >
+                    <InputLabel id="role-label">Role</InputLabel>
+                    <Select
+                      labelId="role-label"
+                      id="role"
+                      name="role"
+                      value={formData.role || ""}
+                      onChange={handleChange}
+                      label="Role"
+                    >
+                      <MenuItem value="Buyer">Buyer</MenuItem>
+                      <MenuItem value="Seller">Seller</MenuItem>
+                    </Select>
+                    {/* {errors.role && (
+                      <FormHelperText>{errors.role}</FormHelperText>
+                    )} */}
+                  </FormControl>
+              </Grid>
+
             </Grid>
           </Box>
 

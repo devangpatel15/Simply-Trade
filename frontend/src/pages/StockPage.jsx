@@ -12,7 +12,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import StockTable from "../tables/StockTable";
 import { Link } from "react-router-dom";
 
-//FIXME:edit,delete,update karvanu baki 6
 const StockPage = () => {
   // const [stock, setStock] = React.useState([]);
   // const [payment, setPayment] = React.useState([]);
