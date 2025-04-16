@@ -109,3 +109,10 @@ exports.getBuyerByOrgService = async (orgId) => {
     isDeleted: false,
   }).lean();
 };
+exports.getSellerByBranchService = async (branchId) => {
+  return await Customer.find({
+    branchName: branchId,
+    role: "Seller",
+    isDeleted: false,
+  }).lean();
+};
