@@ -41,8 +41,10 @@ const stockSchema = new mongoose.Schema({
   totalAmount: { type: Number, required: true },
   paidToCustomer: { type: Number, required: true },
   remainingAmount: { type: Number, required: true },
-  isDeleted: { type: Boolean, default: false },
   upload: { type: String },
+  expenseAmount: { type: Number },
+  sellAmount: { type: Number },
+  isDeleted: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("Stock", stockSchema);

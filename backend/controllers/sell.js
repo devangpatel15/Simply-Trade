@@ -97,37 +97,17 @@ exports.createSell = async (req, res) => {
 exports.updateSell = async (req, res) => {
   try {
     const sellId = req.params.id;
-    const newSell = req.body;
-    const { device } = newSell;
+    const updateData = req.body;
 
-    if (!device || !Array.isArray(device) || device.length === 0) {
+    if (updateData.device && !Array.isArray(updateData.device)) {
       return res.status(400).json({ message: "Invalid device data" });
     }
 
-    let sellEntry;
-    device.forEach((deviceItem) => {
-      sellEntry = {
-        organization: newSell.organization,
-        branch: newSell.branch,
-        customerName: newSell.customerName,
-        customerPhone: newSell.customerPhone,
-        email: newSell.email,
-        modelName: deviceItem.modelName,
-        deviceName: deviceItem.deviceName,
-        amount: deviceItem.amount,
-        customerPaid: deviceItem.customerPaid,
-        remainingAmount: deviceItem.remainingAmount,
-        upload: deviceItem.upload,
-      };
-    });
-
-    const updatedSell = await updateSellService(sellId, sellEntry);
+    const updatedSell = await updateSellService(sellId, updateData);
     if (!updatedSell) {
-      return res.status(404).json({ message: "Stock not found" });
+      return res.status(404).json({ message: "Sell not found" });
     }
-    return res
-      .status(200)
-      .json({ message: "Stock updated", data: updatedSell });
+    return res.status(200).json({ message: "Sell updated", data: updatedSell });
   } catch (err) {
     return res
       .status(500)

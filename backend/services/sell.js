@@ -19,17 +19,11 @@ exports.getAllSellService = async (userOrgId, role, userId, req) => {
     .limit(limit)
     .lean();
 
-  const filterData = data.filter((item) => {
-    return item.organization != null;
-  });
-
-  console.log("data", filterData);
-
   const totalCount = await Sell.countDocuments({
     isDeleted: false,
   });
 
-  return { totalCount, items: filterData };
+  return { totalCount, items: data };
 };
 
 exports.getSellService = async (sellId) => {
