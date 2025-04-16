@@ -24,7 +24,8 @@ import {
 } from "../apis/ExpenseApi";
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
-import { getOneStock } from "../apis/StockApi";
+import { getOneStock, updateStock } from "../apis/StockApi";
+
 
 const ExpenseForm = ({ stockId }) => {
   console.log(stockId, "stockId+++++++++++++++++++++++++++++++++");
@@ -40,6 +41,7 @@ const ExpenseForm = ({ stockId }) => {
     category: "",
     amount: "",
     description: "",
+    stockId:"",
   });
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
@@ -95,6 +97,7 @@ const ExpenseForm = ({ stockId }) => {
         amount: formData.amount || "",
         date: formData.date || "",
         description: formData.description || "",
+        stockId:id
       };
     } else {
       payload = {
@@ -107,13 +110,23 @@ const ExpenseForm = ({ stockId }) => {
       };
     }
 
+ 
+ const data = {
+  expenseAmount : formData.amount,
+ }
+   
+  
+
     try {
-      if (id) {
+      console.log(payload,"payload");
+      
+      if (stockId) {
+        await createExpense(payload);
+        await updateStock(data , id)
+        toast.success("Expense added successfully!");
+      } else if (id) {
         await updateExpense(payload, id);
         toast.success("Expense updated successfully!");
-      } else if (stockId) {
-        await createExpense(payload);
-        toast.success("Expense added successfully!");
       } else {
         await createExpense(payload);
         toast.success("Expense added successfully!");
@@ -139,15 +152,15 @@ const ExpenseForm = ({ stockId }) => {
 
         setFormData({
           ...response.data.data,
+          category:"Phone",
           organization: {
             label: response.data.data.organization.organizationName,
             value: response.data.data.organization._id || "",
           },
           branchName: {
-            label: response.data.data.branchName.branchName,
-            value: response.data.data.branchName._id || "",
+            label: response.data.data.branch.branchName,
+            value: response.data.data.branch._id || "",
           },
-  
           modelName: {
             label: response.data.data?.modelName?.modelName,
             value: response.data.data?.modelName?._id || "",
