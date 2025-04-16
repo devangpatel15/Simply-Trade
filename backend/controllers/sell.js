@@ -68,7 +68,7 @@ exports.createSell = async (req, res) => {
         branch: newSell.branch,
         customerName: newSell.customerName,
         customerPhone: newSell.customerPhone,
-        email: newSell.email,
+        stock: newSell.stock,
         modelName: deviceItem.modelName,
         deviceName: deviceItem.deviceName,
         amount: deviceItem.amount,

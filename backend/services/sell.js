@@ -13,7 +13,7 @@ exports.getAllSellService = async (userOrgId, role, userId, req) => {
       path: "organization",
       match: role == "user" ? { _id: userOrgId } : { userId: userId },
     })
-    .populate("branch customerName modelName deviceName")
+    .populate("branch customerName modelName deviceName stock")
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
@@ -27,8 +27,8 @@ exports.getAllSellService = async (userOrgId, role, userId, req) => {
 };
 
 exports.getSellService = async (sellId) => {
-  const stockData = await Sell.findById(sellId)
-    .populate("branch customerName modelName deviceName")
+  const sellData = await Sell.findById(sellId)
+    .populate("branch customerName modelName deviceName stock")
     .lean();
   return sellData;
 };

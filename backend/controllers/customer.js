@@ -11,6 +11,7 @@ const {
   getSellerByOrgService,
   getBuyerByOrgService,
   getSellerByBranchService,
+  getBuyerByBranchService,
 } = require("../services/customer");
 
 exports.getAllCustomer = async (req, res) => {
@@ -220,10 +221,10 @@ exports.getSellerByOrg = async (req, res) => {
   }
 };
 
-exports.getBuyerByOrg = async (req, res) => {
+exports.getBuyerByBranch = async (req, res) => {
   try {
-    const orgId = req?.params?.id;
-    const buyer = await getBuyerByOrgService(orgId);
+    const branchId = req?.params?.id;
+    const buyer = await getBuyerByBranchService(branchId);
     if (!buyer) {
       return res.status(404).json({ message: "No Buyer found" });
     }
