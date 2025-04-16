@@ -53,7 +53,7 @@ exports.getSell = async (req, res) => {
 exports.createSell = async (req, res) => {
   try {
     const newSell = req.body;
-    const { device } = newSell;
+    const { device, stock } = newSell;
 
     // Validate request body
     if (!device || !Array.isArray(device) || device.length === 0) {
@@ -81,7 +81,7 @@ exports.createSell = async (req, res) => {
 
     // Save all sell entries to the database
     const createdSells = await Promise.all(
-      sellEntries.map((entry) => createSellService(entry))
+      sellEntries.map((entry) => createSellService(entry, stock))
     );
 
     return res
