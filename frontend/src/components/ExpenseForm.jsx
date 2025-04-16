@@ -25,7 +25,8 @@ import {
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 
-const ExpenseForm = () => {
+const ExpenseForm = ({stockId}) => {
+  console.log(stockId,"stockId+++++++++++++++++++++++++++++++++")
   const { id } = useParams();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
@@ -123,6 +124,7 @@ const ExpenseForm = () => {
   };
 
   const callApi = async () => {
+    
     if (id) {
       const response = await getOneExpense(id);
       setFormData({
