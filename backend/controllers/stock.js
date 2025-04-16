@@ -155,51 +155,28 @@ exports.createStock = async (req, res) => {
 exports.updateStock = async (req, res) => {
   try {
     const stockId = req.params.id;
+    const updateData = req.body;
 
-    const newStock = req.body;
-    const { device } = newStock;
-
-    if (!device || !Array.isArray(device) || device.length === 0) {
-      return res.status(400).json({ message: "Invalid device data" });
+    // Optional: Validate certain fields if required
+    if (updateData.device && !Array.isArray(updateData.device)) {
+      return res.status(400).json({ message: "Device must be an array" });
     }
 
-    let stockEntry
-    device.forEach((deviceItem) => {
-      if (deviceItem.imei && Array.isArray(deviceItem.imei)) {
-        deviceItem.imei.forEach((imeiItem) => {
-           stockEntry = {
-            organization: newStock.organization,
-            branch: newStock.branch,
-            customerName: newStock.customerName,
-            customerPhone: newStock.customerPhone,
-            categoryName: deviceItem.categoryName,
-            modelName: deviceItem.modelName,
-            deviceName: deviceItem.deviceName,
-            capacityName: deviceItem.capacityName,
-            color: deviceItem.color,
-            imeiNo: imeiItem.imeiNo,
-            srNo: imeiItem.srNo,
-            totalAmount: imeiItem.totalAmount,
-            paidToCustomer: imeiItem.paidToCustomer,
-            remainingAmount: imeiItem.remainingAmount,
-            upload: newStock.upload,
-          };
-        });
-      }
-    });
-    const updatedStock = await updateStockService(stockId, stockEntry);
+    // Call service with only provided fields (partial update)
+    const updatedStock = await updateStockService(stockId, updateData);
+
     if (!updatedStock) {
       return res.status(404).json({ message: "Stock not found" });
     }
-    return res
-      .status(200)
-      .json({ message: "Stock updated", data: updatedStock });
+
+    return res.status(200).json({ message: "Stock updated", data: updatedStock });
   } catch (err) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });
   }
 };
+
 
 exports.softDeleteStock = async (req, res) => {
   try {
