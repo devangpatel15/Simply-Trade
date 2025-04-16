@@ -599,6 +599,7 @@ const StockForm = () => {
                 value={formData.customerName}
                 branchId={formData?.branch?.value}
                 error={errors.customerName}
+                field="stock"
               />
             </Grid>
             <Grid item xs={6}>
