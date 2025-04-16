@@ -1,4 +1,5 @@
 const Expense = require("../models/expense");
+const Stock = require("../models/stock");
 
 exports.getAllExpenseService = async (req) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1
@@ -28,8 +29,19 @@ exports.getExpenseService = async (exId) => {
 //   return await Expense.find({ deviceId, isDeleted: false }).lean();
 // };
 
-exports.createExpenseService = async (newEx) => {
-  return await Expense.create(newEx);
+exports.createExpenseService = async (newEx, stock, amount) => {
+  console.log(stock);
+  const createExpense = await Expense.create(newEx);
+  const updateStock = await Stock.findByIdAndUpdate(
+    stock,
+    { expenseAmount: amount },
+    {
+      new: true,
+    }
+  );
+  console.log(updateStock);
+
+  return { createExpense, updateStock };
 };
 
 exports.updateExpenseService = async (exId, ex) => {
