@@ -47,6 +47,9 @@ exports.updateExpenseService = async (exId, ex, stock, amount) => {
   const updatedExpense = await Expense.findByIdAndUpdate(exId, ex, {
     new: true,
   }).lean();
+
+  console.log("exx", ex);
+
   const updatedStock = await Stock.findByIdAndUpdate(
     stock,
     { expenseAmount: amount },
