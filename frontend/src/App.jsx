@@ -405,7 +405,7 @@ function App() {
           path="stockPage/expenseForm/:id"
           element={
             <PrivateRoute>
-              <ExpenseForm stockId="stockId"/>
+              <ExpenseForm stockId="stockId" />
             </PrivateRoute>
           }
         />
@@ -464,6 +464,15 @@ function App() {
           element={
             <PrivateRoute>
               <SellForm />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="stockPage/sellForm/:id"
+          element={
+            <PrivateRoute>
+              <SellForm stock="stock" />
             </PrivateRoute>
           }
         />
