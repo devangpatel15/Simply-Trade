@@ -131,6 +131,8 @@ const StockTable = () => {
     { field: "deviceId", headerName: "Device", flex: 1.5 },
     { field: "branchName", headerName: "Branch Name", flex: 1.5 },
     { field: "expenseAmount", headerName: "Expenses Amount", flex: 1.5 },
+    { field: "totalAmount", headerName: "Stock Amount", flex: 1.5 },
+    // { field: "total", headerName: "Total", flex: 1.5 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -143,6 +145,8 @@ const StockTable = () => {
         deviceId: stock?.deviceName?.deviceName,
         branchName: stock?.branch?.branchName,
         expenseAmount: stock?.expenseAmount || "N/A",
+        totalAmount: stock?.totalAmount || "N/A",
+        // total: stock?.total || "N/A",
       }))
     : [];
 
