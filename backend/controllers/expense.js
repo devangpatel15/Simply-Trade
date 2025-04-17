@@ -55,8 +55,9 @@ exports.createExpense = async (req, res) => {
 exports.updateExpense = async (req, res) => {
   try {
     const exId = req.params.id;
-    const ex = req.body;
-    const updatedEx = await updateExpenseService(exId, ex);
+    const { ex, stock, amount } = req.body;
+
+    const updatedEx = await updateExpenseService(exId, ex, stock, amount);
     if (!updatedEx) {
       return res.status(404).json({ message: "Expense not found" });
     }
