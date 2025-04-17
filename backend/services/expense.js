@@ -10,7 +10,7 @@ exports.getAllExpenseService = async (req) => {
   const items = await Expense.find({ isDeleted: false })
     .lean()
     .sort({ createdAt: -1 })
-    .populate("organization branchName category stock")
+    .populate("organization branchName category stock modelName deviceName")
     .skip(skip)
     .limit(limit)
     .lean();
@@ -22,7 +22,7 @@ exports.getAllExpenseService = async (req) => {
 
 exports.getExpenseService = async (exId) => {
   return await Expense.findById(exId)
-    .populate("organization branchName category stock")
+    .populate("organization branchName category stock modelName deviceName")
     .lean();
 };
 // exports.selectExpenseByDeviceService = async (deviceId) => {
@@ -39,13 +39,23 @@ exports.createExpenseService = async (newEx, stock, amount) => {
       new: true,
     }
   );
-  console.log(updateStock);
 
   return { createExpense, updateStock };
 };
 
-exports.updateExpenseService = async (exId, ex) => {
-  return await Expense.findByIdAndUpdate(exId, ex, { new: true }).lean();
+exports.updateExpenseService = async (exId, ex, stock, amount) => {
+  const updatedExpense = await Expense.findByIdAndUpdate(exId, ex, {
+    new: true,
+  }).lean();
+  const updatedStock = await Stock.findByIdAndUpdate(
+    stock,
+    { expenseAmount: amount },
+    {
+      new: true,
+    }
+  ).lean();
+
+  return { updatedExpense, updatedStock };
 };
 
 exports.softDeleteExpenseService = async (exId) => {

@@ -26,7 +26,6 @@ import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 import { getOneStock, updateStock } from "../apis/StockApi";
 
-
 const ExpenseForm = ({ stockId }) => {
   console.log(stockId, "stockId+++++++++++++++++++++++++++++++++");
   const { id } = useParams();
@@ -41,7 +40,7 @@ const ExpenseForm = ({ stockId }) => {
     category: "",
     amount: "",
     description: "",
-    stockId:"",
+    stockId: "",
   });
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
@@ -97,7 +96,7 @@ const ExpenseForm = ({ stockId }) => {
         amount: formData.amount || "",
         date: formData.date || "",
         description: formData.description || "",
-        stock :id
+        stock: id,
       };
     } else {
       payload = {
@@ -110,16 +109,13 @@ const ExpenseForm = ({ stockId }) => {
       };
     }
 
- 
- const data = {
-  expenseAmount : formData.amount,
- }
-   
-  
+    const data = {
+      expenseAmount: formData.amount,
+    };
 
     try {
-      console.log(payload,"payload");
-      
+      console.log(payload, "payload");
+
       if (stockId) {
         await createExpense(payload);
         toast.success("Expense added successfully!");
@@ -140,18 +136,19 @@ const ExpenseForm = ({ stockId }) => {
   };
 
   const callApi = async () => {
-    console.log("call api by id...................")
+    console.log("call api by id...................");
     if (id) {
       let response;
       if (stockId) {
         console.log("getOneStock api call");
-        
+
         response = await getOneStock(id);
-        console.log(response.data.data)
+        console.log(response.data.data);
 
         setFormData({
           ...response.data.data,
-          category:"Phone",
+          amount: response.data?.data?.expenseAmount || "",
+          category: "Phone",
           organization: {
             label: response.data.data.organization.organizationName,
             value: response.data.data.organization._id || "",
@@ -182,7 +179,7 @@ const ExpenseForm = ({ stockId }) => {
             label: response.data.data.branchName.branchName,
             value: response.data.data.branchName._id || "",
           },
-  
+
           modelName: {
             label: response.data.data?.modelName?.modelName,
             value: response.data.data?.modelName?._id || "",
@@ -193,15 +190,15 @@ const ExpenseForm = ({ stockId }) => {
           },
         });
       }
-      
-      const data=response.data.data
-      
+
+      const data = response.data.data;
+
       console.log("hiiii");
     }
   };
 
-  console.log("formdata,,,,,,,,,,,,,,,,,,,,,,,",formData);
-  
+  console.log("formdata,,,,,,,,,,,,,,,,,,,,,,,", formData);
+
   useEffect(() => {
     callApi();
   }, []);
