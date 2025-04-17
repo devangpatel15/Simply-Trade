@@ -26,7 +26,8 @@ import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
 import { toast } from "react-toastify";
 import { createSell, updateSell } from "../apis/SellApi";
 
-const SellForm = () => {
+const SellForm = ({ stock }) => {
+  console.log("stock", stock);
   const [formData, setFormData] = useState({
     organization: null,
     branch: null,
@@ -42,6 +43,7 @@ const SellForm = () => {
         upload: "",
       },
     ],
+    stock:"",
   });
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
@@ -201,113 +203,76 @@ const SellForm = () => {
     setFormData({ ...formData, device: updatedDeviceData });
   };
 
-  useEffect(() => {
-    const userData = localStorage.getItem("role");
-
-    if (userData) {
-      try {
-        const parsedData = JSON.parse(userData);
-
-        setLoggedUserData(parsedData || {});
-
-        // ✅ Set both organization and branch in a single update
-        setFormData((prev) => {
-          const updatedFormData = {
-            ...prev,
-            organization: parsedData?.organization?._id
-              ? {
-                  label: parsedData?.organization?.organizationName,
-                  value: parsedData.organization._id,
-                }
-              : null,
-            branch: parsedData?.orgBranch?._id
-              ? {
-                  label: parsedData?.orgBranch?.branchName,
-                  value: parsedData.orgBranch._id,
-                }
-              : null,
-          };
-          return updatedFormData;
-        });
-      } catch (error) {
-        console.error("Error parsing user data:", error);
+  const callApi = async () => {
+    console.log("call api by id...................");
+  
+    if (!id) return;
+  
+    try {
+      let response;
+      let data;
+  
+      if (stock) {
+        console.log("getOneStock api call");
+        response = await getOneStock(id);
+      } else {
+        console.log("getOneExpense api call");
+        response = await getOneExpense(id);
       }
+  
+      data = response?.data?.data;
+  
+      if (!data) {
+        console.warn("No data found in response");
+        return;
+      }
+         
+      setFormData((prev) => ({
+        ...prev,
+        ...data,
+        category: stock ? "Phone" : prev.category,
+        organization: data?.organization?._id
+          ? {
+              label: data.organization.organizationName,
+              value: data.organization._id,
+            }
+          : null,
+        branchName: data?.branch?._id
+          ? {
+              label: data.branch.branchName,
+              value: data.branch._id,
+            }
+          : data?.branchName?._id
+          ? {
+              label: data.branchName.branchName,
+              value: data.branchName._id,
+            }
+          : null,
+        modelName: data?.modelName?._id
+          ? {
+              label: data.modelName.modelName,
+              value: data.modelName._id,
+            }
+          : null,
+        deviceName: data?.deviceName?._id
+          ? {
+              label: data.deviceName.deviceName,
+              value: data.deviceName._id,
+            }
+          : null,
+      }));
+  
+      console.log("API data loaded successfully.");
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-  }, []);
+  };
 
-  // const callApi = async () => {
-  //     try {
-  //       if (!id) return; // Ensure ID is present
+   useEffect(() => {
+      callApi();
+    }, []);
+  
 
-  //       const response = await getOneStock(id);
-
-  //       // Check if response and data exist
-  //       if (!response?.data?.data) {
-  //         console.error("API response is empty or invalid");
-  //         return;
-  //       }
-
-  //       const data = response.data.data;
-  //       console.log("API Response Data:", data); // Debugging
-
-  //       setFormData({
-  //         organization: {
-  //           label: data?.organization?.organizationName || "",
-  //           value: data?.organization?._id || "",
-  //         },
-  //         branch: {
-  //           label: data?.branch?.branchName || "",
-  //           value: data?.branch?._id || "",
-  //         },
-  //         customerName: {
-  //           label: data?.customerName?.customerName || "",
-  //           value: data?.customerName?._id || "",
-  //         },
-  //         customerPhone: data?.customerPhone || "",
-  //         device: [
-  //           {
-  //             categoryName: {
-  //               label: data?.categoryName?.categoryName || "",
-  //               value: data?.categoryName?._id || "",
-  //             },
-  //             modelName: {
-  //               label: data?.modelName?.modelName || "",
-  //               value: data?.modelName?._id || "",
-  //             },
-  //             deviceName: {
-  //               label: data?.deviceName?.deviceName || "",
-  //               value: data?.deviceName?._id || "",
-  //             },
-  //             capacityName: {
-  //               label: data?.capacityName?.capacityName || "",
-  //               value: data?.capacityName?._id || "",
-  //             },
-  //             color: {
-  //               label: data?.color?.colorName || "",
-  //               value: data?.color?._id || "",
-  //             },
-  //             imei: [
-  //               {
-  //                 imeiNo: data.imeiNo,
-  //                 srNo: data.srNo,
-  //                 totalAmount: data.totalAmount,
-  //                 paidToCustomer: data.paidToCustomer,
-  //                 remainingAmount: data.remainingAmount,
-  //               },
-  //             ],
-  //           },
-  //         ],
-  //       });
-  //     } catch (error) {
-  //       console.error("Error in callApi:", error);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     if (id) {
-  //       callApi();
-  //     }
-  //   }, [id]);
 
   const handleSubmit = async () => {
 
@@ -323,6 +288,7 @@ const SellForm = () => {
         customerPaid: deviceItem.customerPaid || "",
         remainingAmount: deviceItem.remainingAmount || "",
         upload: deviceItem.upload || "",
+        stock :id || null,
       }));
 
       const payload = {
@@ -334,17 +300,31 @@ const SellForm = () => {
         device: formattedDevices,
       };
 
+      // console.log(payload,"payload");
+      
+      // if (id) {
+      //   console.log("payload", payload);
+      //   await updateSell(payload, id);
+      //   toast.success("sell updated successfully!");
+      // } else {
+      //   await createSell(payload);
+      //   navigate("/sellPage");
+      //   toast.success("sell created successfully!");
+      // }
+
       console.log(payload,"payload");
       
-      if (id) {
-        console.log("payload", payload);
+      if (stock) {
+        await createSell(payload);
+        toast.success("sell added successfully!");
+      } else if (id) {
         await updateSell(payload, id);
         toast.success("sell updated successfully!");
       } else {
         await createSell(payload);
-        navigate("/sellPage");
-        toast.success("sell created successfully!");
+        toast.success("sell added successfully!");
       }
+      navigate("/sellPage");
     } catch (error) {
       console.log(error.message);
       toast.error("Error creating/updating stock!");
@@ -470,7 +450,7 @@ const SellForm = () => {
               )}
 
               <Grid container spacing={2} mt={1}>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                   <ModelInput
                     onChange={(selectedModel) =>
                       handleModelChange(deviceIndex, selectedModel)
@@ -486,7 +466,7 @@ const SellForm = () => {
                     // }
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                   <DeviceInput
                     onChange={(selectedDevice) =>
                       handleDeviceChange(deviceIndex, selectedDevice)
@@ -502,7 +482,6 @@ const SellForm = () => {
                     // }
                   />
                 </Grid>
-              </Grid>
               <Grid item xs={4}>
                 <TextField
                   fullWidth
@@ -513,7 +492,7 @@ const SellForm = () => {
                   onChange={(e) =>
                     handleAmountChange(deviceIndex, e.target.value)
                   }
-                />
+                  />
               </Grid>
               <Grid item xs={4}>
                 <TextField
@@ -525,7 +504,7 @@ const SellForm = () => {
                   onChange={(e) =>
                     handleCustomerPaidChange(deviceIndex, e.target.value)
                   }
-                />
+                  />
               </Grid>
               <Grid item xs={4}>
                 <TextField
@@ -537,72 +516,9 @@ const SellForm = () => {
                   onChange={(e) =>
                     handleRemainingAmountChange(deviceIndex, e.target.value)
                   }
-                />
+                  />
               </Grid>
-
-              {/* {item.imei.map((imeiItem, imeiIndex) => (
-               
-                  <Grid container spacing={2} mt={1} key={imeiIndex}>
-                    
-
-                    <Grid item xs={4}>
-                      <TextField
-                        fullWidth
-                        label="Total Amount"
-                        name="totalAmount"
-                        value={imeiItem.totalAmount}
-                        type="number"
-                        onChange={(e) => {
-                          handleImeiChange(
-                            deviceIndex,
-                            imeiIndex,
-                            "totalAmount",
-                            e.target.value
-                          );
-                          setTotalAmount(e.target.value);
-                        }}
-                       
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        type="number"
-                        fullWidth
-                        label="Paid To Customer"
-                        name="paidToCustomer"
-                        value={imeiItem.paidToCustomer}
-                        onChange={(e) => {
-                          handleImeiChange(
-                            deviceIndex,
-                            imeiIndex,
-                            "paidToCustomer",
-                            e.target.value
-                          );
-                          setPaidtoCustomer(e.target.value);
-                        }}
-                       
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        type="number"
-                        aria-readonly
-                        fullWidth
-                        label="Remaining Amount"
-                        name="remainingAmount"
-                        value={imeiItem.remainingAmount ?? ""}
-                        onChange={(e) =>
-                          handleImeiChange(
-                            deviceIndex,
-                            imeiIndex,
-                            "remainingAmount",
-                            e.target.value
-                          )
-                        }
-                      />
-                    </Grid>
                   </Grid>
-              ))} */}
             </Box>
           ))}
 
