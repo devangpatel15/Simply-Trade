@@ -33,11 +33,11 @@ exports.getSellService = async (sellId) => {
   return sellData;
 };
 
-exports.createSellService = async (newSell, stock) => {
+exports.createSellService = async (newSell, stock, amount) => {
   const createSell = await Sell.create(newSell);
   const updateStock = await Stock.findByIdAndUpdate(
     stock,
-    { isDeleted: true },
+    { isDeleted: true, sellAmount: amount },
     {
       new: true,
     }
