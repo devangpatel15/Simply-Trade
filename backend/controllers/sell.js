@@ -98,7 +98,8 @@ exports.updateSell = async (req, res) => {
   try {
     const sellId = req.params.id;
     const updateData = req.body;
-
+    console.log(updateData , "222222222");
+    
     if (updateData.device && !Array.isArray(updateData.device)) {
       return res.status(400).json({ message: "Invalid device data" });
     }

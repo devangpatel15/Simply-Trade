@@ -75,6 +75,7 @@ const CustomerDialog = ({
   handleClose,
   setOpen,
   customerData,
+  field,
 }) => {
   const navigate = useNavigate();
 
@@ -120,6 +121,7 @@ const CustomerDialog = ({
     try {
       await createCustomer({
         ...formData,
+        role: field == "stock" ? "Buyer" : "Seller",
         organization: formData.organization.value,
         branchName: formData.branchName.value,
       });
@@ -228,7 +230,7 @@ const CustomerDialog = ({
             <Button
               variant="contained"
               color="error"
-             onClick={() => setOpen(false)}
+              onClick={() => setOpen(false)}
             >
               Cancel
             </Button>

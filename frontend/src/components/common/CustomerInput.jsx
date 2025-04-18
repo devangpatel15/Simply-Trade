@@ -149,6 +149,7 @@ const CustomerInput = ({ onChange, value, branchId, error, orgId  , field}) => {
         handleClose={handleClose}
         fieldName="customerForm"
         setOpen={setOpen}
+        field={field}
       />
     </>
   );

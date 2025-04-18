@@ -43,12 +43,15 @@ exports.createStockService = async (newStock) => {
 };
 
 exports.updateStockService = async (stockId, stock) => {
+
+  console.log(stock, "stock----");
+  
+
   const data = await Stock.findByIdAndUpdate(stockId, stock, { new: true })
     .populate(
       "organization branch customerName categoryName modelName deviceName capacityName color"
     )
     .lean();
-  console.log("uudata data+++++++++++++++++++++++++", data);
   return data;
 };
 

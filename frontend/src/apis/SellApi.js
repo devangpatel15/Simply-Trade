@@ -16,6 +16,22 @@ const createSell = async (formData) => {
     console.log(error, "createSell error");
   }
 };
+ const getOneSell = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/api/sell/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.log(error, "data not found");
+    }
+  };
 
 const updateSell = async (formData, id) => {
   try {
@@ -30,6 +46,7 @@ const updateSell = async (formData, id) => {
       }
     );
     alert(response.data.message);
+    return response
   } catch (error) {
     console.log(error, "updateSell error");
   }
@@ -69,4 +86,4 @@ const deleteSell = async (_id) => {
   }
 };
 
-export { createSell, updateSell, allSell, deleteSell };
+export { createSell,getOneSell, updateSell, allSell, deleteSell };
