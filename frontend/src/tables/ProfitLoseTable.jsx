@@ -39,8 +39,8 @@ const ProfitLoseTable = () => {
     const columns = [
       { field: "modelName", headerName: "Model", flex: 2 },
       { field: "deviceName", headerName: "Device", flex: 2 },
-      { field: "totalAmount", headerName: "totalAmount", flex: 2 },
-      { field: "totalExpense", headerName: "totalExpense", flex: 2 },
+      { field: "totalAmount", headerName: "Product Price", flex: 2 },
+      { field: "totalExpense", headerName: "Expense", flex: 2 },
       { field: "totalCost", headerName: "totalCost", flex: 2 },
       { field: "totalSellingAmount", headerName: "totalSellingAmount", flex: 2 },
       { field: "profitOrLoss", headerName: "profitOrLoss", flex: 2 },
@@ -94,7 +94,7 @@ const ProfitLoseTable = () => {
                 </Button>
               </Box>
             </Box>
-            <Box display="flex" gap={2}>
+            {/* <Box display="flex" gap={2}>
               <Grid container spacing={2} sx={{ marginTop: 0.5 }}>
                 <Grid item xs={6}>
                   <RadioGroup
@@ -130,10 +130,10 @@ const ProfitLoseTable = () => {
                     />
                   </RadioGroup>
                 </Grid>
-              </Grid>
-            </Box>
+                </Grid>
+              </Box> */}
 
-            <Box display="flex" gap={2}>
+            <Box display="flex" gap={2} sx={{ marginTop: 2 }}>
               <Grid container spacing={2}>
                 <Grid item xs={3}>
                   <OrgInput />

@@ -45,7 +45,7 @@ const stockSchema = new mongoose.Schema(
     srNo: { type: String },
     totalAmount: { type: Number, required: true },
     paidToCustomer: { type: Number, required: true },
-    remainingAmount: { type: Number, required: true },
+    remainingAmount: { type: Number },
     upload: { type: String },
     expenseAmount: { type: Number },
     sellAmount: { type: Number },
