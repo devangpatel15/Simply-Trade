@@ -105,19 +105,23 @@ const StockTable = () => {
             <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
           </IconButton>
           <Link
-            // to={`/expenseForm/${params.row.id}`}
             to={
               location.pathname.includes("stockPage")
                 ? `/stockPage/expenseForm/${params.row.id}`
                 : `/expenseForm/${params.row.id}`
             }
-            stockId="stockId"
           >
             <IconButton>
               <AccountBalanceWalletIcon sx={{ color: "#6c5ce7" }} />
             </IconButton>
           </Link>
-          <Link to={`/sellForm/${params.row.id}`}>
+          <Link
+            to={
+              location.pathname.includes("stockPage")
+                ? `/stockPage/sellForm/${params.row.id}`
+                : `/sellForm/${params.row.id}`
+            }
+          >
             <IconButton>
               <MobileFriendlyIcon sx={{ color: "#6c5ce7" }} />
             </IconButton>

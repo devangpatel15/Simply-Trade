@@ -7,8 +7,13 @@ const {
 } = require("../services/expense");
 
 exports.getAllExpense = async (req, res) => {
+  console.log(req.user, "req.user");
+
   try {
-    const ex = await getAllExpenseService(req);
+    const userOrgId = req.user.org;
+    const role = req.user.role;
+    const userId = req.user.id;
+    const ex = await getAllExpenseService(userOrgId, role, userId, req);
     if (!ex) {
       return res.status(404).json({ message: "No Expense found" });
     }

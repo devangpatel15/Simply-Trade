@@ -12,10 +12,11 @@ const {
   deleteOrgValidation,
   getOrgValidation,
 } = require("../middleware/expense");
+const { AuthUser } = require("../middleware/user");
 
 const expenseRouter = express.Router();
 
-expenseRouter.get("/allExpense", getAllExpense);
+expenseRouter.get("/allExpense", AuthUser, getAllExpense);
 expenseRouter.get("/expense/:id", getOrgValidation, getExpense);
 expenseRouter.post("/createExpense", createValidation, createExpense);
 expenseRouter.put("/updateExpense/:id", updateOrgValidation, updateExpense);

@@ -84,6 +84,7 @@ exports.updateSellData = [
     .isMongoId()
     .optional()
     .withMessage("customerName is required"),
+    body("stock").isMongoId().optional().withMessage("Stock is required"),
 
   body("modelName").isMongoId().optional().withMessage("model in string"),
   body("deviceName").isMongoId().optional().withMessage("device in string"),

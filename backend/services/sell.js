@@ -28,7 +28,7 @@ exports.getAllSellService = async (userOrgId, role, userId, req) => {
 
 exports.getSellService = async (sellId) => {
   const sellData = await Sell.findById(sellId)
-    .populate("branch customerName modelName deviceName stock")
+    .populate("organization branch customerName modelName deviceName stock")
     .lean();
   return sellData;
 };
@@ -47,9 +47,22 @@ exports.createSellService = async (newSell, stock, amount) => {
 };
 
 exports.updateSellService = async (sellId, sell) => {
-  const data = await Sell.findByIdAndUpdate(sellId, sell, { new: true })
-    .populate("branch customerName modelName deviceName")
-    .lean();
+  console.log(sellId, "sellId");
+  console.log(sell, "sell");
+
+  const deviceData = sell && sell.device && sell.device[0];
+
+  const data = await Sell.findByIdAndUpdate(
+    sellId,
+    {
+      amount: deviceData.amount,
+      customerPaid: deviceData.customerPaid,
+      remainingAmount: deviceData.remainingAmount,
+    },
+    { new: true }
+  );
+
+  // console.log(data, "77777777");
   return data;
 };
 
