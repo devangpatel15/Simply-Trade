@@ -6,7 +6,7 @@ exports.getAllStockService = async (userOrgId, role, userId, req) => {
 
   const skip = (page - 1) * limit;
 
-  const data = await Stock.find({ isDeleted: false })
+  const data = await Stock.find({ isDeleted: false, isSelled: false })
     .populate({
       path: "organization",
       match: role == "user" ? { _id: userOrgId } : { userId: userId },
@@ -24,6 +24,7 @@ exports.getAllStockService = async (userOrgId, role, userId, req) => {
 
   const totalCount = await Stock.countDocuments({
     isDeleted: false,
+    isSelled: false,
   });
 
   return { totalCount, items: filterData };
@@ -43,9 +44,7 @@ exports.createStockService = async (newStock) => {
 };
 
 exports.updateStockService = async (stockId, stock) => {
-
   console.log(stock, "stock----");
-  
 
   const data = await Stock.findByIdAndUpdate(stockId, stock, { new: true })
     .populate(

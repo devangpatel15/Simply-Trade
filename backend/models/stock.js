@@ -44,6 +44,7 @@ const stockSchema = new mongoose.Schema({
   upload: { type: String },
   expenseAmount: { type: Number },
   sellAmount: { type: Number },
+  isSelled: { type: Boolean, default: false },
   isDeleted: { type: Boolean, default: false },
 });
 

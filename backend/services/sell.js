@@ -37,7 +37,7 @@ exports.createSellService = async (newSell, stock, amount) => {
   const createSell = await Sell.create(newSell);
   const updateStock = await Stock.findByIdAndUpdate(
     stock,
-    { isDeleted: true, sellAmount: amount },
+    { isSelled: true, sellAmount: amount },
     {
       new: true,
     }
