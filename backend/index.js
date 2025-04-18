@@ -19,6 +19,8 @@ const expenseRouter = require("./routes/expense.js");
 const sellRouter = require("./routes/sell.js");
 const repairRouter = require("./routes/repair.js");
 const cusLeaderRouter = require("./routes/cusLeadger.js");
+const { promises } = require("nodemailer/lib/xoauth2/index.js");
+const profitLossRouter = require("./routes/profitLoss.js");
 
 const PORT = process.env.PORT;
 connectMongoDB();
@@ -42,7 +44,8 @@ app.use(
   expenseRouter,
   sellRouter,
   repairRouter,
-  cusLeaderRouter
+  cusLeaderRouter,
+  profitLossRouter
 );
 
 app.get("/", (req, res) => {
