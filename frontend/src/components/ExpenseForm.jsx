@@ -37,7 +37,7 @@ const ExpenseForm = ({ stockId }) => {
     modelName: null,
     deviceName: null,
     date: "",
-    category: "",
+    category: !stockId ? "General" : "",
     amount: "",
     description: "",
     stockId: "",
@@ -289,23 +289,8 @@ const ExpenseForm = ({ stockId }) => {
                 </Grid>
 
                 <Grid item xs={6}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    label="Date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleNativeDateChange}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    error={!!errors.date}
-                    helperText={errors.date}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
                   <FormControl
+                    disabled
                     fullWidth
                     variant="outlined"
                     error={!!errors.category}
@@ -351,6 +336,22 @@ const ExpenseForm = ({ stockId }) => {
                 ) : (
                   ""
                 )}
+
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    type="date"
+                    label="Date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleNativeDateChange}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    error={!!errors.date}
+                    helperText={errors.date}
+                  />
+                </Grid>
 
                 <Grid item xs={6}>
                   <TextField
