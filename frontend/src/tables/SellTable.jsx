@@ -109,6 +109,8 @@ const SellTable = () => {
     { field: "organizationBranch", headerName: "Organization Branch", flex: 2 },
     { field: "model", headerName: "Model", flex: 2 },
     { field: "device", headerName: "Device", flex: 2 },
+    { field: "purchaseAmount", headerName: "Purchase Amount", flex: 2 },
+    { field: "sellAmount", headerName: "Sell Amount", flex: 2 },
   ];
 
   const rows = Array.isArray(sellData)
@@ -118,6 +120,8 @@ const SellTable = () => {
         organizationBranch: sellData?.branch?.branchName,
         model: sellData?.modelName?.modelName,
         device: sellData?.deviceName?.deviceName,
+        purchaseAmount: sellData?.stock?.totalAmount,
+        sellAmount: sellData?.amount,
       }))
     : []; 
 

@@ -315,11 +315,10 @@ const SellForm = ({ stock }) => {
         customerPaid: deviceItem.customerPaid || "",
         remainingAmount: deviceItem.remainingAmount || "",
         upload: deviceItem.upload || "",
-        stock: id || null,
       }));
 
       const payload = {
-        // ...formData,
+        stock: id || null,
         organization: formData.organization?.value || null,
         branch: formData.branch?.value || null,
         customerName: formData.customerName?.value || null,
@@ -327,17 +326,7 @@ const SellForm = ({ stock }) => {
         device: formattedDevices,
       };
 
-      // console.log(payload,"payload");
-
-      // if (id) {
-      //   console.log("payload", payload);
-      //   await updateSell(payload, id);
-      //   toast.success("sell updated successfully!");
-      // } else {
-      //   await createSell(payload);
-      //   navigate("/sellPage");
-      //   toast.success("sell created successfully!");
-      // }
+      
 
       console.log(payload, "payload");
 
