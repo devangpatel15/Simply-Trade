@@ -82,7 +82,7 @@ exports.createValidation = [
     .withMessage("paidToCustomer must be a number and is required"),
   check("device.*.imei.*.remainingAmount")
     .isNumeric()
-    .notEmpty()
+    .optional()
     .withMessage("remainingAmount must be a number and is required"),
 
   // body("upload").isString().notEmpty().withMessage("upload is required"),
