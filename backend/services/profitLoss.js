@@ -1,6 +1,6 @@
 const Stock = require("../models/stock");
 exports.getProfitLossService = async (userOrgId, role, userId, req) => {
-  const data = await Stock.find({ isDeleted: false })
+  const data = await Stock.find()
     .populate({
       path: "organization",
       match: role === "user" ? { _id: userOrgId } : { userId: userId },
