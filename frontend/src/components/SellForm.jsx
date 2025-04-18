@@ -203,74 +203,74 @@ const SellForm = ({ stock }) => {
     setFormData({ ...formData, device: updatedDeviceData });
   };
 
-  const callApi = async () => {
-    console.log("call api by id...................");
+  // const callApi = async () => {
+  //   console.log("call api by id...................");
   
-    if (!id) return;
+  //   if (!id) return;
   
-    try {
-      let response;
-      let data;
+  //   try {
+  //     let response;
+  //     let data;
   
-      if (stock) {
-        console.log("getOneStock api call");
-        response = await getOneStock(id);
-      } else {
-        console.log("getOneExpense api call");
-        response = await getOneExpense(id);
-      }
+  //     if (stock) {
+  //       console.log("getOneStock api call");
+  //       response = await getOneStock(id);
+  //     } else {
+  //       console.log("getOneExpense api call");
+  //       response = await getOneExpense(id);
+  //     }
   
-      data = response?.data?.data;
+  //     data = response?.data?.data;
   
-      if (!data) {
-        console.warn("No data found in response");
-        return;
-      }
+  //     if (!data) {
+  //       console.warn("No data found in response");
+  //       return;
+  //     }
          
-      setFormData((prev) => ({
-        ...prev,
-        ...data,
-        category: stock ? "Phone" : prev.category,
-        organization: data?.organization?._id
-          ? {
-              label: data.organization.organizationName,
-              value: data.organization._id,
-            }
-          : null,
-        branchName: data?.branch?._id
-          ? {
-              label: data.branch.branchName,
-              value: data.branch._id,
-            }
-          : data?.branchName?._id
-          ? {
-              label: data.branchName.branchName,
-              value: data.branchName._id,
-            }
-          : null,
-        modelName: data?.modelName?._id
-          ? {
-              label: data.modelName.modelName,
-              value: data.modelName._id,
-            }
-          : null,
-        deviceName: data?.deviceName?._id
-          ? {
-              label: data.deviceName.deviceName,
-              value: data.deviceName._id,
-            }
-          : null,
-      }));
+  //     setFormData((prev) => ({
+  //       ...prev,
+  //       ...data,
+  //       category: stock ? "Phone" : prev.category,
+  //       organization: data?.organization?._id
+  //         ? {
+  //             label: data.organization.organizationName,
+  //             value: data.organization._id,
+  //           }
+  //         : null,
+  //       branchName: data?.branch?._id
+  //         ? {
+  //             label: data.branch.branchName,
+  //             value: data.branch._id,
+  //           }
+  //         : data?.branchName?._id
+  //         ? {
+  //             label: data.branchName.branchName,
+  //             value: data.branchName._id,
+  //           }
+  //         : null,
+  //       modelName: data?.modelName?._id
+  //         ? {
+  //             label: data.modelName.modelName,
+  //             value: data.modelName._id,
+  //           }
+  //         : null,
+  //       deviceName: data?.deviceName?._id
+  //         ? {
+  //             label: data.deviceName.deviceName,
+  //             value: data.deviceName._id,
+  //           }
+  //         : null,
+  //     }));
   
-      console.log("API data loaded successfully.");
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  //     console.log("API data loaded successfully.");
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
 
-   useEffect(() => {
-      callApi();
-    }, []);
+  //  useEffect(() => {
+  //     callApi();
+  //   }, []);
   
 
 

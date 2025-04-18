@@ -38,6 +38,7 @@ import RepairPage from "./pages/RepairPage";
 import RepairForm from "./components/RepairForm";
 import SellPage from "./pages/SellPage";
 import SellForm from "./components/SellForm";
+import ProfitLoseTable from "./tables/ProfitLoseTable";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -473,6 +474,15 @@ function App() {
           element={
             <PrivateRoute>
               <SellForm stock="stock" />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/plTable"
+          element={
+            <PrivateRoute>
+              <ProfitLoseTable/>
             </PrivateRoute>
           }
         />

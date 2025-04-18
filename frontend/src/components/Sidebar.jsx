@@ -298,7 +298,7 @@ const Sidebar = () => {
 
                 <ListItemButton
                   sx={{ pl: 4, gap: "2rem" }}
-                  onClick={() => navigate("/expensePage")}
+                  onClick={() => navigate("/plTable")}
                 >
                   <AssessmentIcon>
                     <Business sx={{ color: iconColor }} />

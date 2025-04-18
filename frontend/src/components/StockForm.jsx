@@ -148,7 +148,7 @@ const StockForm = () => {
       return { ...prev, device: updatedDevices };
     });
   };
-
+  
   const handleModelChange = (index, selectedModel) => {
     setModelId(selectedModel.value);
     setFormData((prev) => {
