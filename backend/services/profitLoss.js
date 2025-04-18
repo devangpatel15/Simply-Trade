@@ -5,6 +5,7 @@ exports.getProfitLossService = async (userOrgId, role, userId, req) => {
       path: "organization",
       match: role === "user" ? { _id: userOrgId } : { userId: userId },
     })
+    .populate("deviceName modelName categoryName branch")
     .lean();
 
   const filteredData = data.filter((item) => item.organization);
