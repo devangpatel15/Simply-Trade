@@ -24,8 +24,8 @@ const ProfitLoseTable = () => {
         try {
           const response = await getProfitLoss(
           ); // +1 because API uses 1-based indexing
-          console.log(response.data, "API Response");
-          setProfitLoss(response.data.data); 
+          console.log(response.data.individualDetails, "API Response");
+          setProfitLoss(response.data.individualDetails); 
         } catch (error) {
           console.error("Error fetching organization branch data:", error);
         }
@@ -37,21 +37,27 @@ const ProfitLoseTable = () => {
         }, []);
 
     const columns = [
+      { field: "modelName", headerName: "Model", flex: 2 },
       { field: "deviceName", headerName: "Device", flex: 2 },
-      { field: "categoryId", headerName: "Category", flex: 2 },
-      { field: "modelId", headerName: "Model", flex: 2 },
-      { field: "organization", headerName: "Organization", flex: 2 },
-      { field: "branchName", headerName: "Branch Name", flex: 2 },
+      { field: "totalAmount", headerName: "totalAmount", flex: 2 },
+      { field: "totalExpense", headerName: "totalExpense", flex: 2 },
+      { field: "totalCost", headerName: "totalCost", flex: 2 },
+      { field: "totalSellingAmount", headerName: "totalSellingAmount", flex: 2 },
+      { field: "profitOrLoss", headerName: "profitOrLoss", flex: 2 },
+      { field: "status", headerName: "status", flex: 2 },
     ];
 
   // Prepare the rows for the DataGrid
   const rows = profitLoss.map((profitLoss) => ({
     id: profitLoss._id,
-    deviceName: profitLoss.deviceName,
-    categoryId: profitLoss?.categoryId?.categoryName,
-    modelId: profitLoss?.modelId?.modelName,
-    organization: profitLoss?.organization?.organizationName,
-    branchName: profitLoss?.branchName?.branchName,
+    modelName: profitLoss?.modelName?.modelName,
+    deviceName: profitLoss?.deviceName?.deviceName,
+    totalAmount: profitLoss.totalAmount,
+    totalExpense: profitLoss?.totalExpense,
+    totalCost: profitLoss?.totalCost,
+    totalSellingAmount: profitLoss?.totalSellingAmount,
+    profitOrLoss: profitLoss?.profitOrLoss,
+    status: profitLoss?.status,
   }));
 
   const paginationModel = { page: 0, pageSize: 5 };
@@ -166,14 +172,24 @@ const ProfitLoseTable = () => {
               </Grid>
             </Box>
           </Box>
-          <Paper sx={{ height: 400, width: "100%" }}>
+          <Paper sx={{ height: 400, width: "100%", padding: 2}}>
             <DataGrid
               rows={rows}
               columns={columns}
               initialState={{ pagination: { paginationModel } }}
               pageSizeOptions={[5, 10]}
-              checkboxSelection
-              sx={{ border: 0 }}
+           
+              sx={{
+                border: 0,
+                "& .MuiDataGrid-columnHeader": {
+                  background: "#C4BDFF",
+                  color: "White",
+                },
+                "& .MuiDataGrid-columnHeaderTitle": {
+                  fontWeight: "bold",
+                  fontSize: "1.2rem",
+                },
+              }}
             />
           </Paper>
         </Box>
