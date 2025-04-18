@@ -289,22 +289,6 @@ const ExpenseForm = ({ stockId }) => {
                 </Grid>
 
                 <Grid item xs={6}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    label="Date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleNativeDateChange}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    error={!!errors.date}
-                    helperText={errors.date}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
                   <FormControl
                     fullWidth
                     variant="outlined"
@@ -351,6 +335,22 @@ const ExpenseForm = ({ stockId }) => {
                 ) : (
                   ""
                 )}
+
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    type="date"
+                    label="Date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleNativeDateChange}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    error={!!errors.date}
+                    helperText={errors.date}
+                  />
+                </Grid>
 
                 <Grid item xs={6}>
                   <TextField
