@@ -134,8 +134,8 @@ const StockTable = () => {
     { field: "modelId", headerName: "Model", flex: 1.5 },
     { field: "deviceId", headerName: "Device", flex: 1.5 },
     { field: "branchName", headerName: "Branch Name", flex: 1.5 },
-    { field: "expenseAmount", headerName: "Expenses Amount", flex: 1.5 },
     { field: "totalAmount", headerName: "Stock Amount", flex: 1.5 },
+    { field: "expenseAmount", headerName: "Expenses Amount", flex: 1.5 },
     // { field: "total", headerName: "Total", flex: 1.5 },
   ];
 
@@ -148,8 +148,8 @@ const StockTable = () => {
         modelId: stock?.modelName?.modelName,
         deviceId: stock?.deviceName?.deviceName,
         branchName: stock?.branch?.branchName,
-        expenseAmount: stock?.expenseAmount || "N/A",
         totalAmount: stock?.totalAmount || "N/A",
+        expenseAmount: stock?.expenseAmount || "N/A",
         // total: stock?.total || "N/A",
       }))
     : [];
@@ -158,11 +158,6 @@ const StockTable = () => {
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
-
-  // Filter categories based on search term
-  // const filteredDevice = rows.filter((row) => {
-  //   return row.deviceName.toLowerCase().includes(searchTerm.toLowerCase());
-  // });
 
   return (
     <div>

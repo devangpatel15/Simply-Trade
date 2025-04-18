@@ -5,6 +5,7 @@ exports.getProfitLossService = async (userOrgId, role, userId, req) => {
       path: "organization",
       match: role === "user" ? { _id: userOrgId } : { userId: userId },
     })
+    .populate("deviceName modelName categoryName branch")
     .lean();
 
   const filteredData = data.filter((item) => item.organization);
@@ -12,25 +13,51 @@ exports.getProfitLossService = async (userOrgId, role, userId, req) => {
   let totalAmount = 0;
   let totalExpense = 0;
   let totalSelling = 0;
+  let totalProfitOrLoss = 0;
 
-  for (const stock of filteredData) {
-    totalAmount += stock.totalAmount || 0;
-    totalExpense += stock.expenseAmount || 0;
-    totalSelling += stock.sellAmount || 0;
-  }
+  const individualDetails = filteredData.map((stock) => {
+    const totalAmountStock = stock.totalAmount || 0;
+    const totalExpenseStock = stock.expenseAmount || 0;
+    const totalSellingStock = stock.sellAmount || 0;
 
-  const totalCost = totalAmount + totalExpense;
-  const profitOrLoss = totalSelling - totalCost;
-  const status =
-    profitOrLoss > 0 ? "profit" : profitOrLoss < 0 ? "loss" : "break-even";
+    const totalCost = totalAmountStock + totalExpenseStock;
+    const profitOrLoss = totalSellingStock - totalCost;
+    const status =
+      profitOrLoss > 0 ? "profit" : profitOrLoss < 0 ? "loss" : "break-even";
+
+    // Accumulate overall totals
+    totalAmount += totalAmountStock;
+    totalExpense += totalExpenseStock;
+    totalSelling += totalSellingStock;
+    totalProfitOrLoss += profitOrLoss;
+
+    return {
+      ...stock,
+      totalAmount: totalAmountStock,
+      totalExpense: totalExpenseStock,
+      totalSellingAmount: totalSellingStock,
+      totalCost,
+      profitOrLoss,
+      status,
+    };
+  });
+
+  const overallStatus =
+    totalProfitOrLoss > 0
+      ? "profit"
+      : totalProfitOrLoss < 0
+      ? "loss"
+      : "break-even";
 
   return {
-    data: filteredData,
-    totalAmount,
-    totalExpense,
-    totalSellingAmount: totalSelling,
-    totalCost,
-    profitOrLoss,
-    status,
+    individualDetails,
+    overall: {
+      totalAmount,
+      totalExpense,
+      totalSellingAmount: totalSelling,
+      totalCost: totalAmount + totalExpense,
+      profitOrLoss: totalProfitOrLoss,
+      status: overallStatus,
+    },
   };
 };

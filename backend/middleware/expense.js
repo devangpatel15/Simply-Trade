@@ -13,14 +13,14 @@ exports.createValidation = [
     .withMessage("branchName is required"),
   body("date").isDate().notEmpty().withMessage("date is required"),
   body("category").isString().notEmpty().withMessage("category is required"),
-  // body("modelName")
-  //   .isMongoId()
-  //   .optional()
-  //   .withMessage("ModelName must be valid mongoDb Id"),
-  // body("deviceName")
-  //   .isMongoId()
-  //   .optional()
-  //   .withMessage("deviceName must be valid mongoDb Id"),
+  body("modelName")
+    .isMongoId()
+    .optional()
+    .withMessage("ModelName must be valid mongoDb Id"),
+  body("deviceName")
+    .isMongoId()
+    .optional()
+    .withMessage("deviceName must be valid mongoDb Id"),
   body("stock")
     .isMongoId()
     .optional()
@@ -74,14 +74,14 @@ exports.updateOrgValidation = [
     .withMessage("branchName must be valid mongoDb Id"),
   body("date").isDate().optional().withMessage("date is must be in date"),
   body("category").isString().optional().withMessage("category in String"),
-  // body("modelName")
-  //   .isMongoId()
-  //   .optional()
-  //   .withMessage("ModelName must be valid mongoDb Id"),
-  // body("deviceName")
-  //   .isMongoId()
-  //   .optional()
-  //   .withMessage("deviceName must be valid mongoDb Id"),
+  body("modelName")
+    .isMongoId()
+    .optional()
+    .withMessage("ModelName must be valid mongoDb Id"),
+  body("deviceName")
+    .isMongoId()
+    .optional()
+    .withMessage("deviceName must be valid mongoDb Id"),
   body("stock")
     .isMongoId()
     .optional()

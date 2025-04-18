@@ -8,7 +8,6 @@ exports.getAllExpenseService = async (userOrgId, role, userId, req) => {
   const skip = (page - 1) * limit;
 
   const items = await Expense.find({
-    organization: userOrgId,
     isDeleted: false,
   })
     .populate({
