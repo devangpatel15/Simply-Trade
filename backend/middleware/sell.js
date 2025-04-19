@@ -38,6 +38,10 @@ exports.createSellData = [
     .isNumeric()
     .notEmpty()
     .withMessage("remainingAmount must be a number and is required"),
+  body("paymentType")
+    .isString()
+    .notEmpty()
+    .withMessage("Payment Type is required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -84,7 +88,7 @@ exports.updateSellData = [
     .isMongoId()
     .optional()
     .withMessage("customerName is required"),
-    body("stock").isMongoId().optional().withMessage("Stock is required"),
+  body("stock").isMongoId().optional().withMessage("Stock is required"),
 
   body("modelName").isMongoId().optional().withMessage("model in string"),
   body("deviceName").isMongoId().optional().withMessage("device in string"),
@@ -97,6 +101,10 @@ exports.updateSellData = [
     .isNumeric()
     .optional()
     .withMessage("remainingAmount in Number"),
+  body("paymentType")
+    .isString()
+    .optional()
+    .withMessage("Payment Type not valid"),
 
   (req, res, next) => {
     const errors = validationResult(req);

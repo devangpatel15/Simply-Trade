@@ -32,6 +32,10 @@ const sellSchema = new mongoose.Schema(
     remainingAmount: { type: Number, required: true },
     upload: { type: String },
     stock: { type: mongoose.Schema.Types.ObjectId, ref: "Stock" },
+    paymentType: {
+      type: String,
+      enum: ["Cash", "Cheque", "Upi", "Neft", "Card", "Other"],
+    },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
