@@ -112,7 +112,7 @@ exports.getExpenseByDate = async (req, res) => {
       data: expenses,
     });
   } catch (error) {
-    console.error("Error fetching expenses by date:", error);
+    console.error("❌ Error in getExpenseByDate:", error);
     res.status(500).json({
       success: false,
       message: "Server error while fetching expenses.",
