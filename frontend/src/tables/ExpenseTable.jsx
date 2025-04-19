@@ -1,20 +1,28 @@
-import { Box, Button, IconButton, InputAdornment, Paper, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import Sidebar from '../components/Sidebar'
-import Header from '../components/Header'
-import { DataGrid } from '@mui/x-data-grid'
-import DialogBox from '../components/DialogBox'
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
+import { DataGrid } from "@mui/x-data-grid";
+import DialogBox from "../components/DialogBox";
 import SearchIcon from "@mui/icons-material/Search";
-import DeleteDialog from '../components/DeleteDialog'
+import DeleteDialog from "../components/DeleteDialog";
 import EditIcon from "@mui/icons-material/Edit";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteExpense, getAllExpense } from '../apis/ExpenseApi'
-import moment from "moment"
+import { deleteExpense, getAllExpense } from "../apis/ExpenseApi";
+import moment from "moment";
 
 const ExpenseTable = () => {
-
-const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
   const [expense, setExpense] = useState([]);
@@ -104,7 +112,6 @@ const [searchTerm, setSearchTerm] = useState("");
     { field: "description", headerName: "Description", flex: 2 },
     { field: "amount", headerName: "Amount", flex: 2 },
     { field: "date", headerName: "Date", flex: 2 },
-
   ];
 
   // Prepare the rows for the DataGrid
@@ -128,92 +135,119 @@ const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
-    <Sidebar />
-    <Box sx={{ flexGrow: 1 }}>
-      <Header />
-      <Box sx={{ padding: 3 }}>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography
-            variant="h4"
-            sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+      <Sidebar />
+      <Box sx={{ flexGrow: 1 }}>
+        <Header />
+        <Box sx={{ padding: 3 }}>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
           >
-            EXPENSE
-          </Typography>
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+            >
+              EXPENSE
+            </Typography>
 
-          <Box display="flex" gap={2}>
-            <TextField
-              variant="outlined"
-              placeholder="Search"
-              size="small"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              sx={{ backgroundColor: "white", borderRadius: 1 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon sx={{ color: "#6c5ce7" }} />
-                  </InputAdornment>
-                ),
+            <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
+              <TextField
+                fullWidth
+                type="date"
+                label="Start Date"
+                name="date"
+                // value={formData.date}
+                // onChange={handleNativeDateChange}
+                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+
+              <TextField
+                fullWidth
+                type="date"
+                label="End Date"
+                name="date"
+                // value={formData.date}
+                // onChange={handleNativeDateChange}
+                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+
+              <TextField
+                variant="outlined"
+                placeholder="Search"
+                size="medium"
+                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon sx={{ color: "#6c5ce7" }} />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Button
+                variant="outlined"
+                sx={{
+                  color: "#6c5ce7",
+                  borderColor: "#6c5ce7",
+                  textTransform: "none",
+                  // fontWeight: "bold",
+                  fontSize: "1rem",
+                  width: "30%",
+                }}
+                component={Link}
+                to="/expenseForm"
+              >
+                Add Expense
+              </Button>
+            </Box>
+          </Box>
+          <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={paginationModel.pageSize}
+              rowCount={totalRows} // Ensure this is set to the total count of records
+              paginationMode="server" // Enable server-side pagination
+              onPaginationModelChange={handlePaginationModelChange}
+              paginationModel={paginationModel}
+              pageSizeOptions={[5, 10]}
+              sx={{
+                border: 0,
+                "& .MuiDataGrid-columnHeader": {
+                  background: "#C4BDFF",
+                  color: "White",
+                },
+                "& .MuiDataGrid-columnHeaderTitle": {
+                  fontWeight: "bold",
+                  fontSize: "1.2rem",
+                },
               }}
             />
-            <Button
-              variant="outlined"
-              sx={{
-                color: "#6c5ce7",
-                borderColor: "#6c5ce7",
-                textTransform: "none",
-              }}
-              component={Link}
-              to="/expenseForm"
-            >
-              Add Expense
-            </Button>
-          </Box>
+          </Paper>
+          <DialogBox
+            handleClose={handleClose}
+            open={open}
+            data={data}
+            callApi={callApi}
+            fieldName="expenseForm"
+          />
+          <DeleteDialog
+            deleteOpen={deleteOpen}
+            handleClose={handleClose}
+            handleDelete={handleDelete}
+            closeDeleteDialog={closeDeleteDialog}
+          />
         </Box>
-    <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={paginationModel.pageSize}
-        rowCount={totalRows} // Ensure this is set to the total count of records
-        paginationMode="server" // Enable server-side pagination
-        onPaginationModelChange={handlePaginationModelChange}
-        paginationModel={paginationModel}
-        pageSizeOptions={[5, 10]}
-        sx={{
-          border: 0,
-          "& .MuiDataGrid-columnHeader": {
-            background: "#C4BDFF",
-            color: "White",
-          },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            fontWeight: "bold",
-            fontSize: "1.2rem",
-          },
-        }}
-      />
-    </Paper>
-    <DialogBox
-      handleClose={handleClose}
-      open={open}
-      data={data}
-      callApi={callApi}
-      fieldName="expenseForm"
-    />
-    <DeleteDialog
-      deleteOpen={deleteOpen}
-      handleClose={handleClose}
-      handleDelete={handleDelete}
-      closeDeleteDialog={closeDeleteDialog}
-    />
-     </Box>
+      </Box>
     </Box>
-  </Box>
-  )
-}
+  );
+};
 
-export default ExpenseTable
+export default ExpenseTable;

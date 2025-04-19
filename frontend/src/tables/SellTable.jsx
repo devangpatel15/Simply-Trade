@@ -173,7 +173,7 @@ const SellTable = () => {
                   ),
                 }}
               />
-              <Button
+              {/* <Button
                 variant="outlined"
                 sx={{
                   color: "#6c5ce7",
@@ -184,7 +184,7 @@ const SellTable = () => {
                 to="/sellForm"
               >
                 Add TO DEVICES SELL
-              </Button>
+              </Button> */}
             </Box>
           </Box>
           <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
