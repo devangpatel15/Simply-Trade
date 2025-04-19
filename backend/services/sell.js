@@ -58,6 +58,7 @@ exports.updateSellService = async (sellId, sell) => {
       amount: deviceData.amount,
       customerPaid: deviceData.customerPaid,
       remainingAmount: deviceData.remainingAmount,
+      paymentType: deviceData.paymentType,
     },
     { new: true }
   );

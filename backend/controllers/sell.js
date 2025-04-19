@@ -77,6 +77,7 @@ exports.createSell = async (req, res) => {
         amount: deviceItem.amount,
         customerPaid: deviceItem.customerPaid,
         remainingAmount: deviceItem.remainingAmount,
+        paymentType: deviceItem.paymentType,
         upload: deviceItem.upload,
       };
       sellEntries.push(sellEntry);
