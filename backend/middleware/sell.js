@@ -38,7 +38,7 @@ exports.createSellData = [
     .isNumeric()
     .notEmpty()
     .withMessage("remainingAmount must be a number and is required"),
-  body("paymentType")
+  check("device.*.paymentType")
     .isString()
     .notEmpty()
     .withMessage("Payment Type is required"),
