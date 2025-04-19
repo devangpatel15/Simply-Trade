@@ -4,6 +4,7 @@ const {
   createExpenseService,
   updateExpenseService,
   softDeleteExpenseService,
+  getExpenseByDateService,
 } = require("../services/expense");
 
 exports.getAllExpense = async (req, res) => {
@@ -90,5 +91,31 @@ exports.softDeleteExpense = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.getExpenseByDate = async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+
+    if (!startDate || !endDate) {
+      return res.status(400).json({
+        success: false,
+        message: "startDate and endDate are required.",
+      });
+    }
+
+    const expenses = await getExpenseByDateService({ startDate, endDate });
+
+    res.status(200).json({
+      success: true,
+      data: expenses,
+    });
+  } catch (error) {
+    console.error("Error fetching expenses by date:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching expenses.",
+    });
   }
 };

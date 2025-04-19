@@ -88,3 +88,17 @@ exports.deleteExpenseService = async (exId) => {
 
 //   return await Expense.find(findObject).limit(5); // Increase limit if needed
 // };
+exports.getExpenseByDateService = async ({ startDate, endDate }) => {
+  const filter = { isDeleted: false };
+
+  if (startDate && endDate) {
+    filter.createdAt = {
+      $gte: new Date(startDate),
+      $lte: new Date(new Date(endDate).setHours(23, 59, 59, 999)),
+    };
+  }
+
+  return await Expense.find(filter)
+    .populate("organization branchName category stock modelName deviceName")
+    .lean();
+};
