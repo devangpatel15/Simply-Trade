@@ -37,7 +37,7 @@ const ExpenseForm = ({ stockId }) => {
     modelName: null,
     deviceName: null,
     date: "",
-    category: "",
+    category: !stockId ? "General" : "",
     amount: "",
     description: "",
     stockId: "",
@@ -290,6 +290,7 @@ const ExpenseForm = ({ stockId }) => {
 
                 <Grid item xs={6}>
                   <FormControl
+                    disabled
                     fullWidth
                     variant="outlined"
                     error={!!errors.category}

@@ -20,6 +20,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { allSell, deleteSell } from "../apis/SellApi";
+import moment from "moment";
 const SellTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [paginationModel, setPaginationModel] = useState({
@@ -111,6 +112,7 @@ const SellTable = () => {
     { field: "device", headerName: "Device", flex: 2 },
     { field: "purchaseAmount", headerName: "Purchase Amount", flex: 2 },
     { field: "sellAmount", headerName: "Sell Amount", flex: 2 },
+    { field: "date", headerName: "Date", flex: 2 },
   ];
 
   const rows = Array.isArray(sellData)
@@ -122,8 +124,9 @@ const SellTable = () => {
         device: sellData?.deviceName?.deviceName,
         purchaseAmount: sellData?.stock?.totalAmount,
         sellAmount: sellData?.amount,
+        date: moment(sellData?.createdAt).format("DD-MM-YYYY"),
       }))
-    : []; 
+    : [];
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -170,7 +173,7 @@ const SellTable = () => {
                   ),
                 }}
               />
-              <Button
+              {/* <Button
                 variant="outlined"
                 sx={{
                   color: "#6c5ce7",
@@ -181,7 +184,7 @@ const SellTable = () => {
                 to="/sellForm"
               >
                 Add TO DEVICES SELL
-              </Button>
+              </Button> */}
             </Box>
           </Box>
           <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>

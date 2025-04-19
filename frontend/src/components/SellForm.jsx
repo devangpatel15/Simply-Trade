@@ -41,6 +41,8 @@ const SellForm = ({ stock }) => {
         customerPaid: "",
         remainingAmount: "",
         upload: "",
+        totalAmount:"",
+        paidToCustomer:"",
       },
     ],
     stock: "",
@@ -242,8 +244,6 @@ const SellForm = ({ stock }) => {
               },
 
               totalAmount: data.totalAmount,
-              paidToCustomer: data.paidToCustomer,
-              remainingAmount: data.remainingAmount,
             },
           ],
         });
@@ -481,6 +481,17 @@ const SellForm = ({ stock }) => {
                     //   ""
                     // }
                   />
+                </Grid>
+                <Grid item xs={12}>
+                   <TextField
+                   disabled
+                   fullWidth
+                   label="Total cost"
+                   name="totalAmount"
+                   value={formData.device?.[deviceIndex]?.totalAmount || ""}
+                   type="number"
+                   
+                 />
                 </Grid>
                 <Grid item xs={4}>
                   <TextField
