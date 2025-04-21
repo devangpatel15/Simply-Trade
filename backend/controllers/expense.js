@@ -97,6 +97,8 @@ exports.softDeleteExpense = async (req, res) => {
 exports.getExpenseByDate = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
+    // console.log("📥 Received from client:", req.query);
+
 
     if (!startDate || !endDate) {
       return res.status(400).json({

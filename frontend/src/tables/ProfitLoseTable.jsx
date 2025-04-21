@@ -6,6 +6,7 @@ import {
   Button,
   FormControlLabel,
   Grid,
+  Grid2,
   Radio,
   RadioGroup,
   TextField,
@@ -46,6 +47,7 @@ const ProfitLoseTable = () => {
     { field: "totalCost", headerName: "Total Cost", flex: 2 },
     { field: "totalSellingAmount", headerName: "Selling Amount", flex: 2 },
     { field: "profitOrLoss", headerName: "Profit/Loss", flex: 2 },
+    // { field: "totalGeneralExpense", headerName: "GeneralExpense", flex: 2 },
     {
       field: "status",
       headerName: "status",
@@ -79,6 +81,7 @@ const ProfitLoseTable = () => {
     totalCost: profitLoss?.totalCost,
     totalSellingAmount: profitLoss?.totalSellingAmount,
     profitOrLoss: profitLoss?.profitOrLoss,
+    totalGeneralExpense: profitLoss?.totalGeneralExpense || "-",
     status: profitLoss?.status,
   }));
 
@@ -115,6 +118,35 @@ const ProfitLoseTable = () => {
                   Download PDF
                 </Button>
               </Box>
+            </Box>
+            
+            <Box display="flex" gap={2} sx={{ marginTop: 2 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={3}>
+                <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700 ,}}>Total Product Price : {overAllData.totalAmount}</Typography>
+                </Grid>
+                <Grid item xs={3}>
+              <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700}}>Total Expense : {overAllData.totalExpense}</Typography> 
+                </Grid>
+                <Grid item xs={3}>
+                   <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700}}>Total Cost : {overAllData.totalCost}</Typography> 
+                </Grid>
+                <Grid item xs={3}>
+              <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700}}>Total Selling Amount : {overAllData.totalSellingAmount}</Typography> 
+                </Grid>
+                <Grid item xs={3}>
+              <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700}}>Total Profit Or Loss : {overAllData.profitOrLoss}</Typography>
+                </Grid>
+                <Grid item xs={3}>
+              <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700}}>General Expense : {overAllData.totalGeneralExpense}</Typography>
+                </Grid>
+                <Grid item xs={3}>
+              <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700}}>OverAll P/L : {overAllData.overAllProfitLoss}</Typography>
+                </Grid>
+                <Grid item xs={3}>
+              <Typography sx={{color: overAllData.status == "profit" ? "Green" : "Red" , fontWeight:"Bold" , fontSize:"1.3rem"}}>Status : {overAllData.status}</Typography> 
+                </Grid>
+              </Grid>
             </Box>
             {/* <Box display="flex" gap={2}>
                 <Grid container spacing={2} sx={{ marginTop: 0.5 }}>
@@ -154,8 +186,7 @@ const ProfitLoseTable = () => {
                   </Grid>
                   </Grid>
                 </Box> */}
-
-            <Box display="flex" gap={2} sx={{ marginTop: 2 }}>
+            <Box display="flex" gap={2} sx={{ marginTop: 5 }}>
               <Grid container spacing={2}>
                 <Grid item xs={3}>
                   <OrgInput />
@@ -218,12 +249,7 @@ const ProfitLoseTable = () => {
 
             <Grid container spacing={2} sx={{ marginTop: 2, padding: 2 }}>
             <Grid item xs={3}>
-              <Typography>Total Product Price : {overAllData.totalAmount}</Typography>
-              <Typography>Total Expense : {overAllData.totalExpense}</Typography> 
-              <Typography>Total Cost : {overAllData.totalCost}</Typography> 
-              <Typography>Total Selling Amount : {overAllData.totalSellingAmount}</Typography> 
-              <Typography>Total Profit Or Loss : {overAllData.profitOrLoss}</Typography>
-              <Typography sx={{color: overAllData.status == "profit" ? "Green" : "Red" , fontWeight:"Bold" , fontSize:"large"}}>Status : {overAllData.status}</Typography> 
+              
             </Grid>
           </Grid>
        

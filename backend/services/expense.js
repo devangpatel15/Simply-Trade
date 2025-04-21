@@ -23,7 +23,7 @@ exports.getAllExpenseService = async (userOrgId, role, userId, req) => {
 
   const totalCount = await Expense.countDocuments({ isDeleted: false });
 
-  console.log(items, "items");
+  // console.log(items, "items");
 
   return { totalCount, items };
 };
@@ -94,25 +94,25 @@ exports.getExpenseByDateService = async ({ startDate, endDate }) => {
   try {
     const start = new Date(startDate);
     const end = new Date(endDate);
-    end.setHours(23, 59, 59, 999);
+    end.setHours(23, 59, 59, 999); // Include full end day
 
     if (isNaN(start) || isNaN(end)) {
       throw new Error("Invalid date format");
     }
 
-    filter.createdAt = {
+    // 👇 Use "date" if you're explicitly storing it, otherwise use "createdAt"
+    filter.date = {
       $gte: start,
       $lte: end,
     };
 
-    console.log("📅 Applying date filter:", {
-      $gte: start.toISOString(),
-      $lte: end.toISOString(),
-    });
+    const result = await Expense.find(filter).lean();
 
-    const result = await Expense.find(filter)
-      .populate("organization branchName category stock modelName deviceName")
-      .lean();
+    // console.log("📅 Filtered by date:", {
+    //   $gte: start.toISOString(),
+    //   $lte: end.toISOString(),
+    // });
+    // console.log("📅 Matched count:", result.length);
 
     return result;
   } catch (err) {
@@ -120,3 +120,4 @@ exports.getExpenseByDateService = async ({ startDate, endDate }) => {
     throw err;
   }
 };
+

@@ -189,7 +189,7 @@ const SellTable = () => {
           </Box>
           <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
             <DataGrid
-              rows={rows}
+              rows={rows} 
               columns={columns}
               pageSize={paginationModel.pageSize}
               rowCount={totalRows}

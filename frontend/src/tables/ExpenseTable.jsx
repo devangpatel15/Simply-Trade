@@ -20,11 +20,17 @@ import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteExpense, getAllExpense } from "../apis/ExpenseApi";
 import moment from "moment";
+import axios from "axios";
 
 const ExpenseTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
+  const [dateRange, setDateRange] = useState({
+    startDate: "",
+    endDate: "",
+  });
+
   const [expense, setExpense] = useState([]);
   const [totalRows, setTotalRows] = useState(0);
   const [paginationModel, setPaginationModel] = useState({
@@ -47,7 +53,30 @@ const ExpenseTable = () => {
       console.error("Error fetching data:", error);
     }
   };
+  const fetchExpenses = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/api/expenseByDate", {
+        params: {
+          startDate: dateRange.startDate,
+          endDate: dateRange.endDate,
+        },
+      });
+      
+      setExpense(response.data.data); // ✅ Update the table rows
+      setTotalRows(response.data.data.length); // ✅ Optional: update total count
+    } catch (error) {
+      console.error("Error fetching filtered expenses:", error);
+    }
+  };
+  
 
+  useEffect(() => {
+    if (dateRange.startDate && dateRange.endDate) {
+      fetchExpenses();
+    }
+  }, [dateRange.startDate, dateRange.endDate]);
+  
+  
   // Fetch data when pagination model changes
   useEffect(() => {
     callApi(); // Call API when page or pageSize changes
@@ -59,7 +88,7 @@ const ExpenseTable = () => {
   };
 
   const handleOpen = (data) => {
-    setData(data);
+    setData(data); 
     setOpen(true);
   };
 
@@ -127,6 +156,7 @@ const ExpenseTable = () => {
     category: expense.category,
   }));
 
+
   // Handle search term change
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -156,7 +186,14 @@ const ExpenseTable = () => {
                 fullWidth
                 type="date"
                 label="Start Date"
-                name="date"
+                name="startDate"
+                value={dateRange.startDate}
+                onChange={(e) =>
+                  setDateRange((prev) => ({
+                    ...prev,
+                    startDate: e.target.value,
+                  }))
+                }
                 // value={formData.date}
                 // onChange={handleNativeDateChange}
                 sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
@@ -169,7 +206,11 @@ const ExpenseTable = () => {
                 fullWidth
                 type="date"
                 label="End Date"
-                name="date"
+                name="endDate"
+                value={dateRange.endDate}
+                onChange={(e) =>
+                  setDateRange((prev) => ({ ...prev, endDate: e.target.value }))
+                }
                 // value={formData.date}
                 // onChange={handleNativeDateChange}
                 sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}

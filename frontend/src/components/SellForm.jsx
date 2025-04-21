@@ -8,6 +8,11 @@ import {
   Typography,
   Box,
   Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText,
 } from "@mui/material";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
@@ -16,8 +21,6 @@ import OrgBranchInput from "./common/OrgBranchInput";
 import CategoryInput from "./common/CategoryInput";
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
-import ColorInput from "./common/ColorInput";
-import CapacityInput from "./common/CapacityInput";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { createStock, getOneStock, updateStock } from "../apis/StockApi";
 import CustomerInput from "./common/CustomerInput";
@@ -37,16 +40,18 @@ const SellForm = ({ stock }) => {
       {
         modelName: null,
         deviceName: null,
+        paymentType: "",
         amount: "",
         customerPaid: "",
         remainingAmount: "",
         upload: "",
-        totalAmount:"",
-        paidToCustomer:"",
+        totalAmount: "",
+        paidToCustomer: "",
       },
     ],
     stock: "",
   });
+
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
@@ -171,6 +176,18 @@ const SellForm = ({ stock }) => {
       return { ...prev, device: updatedDevices };
     });
   };
+
+  const handlePaymentTypeChange = (index, paymentType) => {
+    setFormData((prev) => {
+      const updatedDevices = [...prev.device];
+      updatedDevices[index] = {
+        ...updatedDevices[index],
+        paymentType: paymentType,
+      };
+      return { ...prev, device: updatedDevices };
+    });
+  };
+
   const handleRemainingAmountChange = (index, remainingAmount) => {
     setFormData((prev) => {
       const updatedDevices = [...prev.device];
@@ -190,6 +207,7 @@ const SellForm = ({ stock }) => {
         {
           modelName: null,
           deviceName: null,
+          paymentType: "",
           amount: "",
           customerPaid: "",
           remainingAmount: "",
@@ -206,7 +224,7 @@ const SellForm = ({ stock }) => {
   };
 
   const callApi = async () => {
-    console.log("call api by id...................");
+    // console.log("call api by id...................");
 
     if (!id) return;
 
@@ -214,7 +232,7 @@ const SellForm = ({ stock }) => {
       let data;
 
       if (stock) {
-        console.log("getOneStock api call");
+        // console.log("getOneStock api call");
         const response = await getOneStock(id);
         data = response?.data?.data;
         setFormData({
@@ -227,11 +245,11 @@ const SellForm = ({ stock }) => {
             label: data?.branch?.branchName || "",
             value: data?.branch?._id || "",
           },
-          customerName: {
-            label: data?.customerName?.customerName || "",
-            value: data?.customerName?._id || "",
-          },
-          customerPhone: data?.customerPhone || "",
+          // customerName: {
+          //   label: data?.customerName?.customerName || "",
+          //   value: data?.customerName?._id || "",
+          // },
+          // customerPhone: data?.customerPhone || "",
           device: [
             {
               modelName: {
@@ -248,12 +266,11 @@ const SellForm = ({ stock }) => {
           ],
         });
       } else {
-        console.log("getOneSell api call");
+        // console.log("getOneSell api call");
         const response = await getOneSell(id);
         data = response.data.data;
-        console.log("dataaaaaaaaaaaa", data);
+        // console.log("dataaaaaaaaaaaa", data);
         setFormData({
-           
           organization: {
             label: data?.organization?.organizationName || "",
             value: data?.organization?._id || "",
@@ -278,7 +295,7 @@ const SellForm = ({ stock }) => {
                 label: data?.deviceName?.deviceName || "",
                 value: data?.deviceName?._id || "",
               },
-
+              paymentType: data?.paymentType ,
               amount: data?.amount,
               customerPaid: data?.customerPaid,
               remainingAmount: data?.remainingAmount,
@@ -311,6 +328,7 @@ const SellForm = ({ stock }) => {
       const formattedDevices = formData.device.map((deviceItem) => ({
         modelName: deviceItem.modelName?.value || null,
         deviceName: deviceItem.deviceName?.value || null,
+        paymentType: deviceItem.paymentType || "",
         amount: deviceItem.amount || "",
         customerPaid: deviceItem.customerPaid || "",
         remainingAmount: deviceItem.remainingAmount || "",
@@ -325,8 +343,6 @@ const SellForm = ({ stock }) => {
         customerPhone: formData.customerPhone,
         device: formattedDevices,
       };
-
-      
 
       console.log(payload, "payload");
 
@@ -350,197 +366,230 @@ const SellForm = ({ stock }) => {
 
   return (
     <>
-    <Box sx={{ display: "flex" }}>
-      <Sidebar />
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
-        <Box
-          sx={{
-            padding: 3,
-            margin: "auto",
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            marginTop: "4rem",
-          }}
-        >
-          <Typography
-            variant="h4"
-            sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+      <Box sx={{ display: "flex" }}>
+        <Sidebar />
+        <Box sx={{ flexGrow: 1 }}>
+          <Header />
+          <Box
+            sx={{
+              padding: 3,
+              margin: "auto",
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              marginTop: "4rem",
+            }}
           >
-            SELL DEVICE
-          </Typography>
-
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <OrgInput
-                role="admin"
-                onChange={handleOrganizationChange}
-                value={formData.organization} // Now it's an object, not undefined
-                // error={errors.organization}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <OrgBranchInput
-                role="admin"
-                onChange={handleOrganizationBranchChange}
-                value={formData.branch || null} // ✅ Ensure branch is always an object or null
-                selectedOrganization={selectedOrganization}
-                // error={errors.branch}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomerInput
-                onChange={handleCustomerChange}
-                value={formData.customerName}
-                branchId={formData?.branch?.value}
-
-                // error={errors.customerName}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                disabled
-                type="number"
-                fullWidth
-                label="Phone Number"
-                variant="outlined"
-                name="customerPhone"
-                value={formData.customerPhone || ""}
-                onChange={handleChange}
-                required
-              />
-            </Grid>
-          </Grid>
-
-          {formData?.device?.map((item, deviceIndex) => (
-            <Box
-              key={`device-${deviceIndex}`}
-              mt={3}
-              p={2}
-              sx={{ border: "1px solid #ccc", borderRadius: 2 }}
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
             >
-              {id ? (
-                ""
-              ) : (
-                <>
-                  <Grid container spacing={2} mt={1}>
-                    <Grid item sx={2}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={addDevice}
-                      >
-                        Add Device
-                      </Button>
-                    </Grid>
-                    {deviceIndex > 0 && (
+              SELL DEVICE
+            </Typography>
+
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <OrgInput
+                  role="admin"
+                  onChange={handleOrganizationChange}
+                  value={formData.organization} // Now it's an object, not undefined
+                  // error={errors.organization}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <OrgBranchInput
+                  role="admin"
+                  onChange={handleOrganizationBranchChange}
+                  value={formData.branch || null} // ✅ Ensure branch is always an object or null
+                  selectedOrganization={selectedOrganization}
+                  // error={errors.branch}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <CustomerInput
+                  onChange={handleCustomerChange}
+                  value={formData.customerName}
+                  branchId={formData?.branch?.value}
+
+                  // error={errors.customerName}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  disabled
+                  type="number"
+                  fullWidth
+                  label="Phone Number"
+                  variant="outlined"
+                  name="customerPhone"
+                  value={formData.customerPhone || ""}
+                  onChange={handleChange}
+                  required
+                />
+              </Grid>
+            </Grid>
+
+            {formData?.device?.map((item, deviceIndex) => (
+              <Box
+                key={`device-${deviceIndex}`}
+                mt={3}
+                p={2}
+                sx={{ border: "1px solid #ccc", borderRadius: 2 }}
+              >
+                {id ? (
+                  ""
+                ) : (
+                  <>
+                    <Grid container spacing={2} mt={1}>
                       <Grid item sx={2}>
                         <Button
                           variant="contained"
-                          color="error"
-                          onClick={() => removeDevice(deviceIndex)}
+                          color="primary"
+                          onClick={addDevice}
                         >
-                          Remove Device
+                          Add Device
                         </Button>
                       </Grid>
-                    )}
-                  </Grid>
-                </>
-              )}
+                      {deviceIndex > 0 && (
+                        <Grid item sx={2}>
+                          <Button
+                            variant="contained"
+                            color="error"
+                            onClick={() => removeDevice(deviceIndex)}
+                          >
+                            Remove Device
+                          </Button>
+                        </Grid>
+                      )}
+                    </Grid>
+                  </>
+                )}
 
-              <Grid container spacing={2} mt={1}>
-                <Grid item xs={6}>
-                  <ModelInput
-                    onChange={(selectedModel) =>
-                      handleModelChange(deviceIndex, selectedModel)
-                    }
-                    value={formData.device[deviceIndex]?.modelName}
-                    branchId={formData?.branch?.value}
-                    // error={
-                    //   (errors &&
-                    //     errors.device &&
-                    //     errors.device[deviceIndex] &&
-                    //     errors.device[deviceIndex].modelName) ||
-                    //   ""
-                    // }
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <DeviceInput
-                    onChange={(selectedDevice) =>
-                      handleDeviceChange(deviceIndex, selectedDevice)
-                    }
-                    value={formData.device[deviceIndex]?.deviceName}
-                    modelId={modelId}
-                    // error={
-                    //   (errors &&
-                    //     errors.device &&
-                    //     errors.device[deviceIndex] &&
-                    //     errors.device[deviceIndex].modelName) ||
-                    //   ""
-                    // }
-                  />
-                </Grid>
-                <Grid item xs={12}>
+                <Grid container spacing={2} mt={1}>
+                  <Grid item xs={6}>
+                    <ModelInput
+                      onChange={(selectedModel) =>
+                        handleModelChange(deviceIndex, selectedModel)
+                      }
+                      value={formData.device[deviceIndex]?.modelName}
+                      branchId={formData?.branch?.value}
+                      // error={
+                      //   (errors &&
+                      //     errors.device &&
+                      //     errors.device[deviceIndex] &&
+                      //     errors.device[deviceIndex].modelName) ||
+                      //   ""
+                      // }
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <DeviceInput
+                      onChange={(selectedDevice) =>
+                        handleDeviceChange(deviceIndex, selectedDevice)
+                      }
+                      value={formData.device[deviceIndex]?.deviceName}
+                      modelId={modelId}
+                      // error={
+                      //   (errors &&
+                      //     errors.device &&
+                      //     errors.device[deviceIndex] &&
+                      //     errors.device[deviceIndex].modelName) ||
+                      //   ""
+                      // }
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <FormControl
+                      fullWidth
+                      variant="outlined"
+                      // error={!!errors.category}
+                      required
+                    >
+                      <InputLabel id="paymentType-label">
+                        Payment Type
+                      </InputLabel>
+                      <Select
+                        labelId="paymentType-label"
+                        id="paymentType"
+                        name="paymentType"
+                        value={
+                          formData.device?.[deviceIndex]?.paymentType || ""
+                        }
+                        onChange={(e) =>
+                          handlePaymentTypeChange(deviceIndex, e.target.value)
+                        }
+                        label="paymentType"
+                      >
+                        <MenuItem value="Cash">Cash</MenuItem>
+                        <MenuItem value="Cheque">Cheque</MenuItem>
+                        <MenuItem value="Upi">Upi</MenuItem>
+                        <MenuItem value="Neft">Neft</MenuItem>
+                        <MenuItem value="Card">Card</MenuItem>
+                        <MenuItem value="Other">Other</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={6}>
                    <TextField
                    disabled
                    fullWidth
-                   label="Total cost"
+                   label="Stock Amount"
                    name="totalAmount"
                    value={formData.device?.[deviceIndex]?.totalAmount || ""}
                    type="number"
                    
                  />
+                </Grid> 
+                  <Grid item xs={4}>
+                    <TextField
+                      fullWidth
+                      label="Amount"
+                      name="amount"
+                      value={formData.device?.[deviceIndex]?.amount || ""}
+                      type="number"
+                      onChange={(e) =>
+                        handleAmountChange(deviceIndex, e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      fullWidth
+                      label="customerPaid"
+                      name="customerPaid"
+                      value={formData.device?.[deviceIndex]?.customerPaid || ""}
+                      type="number"
+                      onChange={(e) =>
+                        handleCustomerPaidChange(deviceIndex, e.target.value)
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      fullWidth
+                      label="RemainingAmount"
+                      name="remainingAmount"
+                      value={
+                        formData.device?.[deviceIndex]?.remainingAmount || ""
+                      }
+                      type="number"
+                      onChange={(e) =>
+                        handleRemainingAmountChange(deviceIndex, e.target.value)
+                      }
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    fullWidth
-                    label="Amount"
-                    name="amount"
-                    value={formData.device?.[deviceIndex]?.amount || ""}
-                    type="number"
-                    onChange={(e) =>
-                      handleAmountChange(deviceIndex, e.target.value)
-                    }
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    fullWidth
-                    label="customerPaid"
-                    name="customerPaid"
-                    value={formData.device?.[deviceIndex]?.customerPaid || ""}
-                    type="number"
-                    onChange={(e) =>
-                      handleCustomerPaidChange(deviceIndex, e.target.value)
-                    }
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    fullWidth
-                    label="RemainingAmount"
-                    name="remainingAmount"
-                    value={formData.device?.[deviceIndex]?.remainingAmount || ""}
-                    type="number"
-                    onChange={(e) =>
-                      handleRemainingAmountChange(deviceIndex, e.target.value)
-                    }
-                  />
-                </Grid>
-              </Grid>
+              </Box>
+            ))}
+
+            <Box mt={3}>
+              <Button variant="contained" component="label" fullWidth>
+                Upload File
+                <input type="file" onChange={handleChange} hidden />
+              </Button>
             </Box>
-          ))}
 
-          <Box mt={3}>
-            <Button variant="contained" component="label" fullWidth>
-              Upload File
-              <input type="file" onChange={handleChange} hidden />
-            </Button>
-          </Box>
-
-          {/* <Box mt={3} p={2} sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
+            {/* <Box mt={3} p={2} sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
               {payments.map((payment) => (
                 <Grid container spacing={2} key={payment.id} alignItems="center">
                   <Grid item xs={5}>
@@ -576,22 +625,26 @@ const SellForm = ({ stock }) => {
               </Box>
             </Box> */}
 
-          <Box mt={2} display="flex" justifyContent="end" gap={2}>
-            <Button
-              variant="outlined"
-              color="primary"
-              component={Link}
-              to="/sellPage"
-            >
-              Cancel
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-              Submit
-            </Button>
+            <Box mt={2} display="flex" justifyContent="end" gap={2}>
+              <Button
+                variant="outlined"
+                color="primary"
+                component={Link}
+                to="/sellPage"
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+            </Box>
           </Box>
         </Box>
       </Box>
-    </Box>
     </>
   );
 };

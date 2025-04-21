@@ -13,7 +13,7 @@ const CustomerInput = ({ onChange, value, branchId, error, orgId  , field}) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [customerData, setCustomerdata] = useState({});
-  console.log(branchId, "branchId cus");
+  // console.log(branchId, "branchId cus");
   
   const callApi = async () => {
     try {
