@@ -188,3 +188,36 @@ exports.getAllStockSellRepairService = async (userOrgId, role, userId, req) => {
     },
   };
 };
+
+exports.getSellByDateService = async ({ startDate, endDate }) => {
+  const filter = { isDeleted: false };
+
+  try {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    end.setHours(23, 59, 59, 999);
+
+    if (isNaN(start) || isNaN(end)) {
+      throw new Error("Invalid date format");
+    }
+
+    filter.createdAt = {
+      $gte: start,
+      $lte: end,
+    };
+
+    console.log("📅 Applying date filter:", {
+      $gte: start.toISOString(),
+      $lte: end.toISOString(),
+    });
+
+    const result = await Sell.find(filter)
+      // .populate("organization branchName category stock modelName deviceName")
+      .lean();
+
+    return result;
+  } catch (err) {
+    console.error("❌ Error in getExpenseByDateService:", err.message);
+    throw err;
+  }
+};

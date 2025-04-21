@@ -6,6 +6,7 @@ const {
   softDeleteSellService,
   deleteSellService,
   getAllStockSellRepairService,
+  getSellByDateService,
 } = require("../services/sell");
 
 exports.getAllSell = async (req, res) => {
@@ -177,5 +178,31 @@ exports.getAllStockSellRepair = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.getSellByDate = async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+
+    if (!startDate || !endDate) {
+      return res.status(400).json({
+        success: false,
+        message: "startDate and endDate are required.",
+      });
+    }
+
+    const expenses = await getSellByDateService({ startDate, endDate });
+
+    res.status(200).json({
+      success: true,
+      data: expenses,
+    });
+  } catch (error) {
+    console.error("❌ Error in getSellByDate:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching sell.",
+    });
   }
 };
