@@ -11,17 +11,21 @@ import StockDialog from "../components/StockDialog";
 import PaymentDialog from "../components/PaymentDialog";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import axios from "axios";
+import { allSellStockRepair } from "../apis/SellApi";
 
 const CustomerLedgerTable = ({
-  filterData,
   selectedOrganization,
   selectedCustomer,
+  selectedRadioFilter,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
   const [paymentDialog, setPaymentDialog] = React.useState(false);
   const [stock, setStock] = React.useState([]);
+  const [stockData, setStockData] = React.useState([]);
+  const [sell, setSell] = React.useState([]);
+  const [repair, setRepair] = React.useState([]);
   const [payment, setPayment] = React.useState([]);
   const [totalRows, setTotalRows] = useState(0);
   const [paginationModel, setPaginationModel] = useState({
@@ -46,19 +50,21 @@ const CustomerLedgerTable = ({
             },
           }
         );
-        setStock(response.data.data);
+        setStockData(response.data.data);
       } catch (error) {
         console.error("Error fetching organizations:", error);
       }
     } else {
       try {
-        const response = await getAllStocks(
+        const response = await allSellStockRepair(
           paginationModel.page + 1,
           paginationModel.pageSize
         ); // +1 because API uses 1-based indexing
         console.log(response, "API Response");
-        setStock(response.data.data.items); // Set the items to orgData
-        setTotalRows(response.data.data.totalCount); // Set the total count (rowCount) from API response
+        setStock(response.data.items.stockData);
+        setSell(response.data.items.sellData);
+        setRepair(response.data.items.repairData);
+        setTotalRows(response.data.totalCount);
       } catch (error) {
         console.error("Error fetching organization branch data:", error);
       }
@@ -129,11 +135,6 @@ const CustomerLedgerTable = ({
     //     </>
     //   ),
     // },
-    // { field: "organization", headerName: "organization", flex: 2 },
-    // { field: "categoryId", headerName: "Category", flex: 2 },
-    // { field: "modelId", headerName: "Model", flex: 2 },
-    // { field: "deviceId", headerName: "Device", flex: 2 },
-    // { field: "branchName", headerName: "Branch Name", flex: 2 },
 
     { field: "customerName", headerName: "Customer Name", flex: 2 },
     { field: "deviceId", headerName: "Device", flex: 2 },
@@ -142,8 +143,37 @@ const CustomerLedgerTable = ({
     { field: "remainingAmount", headerName: "Remaining Amount", flex: 2 },
   ];
 
-  // Prepare the rows for the DataGrid
-  const rows = Array.isArray(stock)
+  let rows;
+
+  if(stockData){
+    rows = Array.isArray(stockData)
+    ? stockData.map((stock) => ({
+        id: stock._id,
+        customerName: stock?.customerName?.customerName,
+        deviceId: stock?.deviceName?.deviceName,
+        totalAmount: stock.totalAmount,
+        paidToCustomer: stock.paidToCustomer,
+        remainingAmount: stock.remainingAmount,
+      }))
+    : [];
+  }
+
+  if (selectedRadioFilter == "All") {
+    const allCus=[...stock,...sell,...repair]
+    console.log("allCussssssssssssssssssssssssssssssssssssssssssssss",allCus);
+    
+    rows = Array.isArray(allCus)
+      ? allCus.map((stock) => ({
+          id: stock._id,
+          customerName: stock?.customerName?.customerName,
+          deviceId: stock?.deviceName?.deviceName,
+          totalAmount: stock.totalAmount ? stock.totalAmount : stock.amount ? stock.amount:"--",
+          paidToCustomer: stock.paidToCustomer ? stock.paidToCustomer :stock.customerPaid ?stock.customerPaid:"--",
+          remainingAmount: stock.remainingAmount?stock.remainingAmount:"--",
+        }))
+      : [];
+  }else if(selectedRadioFilter == "Stock"){
+    rows = Array.isArray(stock)
     ? stock.map((stock) => ({
         id: stock._id,
         customerName: stock?.customerName?.customerName,
@@ -153,6 +183,29 @@ const CustomerLedgerTable = ({
         remainingAmount: stock.remainingAmount,
       }))
     : [];
+  }else if(selectedRadioFilter == "Sell"){
+    rows = Array.isArray(sell)
+    ? sell.map((stock) => ({
+        id: stock._id,
+        customerName: stock?.customerName?.customerName,
+        deviceId: stock?.deviceName?.deviceName,
+        totalAmount: stock.amount,
+        paidToCustomer: stock.customerPaid,
+        remainingAmount: stock.remainingAmount,
+      }))
+    : [];
+  }else if(selectedRadioFilter == "Repair"){
+    rows = Array.isArray(repair)
+    ? repair.map((stock) => ({
+        id: stock._id,
+        customerName: stock?.customerName?.customerName,
+        deviceId: stock?.deviceName?.deviceName,
+        totalAmount: stock.amount ,
+        paidToCustomer: stock.paidToCustomer,
+        remainingAmount: stock.remainingAmount,
+      }))
+    : [];
+  }
 
   // Handle search term change
   const handleSearchChange = (event) => {

@@ -68,6 +68,22 @@ const allSell = async (page = 1, limit = 5, search) => {
     return { totalCount: 0, items: [] }; // Return empty data on error
   }
 };
+const allSellStockRepair = async (page = 1, limit = 5, search) => {
+  try {
+    const response = await axios.get("http://localhost:4000/api/allSellStockRepair", {
+      params: { page, limit, search }, // Pass page and limit as query parameters
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token for auth
+      },
+    });
+
+    return response.data; // Return both the totalCount and items
+  } catch (error) {
+    console.error("Error fetching allSellStockRepair:", error);
+    return { totalCount: 0, items: [] }; // Return empty data on error
+  }
+};
 
 const deleteSell = async (_id) => {
   try {
@@ -86,4 +102,4 @@ const deleteSell = async (_id) => {
   }
 };
 
-export { createSell,getOneSell, updateSell, allSell, deleteSell };
+export { createSell,getOneSell, updateSell, allSell,allSellStockRepair, deleteSell };
