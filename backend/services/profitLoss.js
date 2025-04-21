@@ -76,7 +76,8 @@ exports.getProfitLossService = async (userOrgId, role, userId, req) => {
       totalSellingAmount: totalSelling,
       totalCost: totalAmount + totalExpense,
       profitOrLoss: totalProfitOrLoss,
-      totalAfterExpense,
+      totalGeneralExpense,
+      overAllProfitLoss: totalAfterExpense,
       status: overallStatus,
     },
   };
