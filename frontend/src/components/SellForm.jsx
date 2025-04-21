@@ -52,7 +52,6 @@ const SellForm = ({ stock }) => {
     stock: "",
   });
 
-
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
   const [modelId, setModelId] = useState("");
@@ -158,10 +157,15 @@ const SellForm = ({ stock }) => {
   const handleCustomerPaidChange = (index, customerPaid) => {
     setFormData((prev) => {
       const updatedDevices = [...prev.device];
+      const amount = parseFloat(updatedDevices[index]?.amount) || 0;
+      const parsedPaid = parseFloat(customerPaid) || 0;
+
       updatedDevices[index] = {
         ...updatedDevices[index],
-        customerPaid: customerPaid,
+        customerPaid: parsedPaid,
+        remainingAmount: amount - parsedPaid,
       };
+
       return { ...prev, device: updatedDevices };
     });
   };
@@ -169,13 +173,29 @@ const SellForm = ({ stock }) => {
   const handleAmountChange = (index, amount) => {
     setFormData((prev) => {
       const updatedDevices = [...prev.device];
+      const customerPaid = parseFloat(updatedDevices[index]?.customerPaid) || 0;
+      const parsedAmount = parseFloat(amount) || 0;
+
       updatedDevices[index] = {
         ...updatedDevices[index],
-        amount: amount,
+        amount: parsedAmount,
+        remainingAmount: parsedAmount - customerPaid,
       };
+
       return { ...prev, device: updatedDevices };
     });
   };
+
+  // const handleRemainingAmountChange = (index, remainingAmount) => {
+  //   setFormData((prev) => {
+  //     const updatedDevices = [...prev.device];
+  //     updatedDevices[index] = {
+  //       ...updatedDevices[index],
+  //       remainingAmount: remainingAmount,
+  //     };
+  //     return { ...prev, device: updatedDevices };
+  //   });
+  // };
 
   const handlePaymentTypeChange = (index, paymentType) => {
     setFormData((prev) => {
@@ -187,18 +207,6 @@ const SellForm = ({ stock }) => {
       return { ...prev, device: updatedDevices };
     });
   };
-
-  const handleRemainingAmountChange = (index, remainingAmount) => {
-    setFormData((prev) => {
-      const updatedDevices = [...prev.device];
-      updatedDevices[index] = {
-        ...updatedDevices[index],
-        remainingAmount: remainingAmount,
-      };
-      return { ...prev, device: updatedDevices };
-    });
-  };
-
   const addDevice = () => {
     setFormData((prev) => ({
       ...prev,
@@ -295,7 +303,7 @@ const SellForm = ({ stock }) => {
                 label: data?.deviceName?.deviceName || "",
                 value: data?.deviceName?._id || "",
               },
-              paymentType: data?.paymentType ,
+              paymentType: data?.paymentType,
               amount: data?.amount,
               customerPaid: data?.customerPaid,
               remainingAmount: data?.remainingAmount,
@@ -530,16 +538,15 @@ const SellForm = ({ stock }) => {
                     </FormControl>
                   </Grid>
                   <Grid item xs={6}>
-                   <TextField
-                   disabled
-                   fullWidth
-                   label="Stock Amount"
-                   name="totalAmount"
-                   value={formData.device?.[deviceIndex]?.totalAmount || ""}
-                   type="number"
-                   
-                 />
-                </Grid> 
+                    <TextField
+                      disabled
+                      fullWidth
+                      label="Stock Amount"
+                      name="totalAmount"
+                      value={formData.device?.[deviceIndex]?.totalAmount || ""}
+                      type="number"
+                    />
+                  </Grid>
                   <Grid item xs={4}>
                     <TextField
                       fullWidth
@@ -567,15 +574,16 @@ const SellForm = ({ stock }) => {
                   <Grid item xs={4}>
                     <TextField
                       fullWidth
-                      label="RemainingAmount"
+                      label="Remaining Amount"
                       name="remainingAmount"
                       value={
-                        formData.device?.[deviceIndex]?.remainingAmount || ""
+                        (formData.device?.[deviceIndex]?.amount || 0) -
+                        (formData.device?.[deviceIndex]?.customerPaid || 0)
                       }
                       type="number"
-                      onChange={(e) =>
-                        handleRemainingAmountChange(deviceIndex, e.target.value)
-                      }
+                      InputProps={{
+                        readOnly: true,
+                      }}
                     />
                   </Grid>
                 </Grid>
