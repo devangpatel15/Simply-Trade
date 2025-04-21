@@ -158,10 +158,12 @@ exports.getAllStockSellRepair = async (req, res) => {
     const userOrgId = req.user?.org;
     const role = req.user?.role;
     const userId = req.user?.id;
+
     const allData = await getAllStockSellRepairService(
       userOrgId,
       role,
       userId,
+
       req
     );
     if (!allData) {
