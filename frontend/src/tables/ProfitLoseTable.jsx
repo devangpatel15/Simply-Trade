@@ -119,32 +119,96 @@ const ProfitLoseTable = () => {
                 </Button>
               </Box>
             </Box>
-            
+
             <Box display="flex" gap={2} sx={{ marginTop: 2 }}>
               <Grid container spacing={2}>
                 <Grid item xs={3}>
-                <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700 ,}}>Total Product Price : {overAllData.totalAmount}</Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "1.3rem",
+                      color: "#4C2D85",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Total Product Price : {overAllData.totalAmount}
+                  </Typography>
                 </Grid>
                 <Grid item xs={3}>
-              <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700}}>Total Expense : {overAllData.totalExpense}</Typography> 
+                  <Typography
+                    sx={{
+                      fontSize: "1.3rem",
+                      color: "#4C2D85",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Total Expense : {overAllData.totalExpense}
+                  </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                   <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700}}>Total Cost : {overAllData.totalCost}</Typography> 
+                  <Typography
+                    sx={{
+                      fontSize: "1.3rem",
+                      color: "#4C2D85",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Total Cost : {overAllData.totalCost}
+                  </Typography>
                 </Grid>
                 <Grid item xs={3}>
-              <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700}}>Total Selling Amount : {overAllData.totalSellingAmount}</Typography> 
+                  <Typography
+                    sx={{
+                      fontSize: "1.3rem",
+                      color: "#4C2D85",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Total Selling Amount : {overAllData.totalSellingAmount}
+                  </Typography>
                 </Grid>
                 <Grid item xs={3}>
-              <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700}}>Total Profit Or Loss : {overAllData.profitOrLoss}</Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "1.3rem",
+                      color: "#4C2D85",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Total Profit Or Loss : {overAllData.profitOrLoss}
+                  </Typography>
                 </Grid>
                 <Grid item xs={3}>
-              <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700}}>General Expense : {overAllData.totalGeneralExpense}</Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "1.3rem",
+                      color: "#4C2D85",
+                      fontWeight: 700,
+                    }}
+                  >
+                    General Expense : {overAllData.totalGeneralExpense}
+                  </Typography>
                 </Grid>
                 <Grid item xs={3}>
-              <Typography sx={{fontSize:"1.3rem" , color:"#6c5ce7" , fontWeight: 700}}>OverAll P/L : {overAllData.overAllProfitLoss}</Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "1.3rem",
+                      color: "#4C2D85",
+                      fontWeight: 700,
+                    }}
+                  >
+                    OverAll P/L : {overAllData.overAllProfitLoss}
+                  </Typography>
                 </Grid>
                 <Grid item xs={3}>
-              <Typography sx={{color: overAllData.status == "profit" ? "Green" : "Red" , fontWeight:"Bold" , fontSize:"1.3rem"}}>Status : {overAllData.status}</Typography> 
+                  <Typography
+                    sx={{
+                      color: overAllData.status == "profit" ? "Green" : "Red",
+                      fontWeight: "Bold",
+                      fontSize: "1.3rem",
+                    }}
+                  >
+                    Status : {overAllData.status}
+                  </Typography>
                 </Grid>
               </Grid>
             </Box>
@@ -245,14 +309,9 @@ const ProfitLoseTable = () => {
             />
           </Paper>
 
-          
-
-            <Grid container spacing={2} sx={{ marginTop: 2, padding: 2 }}>
-            <Grid item xs={3}>
-              
-            </Grid>
+          <Grid container spacing={2} sx={{ marginTop: 2, padding: 2 }}>
+            <Grid item xs={3}></Grid>
           </Grid>
-       
         </Box>
       </Box>
     </div>

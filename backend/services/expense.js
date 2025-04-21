@@ -106,7 +106,7 @@ exports.getExpenseByDateService = async ({ startDate, endDate }) => {
       $lte: end,
     };
 
-    const result = await Expense.find(filter).lean();
+    const result = await Expense.find(filter).populate("organization branchName modelName deviceName").lean();
 
     // console.log("📅 Filtered by date:", {
     //   $gte: start.toISOString(),
