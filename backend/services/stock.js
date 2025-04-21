@@ -44,13 +44,33 @@ exports.createStockService = async (newStock) => {
 };
 
 exports.updateStockService = async (stockId, stock) => {
-  console.log(stock, "stock----");
+  const deviceData = stock && stock.device && stock.device[0];
 
-  const data = await Stock.findByIdAndUpdate(stockId, stock, { new: true })
-    .populate(
-      "organization branch customerName categoryName modelName deviceName capacityName color"
-    )
-    .lean();
+  const imeiData = deviceData && deviceData.imei[0];
+
+  const data = await Stock.findByIdAndUpdate(
+    stockId,
+    {
+      organization: stock?.organization || null,
+      branch: stock?.branch || null,
+      customerName: stock?.customerName || null,
+      customerPhone: stock?.customerPhone || null,
+
+      categoryName: deviceData?.categoryName || null,
+      modelName: deviceData?.modelName || null,
+      capacityName: deviceData?.capacityName || null,
+      color: deviceData?.color || null,
+      deviceName: deviceData?.deviceName || null,
+
+      imeiNo: imeiData?.imeiNo || null,
+      srNo: imeiData?.srNo || null,
+      totalAmount: imeiData?.totalAmount || null,
+      paidToCustomer: imeiData?.paidToCustomer || null,
+      remainingAmount: imeiData?.remainingAmount || null,
+    },
+    { new: true }
+  );
+
   return data;
 };
 

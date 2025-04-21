@@ -169,14 +169,15 @@ exports.updateStock = async (req, res) => {
       return res.status(404).json({ message: "Stock not found" });
     }
 
-    return res.status(200).json({ message: "Stock updated", data: updatedStock });
+    return res
+      .status(200)
+      .json({ message: "Stock updated", data: updatedStock });
   } catch (err) {
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });
   }
 };
-
 
 exports.softDeleteStock = async (req, res) => {
   try {

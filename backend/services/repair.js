@@ -32,9 +32,31 @@ exports.createRepairService = async (newData) => {
 };
 
 exports.updateRepairServices = async (repairId, repair) => {
-  return await Repair.findByIdAndUpdate(repairId, repair, { new: true })
-    .populate("branch customerName modelName deviceName")
-    .lean();
+  const deviceData = repair && repair.device && repair.device[0];
+
+  const data = await Repair.findByIdAndUpdate(
+    repairId,
+    {
+      organization: repair.organization,
+      branch: repair.branch,
+      customerName: repair.customerName,
+      customerPhone: repair.customerPhone,
+      email: repair.email,
+      modelName: deviceData.modelName,
+      deviceName: deviceData.deviceName,
+      amount: deviceData.amount,
+      estimatedCost: deviceData.estimatedCost,
+      status: deviceData.status,
+      date: deviceData.date,
+    },
+    { new: true }
+  );
+
+  return data;
+
+  // return await Repair.findByIdAndUpdate(repairId, repair, { new: true })
+  //   .populate("branch customerName modelName deviceName")
+  //   .lean();
 };
 
 exports.getRepairService = async (repairId) => {
