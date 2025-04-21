@@ -7,6 +7,7 @@ const {
   updateSell,
   softDeleteSell,
   getAllStockSellRepair,
+  getSellByDate,
 } = require("../controllers/sell");
 const {
   getSellValidation,
@@ -22,6 +23,7 @@ sellRouter.get("/sell/:id", getSellValidation, getSell);
 sellRouter.post("/createSell", createSellData, createSell);
 sellRouter.put("/updateSell/:id", updateSellData, updateSell);
 sellRouter.put("/deleteSell/:id", deleteSellValidation, softDeleteSell);
+sellRouter.get("/sellByDate", getSellByDate);
 
 sellRouter.get("/allSellStockRepair", getAllStockSellRepair);
 
