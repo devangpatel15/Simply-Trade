@@ -1,4 +1,5 @@
 const Stock = require("../models/stock");
+const Expense = require("../models/expense");
 exports.getProfitLossService = async (userOrgId, role, userId, req) => {
   const data = await Stock.find({ isSelled: true })
     .populate({
@@ -42,10 +43,28 @@ exports.getProfitLossService = async (userOrgId, role, userId, req) => {
     };
   });
 
+  const generalTotal = await Expense.aggregate([
+    {
+      $match: {
+        category: "General",
+        isDeleted: false, // optional: include this if you want to exclude soft-deleted entries
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalAmount: { $sum: "$amount" },
+      },
+    },
+  ]);
+  const totalGeneralExpense = generalTotal[0]?.totalAmount || 0;
+
+  const totalAfterExpense = totalProfitOrLoss - totalGeneralExpense;
+
   const overallStatus =
-    totalProfitOrLoss > 0
+    totalAfterExpense > 0
       ? "profit"
-      : totalProfitOrLoss < 0
+      : totalAfterExpense < 0
       ? "loss"
       : "break-even";
 
@@ -57,6 +76,8 @@ exports.getProfitLossService = async (userOrgId, role, userId, req) => {
       totalSellingAmount: totalSelling,
       totalCost: totalAmount + totalExpense,
       profitOrLoss: totalProfitOrLoss,
+      totalGeneralExpense,
+      overAllProfitLoss: totalAfterExpense,
       status: overallStatus,
     },
   };
