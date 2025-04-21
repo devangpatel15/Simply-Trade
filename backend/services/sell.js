@@ -162,10 +162,12 @@ exports.getAllStockSellRepairService = async (userOrgId, role, userId, req) => {
     .limit(limit)
     .lean();
 
-  const totalCount = await Sell.countDocuments({ isDeleted: false });
+  const sellCount = await Sell.countDocuments({ isDeleted: false });
+  const stockCount = await Stock.countDocuments({ isDeleted: false });
+  const repairCount = await Repair.countDocuments({ isDeleted: false });
 
   return {
-    totalCount,
+    totalCount: sellCount + stockCount + repairCount,
     items: {
       sellData,
       stockData,
@@ -176,16 +178,19 @@ exports.getAllStockSellRepairService = async (userOrgId, role, userId, req) => {
       paidAmount: 0,
       remainingAmount: 0,
     },
+    sellCount,
     stockTotals: stockAggregates || {
       totalAmount: 0,
       paidAmount: 0,
       remainingAmount: 0,
     },
-    stockTotals: repairAggregates || {
+    stockCount,
+    repairTotals: repairAggregates || {
       totalAmount: 0,
       paidAmount: 0,
       remainingAmount: 0,
     },
+    repairCount,
   };
 };
 
