@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 const StockPage = () => {
   // const [stock, setStock] = React.useState([]);
   // const [payment, setPayment] = React.useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = React.useState("");
   
 
   const handleSearchChange = (event) => {
