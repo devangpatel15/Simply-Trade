@@ -48,6 +48,8 @@ const stockSchema = new mongoose.Schema(
     remainingAmount: { type: Number },
     upload: { type: String },
     expenseAmount: { type: Number },
+    expenseDate: { type: Date },
+    expenseDescription: { type: String },
     sellAmount: { type: Number },
     isSelled: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },

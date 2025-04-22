@@ -37,12 +37,22 @@ exports.getExpenseService = async (exId) => {
 //   return await Expense.find({ deviceId, isDeleted: false }).lean();
 // };
 
-exports.createExpenseService = async (newEx, stock, amount) => {
+exports.createExpenseService = async (
+  newEx,
+  stock,
+  amount,
+  date,
+  description
+) => {
   console.log(stock);
   const createExpense = await Expense.create(newEx);
   const updateStock = await Stock.findByIdAndUpdate(
     stock,
-    { expenseAmount: amount },
+    {
+      expenseAmount: amount,
+      expenseDate: date,
+      expenseDescription: description,
+    },
     {
       new: true,
     }
@@ -106,7 +116,9 @@ exports.getExpenseByDateService = async ({ startDate, endDate }) => {
       $lte: end,
     };
 
-    const result = await Expense.find(filter).populate("organization branchName modelName deviceName").lean();
+    const result = await Expense.find(filter)
+      .populate("organization branchName modelName deviceName")
+      .lean();
 
     // console.log("📅 Filtered by date:", {
     //   $gte: start.toISOString(),
@@ -120,4 +132,3 @@ exports.getExpenseByDateService = async ({ startDate, endDate }) => {
     throw err;
   }
 };
-
