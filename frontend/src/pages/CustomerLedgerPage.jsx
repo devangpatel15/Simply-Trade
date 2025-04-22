@@ -21,7 +21,7 @@ import axios from "axios";
 const CustomerLedgerPage = () => {
   const [selectedOrganization, setSelectedOrganization] = React.useState(null);
   const [selectedCustomer, setSelectedCustomer] = React.useState(null);
-  const [selectedRadioFilter, setSelectedRadioFilter] = React.useState("All");
+  const [selectedRadioFilter, setSelectedRadioFilter] = React.useState("all");
 
   const handleOrganizationChange = (selectedOrg) => {
     setSelectedOrganization(selectedOrg);
@@ -30,6 +30,8 @@ const CustomerLedgerPage = () => {
     setSelectedCustomer(selectedCustomer);
   };
   const handleRadioFilter = (e) => {
+    setSelectedCustomer(null);
+    setSelectedOrganization(null);
     setSelectedRadioFilter(e.target.value);
   };
   console.log(selectedRadioFilter,"selectedRadioFilter");
@@ -118,7 +120,7 @@ const CustomerLedgerPage = () => {
                   row
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="radioFilter"
-                  defaultValue="All"
+                  defaultValue="all"
                   onChange={handleRadioFilter}
                   sx={{
                     fontWeight: "bold",
@@ -127,22 +129,22 @@ const CustomerLedgerPage = () => {
                   }}
                 >
                   <FormControlLabel
-                    value="All"
+                    value="all"
                     control={<Radio />}
                     label="All"
                   />
                   <FormControlLabel
-                    value="Stock"
+                    value="stock"
                     control={<Radio />}
                     label="Stock"
                   />
                   <FormControlLabel
-                    value="Sell"
+                    value="sell"
                     control={<Radio />}
                     label="Sell"
                   />
                   <FormControlLabel
-                    value="Repair"
+                    value="repair"
                     // disabled
                     control={<Radio />}
                     label="Repair"
@@ -162,6 +164,7 @@ const CustomerLedgerPage = () => {
                   onChange={handleCustomerChange}
                   orgId={selectedOrganization}
                   value={selectedCustomer}
+                  field={selectedRadioFilter}
                 />
               </Grid>
             </Grid>

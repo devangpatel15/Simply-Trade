@@ -33,50 +33,42 @@ const CustomerLedgerTable = ({
     pageSize: 5,
   });
 
-  // Function to fetch data from the API based on pagination model
+  const type = selectedRadioFilter;
   const callApi = async () => {
-    if (selectedOrganization && selectedCustomer) {
-      try {
-        const response = await axios.get(
-          `http://localhost:4000/api/stockByOrgAndCus`,
-          {
-            params: {
-              orgId: selectedOrganization && selectedOrganization.value,
-              cusId: selectedCustomer && selectedCustomer.value,
-            },
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setStockData(response.data.data);
-      } catch (error) {
-        console.error("Error fetching organizations:", error);
-      }
-    } else {
-      try {
-        const response = await allSellStockRepair(
-          paginationModel.page + 1,
-          paginationModel.pageSize
-        ); // +1 because API uses 1-based indexing
-        console.log(response, "API Response");
+    try {
+      const response = await allSellStockRepair(
+        paginationModel.page + 1,
+        paginationModel.pageSize,
+        type,
+        selectedOrganization && selectedOrganization?.value,
+        selectedCustomer && selectedCustomer?.value
+      ); 
+      console.log(response, "API Response");
+
+      if (selectedRadioFilter == "all") {
         setStock(response.data.items.stockData);
         setSell(response.data.items.sellData);
         setRepair(response.data.items.repairData);
         setTotalRows(response.data.totalCount);
-      } catch (error) {
-        console.error("Error fetching organization branch data:", error);
+      } else if (selectedRadioFilter == "stock") {
+        setStock(response.data.items.stockData);
+        setTotalRows(response.data.stockCount);
+      } else if (selectedRadioFilter == "sell") {
+        setSell(response.data.items.sellData);
+        setTotalRows(response.data.sellCount);
+      } else if (selectedRadioFilter == "repair") {
+        setRepair(response.data.items.repairData);
+        setTotalRows(response.data.repairCount);
       }
+    } catch (error) {
+      console.error("Error fetching organization branch data:", error);
     }
   };
 
-  // Fetch data when pagination model changes
   useEffect(() => {
-    callApi(); // Call API when page or pageSize changes
-  }, [paginationModel, selectedCustomer]);
+    callApi();
+  }, [paginationModel, selectedCustomer, selectedRadioFilter]);
 
-  // Handle pagination model change (page or pageSize)
   const handlePaginationModelChange = (newPaginationModel) => {
     setPaginationModel(newPaginationModel);
   };
@@ -137,6 +129,7 @@ const CustomerLedgerTable = ({
     // },
 
     { field: "customerName", headerName: "Customer Name", flex: 2 },
+    { field: "role", headerName: "Role", flex: 2 },
     { field: "deviceId", headerName: "Device", flex: 2 },
     { field: "totalAmount", headerName: "Total Amount", flex: 2 },
     { field: "paidToCustomer", headerName: "Paid Amount", flex: 2 },
@@ -145,66 +138,78 @@ const CustomerLedgerTable = ({
 
   let rows;
 
-  if(stockData){
+  if (stockData) {
     rows = Array.isArray(stockData)
-    ? stockData.map((stock) => ({
-        id: stock._id,
-        customerName: stock?.customerName?.customerName,
-        deviceId: stock?.deviceName?.deviceName,
-        totalAmount: stock.totalAmount,
-        paidToCustomer: stock.paidToCustomer,
-        remainingAmount: stock.remainingAmount,
-      }))
-    : [];
+      ? stockData.map((stock) => ({
+          id: stock._id,
+          customerName: stock?.customerName?.customerName,
+          deviceId: stock?.deviceName?.deviceName,
+          totalAmount: stock.totalAmount,
+          paidToCustomer: stock.paidToCustomer,
+          remainingAmount: stock.remainingAmount,
+        }))
+      : [];
   }
 
-  if (selectedRadioFilter == "All") {
-    const allCus=[...stock,...sell,...repair]
-    console.log("allCussssssssssssssssssssssssssssssssssssssssssssss",allCus);
-    
+  if (selectedRadioFilter == "all") {
+    const allCus = [...stock, ...sell, ...repair];
+    console.log("allCussssssssssssssssssssssssssssssssssssssssssssss", allCus);
+
     rows = Array.isArray(allCus)
       ? allCus.map((stock) => ({
           id: stock._id,
           customerName: stock?.customerName?.customerName,
+          role: stock?.customerName?.role,
           deviceId: stock?.deviceName?.deviceName,
-          totalAmount: stock.totalAmount ? stock.totalAmount : stock.amount ? stock.amount:"--",
-          paidToCustomer: stock.paidToCustomer ? stock.paidToCustomer :stock.customerPaid ?stock.customerPaid:"--",
-          remainingAmount: stock.remainingAmount?stock.remainingAmount:"--",
+          totalAmount: stock.totalAmount
+            ? stock.totalAmount
+            : stock.amount
+            ? stock.amount
+            : "--",
+          paidToCustomer: stock.paidToCustomer
+            ? stock.paidToCustomer
+            : stock.customerPaid
+            ? stock.customerPaid
+            : "--",
+          remainingAmount: stock.remainingAmount ? stock.remainingAmount : "--",
         }))
       : [];
-  }else if(selectedRadioFilter == "Stock"){
+  } else if (selectedRadioFilter == "stock") {
     rows = Array.isArray(stock)
-    ? stock.map((stock) => ({
-        id: stock._id,
-        customerName: stock?.customerName?.customerName,
-        deviceId: stock?.deviceName?.deviceName,
-        totalAmount: stock.totalAmount,
-        paidToCustomer: stock.paidToCustomer,
-        remainingAmount: stock.remainingAmount,
-      }))
-    : [];
-  }else if(selectedRadioFilter == "Sell"){
+      ? stock.map((stock) => ({
+          id: stock._id,
+          customerName: stock?.customerName?.customerName,
+          role: stock?.customerName?.role,
+          deviceId: stock?.deviceName?.deviceName,
+          totalAmount: stock.totalAmount,
+          paidToCustomer: stock.paidToCustomer,
+          remainingAmount: stock.remainingAmount,
+        }))
+      : [];
+  } else if (selectedRadioFilter == "sell") {
     rows = Array.isArray(sell)
-    ? sell.map((stock) => ({
-        id: stock._id,
-        customerName: stock?.customerName?.customerName,
-        deviceId: stock?.deviceName?.deviceName,
-        totalAmount: stock.amount,
-        paidToCustomer: stock.customerPaid,
-        remainingAmount: stock.remainingAmount,
-      }))
-    : [];
-  }else if(selectedRadioFilter == "Repair"){
+      ? sell.map((stock) => ({
+          id: stock._id,
+          customerName: stock?.customerName?.customerName,
+          role: stock?.customerName?.role,
+          deviceId: stock?.deviceName?.deviceName,
+          totalAmount: stock.amount,
+          paidToCustomer: stock.customerPaid,
+          remainingAmount: stock.remainingAmount,
+        }))
+      : [];
+  } else if (selectedRadioFilter == "repair") {
     rows = Array.isArray(repair)
-    ? repair.map((stock) => ({
-        id: stock._id,
-        customerName: stock?.customerName?.customerName,
-        deviceId: stock?.deviceName?.deviceName,
-        totalAmount: stock.amount ,
-        paidToCustomer: stock.paidToCustomer,
-        remainingAmount: stock.remainingAmount,
-      }))
-    : [];
+      ? repair.map((stock) => ({
+          id: stock._id,
+          customerName: stock?.customerName?.customerName,
+          role: stock?.customerName?.role,
+          deviceId: stock?.deviceName?.deviceName,
+          totalAmount: stock.amount,
+          paidToCustomer: stock.paidToCustomer,
+          remainingAmount: stock.remainingAmount,
+        }))
+      : [];
   }
 
   // Handle search term change
