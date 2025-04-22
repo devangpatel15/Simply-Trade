@@ -9,7 +9,7 @@ const {
 
 exports.getAllAccount = async (req, res) => {
   try {
-    const Account = await getAllAccountService();
+    const Account = await getAllAccountService(req);
 
     if (!Account) {
       return res.status(404).json({ message: "No Account found" });

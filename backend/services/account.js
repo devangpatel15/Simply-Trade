@@ -1,7 +1,11 @@
 const Account = require("../models/account");
 
-exports.getAllAccountService = async () => {
-  return await Account.find({ isDeleted: false })
+exports.getAllAccountService = async (req) => {
+  const search = req.query.search || "";
+
+  const query = { accountName: { $regex: search, $options: "i" } };
+
+  return await Account.find({ ...query, isDeleted: false })
     .populate("organization branchName")
     .lean();
 };
