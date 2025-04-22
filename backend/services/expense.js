@@ -52,12 +52,6 @@ exports.createExpenseService = async (newEx, stock, amount) => {
 };
 
 exports.updateExpenseService = async (exId, ex, stock, amount) => {
-  const updatedExpense = await Expense.findByIdAndUpdate(exId, ex, {
-    new: true,
-  }).lean();
-
-  console.log("exx", ex);
-
   const updatedStock = await Stock.findByIdAndUpdate(
     stock,
     { expenseAmount: amount },
@@ -65,6 +59,19 @@ exports.updateExpenseService = async (exId, ex, stock, amount) => {
       new: true,
     }
   ).lean();
+
+  console.log("updatedStock", updatedStock);
+  console.log("stock", stock);
+  console.log("amount", amount);  
+  
+  const updatedExpense = await Expense.findByIdAndUpdate(exId, ex, {
+    new: true,
+  }).lean();
+
+  console.log("updatedExpense", updatedExpense);
+
+  console.log("exx", ex);
+
 
   return { updatedExpense, updatedStock };
 };

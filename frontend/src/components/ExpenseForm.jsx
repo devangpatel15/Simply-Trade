@@ -40,7 +40,7 @@ const ExpenseForm = ({ stockId }) => {
     category: !stockId ? "General" : "",
     amount: "",
     description: "",
-    stockId: "",
+    stock: "",
   });
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
@@ -96,7 +96,7 @@ const ExpenseForm = ({ stockId }) => {
         amount: formData.amount || "",
         date: formData.date || "",
         description: formData.description || "",
-        stock: id,
+        stock: stockId? id:formData.stock,
       };
     } else {
       payload = {
@@ -109,9 +109,9 @@ const ExpenseForm = ({ stockId }) => {
       };
     }
 
-    const data = {
-      expenseAmount: formData.amount,
-    };
+    // const data = {
+    //   expenseAmount: formData.amount,
+    // };
 
     try {
       console.log(payload, "payload");
@@ -148,6 +148,7 @@ const ExpenseForm = ({ stockId }) => {
         setFormData({
           ...response.data.data,
           amount: response.data?.data?.expenseAmount || "",
+          
           category: "Phone",
           organization: {
             label: response.data.data.organization.organizationName,
@@ -171,6 +172,7 @@ const ExpenseForm = ({ stockId }) => {
 
         setFormData({
           ...response.data.data,
+          stock: response.data.data.stock._id,
           organization: {
             label: response.data.data.organization.organizationName,
             value: response.data.data.organization._id || "",
