@@ -26,7 +26,6 @@ const StockTable = ({searchTerm}) => {
     page: 0,
     pageSize: 5,
   });
-console.log(searchTerm, "searchTerm in stockTable");
 
   // Function to fetch data from the API based on pagination model
   const callApi = async () => {

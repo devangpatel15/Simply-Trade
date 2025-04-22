@@ -370,6 +370,7 @@ const StockForm = () => {
             },
             imei: [
               {
+                useImei: data.imeiNo  ? true : false,
                 imeiNo: data.imeiNo,
                 srNo: data.srNo,
                 totalAmount: data.totalAmount,
