@@ -48,8 +48,14 @@ exports.getExpense = async (req, res) => {
 exports.createExpense = async (req, res) => {
   try {
     const newEx = req.body;
-    const { stock, amount } = newEx;
-    const createdEx = await createExpenseService(newEx, stock, amount);
+    const { stock, amount, description, date } = newEx;
+    const createdEx = await createExpenseService(
+      newEx,
+      stock,
+      amount,
+      date,
+      description
+    );
     return res.status(200).json({ message: "Expense added", data: createdEx });
   } catch (error) {
     return res
@@ -98,7 +104,6 @@ exports.getExpenseByDate = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
     // console.log("📥 Received from client:", req.query);
-
 
     if (!startDate || !endDate) {
       return res.status(400).json({
