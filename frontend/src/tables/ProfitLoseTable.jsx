@@ -212,6 +212,7 @@ const ProfitLoseTable = () => {
                 </Grid>
               </Grid>
             </Box>
+            {/* radio group not need now */}
             {/* <Box display="flex" gap={2}>
                 <Grid container spacing={2} sx={{ marginTop: 0.5 }}>
                   <Grid item xs={6}>

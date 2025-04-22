@@ -62,7 +62,9 @@ const ModelTable = () => {
 
   // Fetch data when pagination model changes
   useEffect(() => {
-    callApi(); // Call API when page or pageSize changes
+    callApi( paginationModel.page + 1,
+      paginationModel.pageSize,
+      searchTerm); // Call API when page or pageSize changes
   }, [paginationModel, searchTerm]);
 
   // Handle pagination model change (page or pageSize)
