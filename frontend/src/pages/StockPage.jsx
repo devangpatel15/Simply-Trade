@@ -15,6 +15,12 @@ import { Link } from "react-router-dom";
 const StockPage = () => {
   // const [stock, setStock] = React.useState([]);
   // const [payment, setPayment] = React.useState([]);
+    const [searchTerm, setSearchTerm] = React.useState("");
+  
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
@@ -38,6 +44,7 @@ const StockPage = () => {
               <TextField
                 variant="outlined"
                 placeholder="Search"
+                onChange={handleSearchChange}
                 size="small"
                 sx={{ backgroundColor: "white", borderRadius: 1 }}
                 InputProps={{
@@ -63,7 +70,7 @@ const StockPage = () => {
             </Box>
           </Box>
 
-          <StockTable />
+          <StockTable searchTerm={searchTerm}/>
         </Box>
       </Box>
     </Box>

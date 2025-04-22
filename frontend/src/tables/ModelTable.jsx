@@ -62,7 +62,9 @@ const ModelTable = () => {
 
   // Fetch data when pagination model changes
   useEffect(() => {
-    callApi(); // Call API when page or pageSize changes
+    callApi( paginationModel.page + 1,
+      paginationModel.pageSize,
+      searchTerm); // Call API when page or pageSize changes
   }, [paginationModel, searchTerm]);
 
   // Handle pagination model change (page or pageSize)
@@ -155,7 +157,7 @@ const ModelTable = () => {
             <Box display="flex" gap={2}>
               <TextField
                 variant="outlined"
-                placeholder="Search"
+                placeholder="Search by Model Name"
                 size="small"
                 value={searchTerm}
                 onChange={handleSearchChange}

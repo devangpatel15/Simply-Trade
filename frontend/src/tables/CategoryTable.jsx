@@ -153,7 +153,7 @@ const CategoryTable = () => {
               <Box display="flex" gap={2}>
                 <TextField
                   variant="outlined"
-                  placeholder="Search"
+                  placeholder="Search by Category Name"
                   size="small"
                   sx={{
                     backgroundColor: "white",

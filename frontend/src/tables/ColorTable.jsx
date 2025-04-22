@@ -151,7 +151,7 @@ const ColorTable = () => {
             <Box display="flex" gap={2}>
               <TextField
                 variant="outlined"
-                placeholder="Search"
+                placeholder="Search by Color Name"
                 size="small"
                 value={searchTerm}
                 onChange={handleSearchChange}

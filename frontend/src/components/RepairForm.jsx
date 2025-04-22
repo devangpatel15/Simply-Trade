@@ -231,22 +231,6 @@ const RepairForm = () => {
     }));
   };
 
-  // const handleModelInputChange = (selectedModel) => {
-  //   console.log(selectedModel);
-  //   setSelectedModel(selectedModel?.value);
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     modelName: selectedModel,
-  //   }));
-  // };
-  // const handleDeviceInputChange = (selectedDevice) => {
-  //   setSelectedDevice(selectedDevice.value);
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     deviceName: selectedDevice,
-  //   }));
-  // };
-
   // const handleNativeDateChange = (event) => {
   //   const { value } = event.target;
   //   setFormData((prev) => ({

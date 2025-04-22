@@ -152,7 +152,7 @@ const OrganizationBranchTable = () => {
             <Box display="flex" gap={2}>
               <TextField
                 variant="outlined"
-                placeholder="Search"
+                placeholder="Search by Branch Name"
                 value={searchTerm}
                 onChange={handleSearchChange}
                 size="small"
@@ -175,7 +175,7 @@ const OrganizationBranchTable = () => {
                 component={Link}
                 to="/organizationBranchForm"
               >
-                Add Organization Branch
+                Add Branch
               </Button>
             </Box>
           </Box>
