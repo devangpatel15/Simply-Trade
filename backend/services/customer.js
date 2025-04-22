@@ -3,13 +3,13 @@ const Customer = require("../models/customer");
 exports.getAllCustomerService = async (userId, role, userBranchId, req) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1
   const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
-  // const search = req.query.search || "";
+  const search = req.query.search || "";
 
   const skip = (page - 1) * limit;
 
-  // const query = { branchName: { $regex: search, $options: "i" } };
+  const query = { customerName: { $regex: search, $options: "i" } };
 
-  const data = await Customer.find({ isDeleted: false })
+  const data = await Customer.find({ ...query, isDeleted: false })
     .populate({
       path: role == "user" ? "branchName" : "organization",
       match: role == "user" ? { _id: userBranchId } : { userId: userId },
@@ -21,7 +21,7 @@ exports.getAllCustomerService = async (userId, role, userBranchId, req) => {
     .lean();
 
   const totalCount = await Customer.countDocuments({
-    // ...query,
+    ...query,
     isDeleted: false,
   });
 

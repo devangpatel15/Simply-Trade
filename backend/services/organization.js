@@ -23,9 +23,13 @@ exports.getAllUserOrganizationService = async (userId, req) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1
   const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
 
+  const search = req.query.search || "";
+
   const skip = (page - 1) * limit;
 
-  const items = await Organization.find({ userId, isDeleted: false })
+  const query = { organizationName: { $regex: search, $options: "i" } };
+
+  const items = await Organization.find({ ...query, userId, isDeleted: false })
     .sort({ createdAt: -1 })
     .populate("userId")
     .skip(skip)
@@ -33,6 +37,7 @@ exports.getAllUserOrganizationService = async (userId, req) => {
     .lean();
 
   const totalCount = await Organization.countDocuments({
+    ...query,
     userId,
     isDeleted: false,
   });
@@ -64,7 +69,6 @@ exports.softDeleteOrganizationService = async (orgId) => {
 exports.deleteOrganizationService = async (orgId) => {
   return await Organization.findByIdAndDelete(orgId);
 };
-
 
 exports.searchOrganizationService = async (orgText, userId) => {
   let findObject = { userId, isDeleted: false };
