@@ -505,7 +505,7 @@ const StockForm = () => {
           srNo: imeiItem.srNo || "",
           totalAmount: imeiItem.totalAmount || "",
           paidToCustomer: imeiItem.paidToCustomer || "",
-          remainingAmount: imeiItem.remainingAmount || "",
+          remainingAmount: imeiItem.remainingAmount || 0,
         })),
       }));
 
