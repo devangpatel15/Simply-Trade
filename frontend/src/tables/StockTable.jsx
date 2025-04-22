@@ -13,10 +13,9 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import MobileFriendlyIcon from "@mui/icons-material/MobileFriendly";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
-const StockTable = () => {
+const StockTable = ({searchTerm}) => {
   const location = useLocation();
 
-  const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
   const [paymentDialog, setPaymentDialog] = React.useState(false);
@@ -33,7 +32,8 @@ const StockTable = () => {
     try {
       const response = await getAllStocks(
         paginationModel.page + 1,
-        paginationModel.pageSize
+        paginationModel.pageSize,
+        searchTerm
       ); // +1 because API uses 1-based indexing
       console.log(response, "API Response");
       setStock(response.data.data.items); // Set the items to orgData
@@ -155,9 +155,7 @@ const StockTable = () => {
     : [];
 
   // Handle search term change
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+
 
   return (
     <div>
