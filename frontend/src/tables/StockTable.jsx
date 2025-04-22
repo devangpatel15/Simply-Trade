@@ -26,6 +26,7 @@ const StockTable = ({searchTerm}) => {
     page: 0,
     pageSize: 5,
   });
+console.log(searchTerm, "searchTerm in stockTable");
 
   // Function to fetch data from the API based on pagination model
   const callApi = async () => {
@@ -46,7 +47,7 @@ const StockTable = ({searchTerm}) => {
   // Fetch data when pagination model changes
   useEffect(() => {
     callApi(); // Call API when page or pageSize changes
-  }, [paginationModel]);
+  }, [paginationModel , searchTerm]);
 
   // Handle pagination model change (page or pageSize)
   const handlePaginationModelChange = (newPaginationModel) => {
