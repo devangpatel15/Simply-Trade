@@ -87,6 +87,21 @@ exports.createValidation = [
 
   // body("upload").isString().notEmpty().withMessage("upload is required"),
 
+  check("payment")
+    .isArray({ min: 1 })
+    .withMessage("payment must be an array with at least one item"),
+
+  // Validate each payment object
+  check("payment.*.paymentAccount")
+    .isMongoId()
+    .notEmpty()
+    .withMessage("paymentAccount must be a valid MongoID and is required"),
+
+  check("payment.*.paymentAmount")
+    .isNumeric()
+    .notEmpty()
+    .withMessage("paymentAmount must be a number and is required"),
+
   // Middleware to handle validation errors
   (req, res, next) => {
     const errors = validationResult(req);
@@ -148,7 +163,7 @@ exports.updateStockValidation = [
   body("totalAmount")
     .isNumeric()
     .optional()
-    .withMessage("totalAmount in boolean"),
+    .withMessage("totalAmount in number"),
   body("paidToCustomer")
     .isNumeric()
     .optional()
@@ -158,6 +173,16 @@ exports.updateStockValidation = [
     .optional()
     .withMessage("remainingAmount in string"),
   // body("upload").isString().optional().withMessage("upload in string"),
+
+  check("payment.*.paymentAccount")
+    .isMongoId()
+    .optional()
+    .withMessage("paymentAccount must be a valid MongoID"),
+
+  check("payment.*.paymentAmount")
+    .isNumeric()
+    .optional()
+    .withMessage("paymentAmount must be a number "),
 
   (req, res, next) => {
     const errors = validationResult(req);

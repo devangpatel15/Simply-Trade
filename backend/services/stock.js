@@ -230,6 +230,8 @@ exports.updateStockService = async (stockId, stock) => {
       totalAmount: imeiData?.totalAmount || null,
       paidToCustomer: imeiData?.paidToCustomer || null,
       remainingAmount: imeiData?.remainingAmount || null,
+
+      payment: stock?.payment || null,
     },
     { new: true }
   );
