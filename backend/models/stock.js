@@ -47,6 +47,7 @@ const stockSchema = new mongoose.Schema(
     paidToCustomer: { type: Number, required: true },
     remainingAmount: { type: Number },
     upload: { type: String },
+    expense: { type: mongoose.Schema.Types.ObjectId, ref: "Expense" },
     expenseAmount: { type: Number },
     expenseDate: { type: Date },
     expenseDescription: { type: String },

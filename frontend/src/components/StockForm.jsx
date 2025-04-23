@@ -8,6 +8,10 @@ import {
   Typography,
   Box,
   Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
@@ -51,8 +55,16 @@ const StockForm = () => {
         ],
       },
     ],
+    payment: [
+      {
+        paymentAccount: null,
+        paymentAmount: "",
+      },
+    ],
     upload: "",
   });
+
+  const [payments, setPayments] = useState([{ id: 1, account: "" }]);
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [catId, setCatId] = useState("");
@@ -94,6 +106,13 @@ const StockForm = () => {
     });
   };
 
+  const addPayment = () => {
+    setPayments([...payments, { id: payments.length + 1, account: "" }]);
+  };
+
+  const removePayment = (id) => {
+    setPayments(payments.filter((payment) => payment.id !== id));
+  };
   const handleOrganizationChange = (selectedOrg) => {
     setSelectedOrganization(selectedOrg.value);
     setFormData((prev) => ({
@@ -148,7 +167,7 @@ const StockForm = () => {
       return { ...prev, device: updatedDevices };
     });
   };
-  
+
   const handleModelChange = (index, selectedModel) => {
     setModelId(selectedModel.value);
     setFormData((prev) => {
@@ -370,7 +389,7 @@ const StockForm = () => {
             },
             imei: [
               {
-                useImei: data.imeiNo  ? true : false,
+                useImei: data.imeiNo ? true : false,
                 imeiNo: data.imeiNo,
                 srNo: data.srNo,
                 totalAmount: data.totalAmount,
@@ -993,7 +1012,7 @@ const StockForm = () => {
             </Button>
           </Box>
 
-          {/* <Box mt={3} p={2} sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
+          <Box mt={3} p={2} sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
             {payments.map((payment) => (
               <Grid container spacing={2} key={payment.id} alignItems="center">
                 <Grid item xs={5}>
@@ -1027,7 +1046,7 @@ const StockForm = () => {
                 Add Payment
               </Button>
             </Box>
-          </Box> */}
+          </Box>
 
           <Box mt={2} display="flex" justifyContent="end" gap={2}>
             <Button

@@ -49,6 +49,7 @@ exports.createExpenseService = async (
   const updateStock = await Stock.findByIdAndUpdate(
     stock,
     {
+      expense:createExpense._id,
       expenseAmount: amount,
       expenseDate: date,
       expenseDescription: description,

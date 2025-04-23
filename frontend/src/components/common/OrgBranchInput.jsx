@@ -11,6 +11,7 @@ const OrgBranchInput = ({
   selectedOrganization,
   error,
   role,
+  readOnlyExp
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
@@ -62,7 +63,7 @@ const OrgBranchInput = ({
 
   return (
     <Autocomplete
-      readOnly={role == "user"}
+      readOnly={role == "user"||readOnlyExp}
       options={options}
       getOptionLabel={(option) => option.label}
       loading={loading}
