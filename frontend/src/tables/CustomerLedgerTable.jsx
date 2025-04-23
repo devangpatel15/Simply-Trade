@@ -107,27 +107,6 @@ const CustomerLedgerTable = ({
     callApi();
   };
   const columns = [
-    // {
-    //   field: "action",
-    //   headerName: "Action",
-    //   flex: 2,
-    //   renderCell: (params) => (
-    //     <>
-    //       <Link to={`/stockForm/${params.row.id}`}>
-    //         <IconButton>
-    //           <EditIcon sx={{ color: "#6c5ce7" }} />
-    //         </IconButton>
-    //       </Link>
-    //       <IconButton onClick={() => openDeleteDialog(params.row.id)}>
-    //         <DeleteIcon sx={{ color: "#6c5ce7" }} />
-    //       </IconButton>
-    //       <IconButton sx={{ backgroundColor: "#f5f5f5" }} onClick={() => handlePaymentDialogOpen(params.row)}>
-    //         <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
-    //       </IconButton>
-    //     </>
-    //   ),
-    // },
-
     { field: "customerName", headerName: "Customer Name", flex: 2 },
     { field: "role", headerName: "Role", flex: 2 },
     { field: "deviceId", headerName: "Device", flex: 2 },
@@ -153,7 +132,6 @@ const CustomerLedgerTable = ({
 
   if (selectedRadioFilter == "all") {
     const allCus = [...stock, ...sell, ...repair];
-    console.log("allCussssssssssssssssssssssssssssssssssssssssssssss", allCus);
 
     rows = Array.isArray(allCus)
       ? allCus.map((stock) => ({
@@ -206,8 +184,8 @@ const CustomerLedgerTable = ({
           role: stock?.customerName?.role,
           deviceId: stock?.deviceName?.deviceName,
           totalAmount: stock.amount,
-          paidToCustomer: stock.paidToCustomer,
-          remainingAmount: stock.remainingAmount,
+          paidToCustomer: stock.paidToCustomer || "--",
+          remainingAmount: stock.remainingAmount || "--",
         }))
       : [];
   }

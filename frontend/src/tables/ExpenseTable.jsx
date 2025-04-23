@@ -55,28 +55,29 @@ const ExpenseTable = () => {
   };
   const fetchExpenses = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/expenseByDate", {
-        params: {
-          startDate: dateRange.startDate,
-          endDate: dateRange.endDate,
-        },
-      });
-      
+      const response = await axios.get(
+        "http://localhost:4000/api/expenseByDate",
+        {
+          params: {
+            startDate: dateRange.startDate,
+            endDate: dateRange.endDate,
+          },
+        }
+      );
+
       setExpense(response.data.data); // ✅ Update the table rows
       setTotalRows(response.data.data.length); // ✅ Optional: update total count
     } catch (error) {
       console.error("Error fetching filtered expenses:", error);
     }
   };
-  
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
       fetchExpenses();
     }
   }, [dateRange.startDate, dateRange.endDate]);
-  
-  
+
   // Fetch data when pagination model changes
   useEffect(() => {
     callApi(); // Call API when page or pageSize changes
@@ -88,7 +89,7 @@ const ExpenseTable = () => {
   };
 
   const handleOpen = (data) => {
-    setData(data); 
+    setData(data);
     setOpen(true);
   };
 
@@ -155,7 +156,6 @@ const ExpenseTable = () => {
     amount: expense.amount,
     category: expense.category,
   }));
-
 
   // Handle search term change
   const handleSearchChange = (event) => {
@@ -271,7 +271,21 @@ const ExpenseTable = () => {
                 },
               }}
             />
+            <Button
+              sx={{
+                backgroundColor: "#6c5ce7",
+                color: "white",
+                marginTop: "1rem",
+                marginLeft: "1rem",
+              }}
+              variant="contained"
+              component={Link}
+              to="/stockPage"
+            >
+              StockPage
+            </Button>
           </Paper>
+
           <DialogBox
             handleClose={handleClose}
             open={open}

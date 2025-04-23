@@ -28,6 +28,7 @@ import { getOneCustomer } from "../apis/CustomerApi";
 import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
 import { toast } from "react-toastify";
 import { createSell, getOneSell, updateSell } from "../apis/SellApi";
+import PaymentInput from "./common/PaymentInput";
 
 const SellForm = ({ stock }) => {
   console.log("stock", stock);
@@ -49,13 +50,22 @@ const SellForm = ({ stock }) => {
         paidToCustomer: "",
       },
     ],
+    payment: [
+      {
+        paymentAccount: null,
+        paymentAmount: "",
+      },
+    ],
     stock: "",
   });
+
+  console.log("Payment", formData.payment);
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
   const [modelId, setModelId] = useState("");
   const [deviceId, setDeviceId] = useState("");
+  const [paymentId, setPaymentId] = useState("");
 
   // const [amount, setAmount] = useState(0);
   // const [remainingAmount, setRemainingAmount] = useState(0);
@@ -224,6 +234,47 @@ const SellForm = ({ stock }) => {
       ],
     }));
   };
+  //for account part
+  const handlePaymentChange = (index, selectAccount) => {
+    setPaymentId(selectAccount.value);
+    setFormData((prev) => {
+      const updatedPayments = [...prev.payment];
+      updatedPayments[index] = {
+        ...updatedPayments[index],
+        paymentAccount: selectAccount,
+      };
+      return { ...prev, payment: updatedPayments };
+    });
+  };
+
+  const handlePaymentAmountChange = (index, selectAmount) => {
+   
+    setFormData((prev) => {
+      const updatedPayments = [...prev.payment];
+      updatedPayments[index] = {
+        ...updatedPayments[index],
+        paymentAmount: selectAmount,
+      };
+      return { ...prev, payment: updatedPayments };
+    });
+  };
+
+  const addPayment = () => {
+    setFormData((prev) => ({
+      ...prev,
+      payment: [
+        ...(Array.isArray(prev.payment) ? prev.payment : []),
+        { paymentAccount: null, paymentAmount: "" },
+      ],
+    }));
+  };
+
+  const removePayment = (indexToRemove) => {
+    setFormData((prev) => ({
+      ...prev,
+      payment: prev.payment.filter((_, index) => index !== indexToRemove),
+    }));
+  };
 
   const removeDevice = (index) => {
     const updatedDeviceData = [...formData.device];
@@ -272,6 +323,15 @@ const SellForm = ({ stock }) => {
               totalAmount: data.totalAmount,
             },
           ],
+          payment: [
+            {
+              paymentAccount: {
+                label: data?.paymentAccount?.accountName || "",
+                value: data?.paymentAccount?._id || "",
+              },
+              paymentAmount: data?.paymentAmount || "",
+            },
+          ],
         });
       } else {
         // console.log("getOneSell api call");
@@ -309,6 +369,15 @@ const SellForm = ({ stock }) => {
               remainingAmount: data?.remainingAmount,
             },
           ],
+          payment: [
+            {
+              paymentAccount: {
+                label: data?.paymentAccount?.accountName || "",
+                value: data?.paymentAccount?._id || "",
+              },
+              paymentAmount: data?.paymentAmount || "",
+            },
+          ],
         });
       }
 
@@ -343,6 +412,11 @@ const SellForm = ({ stock }) => {
         upload: deviceItem.upload || "",
       }));
 
+      const formattedPayment = formData.payment.map((paymentItem) => ({
+        paymentAccount: paymentItem.paymentAccount?.value || null,
+        paymentAmount: paymentItem.paymentAmount || "",
+      }));
+
       const payload = {
         stock: id || null,
         organization: formData.organization?.value || null,
@@ -350,6 +424,7 @@ const SellForm = ({ stock }) => {
         customerName: formData.customerName?.value || null,
         customerPhone: formData.customerPhone,
         device: formattedDevices,
+        payment: formattedPayment,
       };
 
       console.log(payload, "payload");
@@ -596,7 +671,60 @@ const SellForm = ({ stock }) => {
                 <input type="file" onChange={handleChange} hidden />
               </Button>
             </Box>
+            <>
+              <Box mt={2} display="flex" gap={2} justifyContent="end">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={addPayment}
+                >
+                  Add Payment
+                </Button>
+              </Box>
 
+              {Array.isArray(formData.payment) &&
+                formData.payment.map((pay, index) => (
+                  <Box key={index} mt={2}>
+                    <Grid container spacing={2} alignItems="center">
+                      <Grid item xs={5}>
+                        <PaymentInput
+                          label="Payment Account"
+                          value={
+                            formData.payment?.[index]?.paymentAccount || ""
+                          }
+                          onChange={(selectAccount) =>
+                            handlePaymentChange(index, selectAccount)
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={5}>
+                        <TextField
+                          fullWidth
+                          label="Payment Amount"
+                          value={formData.payment?.[index]?.paymentAmount || ""}
+                          onChange={(e) =>
+                            handlePaymentAmountChange(
+                              index,
+                              e.target.value
+                            )
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={2}>
+                        {formData.payment.length > 1 && (
+                          <Button
+                            variant="outlined"
+                            color="error"
+                            onClick={() => removePayment(index)}
+                          >
+                            Remove
+                          </Button>
+                        )}
+                      </Grid>
+                    </Grid>
+                  </Box>
+                ))}
+            </>
             {/* <Box mt={3} p={2} sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
               {payments.map((payment) => (
                 <Grid container spacing={2} key={payment.id} alignItems="center">

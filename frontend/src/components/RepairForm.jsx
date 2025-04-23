@@ -231,14 +231,6 @@ const RepairForm = () => {
     }));
   };
 
-  // const handleNativeDateChange = (event) => {
-  //   const { value } = event.target;
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     date: value,
-  //   }));
-  // };
-
   return (
     <div>
       <Box sx={{ display: "flex" }}>
@@ -304,7 +296,7 @@ const RepairForm = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  {/* textfield for email change values and onChange also validation */}
+                 
                   <TextField
                     fullWidth
                     label="Email"

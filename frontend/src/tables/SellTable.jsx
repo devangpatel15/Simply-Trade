@@ -189,7 +189,7 @@ const SellTable = () => {
           </Box>
           <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
             <DataGrid
-              rows={rows} 
+              rows={rows}
               columns={columns}
               pageSize={paginationModel.pageSize}
               rowCount={totalRows}
@@ -209,6 +209,19 @@ const SellTable = () => {
                 },
               }}
             />
+            <Button
+              sx={{
+                backgroundColor: "#6c5ce7",
+                color: "white",
+                marginTop: "1rem",
+                marginLeft: "1rem",
+              }}
+              variant="contained"
+              component={Link}
+              to="/stockPage"
+            >
+              StockPage
+            </Button>
           </Paper>
 
           <DialogBox
