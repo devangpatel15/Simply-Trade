@@ -5,12 +5,12 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const OrgInput = ({ onChange, value, error, role }) => {
+const OrgInput = ({ onChange, value, error, role, readOnlyExp }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
-  // console.log("helllo org input"); 
-  
+  // console.log("helllo org input");
+
   // Debounced API call wrapped in useCallback to avoid unnecessary recreations
   const fetchOrganizations = useCallback(
     debounce(async (query) => {
@@ -54,7 +54,7 @@ const OrgInput = ({ onChange, value, error, role }) => {
 
   return (
     <Autocomplete
-      readOnly={role == "user"}
+      readOnly={role == "user" || readOnlyExp}
       options={options}
       getOptionLabel={(option) => option.label}
       loading={loading}

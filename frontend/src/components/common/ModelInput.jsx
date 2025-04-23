@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const ModelInput = ({ onChange, value, catId, error, branchId }) => {
+const ModelInput = ({ onChange, value, catId, error, branchId,readOnlyExp }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -59,6 +59,7 @@ const ModelInput = ({ onChange, value, catId, error, branchId }) => {
 
   return (
     <Autocomplete
+      readOnly={readOnlyExp}
       options={options}
       getOptionLabel={(option) => option.label || ""}
       loading={loading}

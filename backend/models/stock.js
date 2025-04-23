@@ -47,9 +47,22 @@ const stockSchema = new mongoose.Schema(
     paidToCustomer: { type: Number, required: true },
     remainingAmount: { type: Number },
     upload: { type: String },
+    payment: [
+      {
+        paymentAccount: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Account",
+        },
+        paymentAmount: { type: Number, required: true },
+      },
+    ],
+    expense: { type: mongoose.Schema.Types.ObjectId, ref: "Expense" },
     expenseAmount: { type: Number },
+    expenseDate: { type: Date },
+    expenseDescription: { type: String },
     sellAmount: { type: Number },
     isSelled: { type: Boolean, default: false },
+
     isDeleted: { type: Boolean, default: false },
   },
   {

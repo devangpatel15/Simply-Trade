@@ -53,11 +53,15 @@ exports.getStock = async (req, res) => {
 exports.createStock = async (req, res) => {
   try {
     const newStock = req.body;
-    const { device } = newStock;
+    const { device, payment } = newStock;
 
     // Validate request body
     if (!device || !Array.isArray(device) || device.length === 0) {
       return res.status(400).json({ message: "Invalid device data" });
+    }
+
+    if (!payment || !Array.isArray(payment) || payment.length === 0) {
+      return res.status(400).json({ message: "Invalid Payment data" });
     }
 
     const stockEntries = [];
@@ -83,6 +87,7 @@ exports.createStock = async (req, res) => {
             paidToCustomer: imeiItem.paidToCustomer,
             remainingAmount: imeiItem.remainingAmount,
             upload: newStock.upload,
+            payment: payment,
           };
           stockEntries.push(stockEntry);
         });

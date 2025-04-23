@@ -37,12 +37,23 @@ exports.getExpenseService = async (exId) => {
 //   return await Expense.find({ deviceId, isDeleted: false }).lean();
 // };
 
-exports.createExpenseService = async (newEx, stock, amount) => {
+exports.createExpenseService = async (
+  newEx,
+  stock,
+  amount,
+  date,
+  description
+) => {
   console.log(stock);
   const createExpense = await Expense.create(newEx);
   const updateStock = await Stock.findByIdAndUpdate(
     stock,
-    { expenseAmount: amount },
+    {
+      expense:createExpense._id,
+      expenseAmount: amount,
+      expenseDate: date,
+      expenseDescription: description,
+    },
     {
       new: true,
     }
@@ -52,12 +63,6 @@ exports.createExpenseService = async (newEx, stock, amount) => {
 };
 
 exports.updateExpenseService = async (exId, ex, stock, amount) => {
-  const updatedExpense = await Expense.findByIdAndUpdate(exId, ex, {
-    new: true,
-  }).lean();
-
-  console.log("exx", ex);
-
   const updatedStock = await Stock.findByIdAndUpdate(
     stock,
     { expenseAmount: amount },
@@ -65,6 +70,19 @@ exports.updateExpenseService = async (exId, ex, stock, amount) => {
       new: true,
     }
   ).lean();
+
+  console.log("updatedStock", updatedStock);
+  console.log("stock", stock);
+  console.log("amount", amount);  
+  
+  const updatedExpense = await Expense.findByIdAndUpdate(exId, ex, {
+    new: true,
+  }).lean();
+
+  console.log("updatedExpense", updatedExpense);
+
+  console.log("exx", ex);
+
 
   return { updatedExpense, updatedStock };
 };
@@ -106,7 +124,9 @@ exports.getExpenseByDateService = async ({ startDate, endDate }) => {
       $lte: end,
     };
 
-    const result = await Expense.find(filter).populate("organization branchName modelName deviceName").lean();
+    const result = await Expense.find(filter)
+      .populate("organization branchName modelName deviceName")
+      .lean();
 
     // console.log("📅 Filtered by date:", {
     //   $gte: start.toISOString(),
@@ -120,4 +140,3 @@ exports.getExpenseByDateService = async ({ startDate, endDate }) => {
     throw err;
   }
 };
-

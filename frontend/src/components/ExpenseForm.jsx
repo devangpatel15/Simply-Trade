@@ -25,6 +25,7 @@ import {
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 import { getOneStock, updateStock } from "../apis/StockApi";
+import moment from "moment";
 
 const ExpenseForm = ({ stockId }) => {
   console.log(stockId, "stockId+++++++++++++++++++++++++++++++++");
@@ -40,7 +41,7 @@ const ExpenseForm = ({ stockId }) => {
     category: !stockId ? "General" : "",
     amount: "",
     description: "",
-    stockId: "",
+    stock: "",
   });
 
   const [selectedOrganization, setSelectedOrganization] = useState("");
@@ -96,7 +97,8 @@ const ExpenseForm = ({ stockId }) => {
         amount: formData.amount || "",
         date: formData.date || "",
         description: formData.description || "",
-        stock: id,
+        stock: stockId ? id : formData.stock,
+        expense: formData.expense || "",
       };
     } else {
       payload = {
@@ -109,15 +111,19 @@ const ExpenseForm = ({ stockId }) => {
       };
     }
 
-    const data = {
-      expenseAmount: formData.amount,
-    };
+    // const data = {
+    //   expenseAmount: formData.amount,
+    // };
 
     try {
       console.log(payload, "payload");
 
       if (stockId) {
-        await createExpense(payload);
+        if (!formData.expense) {
+          await createExpense(payload);
+        } else {
+          await updateExpense(payload, formData.expense);
+        }
         toast.success("Expense added successfully!");
       } else if (id) {
         await updateExpense(payload, id);
@@ -148,6 +154,10 @@ const ExpenseForm = ({ stockId }) => {
         setFormData({
           ...response.data.data,
           amount: response.data?.data?.expenseAmount || "",
+          date:
+            moment(response.data?.data?.expenseDate).format("YYYY-MM-DD") || "",
+          description: response.data?.data?.expenseDescription || "",
+          expense: response.data?.data?.expense || "",
           category: "Phone",
           organization: {
             label: response.data.data.organization.organizationName,
@@ -171,6 +181,7 @@ const ExpenseForm = ({ stockId }) => {
 
         setFormData({
           ...response.data.data,
+          stock: response.data.data.stock._id,
           organization: {
             label: response.data.data.organization.organizationName,
             value: response.data.data.organization._id || "",
@@ -276,6 +287,7 @@ const ExpenseForm = ({ stockId }) => {
                     onChange={handleOrganizationChange}
                     value={formData.organization}
                     error={errors.organization}
+                    readOnlyExp={id}
                   />
                 </Grid>
 
@@ -285,6 +297,7 @@ const ExpenseForm = ({ stockId }) => {
                     value={formData.branchName}
                     selectedOrganization={selectedOrganization}
                     error={errors.branchName}
+                    readOnlyExp={id}
                   />
                 </Grid>
 
@@ -322,6 +335,7 @@ const ExpenseForm = ({ stockId }) => {
                         onChange={handleModelChange}
                         value={formData.modelName || ""}
                         error={errors.modelName}
+                        readOnlyExp={id}
                       />
                     </Grid>
                     <Grid item xs={6}>
@@ -330,6 +344,7 @@ const ExpenseForm = ({ stockId }) => {
                         onChange={handleDeviceChange}
                         value={formData.deviceName || ""}
                         error={errors.deviceName}
+                        readOnlyExp={id}
                       />
                     </Grid>
                   </>
