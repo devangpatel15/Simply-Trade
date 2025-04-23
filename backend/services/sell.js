@@ -1,3 +1,4 @@
+const account = require("../models/account");
 const Repair = require("../models/repair");
 const Sell = require("../models/sell");
 const Stock = require("../models/stock");
@@ -34,6 +35,15 @@ exports.getSellService = async (sellId) => {
 };
 
 exports.createSellService = async (newSell, stock, amount) => {
+  const { payment } = newSell;
+
+  payment.forEach(
+    async (item) =>
+      await account.findByIdAndUpdate(item.paymentAccount, {
+        $inc: { balance: +item.paymentAmount },
+      })
+  );
+
   const createSell = await Sell.create(newSell);
   const updateStock = await Stock.findByIdAndUpdate(
     stock,
