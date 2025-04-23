@@ -65,17 +65,13 @@ const StockForm = () => {
     upload: "",
   });
 
-  const [payments, setPayments] = useState([{ id: 1, account: "" }]);
-
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [catId, setCatId] = useState("");
   const [modelId, setModelId] = useState("");
   const [deviceId, setDeviceId] = useState("");
   const [branchId, setBranchId] = useState("");
-
   const [totalAmount, setTotalAmount] = useState(0);
   const [paidToCustomer, setPaidtoCustomer] = useState(0);
-
   const [loggedUserData, setLoggedUserData] = useState({});
 
   const { id } = useParams();
@@ -108,12 +104,48 @@ const StockForm = () => {
   };
 
   const addPayment = () => {
-    setPayments([...payments, { id: payments.length + 1, account: "" }]);
+    setFormData((prev) => ({
+      ...prev,
+      payment: [
+        ...prev.payment,
+        {
+          paymentAccount: null,
+          paymentAmount: "",
+        },
+      ],
+    }));
   };
 
-  const removePayment = (id) => {
-    setPayments(payments.filter((payment) => payment.id !== id));
+  const removePayment = (index) => {
+    const updatedPaymentData = [...formData.payment];
+    updatedPaymentData.splice(index, 1);
+    setFormData({ ...formData, payment: updatedPaymentData });
   };
+
+  const handlePaymentChange = (index, selectedPaymentAccount) => {
+
+    setFormData((prev) => {
+      const updatedPayment = [...prev.payment];
+      updatedPayment[index] = {
+        ...updatedPayment[index],
+        paymentAccount: selectedPaymentAccount,
+      };
+      return { ...prev, payment: updatedPayment };
+    });
+  };
+  
+  const handlePaymentAmountChange = (index, amount) => {
+
+    setFormData((prev) => {
+      const updatedPayment = [...prev.payment];
+      updatedPayment[index] = {
+        ...updatedPayment[index],
+        paymentAmount: amount,
+      };
+      return { ...prev, payment: updatedPayment };
+    });
+  };
+
   const handleOrganizationChange = (selectedOrg) => {
     setSelectedOrganization(selectedOrg.value);
     setFormData((prev) => ({
@@ -507,7 +539,7 @@ const StockForm = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(formData, "formData");
+    // console.log(formData, "formData");
 
     // if (!validateStockForm()) {
     //   return;
@@ -529,6 +561,11 @@ const StockForm = () => {
         })),
       }));
 
+      const formattedPayment = formData.payment.map((payment) => ({
+        paymentAccount: payment.paymentAccount.value || "",
+        paymentAmount: payment.paymentAmount || 0,
+      }));
+
       const payload = {
         ...formData,
         organization: formData.organization?.value || null,
@@ -536,10 +573,11 @@ const StockForm = () => {
         customerName: formData.customerName?.value || null,
         customerPhone: formData.customerPhone,
         device: formattedDevices,
+        payment: formattedPayment,
       };
 
+      console.log("payload", payload);
       if (id) {
-        console.log("payload", payload);
         await updateStock(payload, id);
         toast.success("Stock updated successfully!");
       } else {
@@ -553,7 +591,7 @@ const StockForm = () => {
     }
   };
 
-  console.log("error", errors);
+  // console.log("error", errors);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -610,7 +648,7 @@ const StockForm = () => {
                   onChange={handleOrganizationBranchChange}
                   value={formData.branch || null} // ✅ Ensure branch is always an object or null
                   selectedOrganization={selectedOrganization}
-                  // error={errors.branch}
+                  error={errors.branch}
                 />
               )}
             </Grid>
@@ -618,7 +656,7 @@ const StockForm = () => {
               <CustomerInput
                 onChange={handleCustomerChange}
                 value={formData.customerName}
-                branchId={formData?.branch?.value}
+                branchId={branchId}
                 error={errors.customerName}
                 field="stock"
               />
@@ -681,7 +719,7 @@ const StockForm = () => {
                       handleCategoryChange(deviceIndex, selectedCategory)
                     }
                     value={formData.device[deviceIndex]?.categoryName}
-                    branchId={formData?.branch?.value}
+                    branchId={branchId}
                     error={
                       (errors &&
                         errors.device &&
@@ -1013,42 +1051,79 @@ const StockForm = () => {
             </Button>
           </Box>
 
-          <Box mt={3} p={2} sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
-            {payments.map((payment) => (
-              <Grid container spacing={2} key={payment.id} alignItems="center">
-                <Grid item xs={5}>
-                <PaymentInput />
-                  {/* <FormControl fullWidth>
-                    <InputLabel>Payment Account</InputLabel>
-                    <Select>
-                      <MenuItem value="ICICI">ICICI</MenuItem>
-                      <MenuItem value="SBI">State Bank of India</MenuItem>
-                    </Select>
-                  </FormControl> */}
-                </Grid>
-                <Grid item xs={5}>
-                  <TextField fullWidth label="Payment Account" />
-                </Grid>
-
-                <Grid item xs={2}>
-                  {payment.id > 1 && (
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => removePayment(payment.id)}
-                    >
-                      Remove
-                    </Button>
-                  )}
-                </Grid>
-              </Grid>
-            ))}
-            <Box mt={2}>
-              <Button variant="contained" color="primary" onClick={addPayment}>
-                Add Payment
-              </Button>
+          {id ? (
+            ""
+          ) : (
+            <Box
+              mt={3}
+              p={2}
+              sx={{ border: "1px solid #ccc", borderRadius: 2 }}
+            >
+              {formData?.payment?.map((payment, paymentIndex) => (
+                <>
+                  <Grid container spacing={2} mt={1}>
+                    <Grid item sx={2}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={addPayment}
+                      >
+                        Add Payment
+                      </Button>
+                    </Grid>
+                    {paymentIndex > 0 && (
+                      <Grid item sx={2}>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          onClick={() => removePayment(paymentIndex)}
+                        >
+                          Remove Payment
+                        </Button>
+                      </Grid>
+                    )}
+                  </Grid>
+                  <Grid
+                    container
+                    spacing={2}
+                    key={payment.id}
+                    alignItems="center"
+                    sx={{ marginTop: ".5rem" }}
+                  >
+                    <Grid item xs={6}>
+                      <PaymentInput
+                        onChange={(selectedPaymentAccount) =>
+                          handlePaymentChange(
+                            paymentIndex,
+                            selectedPaymentAccount
+                          )
+                        }
+                        value={
+                          formData.payment[paymentIndex].paymentAccount || null
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        fullWidth
+                        type="number"
+                        label="Payment amount"
+                        value={
+                          formData.payment[paymentIndex].paymentAmount || ""
+                        }
+                        onChange={(e) =>
+                          handlePaymentAmountChange(
+                            paymentIndex,
+                            e.target.value
+                          )
+                        }
+                      />
+                    </Grid>
+                  </Grid>
+                </>
+              ))}
             </Box>
-          </Box>
+          )}
 
           <Box mt={2} display="flex" justifyContent="end" gap={2}>
             <Button
