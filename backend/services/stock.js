@@ -1,3 +1,4 @@
+const Account = require("../models/account");
 const Stock = require("../models/stock");
 
 // exports.getAllStockService = async (userOrgId, role, userId, req) => {
@@ -203,7 +204,23 @@ exports.getStockService = async (stockId) => {
 };
 
 exports.createStockService = async (newStock) => {
-  return await Stock.create(newStock);
+  const { payment } = newStock;
+  // console.log(payment);
+
+  payment.forEach(
+    async (item) =>
+      await Account.findByIdAndUpdate(
+        item.paymentAccount,
+        {
+          $inc: { balance: -item.paymentAmount },
+        },
+        { new: true }
+      )
+  );
+
+  const stockData = await Stock.create(newStock);
+
+  return stockData;
 };
 
 exports.updateStockService = async (stockId, stock) => {
