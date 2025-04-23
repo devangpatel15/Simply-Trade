@@ -28,6 +28,7 @@ import CustomerInput from "./common/CustomerInput";
 import { getOneCustomer } from "../apis/CustomerApi";
 import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
 import { toast } from "react-toastify";
+import PaymentInput from "./common/PaymentInput";
 
 const StockForm = () => {
   const [errors, setErrors] = useState({});
@@ -1016,13 +1017,14 @@ const StockForm = () => {
             {payments.map((payment) => (
               <Grid container spacing={2} key={payment.id} alignItems="center">
                 <Grid item xs={5}>
-                  <FormControl fullWidth>
+                <PaymentInput />
+                  {/* <FormControl fullWidth>
                     <InputLabel>Payment Account</InputLabel>
                     <Select>
                       <MenuItem value="ICICI">ICICI</MenuItem>
                       <MenuItem value="SBI">State Bank of India</MenuItem>
                     </Select>
-                  </FormControl>
+                  </FormControl> */}
                 </Grid>
                 <Grid item xs={5}>
                   <TextField fullWidth label="Payment Account" />
