@@ -36,6 +36,15 @@ const sellSchema = new mongoose.Schema(
       type: String,
       enum: ["Cash", "Cheque", "Upi", "Neft", "Card", "Other"],
     },
+    payment: [
+      {
+        paymentAccount: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Account",
+        },
+        paymentAmount: { type: Number, required: true },
+      },
+    ],
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }

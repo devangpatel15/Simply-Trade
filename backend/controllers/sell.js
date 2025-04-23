@@ -55,7 +55,7 @@ exports.createSell = async (req, res) => {
   try {
     const newSell = req.body;
 
-    const { device, stock } = newSell;
+    const { device, stock, payment } = newSell;
 
     const deviceData = newSell && newSell.device && newSell.device[0];
 
@@ -79,6 +79,7 @@ exports.createSell = async (req, res) => {
         customerPaid: deviceItem.customerPaid,
         remainingAmount: deviceItem.remainingAmount,
         paymentType: deviceItem.paymentType,
+        payment: payment,
         upload: deviceItem.upload,
       };
       sellEntries.push(sellEntry);

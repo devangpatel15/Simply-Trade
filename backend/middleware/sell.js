@@ -42,6 +42,14 @@ exports.createSellData = [
     .isString()
     .notEmpty()
     .withMessage("Payment Type is required"),
+  check("payment.*.paymentAccount")
+    .isString()
+    .notEmpty()
+    .withMessage("Payment Account is required"),
+  check("payment.*.paymentAmount")
+    .isNumeric()
+    .notEmpty()
+    .withMessage("Payment Amount is required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -105,6 +113,14 @@ exports.updateSellData = [
     .isString()
     .optional()
     .withMessage("Payment Type not valid"),
+  body("paymentAccount")
+    .isString()
+    .optional()
+    .withMessage("Payment Account not valid"),
+  body("paymentAmount")
+    .isNumeric()
+    .optional()
+    .withMessage("Payment Amount not valid"),
 
   (req, res, next) => {
     const errors = validationResult(req);
