@@ -408,13 +408,13 @@ const SellForm = ({ stock }) => {
         paymentType: deviceItem.paymentType || "",
         amount: deviceItem.amount || "",
         customerPaid: deviceItem.customerPaid || "",
-        remainingAmount: deviceItem.remainingAmount || "",
+        remainingAmount: deviceItem.remainingAmount || 0,
         upload: deviceItem.upload || "",
       }));
 
       const formattedPayment = formData.payment.map((paymentItem) => ({
         paymentAccount: paymentItem.paymentAccount?.value || null,
-        paymentAmount: paymentItem.paymentAmount || "",
+        paymentAmount: paymentItem.paymentAmount || 0,
       }));
 
       const payload = {
