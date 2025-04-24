@@ -703,7 +703,7 @@ const SellForm = ({ stock }) => {
                           label="Payment Amount"
                           value={formData.payment?.[index]?.paymentAmount || ""}
                           onChange={(e) =>
-                            handlePaymentAmountChange(
+                           handlePaymentAmountChange(
                               index,
                               e.target.value
                             )

@@ -271,7 +271,7 @@ const ExpenseTable = () => {
                 },
               }}
             />
-            <Button
+            {/* <Button
               sx={{
                 backgroundColor: "#6c5ce7",
                 color: "white",
@@ -283,7 +283,7 @@ const ExpenseTable = () => {
               to="/stockPage"
             >
               StockPage
-            </Button>
+            </Button> */}
           </Paper>
 
           <DialogBox
