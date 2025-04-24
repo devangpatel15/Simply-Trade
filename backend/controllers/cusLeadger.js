@@ -1,4 +1,4 @@
-const PDFDocument = require("pdfkit");
+const PDFDocument = require("pdfkit-table");
 const { getLedgerData } = require("../services/cusLeader");
 require("pdfkit-table");
 
@@ -7,7 +7,7 @@ const exportLedgerPdf = async (req, res) => {
     const { sellData, stockData, repairData } = await getLedgerData(req);
 
     // Initialize PDF document
-    const doc = new PDFDocument({ margin: 30, size: "A4" });
+    const doc = new PDFDocument({ margin: 20, size: "A4" });
 
     res.setHeader(
       "Content-Disposition",
@@ -79,8 +79,10 @@ const exportLedgerPdf = async (req, res) => {
         },
         {
           width: doc.page.width - doc.options.margin * 2,
-          prepareHeader: () => doc.font("Helvetica-Bold").fontSize(10),
-          prepareRow: () => doc.font("Helvetica").fontSize(9),
+          prepareHeader: () =>
+            doc.font("Helvetica-Bold").fontSize(10).fillColor("black"),
+          prepareRow: () =>
+            doc.font("Helvetica").fontSize(9).fillColor("black"),
           columnSpacing: 2,
           padding: 2,
         }
