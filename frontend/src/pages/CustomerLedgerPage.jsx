@@ -36,6 +36,30 @@ const CustomerLedgerPage = () => {
   };
   console.log(selectedRadioFilter, "selectedRadioFilter");
 
+  const handleDownload = async () => {
+    try {
+      const res = await axios.get(`http://localhost:4000/api/export-ledger`, {
+        responseType: "blob",
+        headers: { Accept: "application/pdf" },
+      });
+
+      // Create a blob URL from the PDF stream
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: "application/pdf" })
+      );
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `invoiceCustomerLedger.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to download PDF");
+    }
+  };
+
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
@@ -106,6 +130,7 @@ const CustomerLedgerPage = () => {
                   fontSize: "1rem",
                   width: "30%",
                 }}
+                onClick={handleDownload}
                 // component={Link}
                 // to="/stockForm"
               >

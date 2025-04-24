@@ -209,7 +209,7 @@ const SellTable = () => {
                 },
               }}
             />
-            <Button
+            {/* <Button
               sx={{
                 backgroundColor: "#6c5ce7",
                 color: "white",
@@ -221,7 +221,7 @@ const SellTable = () => {
               to="/stockPage"
             >
               StockPage
-            </Button>
+            </Button> */}
           </Paper>
 
           <DialogBox
