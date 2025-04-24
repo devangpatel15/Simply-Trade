@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { Box, Grid, Grid2, IconButton, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
@@ -19,14 +19,12 @@ const CustomerLedgerTable = ({
   selectedRadioFilter,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [open, setOpen] = useState(false);
-  const [data, setData] = useState({});
-  const [paymentDialog, setPaymentDialog] = React.useState(false);
+
   const [stock, setStock] = React.useState([]);
   const [stockData, setStockData] = React.useState([]);
   const [sell, setSell] = React.useState([]);
   const [repair, setRepair] = React.useState([]);
-  const [payment, setPayment] = React.useState([]);
+  const [total, setTotal] = useState();
   const [totalRows, setTotalRows] = useState(0);
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
@@ -42,7 +40,7 @@ const CustomerLedgerTable = ({
         type,
         selectedOrganization && selectedOrganization?.value,
         selectedCustomer && selectedCustomer?.value
-      ); 
+      );
       console.log(response, "API Response");
 
       if (selectedRadioFilter == "all") {
@@ -51,12 +49,15 @@ const CustomerLedgerTable = ({
         setRepair(response.data.items.repairData);
         setTotalRows(response.data.totalCount);
       } else if (selectedRadioFilter == "stock") {
+        setTotal(response.data.stockTotals);
         setStock(response.data.items.stockData);
         setTotalRows(response.data.stockCount);
       } else if (selectedRadioFilter == "sell") {
+        setTotal(response.data.sellTotals);
         setSell(response.data.items.sellData);
         setTotalRows(response.data.sellCount);
       } else if (selectedRadioFilter == "repair") {
+        setTotal(response.data.repairTotals);
         setRepair(response.data.items.repairData);
         setTotalRows(response.data.repairCount);
       }
@@ -64,6 +65,8 @@ const CustomerLedgerTable = ({
       console.error("Error fetching organization branch data:", error);
     }
   };
+
+  console.log("total:", total);
 
   useEffect(() => {
     callApi();
@@ -73,39 +76,6 @@ const CustomerLedgerTable = ({
     setPaginationModel(newPaginationModel);
   };
 
-  const handleOpen = (data) => {
-    setData(data);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setPaymentDialog(false); // Ensuring PaymentDialog closes separately
-  };
-
-  const [deleteOpen, setDeleteOpen] = useState(false);
-
-  const openDeleteDialog = (id) => {
-    setDeleteOpen(id);
-  };
-
-  const closeDeleteDialog = () => {
-    setDeleteOpen(false);
-    callApi();
-  };
-
-  const handlePaymentDialogOpen = (data) => {
-    setData(data);
-    setPaymentDialog(true);
-  };
-
-  const handleDelete = async (id) => {
-    deleteStock(id);
-
-    setDeleteOpen(false);
-    handleClose();
-    callApi();
-  };
   const columns = [
     { field: "customerName", headerName: "Customer Name", flex: 2 },
     { field: "role", headerName: "Role", flex: 2 },
@@ -197,6 +167,43 @@ const CustomerLedgerTable = ({
 
   return (
     <>
+      <Box gap={2} sx={{ marginTop: 2 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <Typography
+              sx={{
+                fontSize: "1.3rem",
+                color: "#4C2D85",
+                fontWeight: 700,
+              }}
+            >
+              Total Amount : {total?.totalAmount}
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography
+              sx={{
+                fontSize: "1.3rem",
+                color: "#4C2D85",
+                fontWeight: 700,
+              }}
+            >
+              Total Paid Amount : {total?.paidAmount}
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography
+              sx={{
+                fontSize: "1.3rem",
+                color: "#4C2D85",
+                fontWeight: 700,
+              }}
+            >
+              Total Remaining Amount : {total?.remainingAmount}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Box>
       <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
         <DataGrid
           rows={rows}
@@ -220,27 +227,6 @@ const CustomerLedgerTable = ({
           }}
         />
       </Paper>
-      <StockDialog
-        handleClose={handleClose}
-        open={open}
-        data={data}
-        callApi={callApi}
-        fieldName="stockForm"
-      />
-      <PaymentDialog
-        handleClose={handleClose}
-        open={paymentDialog}
-        data={data}
-        callApi={callApi}
-        fieldName="paymentForm"
-      />
-
-      <DeleteDialog
-        deleteOpen={deleteOpen}
-        handleClose={handleClose}
-        handleDelete={handleDelete}
-        closeDeleteDialog={closeDeleteDialog}
-      />
     </>
   );
 };

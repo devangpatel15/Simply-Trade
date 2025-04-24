@@ -34,8 +34,8 @@ const CustomerLedgerPage = () => {
     setSelectedOrganization(null);
     setSelectedRadioFilter(e.target.value);
   };
-  console.log(selectedRadioFilter,"selectedRadioFilter");
-  
+  console.log(selectedRadioFilter, "selectedRadioFilter");
+
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
@@ -56,6 +56,7 @@ const CustomerLedgerPage = () => {
 
             <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
               <TextField
+                disabled={selectedRadioFilter == "all"}
                 fullWidth
                 type="date"
                 label="Start Date"
@@ -69,6 +70,7 @@ const CustomerLedgerPage = () => {
               />
 
               <TextField
+                disabled={selectedRadioFilter == "all"}
                 fullWidth
                 type="date"
                 label="End Date"
