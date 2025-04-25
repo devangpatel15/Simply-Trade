@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -11,21 +11,58 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Stack,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CloseIcon from "@mui/icons-material/Close";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import { Link } from "react-router-dom";
 
 const DashboardPage = () => {
+  const [loggedUserData, setLoggedUserData] = useState({});
+
+  //
+
+  //
+  //     } catch (error) {
+  //       console.error("Error parsing user data:", error);
+  //     }
+  //   }
+
+  useEffect(() => {
+    const userData = localStorage.getItem("role");
+
+    if (userData) {
+      const parsedData = JSON.parse(userData);
+
+      setLoggedUserData(parsedData || {});
+    }
+  }, []);
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
       <Box sx={{ flexGrow: 1 }}>
         <Header />
-        <Box>Welcome to the Dashboard Page</Box>
+        <Box sx={{ textAlign: "center", fontSize: "1.5rem" }}>
+          Welcome To {loggedUserData.role} Panel
+        </Box>
+        {loggedUserData.organization?.organizationName && (
+          <Box
+            display="flex"
+            justifyContent="center"
+            sx={{
+              fontSize: "2rem",
+              gap: "3rem",
+              marginTop: "2rem",
+            }}
+          >
+            <Stack>
+              Organization : {loggedUserData.organization?.organizationName}
+            </Stack>
+            <Stack>Branch Name : {loggedUserData.orgBranch?.branchName}</Stack>
+          </Box>
+        )}
       </Box>
     </Box>
   );
