@@ -155,6 +155,8 @@ const StockForm = () => {
 
   const handleOrganizationBranchChange = (selectedOrgBranch) => {
     setBranchId(selectedOrgBranch.value);
+    console.log("s branchis", branchId);
+
     setFormData((prev) => ({
       ...prev,
       branch: selectedOrgBranch,
@@ -269,7 +271,8 @@ const StockForm = () => {
 
     // If totalAmount or paidToCustomer changes, update remainingAmount
     if (field === "totalAmount" || field === "paidToCustomer") {
-      imei.remainingAmount = (totalAmount - paidToCustomer)==0 ? "0":(totalAmount - paidToCustomer);
+      imei.remainingAmount =
+        totalAmount - paidToCustomer == 0 ? "0" : totalAmount - paidToCustomer;
     }
 
     setFormData({ ...formData, device: updatedDeviceData });
@@ -443,9 +446,6 @@ const StockForm = () => {
     }
   }, [id]);
 
-  console.log("formData:",formData);
-
-
   const validateStockForm = () => {
     let newErrors = {};
 
@@ -493,17 +493,18 @@ const StockForm = () => {
           newErrors.device[index].color = errorMessage.colorName;
         }
 
-
         // Validate imei array inside each device
         if (Array.isArray(device.imei)) {
           device.imei.forEach((imei, imeiIndex) => {
-            if (!imei.imeiNo &&  !imei.srNo) {
+            if (!imei.imeiNo && !imei.srNo) {
               // Ensure the device array exists in newErrors
               if (!newErrors.device) newErrors.device = [];
               if (!newErrors.device[index]) newErrors.device[index] = {};
-              if (!newErrors.device[index].imei) newErrors.device[index].imei = [];
-              if (!newErrors.device[index].imei[imeiIndex]) newErrors.device[index].imei[imeiIndex] = {};
-        
+              if (!newErrors.device[index].imei)
+                newErrors.device[index].imei = [];
+              if (!newErrors.device[index].imei[imeiIndex])
+                newErrors.device[index].imei[imeiIndex] = {};
+
               newErrors.device[index].imei[imeiIndex].imeiNo =
                 "At least one of IMEI Number or Serial Number is required.";
               newErrors.device[index].imei[imeiIndex].srNo =
@@ -562,7 +563,7 @@ const StockForm = () => {
         }
       });
     }
-    
+
     console.log("newErrors", newErrors);
 
     setErrors(newErrors);
@@ -646,46 +647,27 @@ const StockForm = () => {
 
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              {loggedUserData.role == "admin" ? (
-                <OrgInput
-                  role="admin"
-                  onChange={handleOrganizationChange}
-                  value={formData.organization} // Now it's an object, not undefined
-                  error={errors.organization}
-                />
-              ) : (
-                <OrgInput
-                  role="user"
-                  onChange={handleOrganizationChange}
-                  value={formData.organization || null} // ✅ Prevent undefined
-                  error={errors.organization}
-                />
-              )}
+              <OrgInput
+                role={loggedUserData.role == "admin" ? "admin" : "user"}
+                onChange={handleOrganizationChange}
+                value={formData.organization || null} 
+                error={errors.organization}
+              />
             </Grid>
             <Grid item xs={6}>
-              {loggedUserData.role == "admin" ? (
-                <OrgBranchInput
-                  role="admin"
-                  onChange={handleOrganizationBranchChange}
-                  value={formData.branch || null} // ✅ Ensure branch is always an object or null
-                  selectedOrganization={selectedOrganization}
-                  error={errors.branch}
-                />
-              ) : (
-                <OrgBranchInput
-                  role="user"
-                  onChange={handleOrganizationBranchChange}
-                  value={formData.branch || null} // ✅ Ensure branch is always an object or null
-                  selectedOrganization={selectedOrganization}
-                  error={errors.branch}
-                />
-              )}
+              <OrgBranchInput
+                role={loggedUserData.role == "admin" ? "admin" : "user"}
+                onChange={handleOrganizationBranchChange}
+                value={formData.branch || null} 
+                selectedOrganization={selectedOrganization}
+                error={errors.branch}
+              />
             </Grid>
             <Grid item xs={6}>
               <CustomerInput
                 onChange={handleCustomerChange}
                 value={formData.customerName}
-                branchId={branchId}
+                branchId={formData.branch?.value}
                 error={errors.customerName}
                 field="stock"
               />
@@ -748,7 +730,7 @@ const StockForm = () => {
                       handleCategoryChange(deviceIndex, selectedCategory)
                     }
                     value={formData.device[deviceIndex]?.categoryName}
-                    branchId={branchId}
+                    branchId={formData.branch?.value}
                     error={
                       (errors &&
                         errors.device &&

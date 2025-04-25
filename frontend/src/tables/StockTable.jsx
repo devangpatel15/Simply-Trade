@@ -13,7 +13,7 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import MobileFriendlyIcon from "@mui/icons-material/MobileFriendly";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
-const StockTable = ({searchTerm}) => {
+const StockTable = ({ searchTerm }) => {
   const location = useLocation();
 
   const [open, setOpen] = useState(false);
@@ -22,10 +22,15 @@ const StockTable = ({searchTerm}) => {
   const [stock, setStock] = React.useState([]);
   const [payment, setPayment] = React.useState([]);
   const [totalRows, setTotalRows] = useState(0);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
+  const [loginUser, setLoginUser] = useState({});
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 5,
   });
+
+  console.log("loginUser", loginUser);
 
   // Function to fetch data from the API based on pagination model
   const callApi = async () => {
@@ -38,6 +43,7 @@ const StockTable = ({searchTerm}) => {
       console.log(response, "API Response");
       setStock(response.data.data.items); // Set the items to orgData
       setTotalRows(response.data.data.totalCount); // Set the total count (rowCount) from API response
+      setLoginUser(JSON.parse(localStorage.getItem("role")));
     } catch (error) {
       console.error("Error fetching organization branch data:", error);
     }
@@ -46,7 +52,7 @@ const StockTable = ({searchTerm}) => {
   // Fetch data when pagination model changes
   useEffect(() => {
     callApi(); // Call API when page or pageSize changes
-  }, [paginationModel , searchTerm]);
+  }, [paginationModel, searchTerm]);
 
   // Handle pagination model change (page or pageSize)
   const handlePaginationModelChange = (newPaginationModel) => {
@@ -62,8 +68,6 @@ const StockTable = ({searchTerm}) => {
     setOpen(false);
     setPaymentDialog(false); // Ensuring PaymentDialog closes separately
   };
-
-  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const openDeleteDialog = (id) => {
     setDeleteOpen(id);
@@ -86,6 +90,7 @@ const StockTable = ({searchTerm}) => {
     handleClose();
     callApi();
   };
+
   const columns = [
     {
       field: "action",
@@ -93,39 +98,44 @@ const StockTable = ({searchTerm}) => {
       flex: 2,
       renderCell: (params) => (
         <>
-          <Link to={`/stockForm/${params.row.id}`}>
-            <IconButton>
-              <EditIcon sx={{ color: "#6c5ce7" }} />
-            </IconButton>
-          </Link>
-          <IconButton onClick={() => openDeleteDialog(params.row.id)}>
-            <DeleteIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton>
-          <IconButton onClick={() => handlePaymentDialogOpen(params.row)}>
-            <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton>
-          <Link
-            to={
-              location.pathname.includes("stockPage")
-                ? `/stockPage/expenseForm/${params.row.id}`
-                : `/expenseForm/${params.row.id}`
-            }
-          >
-            <IconButton>
-              <AccountBalanceWalletIcon sx={{ color: "#6c5ce7" }} />
-            </IconButton>
-          </Link>
-          <Link
-            to={
-              location.pathname.includes("stockPage")
-                ? `/stockPage/sellForm/${params.row.id}`
-                : `/sellForm/${params.row.id}`
-            }
-          >
-            <IconButton>
-              <MobileFriendlyIcon sx={{ color: "#6c5ce7" }} />
-            </IconButton>
-          </Link>
+          {(loginUser && loginUser.role === "admin" ||
+          params?.row?.branchName === loginUser?.orgBranch?.branchName) && (
+            <>
+              <Link to={`/stockForm/${params.row.id}`}>
+                <IconButton>
+                  <EditIcon sx={{ color: "#6c5ce7" }} />
+                </IconButton>
+              </Link>
+              <IconButton onClick={() => openDeleteDialog(params.row.id)}>
+                <DeleteIcon sx={{ color: "#6c5ce7" }} />
+              </IconButton>
+              <IconButton onClick={() => handlePaymentDialogOpen(params.row)}>
+                <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
+              </IconButton>
+              <Link
+                to={
+                  location.pathname.includes("stockPage")
+                    ? `/stockPage/expenseForm/${params.row.id}`
+                    : `/expenseForm/${params.row.id}`
+                }
+              >
+                <IconButton>
+                  <AccountBalanceWalletIcon sx={{ color: "#6c5ce7" }} />
+                </IconButton>
+              </Link>
+              <Link
+                to={
+                  location.pathname.includes("stockPage")
+                    ? `/stockPage/sellForm/${params.row.id}`
+                    : `/sellForm/${params.row.id}`
+                }
+              >
+                <IconButton>
+                  <MobileFriendlyIcon sx={{ color: "#6c5ce7" }} />
+                </IconButton>
+              </Link>
+            </>
+          )}
         </>
       ),
     },
@@ -155,7 +165,6 @@ const StockTable = ({searchTerm}) => {
     : [];
 
   // Handle search term change
-
 
   return (
     <div>

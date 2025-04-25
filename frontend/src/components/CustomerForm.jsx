@@ -24,6 +24,7 @@ import {
 } from "../apis/CustomerApi";
 
 const CustomerForm = () => {
+  
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -33,9 +34,10 @@ const CustomerForm = () => {
     branchName: null,
     customerName: "",
     customerPhone: "",
-    role:"",
+    role: "",
   });
-
+  
+  const [loggedUserData, setLoggedUserData] = useState({});
   const [selectedOrganization, setSelectedOrganization] = useState("");
 
   const handleChange = (e) => {
@@ -89,11 +91,11 @@ const CustomerForm = () => {
       });
     }
   };
-
+  
   useEffect(() => {
     callApi();
   }, []);
-
+  
   const handleOrganizationChange = (selectedOrg) => {
     setSelectedOrganization(selectedOrg.value);
     setFormData((prev) => ({
@@ -107,6 +109,42 @@ const CustomerForm = () => {
       branchName: selectedOrgBranch,
     }));
   };
+  useEffect(() => {
+    const userData = localStorage.getItem("role");
+
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+
+        setLoggedUserData(parsedData || {});
+        if (!parsedData?.organization || !parsedData?.orgBranch) {
+          console.warn("Organization or branch data is missing!");
+        }
+
+        setFormData((prev) => {
+          const updatedFormData = {
+            ...prev,
+            organization: parsedData?.organization?._id
+              ? {
+                  label: parsedData?.organization?.organizationName,
+                  value: parsedData.organization._id,
+                }
+              : null,
+              branchName: parsedData?.orgBranch?._id
+              ? {
+                  label: parsedData?.orgBranch?.branchName,
+                  value: parsedData.orgBranch._id,
+                }
+              : null,
+          };
+          return updatedFormData;
+        });
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+  }, []);
+
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -137,15 +175,19 @@ const CustomerForm = () => {
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <OrgInput
+                  role={loggedUserData.role == "admin" ? "admin" : "user"}
                   onChange={handleOrganizationChange}
-                  value={formData.organization}
+                  value={formData.organization || null}
+                  // error={errors.organization}
                 />
               </Grid>
               <Grid item xs={6}>
                 <OrgBranchInput
+                  role={loggedUserData.role == "admin" ? "admin" : "user"}
                   onChange={handleOrganizationBranchChange}
-                  value={formData.branchName}
+                  value={formData.branchName || null}
                   selectedOrganization={selectedOrganization}
+                  // error={errors.branch}
                 />
               </Grid>
             </Grid>
@@ -180,30 +222,29 @@ const CustomerForm = () => {
               </Grid>
 
               <Grid item xs={12}>
-              <FormControl
-                    fullWidth
-                    variant="outlined"
-                    // error={!!errors.role}
-                    required
+                <FormControl
+                  fullWidth
+                  variant="outlined"
+                  // error={!!errors.role}
+                  required
+                >
+                  <InputLabel id="role-label">Role</InputLabel>
+                  <Select
+                    labelId="role-label"
+                    id="role"
+                    name="role"
+                    value={formData.role || ""}
+                    onChange={handleChange}
+                    label="Role"
                   >
-                    <InputLabel id="role-label">Role</InputLabel>
-                    <Select
-                      labelId="role-label"
-                      id="role"
-                      name="role"
-                      value={formData.role || ""}
-                      onChange={handleChange}
-                      label="Role"
-                    >
-                      <MenuItem value="Buyer">Buyer</MenuItem>
-                      <MenuItem value="Seller">Seller</MenuItem>
-                    </Select>
-                    {/* {errors.role && (
+                    <MenuItem value="Buyer">Buyer</MenuItem>
+                    <MenuItem value="Seller">Seller</MenuItem>
+                  </Select>
+                  {/* {errors.role && (
                       <FormHelperText>{errors.role}</FormHelperText>
                     )} */}
-                  </FormControl>
+                </FormControl>
               </Grid>
-
             </Grid>
           </Box>
 

@@ -43,7 +43,7 @@ const ExpenseForm = ({ stockId }) => {
     description: "",
     stock: "",
   });
-
+  const [loggedUserData, setLoggedUserData] = useState({});
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
@@ -185,6 +185,8 @@ const ExpenseForm = ({ stockId }) => {
         setFormData({
           ...response.data.data,
           stock: response.data.data.stock._id,
+          date:
+            moment(response.data?.data?.expenseDate).format("YYYY-MM-DD") || "",
           organization: {
             label: response.data.data.organization.organizationName,
             value: response.data.data.organization._id || "",
@@ -205,9 +207,6 @@ const ExpenseForm = ({ stockId }) => {
         });
       }
 
-      const data = response.data.data;
-
-      console.log("hiiii");
     }
   };
 
@@ -215,6 +214,42 @@ const ExpenseForm = ({ stockId }) => {
 
   useEffect(() => {
     callApi();
+  }, []);
+
+  useEffect(() => {
+    const userData = localStorage.getItem("role");
+
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+
+        setLoggedUserData(parsedData || {});
+        if (!parsedData?.organization || !parsedData?.orgBranch) {
+          console.warn("Organization or branch data is missing!");
+        }
+
+        setFormData((prev) => {
+          const updatedFormData = {
+            ...prev,
+            organization: parsedData?.organization?._id
+              ? {
+                  label: parsedData?.organization?.organizationName,
+                  value: parsedData.organization._id,
+                }
+              : null,
+            branchName: parsedData?.orgBranch?._id
+              ? {
+                  label: parsedData?.orgBranch?.branchName,
+                  value: parsedData.orgBranch._id,
+                }
+              : null,
+          };
+          return updatedFormData;
+        });
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
   }, []);
 
   const handleOrganizationChange = (selectedOrg) => {
@@ -287,19 +322,21 @@ const ExpenseForm = ({ stockId }) => {
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <OrgInput
+                    role={loggedUserData.role == "admin" ? "admin" : "user"}
                     onChange={handleOrganizationChange}
-                    value={formData.organization}
-                    error={errors.organization}
+                    value={formData.organization || null}
+                    // error={errors.organization}
                     readOnlyExp={id}
                   />
                 </Grid>
 
                 <Grid item xs={6}>
                   <OrgBranchInput
+                    role={loggedUserData.role == "admin" ? "admin" : "user"}
                     onChange={handleOrganizationBranchChange}
-                    value={formData.branchName}
+                    value={formData.branchName || null}
                     selectedOrganization={selectedOrganization}
-                    error={errors.branchName}
+                    // error={errors.branch}
                     readOnlyExp={id}
                   />
                 </Grid>

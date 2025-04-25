@@ -1,4 +1,15 @@
-import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
@@ -20,6 +31,7 @@ const RepairForm = () => {
   const [branchId, setBranchId] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectedDevice, setSelectedDevice] = useState("");
+  const [loggedUserData, setLoggedUserData] = useState({});
 
   const [formData, setFormData] = useState({
     organization: null,
@@ -65,6 +77,42 @@ const RepairForm = () => {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    const userData = localStorage.getItem("role");
+
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+
+        setLoggedUserData(parsedData || {});
+        if (!parsedData?.organization || !parsedData?.orgBranch) {
+          console.warn("Organization or branch data is missing!");
+        }
+
+        setFormData((prev) => {
+          const updatedFormData = {
+            ...prev,
+            organization: parsedData?.organization?._id
+              ? {
+                  label: parsedData?.organization?.organizationName,
+                  value: parsedData.organization._id,
+                }
+              : null,
+            branchName: parsedData?.orgBranch?._id
+              ? {
+                  label: parsedData?.orgBranch?.branchName,
+                  value: parsedData.orgBranch._id,
+                }
+              : null,
+          };
+          return updatedFormData;
+        });
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+  }, []);
 
   const validateForm = () => {
     let newErrors = {};
@@ -256,18 +304,20 @@ const RepairForm = () => {
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <OrgInput
+                    role={loggedUserData.role == "admin" ? "admin" : "user"}
                     onChange={handleOrganizationChange}
-                    value={formData.organization}
-                    error={errors.organization}
+                    value={formData.organization || null}
+                    // error={errors.organization}
                   />
                 </Grid>
 
                 <Grid item xs={6}>
                   <OrgBranchInput
+                    role={loggedUserData.role == "admin" ? "admin" : "user"}
                     onChange={handleOrganizationBranchChange}
-                    value={formData.branch}
+                    value={formData.branchName || null}
                     selectedOrganization={selectedOrganization}
-                    error={errors.branch}
+                    // error={errors.branch}
                   />
                 </Grid>
 
@@ -291,7 +341,6 @@ const RepairForm = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                 
                   <TextField
                     fullWidth
                     label="Email"
@@ -378,32 +427,31 @@ const RepairForm = () => {
                       />
                     </Grid>
                     <Grid item xs={6}>
-                     
                       <FormControl
-                    fullWidth
-                    variant="outlined"
-                    // error={!!errors.role}
-                    required
-                  >
-                    <InputLabel id="status-label">Status</InputLabel>
-                    <Select
-                      labelId="status-label"
-                      id="status"
-                      name="status"
-                      value={formData.status || ""}
-                      onChange={(e) =>
-                        handleDeviceChange(index, "status", e.target.value)
-                      }
-                      label="Status"
-                    >
-                      <MenuItem value="Pending">Pending</MenuItem>
-                      <MenuItem value="InProcess">In-Process</MenuItem>
-                      <MenuItem value="Completed">Completed</MenuItem>
-                    </Select>
-                    {/* {errors.role && (
+                        fullWidth
+                        variant="outlined"
+                        // error={!!errors.role}
+                        required
+                      >
+                        <InputLabel id="status-label">Status</InputLabel>
+                        <Select
+                          labelId="status-label"
+                          id="status"
+                          name="status"
+                          value={formData.status || ""}
+                          onChange={(e) =>
+                            handleDeviceChange(index, "status", e.target.value)
+                          }
+                          label="Status"
+                        >
+                          <MenuItem value="Pending">Pending</MenuItem>
+                          <MenuItem value="InProcess">In-Process</MenuItem>
+                          <MenuItem value="Completed">Completed</MenuItem>
+                        </Select>
+                        {/* {errors.role && (
                       <FormHelperText>{errors.role}</FormHelperText>
                     )} */}
-                  </FormControl>
+                      </FormControl>
                     </Grid>
                     <Grid item xs={6}>
                       <TextField

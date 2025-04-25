@@ -6,6 +6,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const CategoryInput = ({ onChange, value, branchId, error }) => {
+  console.log(branchId,"cat branchId");
+  
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -26,6 +28,8 @@ const CategoryInput = ({ onChange, value, branchId, error }) => {
           }
         );
 
+        console.log("cat response:",response);
+        
         const formattedOptions = (response.data.data || []).map((org) => ({
           label: org.categoryName,
           value: org._id,
