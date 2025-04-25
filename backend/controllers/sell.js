@@ -187,9 +187,6 @@ exports.getAllStockSellRepair = async (req, res) => {
 exports.getSellByDate = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
-    console.log("📥 Received from client:", req.query);
-    console.log("Start Date:", startDate);
-    console.log("End Date:", endDate);
 
     if (!startDate || !endDate) {
       return res.status(400).json({

@@ -224,10 +224,10 @@ const SellTable = () => {
               <TextField
                 variant="outlined"
                 placeholder="Search"
-                size="small"
+                size="medium"
                 value={searchTerm}
                 onChange={handleSearchChange}
-                sx={{ backgroundColor: "white", borderRadius: 1 }}
+                sx={{ backgroundColor: "white", borderRadius: 1 , width: "50%" }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">

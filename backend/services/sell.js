@@ -221,11 +221,6 @@ exports.getSellByDateService = async ({ startDate, endDate }) => {
       $lte: end,
     };
 
-    console.log("📅 Applying date filter:", {
-      $gte: start.toISOString(),
-      $lte: end.toISOString(),
-    });
-
     const result = await Sell.find(filter)
       .populate("organization branch modelName deviceName customerName stock")
       .lean();
