@@ -68,8 +68,8 @@ const exportLedgerPdf = async (req, res) => {
       }));
 
       // Debug log
-      console.log(`${title} rows:`, datas.length);
-      if (datas.length > 0) console.log("First row:", Object.values(datas[0]));
+      // console.log(`${title} rows:`, datas.length);
+      // if (datas.length > 0) console.log("First row:", Object.values(datas[0]));
 
       // Draw the table
       doc.table(
