@@ -76,10 +76,7 @@ const Header = () => {
         width: "100%",
       }}
     >
-      <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: "bold" }}>
-          Organizations
-        </Typography>
+      <Toolbar sx={{ display: "flex", justifyContent: "end" }}>
         <Box display="flex" alignItems="center" gap={2}>
           <IconButton
             color="inherit"
