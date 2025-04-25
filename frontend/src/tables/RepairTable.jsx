@@ -21,6 +21,7 @@ import Sidebar from "../components/Sidebar";
 import SearchIcon from "@mui/icons-material/Search";
 import { deleteRepair, getAllRepair } from "../apis/RepairApi";
 import moment from "moment";
+import noDataImage from "../assets/Group 18992.png";
 
 const RepairTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -137,6 +138,26 @@ const RepairTable = () => {
       }))
     : [];
 
+  const CustomNoRowsOverlay = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+        }}
+      >
+        <img
+          src={noDataImage}
+          alt="No data Image"
+          style={{ width: 250, marginBottom: 16 }}
+        />
+      </Box>
+    );
+  };
+
   return (
     <Box sx={{ display: "flex", marginTop: "4rem" }}>
       <Sidebar />
@@ -195,6 +216,9 @@ const RepairTable = () => {
               onPaginationModelChange={handlePaginationModelChange}
               paginationModel={paginationModel}
               pageSizeOptions={[5, 10]}
+              slots={{
+                noRowsOverlay: CustomNoRowsOverlay,
+              }}
               sx={{
                 border: 0,
                 "& .MuiDataGrid-columnHeader": {

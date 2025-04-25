@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
@@ -12,6 +12,7 @@ import PaymentDialog from "../components/PaymentDialog";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import MobileFriendlyIcon from "@mui/icons-material/MobileFriendly";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import noDataImage from "../assets/Group 18992.png";
 
 const StockTable = ({ searchTerm }) => {
   const location = useLocation();
@@ -166,6 +167,26 @@ const StockTable = ({ searchTerm }) => {
 
   // Handle search term change
 
+  const CustomNoRowsOverlay = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+        }}
+      >
+        <img
+          src={noDataImage}
+          alt="No data Image"
+          style={{ width: 250, marginBottom: 16 }}
+        />
+      </Box>
+    );
+  };
+
   return (
     <div>
       <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
@@ -178,6 +199,9 @@ const StockTable = ({ searchTerm }) => {
           onPaginationModelChange={handlePaginationModelChange}
           paginationModel={paginationModel}
           pageSizeOptions={[5, 10]}
+          slots={{
+            noRowsOverlay: CustomNoRowsOverlay,
+          }}
           sx={{
             border: 0,
             "& .MuiDataGrid-columnHeader": {
