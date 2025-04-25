@@ -227,7 +227,7 @@ exports.getSellByDateService = async ({ startDate, endDate }) => {
     });
 
     const result = await Sell.find(filter)
-      // .populate("organization branchName category stock modelName deviceName")
+      .populate("organization branch modelName deviceName customerName stock")
       .lean();
 
     return result;

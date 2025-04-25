@@ -21,6 +21,7 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { allSell, deleteSell } from "../apis/SellApi";
 import moment from "moment";
+import axios from "axios";
 const SellTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [paginationModel, setPaginationModel] = useState({
@@ -33,9 +34,9 @@ const SellTable = () => {
   const [sellData, setSellData] = useState([]);
   const [totalRows, setTotalRows] = useState(0);
   const [dateRange, setDateRange] = useState({
-      start: "",
-      end: "",
-    });
+    startDate: "",
+    endDate: "",
+  });
 
   const callApi = async () => {
     const response = await allSell(
@@ -54,30 +55,27 @@ const SellTable = () => {
     callApi(); // +1 for 1-based API pagination
   }, [paginationModel.page, paginationModel.pageSize, searchTerm]);
 
-   const fetchExpenses = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/api/expenseByDate",
-          {
-            params: {
-              startDate: dateRange.startDate,
-              endDate: dateRange.endDate,
-            },
-          }
-        );
-  
-        setSellData(response.data.data); // ✅ Update the table rows
-        setTotalRows(response.data.data.length); // ✅ Optional: update total count
-      } catch (error) {
-        console.error("Error fetching filtered expenses:", error);
-      }
-    };
+  const fetchExpenses = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/api/sellByDate", {
+        params: {
+          startDate: dateRange.startDate,
+          endDate: dateRange.endDate,
+        },
+      });
 
-    useEffect(() => {
-        if (dateRange.start && dateRange.end) {
-          fetchExpenses();
-        }
-      }, [dateRange.start, dateRange.end]);
+      setSellData(response.data.data); // ✅ Update the table rows
+      setTotalRows(response.data.data.length); // ✅ Optional: update total count
+    } catch (error) {
+      console.error("Error fetching filtered expenses:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (dateRange.startDate && dateRange.endDate) {
+      fetchExpenses();
+    }
+  }, [dateRange.startDate, dateRange.endDate]);
 
   const handleOpen = (data) => {
     setData(data);
