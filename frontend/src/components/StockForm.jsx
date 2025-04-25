@@ -49,6 +49,7 @@ const StockForm = () => {
           {
             imeiNo: "",
             srNo: "",
+            useImei: true,
             totalAmount: "",
             paidToCustomer: "",
             remainingAmount: "",
@@ -123,7 +124,6 @@ const StockForm = () => {
   };
 
   const handlePaymentChange = (index, selectedPaymentAccount) => {
-
     setFormData((prev) => {
       const updatedPayment = [...prev.payment];
       updatedPayment[index] = {
@@ -133,9 +133,8 @@ const StockForm = () => {
       return { ...prev, payment: updatedPayment };
     });
   };
-  
-  const handlePaymentAmountChange = (index, amount) => {
 
+  const handlePaymentAmountChange = (index, amount) => {
     setFormData((prev) => {
       const updatedPayment = [...prev.payment];
       updatedPayment[index] = {
@@ -270,7 +269,7 @@ const StockForm = () => {
 
     // If totalAmount or paidToCustomer changes, update remainingAmount
     if (field === "totalAmount" || field === "paidToCustomer") {
-      imei.remainingAmount = totalAmount - paidToCustomer;
+      imei.remainingAmount = (totalAmount - paidToCustomer)==0 ? "0":(totalAmount - paidToCustomer);
     }
 
     setFormData({ ...formData, device: updatedDeviceData });
@@ -444,6 +443,9 @@ const StockForm = () => {
     }
   }, [id]);
 
+  console.log("formData:",formData);
+
+
   const validateStockForm = () => {
     let newErrors = {};
 
@@ -491,18 +493,15 @@ const StockForm = () => {
           newErrors.device[index].color = errorMessage.colorName;
         }
 
-        console.log("newErrors", newErrors);
 
         // Validate imei array inside each device
         if (Array.isArray(device.imei)) {
           device.imei.forEach((imei, imeiIndex) => {
-            if (!imei.imeiNo) {
-              if (!newErrors.device[index].imei)
-                newErrors.device[index].imei = [];
-              newErrors.device[index].imei[imeiIndex] =
-                newErrors.device[index].imei[imeiIndex] || {};
+            if (!imei.imeiNo && !imei.srNo) {
               newErrors.device[index].imei[imeiIndex].imeiNo =
-                errorMessage.imeiNo;
+                "At least one of IMEI Number or Serial Number is required.";
+              newErrors.device[index].imei[imeiIndex].srNo =
+                "At least one of IMEI Number or Serial Number is required.";
             }
             if (!imei.totalAmount) {
               if (!newErrors.device[index].imei)
@@ -533,6 +532,33 @@ const StockForm = () => {
       });
     }
 
+    if (Array.isArray(formData.payment)) {
+      formData.payment.forEach((payment, paymentIndex) => {
+        if (!payment.paymentAccount) {
+          if (!newErrors.payment) newErrors.payment = [];
+          newErrors.payment[paymentIndex] =
+            newErrors.payment[paymentIndex] || {};
+          newErrors.payment[paymentIndex].paymentAccount =
+            errorMessage.paymentAccount;
+        }
+        if (!payment.paymentAmount || isNaN(payment.paymentAmount)) {
+          if (!newErrors.payment) newErrors.payment = [];
+          newErrors.payment[paymentIndex] =
+            newErrors.payment[paymentIndex] || {};
+          newErrors.payment[paymentIndex].paymentAmount =
+            errorMessage.paymentAmount;
+        } else if (payment.paymentAmount <= 0) {
+          if (!newErrors.payment) newErrors.payment = [];
+          newErrors.payment[paymentIndex] =
+            newErrors.payment[paymentIndex] || {};
+          newErrors.payment[paymentIndex].paymentAmount =
+            "Payment amount must be greater than 0.";
+        }
+      });
+    }
+    
+    console.log("newErrors", newErrors);
+
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0; // Returns true if no errors
@@ -541,9 +567,9 @@ const StockForm = () => {
   const handleSubmit = async () => {
     // console.log(formData, "formData");
 
-    // if (!validateStockForm()) {
-    //   return;
-    // }
+    if (!validateStockForm()) {
+      return;
+    }
 
     try {
       const formattedDevices = formData.device.map((deviceItem) => ({
@@ -591,7 +617,7 @@ const StockForm = () => {
     }
   };
 
-  // console.log("error", errors);
+  console.log("error", errors);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -1101,6 +1127,12 @@ const StockForm = () => {
                         value={
                           formData.payment[paymentIndex].paymentAccount || null
                         }
+                        error={
+                          errors &&
+                          errors.payment &&
+                          errors.payment[paymentIndex] &&
+                          errors.payment[paymentIndex].paymentAccount
+                        }
                       />
                     </Grid>
                     <Grid item xs={6}>
@@ -1116,6 +1148,21 @@ const StockForm = () => {
                             paymentIndex,
                             e.target.value
                           )
+                        }
+                        error={
+                          !!(
+                            errors &&
+                            errors.payment &&
+                            errors.payment[paymentIndex] &&
+                            errors.payment[paymentIndex].paymentAmount
+                          )
+                        }
+                        helperText={
+                          (errors &&
+                            errors.payment &&
+                            errors.payment[paymentIndex] &&
+                            errors.payment[paymentIndex].paymentAmount) ||
+                          ""
                         }
                       />
                     </Grid>
