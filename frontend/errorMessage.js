@@ -26,6 +26,9 @@ export const errorMessage = {
   paidToCustomer: "paidToCustomer is required",
   remainingAmount:"remainingAmount is required ",
   totalAmount:"totalAmount is required",
+  amount:"totalAmount is required",
+  customerPaid:"customerPaid is required",
+  paymentType : "paymentType is required",
   paymentAccount:"paymentAccount is required",
   paymentAmount:"paymentAmount is required"
 };
