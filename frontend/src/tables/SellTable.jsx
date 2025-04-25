@@ -32,6 +32,10 @@ const SellTable = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [sellData, setSellData] = useState([]);
   const [totalRows, setTotalRows] = useState(0);
+  const [dateRange, setDateRange] = useState({
+      start: "",
+      end: "",
+    });
 
   const callApi = async () => {
     const response = await allSell(
@@ -49,6 +53,31 @@ const SellTable = () => {
   useEffect(() => {
     callApi(); // +1 for 1-based API pagination
   }, [paginationModel.page, paginationModel.pageSize, searchTerm]);
+
+   const fetchExpenses = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:4000/api/expenseByDate",
+          {
+            params: {
+              startDate: dateRange.startDate,
+              endDate: dateRange.endDate,
+            },
+          }
+        );
+  
+        setSellData(response.data.data); // ✅ Update the table rows
+        setTotalRows(response.data.data.length); // ✅ Optional: update total count
+      } catch (error) {
+        console.error("Error fetching filtered expenses:", error);
+      }
+    };
+
+    useEffect(() => {
+        if (dateRange.start && dateRange.end) {
+          fetchExpenses();
+        }
+      }, [dateRange.start, dateRange.end]);
 
   const handleOpen = (data) => {
     setData(data);
@@ -157,7 +186,43 @@ const SellTable = () => {
             >
               SELL DEVICES
             </Typography>
-            <Box display="flex" gap={2}>
+            <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
+              <TextField
+                fullWidth
+                type="date"
+                label="Start Date"
+                name="startDate"
+                value={dateRange.startDate}
+                onChange={(e) =>
+                  setDateRange((prev) => ({
+                    ...prev,
+                    startDate: e.target.value,
+                  }))
+                }
+                // value={formData.date}
+                // onChange={handleNativeDateChange}
+                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+
+              <TextField
+                fullWidth
+                type="date"
+                label="End Date"
+                name="endDate"
+                value={dateRange.endDate}
+                onChange={(e) =>
+                  setDateRange((prev) => ({ ...prev, endDate: e.target.value }))
+                }
+                // value={formData.date}
+                // onChange={handleNativeDateChange}
+                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
               <TextField
                 variant="outlined"
                 placeholder="Search"

@@ -497,7 +497,13 @@ const StockForm = () => {
         // Validate imei array inside each device
         if (Array.isArray(device.imei)) {
           device.imei.forEach((imei, imeiIndex) => {
-            if (!imei.imeiNo && !imei.srNo) {
+            if (!imei.imeiNo &&  !imei.srNo) {
+              // Ensure the device array exists in newErrors
+              if (!newErrors.device) newErrors.device = [];
+              if (!newErrors.device[index]) newErrors.device[index] = {};
+              if (!newErrors.device[index].imei) newErrors.device[index].imei = [];
+              if (!newErrors.device[index].imei[imeiIndex]) newErrors.device[index].imei[imeiIndex] = {};
+        
               newErrors.device[index].imei[imeiIndex].imeiNo =
                 "At least one of IMEI Number or Serial Number is required.";
               newErrors.device[index].imei[imeiIndex].srNo =
