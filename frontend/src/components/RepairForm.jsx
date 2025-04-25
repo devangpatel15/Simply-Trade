@@ -94,12 +94,12 @@ const RepairForm = () => {
     const payload = {
       organization: formData.organization?.value || null,
       branch: formData.branch?.value || null,
-      customerName: formData.customerName.value || null,
-      customerPhone: formData.customerPhone || "",
+      customerName: formData?.customerName?.value || null,
+      customerPhone: formData?.customerPhone || "",
       email: formData.email || "",
       device: formData.device.map((d) => ({
-        modelName: d.modelName?.value || null,
-        deviceName: d.deviceName?.value || null,
+        modelName: d?.modelName?.value || null,
+        deviceName: d?.deviceName?.value || null,
         amount: d.amount || "",
         estimatedCost: d.estimatedCost || "",
         status: d.status || "",
@@ -110,18 +110,13 @@ const RepairForm = () => {
     try {
       if (id) {
         await updateRepair(payload, id);
-        toast.success("Repair updated successfully!");
       } else {
         await createRepair(payload);
-        toast.success("Repair added successfully!");
         console.log("Final Payload:", payload);
       }
       navigate("/repairPage");
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error(
-        "An error occurred while submitting the form. Please try again."
-      );
     }
   };
 

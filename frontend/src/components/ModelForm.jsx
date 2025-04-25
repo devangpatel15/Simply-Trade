@@ -76,7 +76,6 @@ const ModelForm = () => {
           },
           id
         );
-        toast.success("Model updated successfully!");
       } else {
         createModel({
           ...formData,
@@ -84,14 +83,10 @@ const ModelForm = () => {
           branchName: formData.branchName.value,
           categoryId: formData.categoryId.value,
         });
-        toast.success("Model added successfully!");
       }
       navigate("/modelPage");
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error(
-        "An error occurred while submitting the form. Please try again."
-      );
     }
   };
 

@@ -77,7 +77,6 @@ const DeviceForm = () => {
           },
           id
         );
-        toast.success("Device updated successfully!");
 
       } else {
         createDevice({
@@ -87,13 +86,11 @@ const DeviceForm = () => {
           categoryId: formData.categoryId.value,
           modelId: formData.modelId.value,
         });
-        toast.success("Device added successfully!");
 
       }
       navigate("/devicePage");
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error("An error occurred while submitting the form. Please try again.");
 
     }
   };

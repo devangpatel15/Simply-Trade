@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const getAllRepair = async (page = 1, limit = 5, search) => {
     try {
@@ -41,9 +42,10 @@ const getAllRepair = async (page = 1, limit = 5, search) => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
-      console.log(response, "Repair created successfully");
+      toast.success("Repair added successfully!");
+      // console.log(response, "Repair created successfully");
     } catch (error) {
+      toast.error("Repair not created!");
       console.log(error, "Repair not create ");
     }
   };
@@ -60,11 +62,14 @@ const getAllRepair = async (page = 1, limit = 5, search) => {
           },
         }
       );
+      toast.success("Repair updated successfully!");
       return response;
     } catch (error) {
+      toast.error(error,"Repair not update");
       console.log(error, "Repair not update");
     }
   };
+
 
     const deleteRepair = async (id) => {
         try {
@@ -78,7 +83,9 @@ const getAllRepair = async (page = 1, limit = 5, search) => {
             },
             }
         );
+        toast.success("Repair deleted successfully!");
         } catch (error) {
+        toast.error("Repair not deleted!");
         console.log(error, "Repair not delete");
         }
     };

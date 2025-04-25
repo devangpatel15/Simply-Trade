@@ -4,13 +4,7 @@ import {
   Button,
   Grid,
   Typography,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   Box,
-  MenuItem,
 } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
@@ -89,7 +83,6 @@ const UserForm = () => {
           },
           id
         );
-        toast.success("User updated successfully");
       } else {
         await createUser({
           ...formData,
@@ -97,14 +90,10 @@ const UserForm = () => {
           orgBranch: formData.orgBranch.value,
           role: "user",
         });
-        toast.success("User created successfully");
       }
       navigate("/userPage");
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error(
-        "An error occurred while submitting the form. Please try again."
-      );
     }
   };
 

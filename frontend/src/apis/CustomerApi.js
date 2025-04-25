@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const createCustomer = async (formData) => {
   try {
@@ -8,7 +9,9 @@ const createCustomer = async (formData) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+    toast.success("Customer created successfully!");
   } catch (error) {
+    toast.error("Customer not created ");
     console.log(error, "Create Customer error");
   }
 };
@@ -24,7 +27,9 @@ const updateCustomer = async (formData, id) => {
         },
       }
     );
+    toast.success("Customer updated successfully!");
   } catch (error) {
+    toast.error("Customer not updated!");
     console.log(error, "Update Customer error");
   }
 };
@@ -76,7 +81,9 @@ const deleteCustomer = async (id) => {
         },
       }
     );
+    toast.success("Customer deleted successfully!");
   } catch (error) {
+    toast.error("Customer not deleted!");
     console.log(error, "get All Customer error");
   }
 };

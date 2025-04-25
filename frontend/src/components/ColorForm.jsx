@@ -75,7 +75,6 @@ function ColorForm() {
           },
           id
         );
-        toast.success("Color updated successfully!");
 
       } else {
         await createColor({
@@ -86,12 +85,10 @@ function ColorForm() {
           modelId: formData.modelId.value,
           deviceId: formData.deviceId.value,
         });
-        toast.success("Color added successfully!");
       }
       navigate("/colorPage");
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error("An error occurred while submitting the form. Please try again.");
     }
   };
 

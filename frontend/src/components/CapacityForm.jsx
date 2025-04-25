@@ -86,7 +86,6 @@ const CapacityForm = () => {
           },
           id
         );
-        toast.success("Capacity updated successfully");
       } else {
         await createCapacity({
           ...formData,
@@ -96,14 +95,10 @@ const CapacityForm = () => {
           modelId: formData.modelId.value,
           deviceId: formData.deviceId.value,
         });
-        toast.success("Capacity added successfully");
       }
       navigate("/capacityPage");
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error(
-        "An error occurred while submitting the form. Please try again."
-      );
     }
   };
 

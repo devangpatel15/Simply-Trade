@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const createCapacity = async (formData) => {
   try {
@@ -8,7 +9,9 @@ const createCapacity = async (formData) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+    toast.success("Capacity created successfully!");
   } catch (error) {
+    toast.error("Capacity not created ");
     console.log(error, "Create Capacity error");
   }
 };
@@ -22,6 +25,7 @@ const getAllCapacity = async (page = 1, limit = 5, search) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+    
     return response.data;
   } catch (error) {
     console.log(error, "get Capacity error");
@@ -41,8 +45,10 @@ const updateCapacity = async (formData, id) => {
         },
       }
     );
+    toast.success("Capacity updated successfully!");
     alert(response.data.message);
   } catch (error) {
+    toast.error("Capacity not updated!");
     console.log(error.message);
   }
 };
@@ -59,8 +65,10 @@ const deleteCapacity = async (id) => {
         },
       }
     );
+    toast.success("Capacity deleted successfully!");
     return response;
   } catch (error) {
+    toast.error("Capacity not deleted!");
     console.log(error.message);
   }
 };

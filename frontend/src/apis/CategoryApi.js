@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const createCategory = async (formData) => {
   try {
@@ -8,7 +9,9 @@ const createCategory = async (formData) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+    toast.success("Category created successfully!");
   } catch (error) {
+    toast.error("Category not created ");
     console.log(error, "Create Category error");
   }
 };
@@ -58,8 +61,10 @@ const deleteCategory = async (id) => {
         },
       }
     );
+    toast.success("Category deleted successfully!");
     return response;
   } catch (error) {
+    toast.error("Category not deleted!");
     console.log(error.message);
   }
 };
@@ -75,8 +80,10 @@ const updateCategory = async (formData, id) => {
         },
       }
     );
+    toast.success("Category updated successfully!");
     return response;
   } catch (error) {
+    toast.error("Category not updated!");
     console.log(error.message);
   }
 };

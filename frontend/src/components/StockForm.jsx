@@ -579,15 +579,12 @@ const StockForm = () => {
       console.log("payload", payload);
       if (id) {
         await updateStock(payload, id);
-        toast.success("Stock updated successfully!");
       } else {
         await createStock(payload);
-        toast.success("Stock created successfully!");
       }
       navigate("/stockPage");
     } catch (error) {
       console.log(error.message);
-      toast.error("Error creating/updating stock!");
     }
   };
 

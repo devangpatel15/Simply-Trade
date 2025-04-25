@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const createModel = async (formData) => {
   try {
@@ -12,7 +13,9 @@ const createModel = async (formData) => {
         },
       }
     );
+    toast.success("Model created successfully!");
   } catch (error) {
+    toast.error("Model not created ");
     console.log(error, "createOrg error");
   }
 };
@@ -29,8 +32,10 @@ const updateModel = async (formData, id) => {
         },
       }
     );
+    toast.success("Model updated successfully!");
     return response;
   } catch (error) {
+    toast.error("Model not updated!");
     console.log(error, "createOrg error");
   }
 };
@@ -64,7 +69,9 @@ const deleteModel = async (_id) => {
         },
       }
     );
+    toast.success("Model deleted successfully!");
   } catch (error) {
+    toast.error("Model not deleted!");
     console.log(error.message);
   }
 };

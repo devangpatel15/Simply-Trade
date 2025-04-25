@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const getAllExpense = async (page = 1, limit = 5, search) => {
     try {
@@ -41,9 +42,10 @@ const getAllExpense = async (page = 1, limit = 5, search) => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
+      toast.success("Expense added successfully!");
       console.log(response, "Expense created successfully");
     } catch (error) {
+      toast.error("Expense not create ");
       console.log(error, "Expense not create ");
     }
   };
@@ -60,10 +62,12 @@ const getAllExpense = async (page = 1, limit = 5, search) => {
           },
         }
       );
+      toast.success("Expense updated successfully!");
       return response;
     } catch (error) {
+      toast.error("Expense not update!");
       console.log(error, "expense not update");
-    }
+    } 
   };
 
     const deleteExpense = async (id) => {
@@ -78,7 +82,9 @@ const getAllExpense = async (page = 1, limit = 5, search) => {
             },
             }
         );
+        toast.success("Expense deleted successfully!");
         } catch (error) {
+        toast.error("Expense not delete!");
         console.log(error, "expense not delete");
         }
     };

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const createStock = async (formData) => {
   try {
@@ -8,7 +9,9 @@ const createStock = async (formData) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+    toast.success("Stock created successfully!");
   } catch (error) {
+    toast.error("Stock not created ");
     console.log(error, "Create Stock error");
   }
 };
@@ -21,7 +24,9 @@ const updateStock = async (formData, id) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+    toast.success("Stock updated successfully!");
   } catch (error) {
+    toast.error("Stock not updated!");
     console.log(error, "Update Stock error");
   }
 };
@@ -68,7 +73,9 @@ const deleteStock = async (id) => {
         },
       }
     );
+    toast.success("Stock deleted successfully!");
   } catch (error) {
+    toast.error("Stock not deleted!");
     console.log(error, "get All Stock error");
   }
 };

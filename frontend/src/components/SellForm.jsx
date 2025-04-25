@@ -431,19 +431,15 @@ const SellForm = ({ stock }) => {
 
       if (stock) {
         await createSell(payload);
-        toast.success("sell added successfully!");
       } else if (id) {
         const response = await updateSell(payload, id);
         console.log(response, "updated Data");
-        toast.success("sell updated successfully!");
       } else {
         await createSell(payload);
-        toast.success("sell added successfully!");
       }
       navigate("/sellPage");
     } catch (error) {
       console.log(error.message);
-      toast.error("Error creating/updating stock!");
     }
   };
 

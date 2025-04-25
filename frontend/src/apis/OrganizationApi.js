@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const createOrg = async (formData) => {
   try {
@@ -12,7 +13,9 @@ const createOrg = async (formData) => {
         },
       }
     );
+    toast.success("Organization created successfully!");
   } catch (error) {
+    toast.error("Organization not created ");
     console.log(error, "createOrg error");
   }
 };
@@ -29,8 +32,10 @@ const updateOrg = async (formData, id) => {
         },
       }
     );
+    toast.success("Organization updated successfully!");
     alert(response.data.message);
   } catch (error) {
+    toast.error("Organization not updated!");
     console.log(error, "createOrg error");
   }
 };
@@ -64,7 +69,9 @@ const deleteOrg = async (_id) => {
         },
       }
     );
+    toast.success("Organization deleted successfully!");
   } catch (error) {
+    toast.error("Organization not deleted!");
     console.log(error.message);
   }
 };

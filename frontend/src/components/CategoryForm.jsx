@@ -66,15 +66,12 @@ const CategoryForm = () => {
 
       if (id) {
         await updateCategory(categoryData, id);
-        toast.success("Category updated successfully!");
       } else {
         await createCategory(categoryData);
-        toast.success("Category added successfully!");
       }
       navigate("/category");
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error("An error occurred while submitting the form. Please try again.");
     } finally {
       setLoading(false); // Stop loading after submission
     }

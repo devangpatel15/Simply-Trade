@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const createUser = async (formData) => {
   try {
@@ -12,7 +13,10 @@ const createUser = async (formData) => {
         },
       }
     );
+    toast.success("User created successfully!");
+    return response;
   } catch (error) {
+    toast.error("User not created ");
     console.log(error, "createUser error");
   }
 };
@@ -29,8 +33,10 @@ const updateUser = async (formData, id) => {
         },
       }
     );
+    toast.success("User updated successfully!");
     return response;
   } catch (error) {
+    toast.error("User not updated!");
     console.log(error, "updateUser error");
   }
 };
@@ -83,8 +89,10 @@ const deleteUser = async (id) => {
         },
       }
     );
+    toast.success("User deleted successfully!");
     return response;
   } catch (error) {
+    toast.error("User not deleted!");
     console.log(error.message);
   }
 };

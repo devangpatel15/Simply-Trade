@@ -121,23 +121,26 @@ const ExpenseForm = ({ stockId }) => {
       if (stockId) {
         if (!formData.expense) {
           await createExpense(payload);
+          navigate("/expensePage");
         } else {
           await updateExpense(payload, formData.expense);
+          navigate("/expensePage");
         }
-        toast.success("Expense added successfully!");
+        // toast.success("Expense added successfully!");
       } else if (id) {
         await updateExpense(payload, id);
         toast.success("Expense updated successfully!");
+        navigate("/expensePage");
       } else {
         await createExpense(payload);
-        toast.success("Expense added successfully!");
+        // toast.success("Expense added successfully!");
+        navigate("/expensePage");
       }
-      navigate("/expensePage");
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error(
-        "An error occurred while submitting the form. Please try again."
-      );
+      // toast.error(
+      //   "An error occurred while submitting the form. Please try again."
+      // );
     }
   };
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Await } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const createDevice = async (formData) => {
   try {
@@ -9,7 +9,9 @@ const createDevice = async (formData) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+    toast.success("Device created successfully!");
   } catch (error) {
+    toast.error("Device not created ");
     console.log(error, "Create Device error");
   }
 };
@@ -58,7 +60,9 @@ const updateDevice = async (formData, id) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+    toast.success("Device updated successfully!");
   } catch (error) {
+    toast.error("Device not updated!");
     console.log(error, "Create Device error");
   }
 };
@@ -75,7 +79,9 @@ const deleteDevice = async (_id) => {
         },
       }
     );
+    toast.success("Device deleted successfully!");
   } catch (error) {
+    toast.error("Device not deleted!");
     console.log(error.message);
   }
 };

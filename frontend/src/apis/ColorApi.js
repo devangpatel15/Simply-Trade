@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const createColor = async (formData) => {
   try {
@@ -8,7 +9,9 @@ const createColor = async (formData) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+    toast.success("Color created successfully!");
   } catch (error) {
+    toast.error("Color not created ");
     console.log(error, "Create Color error");
   }
 };
@@ -41,8 +44,10 @@ const updateColor = async (formData, id) => {
         },
       }
     );
+    toast.success("Color updated successfully!");
     return response;
   } catch (error) {
+    toast.error("Color not updated!");
     console.log(error, "Create Color error");
   }
 };
@@ -50,7 +55,7 @@ const updateColor = async (formData, id) => {
 const getAllColor = async (page = 1, limit = 5, search) => {
   try {
     const response = await axios.get("http://localhost:4000/api/findAllColor", {
-      params: { page, limit, search  },
+      params: { page, limit, search },
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -75,7 +80,9 @@ const deleteColor = async (id) => {
         },
       }
     );
+    toast.success("Color deleted successfully!");
   } catch (error) {
+    toast.error("Color not deleted!");
     console.log(error, "Create Color error");
   }
 };

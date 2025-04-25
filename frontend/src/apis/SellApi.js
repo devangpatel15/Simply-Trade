@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const createSell = async (formData) => {
   try {
@@ -12,7 +13,10 @@ const createSell = async (formData) => {
         },
       }
     );
+    toast.success("Sell created successfully!");
+    return response;
   } catch (error) {
+    toast.error("Sell not created ");
     console.log(error, "createSell error");
   }
 };
@@ -45,9 +49,11 @@ const updateSell = async (formData, id) => {
         },
       }
     );
+    toast.success("Sell updated successfully!");
     alert(response.data.message);
     return response
   } catch (error) {
+    toast.error("Sell not updated!");
     console.log(error, "updateSell error");
   }
 };
@@ -98,7 +104,9 @@ const deleteSell = async (_id) => {
         },
       }
     );
+    toast.success("Sell deleted successfully!");
   } catch (error) {
+    toast.error("Sell not deleted!");
     console.log(error.message);
   }
 };
