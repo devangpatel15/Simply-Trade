@@ -31,6 +31,7 @@ import { createSell, getOneSell, updateSell } from "../apis/SellApi";
 import PaymentInput from "./common/PaymentInput";
 
 const SellForm = ({ stock }) => {
+  const [errors, setErrors] = useState({});
   console.log("stock", stock);
   const [formData, setFormData] = useState({
     organization: null,
@@ -47,7 +48,7 @@ const SellForm = ({ stock }) => {
         remainingAmount: "",
         upload: "",
         totalAmount: "",
-        paidToCustomer: "",
+       
       },
     ],
     payment: [
@@ -396,10 +397,99 @@ const SellForm = ({ stock }) => {
     callApi();
   }, []);
 
+  const validateStockForm = () => {
+    let newErrors = {
+      device: [],
+      payment: [],
+    };
+  
+    // Validate top-level fields
+    if (!formData.organization)
+      newErrors.organization = errorMessage.organizationName;
+    if (!formData.branch) newErrors.branch = errorMessage.branchName;
+    if (!formData.customerName)
+      newErrors.customerName = errorMessage.customerName;
+    if (!formData.customerPhone)
+      newErrors.customerPhone = errorMessage.mobile;
+  
+    // Validate customerPhone format
+    if (formData.customerPhone && !/^\d+$/.test(formData.customerPhone)) {
+      newErrors.customerPhone = formatMessage.customerPhone;
+    } else if (
+      formData.customerPhone &&
+      formData.customerPhone.length !== 10
+    ) {
+      newErrors.customerPhone = lengthMessage.mobile;
+    }
+  
+    // Validate devices
+    if (Array.isArray(formData.device)) {
+      formData.device.forEach((device, index) => {
+        if (!newErrors.device) newErrors.device = [];
+        if (!newErrors.device[index]) newErrors.device[index] = {};
+    
+        if (!device.modelName)
+          newErrors.device[index].modelName = errorMessage.modelName;
+    
+        if (!device.deviceName)
+          newErrors.device[index].deviceName = errorMessage.deviceName;
+    
+        if (!device.paymentType)
+          newErrors.device[index].paymentType = errorMessage.paymentType;
+    
+        if (!device.amount)
+          newErrors.device[index].amount = errorMessage.amount;
+    
+        if (!device.customerPaid)
+          newErrors.device[index].customerPaid = errorMessage.customerPaid;
+    
+        if (!device.remainingAmount)
+          newErrors.device[index].remainingAmount = errorMessage.remainingAmount;
+      });
+    }
+    
+  
+    // Validate payments
+    if (Array.isArray(formData.payment)) {
+      formData.payment.forEach((payment, paymentIndex) => {
+        if (!newErrors.payment[paymentIndex])
+          newErrors.payment[paymentIndex] = {};
+  
+        if (!payment.paymentAccount) {
+          newErrors.payment[paymentIndex].paymentAccount =
+            errorMessage.paymentAccount;
+        }
+  
+        if (!payment.paymentAmount || isNaN(payment.paymentAmount)) {
+          newErrors.payment[paymentIndex].paymentAmount =
+            errorMessage.paymentAmount;
+        } else if (payment.paymentAmount <= 0) {
+          newErrors.payment[paymentIndex].paymentAmount =
+            "Payment amount must be greater than 0.";
+        }
+      });
+    }
+  
+    console.log("newErrors", newErrors);
+    setErrors(newErrors);
+  
+    // Check if all error objects are empty
+    const hasErrors = Object.values(newErrors).some((error) =>
+      Array.isArray(error)
+        ? error.some((item) => Object.keys(item || {}).length > 0)
+        : error
+    );
+  
+    return !hasErrors;
+  };
+  
+
+
+
   const handleSubmit = async () => {
-    // if (!validateStockForm()) {
-    //   return;
-    // }
+    if (!validateStockForm()) {
+      return;
+    }
 
     try {
       const formattedDevices = formData.device.map((deviceItem) => ({
@@ -472,7 +562,7 @@ const SellForm = ({ stock }) => {
                   role="admin"
                   onChange={handleOrganizationChange}
                   value={formData.organization} // Now it's an object, not undefined
-                  // error={errors.organization}
+                  error={errors.organization}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -481,7 +571,7 @@ const SellForm = ({ stock }) => {
                   onChange={handleOrganizationBranchChange}
                   value={formData.branch || null} // ✅ Ensure branch is always an object or null
                   selectedOrganization={selectedOrganization}
-                  // error={errors.branch}
+                  error={errors.branch}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -490,7 +580,7 @@ const SellForm = ({ stock }) => {
                   value={formData.customerName}
                   branchId={formData?.branch?.value}
 
-                  // error={errors.customerName}
+                  error={errors.customerName}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -552,13 +642,13 @@ const SellForm = ({ stock }) => {
                       }
                       value={formData.device[deviceIndex]?.modelName}
                       branchId={formData?.branch?.value}
-                      // error={
-                      //   (errors &&
-                      //     errors.device &&
-                      //     errors.device[deviceIndex] &&
-                      //     errors.device[deviceIndex].modelName) ||
-                      //   ""
-                      // }
+                      error={
+                        (errors &&
+                          errors.device &&
+                          errors.device[deviceIndex] &&
+                          errors.device[deviceIndex].modelName) ||
+                        ""
+                      }
                     />
                   </Grid>
                   <Grid item xs={6}>
@@ -568,20 +658,21 @@ const SellForm = ({ stock }) => {
                       }
                       value={formData.device[deviceIndex]?.deviceName}
                       modelId={modelId}
-                      // error={
-                      //   (errors &&
-                      //     errors.device &&
-                      //     errors.device[deviceIndex] &&
-                      //     errors.device[deviceIndex].modelName) ||
-                      //   ""
-                      // }
+                      error={
+                        (errors &&
+                          errors.device &&
+                          errors.device[deviceIndex] &&
+                          errors.device[deviceIndex].modelName) ||
+                        ""
+                      }
                     />
                   </Grid>
                   <Grid item xs={6}>
                     <FormControl
                       fullWidth
                       variant="outlined"
-                      // error={!!errors.category}
+                      error={!!errors.paymentType}
+                      // helperText={errors.device?.[deviceIndex]?.paymentType || ""}
                       required
                     >
                       <InputLabel id="paymentType-label">
@@ -616,6 +707,13 @@ const SellForm = ({ stock }) => {
                       name="totalAmount"
                       value={formData.device?.[deviceIndex]?.totalAmount || ""}
                       type="number"
+                      error={
+                        (errors &&
+                          errors.device &&
+                          errors.device[deviceIndex] &&
+                          errors.device[deviceIndex].totalAmount) ||
+                        ""
+                      }
                     />
                   </Grid>
                   <Grid item xs={4}>
@@ -628,6 +726,13 @@ const SellForm = ({ stock }) => {
                       onChange={(e) =>
                         handleAmountChange(deviceIndex, e.target.value)
                       }
+                      error={
+                        (errors &&
+                          errors.device &&
+                          errors.device[deviceIndex] &&
+                          errors.device[deviceIndex].amount) ||
+                        ""
+                      }
                     />
                   </Grid>
                   <Grid item xs={4}>
@@ -639,6 +744,13 @@ const SellForm = ({ stock }) => {
                       type="number"
                       onChange={(e) =>
                         handleCustomerPaidChange(deviceIndex, e.target.value)
+                      }
+                      error={
+                        (errors &&
+                          errors.device &&
+                          errors.device[deviceIndex] &&
+                          errors.device[deviceIndex].customerPaid) ||
+                        ""
                       }
                     />
                   </Grid>
@@ -655,6 +767,13 @@ const SellForm = ({ stock }) => {
                       InputProps={{
                         readOnly: true,
                       }}
+                      error={
+                        (errors &&
+                          errors.device &&
+                          errors.device[deviceIndex] &&
+                          errors.device[deviceIndex].remainingAmount) ||
+                        ""
+                      }
                     />
                   </Grid>
                 </Grid>
@@ -691,6 +810,13 @@ const SellForm = ({ stock }) => {
                           onChange={(selectAccount) =>
                             handlePaymentChange(index, selectAccount)
                           }
+                          error={
+                            (errors &&
+                              errors.payment &&
+                              errors.payment[index] &&
+                              errors.payment[index].paymentAccount) ||
+                            ""
+                          }
                         />
                       </Grid>
                       <Grid item xs={5}>
@@ -703,6 +829,14 @@ const SellForm = ({ stock }) => {
                               index,
                               e.target.value
                             )
+                          }
+                          type="number"
+                          error={
+                            (errors &&
+                              errors.payment &&
+                              errors.payment[index] &&
+                              errors.payment[index].paymentAmount) ||
+                            ""
                           }
                         />
                       </Grid>
