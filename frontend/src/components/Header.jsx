@@ -78,6 +78,16 @@ const Header = () => {
     >
       <Toolbar sx={{ display: "flex", justifyContent: "end" }}>
         <Box display="flex" alignItems="center" gap={2}>
+          {userData.organization?.organizationName && (
+            <>
+              <Typography>
+                Organization : {userData.organization?.organizationName}
+              </Typography>
+              <Typography>
+                Branch Name : {userData.orgBranch?.branchName}
+              </Typography>
+            </>
+          )}
           <IconButton
             color="inherit"
             sx={{ border: "1px solid #ddd", borderRadius: "50%" }}

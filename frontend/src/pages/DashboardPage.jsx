@@ -22,14 +22,6 @@ import Header from "../components/Header";
 const DashboardPage = () => {
   const [loggedUserData, setLoggedUserData] = useState({});
 
-  //
-
-  //
-  //     } catch (error) {
-  //       console.error("Error parsing user data:", error);
-  //     }
-  //   }
-
   useEffect(() => {
     const userData = localStorage.getItem("role");
 
@@ -47,22 +39,6 @@ const DashboardPage = () => {
         <Box sx={{ textAlign: "center", fontSize: "1.5rem" }}>
           Welcome To {loggedUserData.role} Panel
         </Box>
-        {loggedUserData.organization?.organizationName && (
-          <Box
-            display="flex"
-            justifyContent="center"
-            sx={{
-              fontSize: "2rem",
-              gap: "3rem",
-              marginTop: "2rem",
-            }}
-          >
-            <Stack>
-              Organization : {loggedUserData.organization?.organizationName}
-            </Stack>
-            <Stack>Branch Name : {loggedUserData.orgBranch?.branchName}</Stack>
-          </Box>
-        )}
       </Box>
     </Box>
   );
