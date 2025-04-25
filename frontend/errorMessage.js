@@ -25,7 +25,9 @@ export const errorMessage = {
   srNo: "sr number is required",
   paidToCustomer: "paidToCustomer is required",
   remainingAmount:"remainingAmount is required ",
-  totalAmount:"totalAmount is required"
+  totalAmount:"totalAmount is required",
+  paymentAccount:"paymentAccount is required",
+  paymentAmount:"paymentAmount is required"
 };
 
 export const formatMessage = {

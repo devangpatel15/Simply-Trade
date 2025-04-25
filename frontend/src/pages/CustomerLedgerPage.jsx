@@ -49,7 +49,7 @@ const CustomerLedgerPage = () => {
       );
       const a = document.createElement("a");
       a.href = url;
-      a.download = `invoiceCustomerLedger.pdf`;
+      a.download = `invoiceCustomerLedger${Math.random()}.pdf`;
       document.body.appendChild(a);
       a.click();
       a.remove();
