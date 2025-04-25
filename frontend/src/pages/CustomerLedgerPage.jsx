@@ -80,6 +80,7 @@ const CustomerLedgerPage = () => {
 
             <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
               <TextField
+                disabled={selectedRadioFilter == "all"}
                 fullWidth
                 type="date"
                 label="Start Date"
@@ -93,6 +94,7 @@ const CustomerLedgerPage = () => {
               />
 
               <TextField
+                disabled={selectedRadioFilter == "all"}
                 fullWidth
                 type="date"
                 label="End Date"
