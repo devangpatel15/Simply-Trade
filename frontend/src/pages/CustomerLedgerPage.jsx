@@ -25,6 +25,8 @@ const CustomerLedgerPage = () => {
 
   const handleOrganizationChange = (selectedOrg) => {
     setSelectedOrganization(selectedOrg);
+    setSelectedCustomer(null);
+
   };
   const handleCustomerChange = (selectedCustomer) => {
     setSelectedCustomer(selectedCustomer);
@@ -35,6 +37,7 @@ const CustomerLedgerPage = () => {
     setSelectedRadioFilter(e.target.value);
   };
   console.log(selectedRadioFilter, "selectedRadioFilter");
+  console.log(selectedOrganization, "selectedOrganization");
 
   const handleDownload = async () => {
     try {
@@ -187,19 +190,23 @@ const CustomerLedgerPage = () => {
               </Grid>
 
               <Grid item xs={3}>
+                
                 <CustomerInput
                   onChange={handleCustomerChange}
+                  
                   orgId={selectedOrganization}
                   value={selectedCustomer}
                   field={selectedRadioFilter}
+                  pageName = "customerLedger"
                 />
+             
               </Grid>
             </Grid>
           </Box>
           <CustomerLedgerTable
-            selectedOrganization={selectedOrganization}
-            selectedCustomer={selectedCustomer}
-            selectedRadioFilter={selectedRadioFilter}
+          selectedOrganization={selectedOrganization}
+          selectedCustomer={selectedCustomer}
+          selectedRadioFilter={selectedRadioFilter}
           />
         </Box>
       </Box>

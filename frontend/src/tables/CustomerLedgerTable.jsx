@@ -168,41 +168,45 @@ const CustomerLedgerTable = ({
   return (
     <>
       <Box gap={2} sx={{ marginTop: 2 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <Typography
-              sx={{
-                fontSize: "1.3rem",
-                color: "#4C2D85",
-                fontWeight: 700,
-              }}
-            >
-              Total Amount : {total?.totalAmount}
-            </Typography>
+        {selectedRadioFilter == "all" ? (
+          ""
+        ) : (
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <Typography
+                sx={{
+                  fontSize: "1.3rem",
+                  color: "#4C2D85",
+                  fontWeight: 700,
+                }}
+              >
+                Total Amount : {total?.totalAmount}
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography
+                sx={{
+                  fontSize: "1.3rem",
+                  color: "#4C2D85",
+                  fontWeight: 700,
+                }}
+              >
+                Total Paid Amount : {total?.paidAmount}
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography
+                sx={{
+                  fontSize: "1.3rem",
+                  color: "#4C2D85",
+                  fontWeight: 700,
+                }}
+              >
+                Total Remaining Amount : {total?.remainingAmount}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <Typography
-              sx={{
-                fontSize: "1.3rem",
-                color: "#4C2D85",
-                fontWeight: 700,
-              }}
-            >
-              Total Paid Amount : {total?.paidAmount}
-            </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography
-              sx={{
-                fontSize: "1.3rem",
-                color: "#4C2D85",
-                fontWeight: 700,
-              }}
-            >
-              Total Remaining Amount : {total?.remainingAmount}
-            </Typography>
-          </Grid>
-        </Grid>
+        )}
       </Box>
       <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
         <DataGrid
