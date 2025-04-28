@@ -48,7 +48,6 @@ const SellForm = ({ stock }) => {
         remainingAmount: "",
         upload: "",
         totalAmount: "",
-       
       },
     ],
     payment: [
@@ -249,7 +248,6 @@ const SellForm = ({ stock }) => {
   };
 
   const handlePaymentAmountChange = (index, selectAmount) => {
-   
     setFormData((prev) => {
       const updatedPayments = [...prev.payment];
       updatedPayments[index] = {
@@ -397,69 +395,65 @@ const SellForm = ({ stock }) => {
     callApi();
   }, []);
 
-  const validateStockForm = () => {
+  const validateSellForm = () => {
     let newErrors = {
       device: [],
       payment: [],
     };
-  
+
     // Validate top-level fields
     if (!formData.organization)
       newErrors.organization = errorMessage.organizationName;
     if (!formData.branch) newErrors.branch = errorMessage.branchName;
     if (!formData.customerName)
       newErrors.customerName = errorMessage.customerName;
-    if (!formData.customerPhone)
-      newErrors.customerPhone = errorMessage.mobile;
-  
+    if (!formData.customerPhone) newErrors.customerPhone = errorMessage.mobile;
+
     // Validate customerPhone format
     if (formData.customerPhone && !/^\d+$/.test(formData.customerPhone)) {
       newErrors.customerPhone = formatMessage.customerPhone;
-    } else if (
-      formData.customerPhone &&
-      formData.customerPhone.length !== 10
-    ) {
+    } else if (formData.customerPhone && formData.customerPhone.length !== 10) {
       newErrors.customerPhone = lengthMessage.mobile;
     }
-  
+
     // Validate devices
     if (Array.isArray(formData.device)) {
       formData.device.forEach((device, index) => {
         if (!newErrors.device) newErrors.device = [];
         if (!newErrors.device[index]) newErrors.device[index] = {};
-    
+
         if (!device.modelName)
           newErrors.device[index].modelName = errorMessage.modelName;
-    
+
         if (!device.deviceName)
           newErrors.device[index].deviceName = errorMessage.deviceName;
-    
+
         if (!device.paymentType)
           newErrors.device[index].paymentType = errorMessage.paymentType;
-    
+
         if (!device.amount)
           newErrors.device[index].amount = errorMessage.amount;
-    
+
         if (!device.customerPaid)
           newErrors.device[index].customerPaid = errorMessage.customerPaid;
-    
+
         if (!device.remainingAmount)
-          newErrors.device[index].remainingAmount = errorMessage.remainingAmount;
+          newErrors.device[index].remainingAmount =
+            errorMessage.remainingAmount;
       });
     }
-    
-  
+
     // Validate payments
     if (Array.isArray(formData.payment)) {
       formData.payment.forEach((payment, paymentIndex) => {
         if (!newErrors.payment[paymentIndex])
           newErrors.payment[paymentIndex] = {};
-  
+
         if (!payment.paymentAccount) {
           newErrors.payment[paymentIndex].paymentAccount =
             errorMessage.paymentAccount;
         }
-  
+
         if (!payment.paymentAmount || isNaN(payment.paymentAmount)) {
           newErrors.payment[paymentIndex].paymentAmount =
             errorMessage.paymentAmount;
@@ -469,25 +463,22 @@ const SellForm = ({ stock }) => {
         }
       });
     }
-  
+
     console.log("newErrors", newErrors);
     setErrors(newErrors);
-  
+
     // Check if all error objects are empty
     const hasErrors = Object.values(newErrors).some((error) =>
       Array.isArray(error)
         ? error.some((item) => Object.keys(item || {}).length > 0)
         : error
     );
-  
+
     return !hasErrors;
   };
-  
-
-
 
   const handleSubmit = async () => {
-    if (!validateStockForm()) {
+    if (!validateSellForm()) {
       return;
     }
 
@@ -579,7 +570,6 @@ const SellForm = ({ stock }) => {
                   onChange={handleCustomerChange}
                   value={formData.customerName}
                   branchId={formData?.branch?.value}
-
                   error={errors.customerName}
                 />
               </Grid>
@@ -662,7 +652,7 @@ const SellForm = ({ stock }) => {
                         (errors &&
                           errors.device &&
                           errors.device[deviceIndex] &&
-                          errors.device[deviceIndex].modelName) ||
+                          errors.device[deviceIndex].deviceName) ||
                         ""
                       }
                     />
@@ -825,10 +815,7 @@ const SellForm = ({ stock }) => {
                           label="Payment Amount"
                           value={formData.payment?.[index]?.paymentAmount || ""}
                           onChange={(e) =>
-                           handlePaymentAmountChange(
-                              index,
-                              e.target.value
-                            )
+                            handlePaymentAmountChange(index, e.target.value)
                           }
                           type="number"
                           error={

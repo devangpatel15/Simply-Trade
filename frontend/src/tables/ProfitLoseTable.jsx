@@ -4,12 +4,8 @@ import Paper from "@mui/material/Paper";
 import {
   Box,
   Button,
-  FormControlLabel,
   Grid,
-  Grid2,
-  Radio,
-  RadioGroup,
-  TextField,
+  
   Typography,
 } from "@mui/material";
 import Sidebar from "../components/Sidebar";
@@ -251,7 +247,7 @@ const ProfitLoseTable = () => {
                   </Grid>
                   </Grid>
                 </Box> */}
-            <Box display="flex" gap={2} sx={{ marginTop: 5 }}>
+            {/* <Box display="flex" gap={2} sx={{ marginTop: 5 }}>
               <Grid container spacing={2}>
                 <Grid item xs={3}>
                   <OrgInput />
@@ -288,7 +284,7 @@ const ProfitLoseTable = () => {
                   />
                 </Grid>
               </Grid>
-            </Box>
+            </Box> */}
           </Box>
           <Paper sx={{ height: 400, width: "100%", padding: 2 }}>
             <DataGrid

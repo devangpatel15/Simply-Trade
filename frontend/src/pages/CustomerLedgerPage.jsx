@@ -107,7 +107,7 @@ const CustomerLedgerPage = () => {
                 }}
               />
 
-              <TextField
+              {/* <TextField
                 variant="outlined"
                 placeholder="Search"
                 size="medium"
@@ -119,7 +119,7 @@ const CustomerLedgerPage = () => {
                     </InputAdornment>
                   ),
                 }}
-              />
+              /> */}
               <Button
                 variant="outlined"
                 sx={{
