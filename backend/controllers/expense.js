@@ -12,9 +12,17 @@ exports.getAllExpense = async (req, res) => {
 
   try {
     const userOrgId = req.user.org;
+    const userBranchId = req.user.orgBranch;
+
     const role = req.user.role;
     const userId = req.user.id;
-    const ex = await getAllExpenseService(userOrgId, role, userId, req);
+    const ex = await getAllExpenseService(
+      userOrgId,
+      userBranchId,
+      role,
+      userId,
+      req
+    );
     if (!ex) {
       return res.status(404).json({ message: "No Expense found" });
     }
