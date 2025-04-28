@@ -7,7 +7,17 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
 import CustomerDialog from "../CustomerDialog";
 
-const CustomerInput = ({ onChange, value, branchId, error, orgId, field }) => {
+const CustomerInput = ({
+  onChange,
+  value,
+  branchId,
+  error,
+  orgId,
+  field,
+  pageName,
+}) => {
+  console.log("orgId:", orgId);
+
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -53,7 +63,7 @@ const CustomerInput = ({ onChange, value, branchId, error, orgId, field }) => {
           apiPath = `getBuyerByOrg/${orgId.value}`;
         } else if (field === "sell") {
           apiPath = `getSellerByOrg/${orgId.value}`;
-        }else if (field === "repair") {
+        } else if (field === "repair") {
           apiPath = `getSellerByOrg/${orgId.value}`;
         }
       } else if (branchId) {
@@ -94,6 +104,8 @@ const CustomerInput = ({ onChange, value, branchId, error, orgId, field }) => {
 
   // Fetch organizations when inputValue changes
   useEffect(() => {
+    console.log("i am call use");
+
     if (branchId || orgId) {
       if (inputValue.trim() !== "") {
         fetchOrganizations(inputValue);
@@ -106,6 +118,7 @@ const CustomerInput = ({ onChange, value, branchId, error, orgId, field }) => {
   return (
     <>
       <Autocomplete
+        readOnly={pageName == "customerLedger" && !orgId}
         options={options}
         getOptionLabel={(option) => option.label}
         loading={loading}

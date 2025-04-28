@@ -1,29 +1,35 @@
 const Expense = require("../models/expense");
 const Stock = require("../models/stock");
 
-exports.getAllExpenseService = async (userOrgId, role, userId, req) => {
-  const page = parseInt(req.query.page) || 1; // Default to page 1
-  const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
-
+exports.getAllExpenseService = async (
+  userOrgId,
+  userBranchId,
+  role,
+  userId,
+  req
+) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
 
-  const items = await Expense.find({
+  const filter = {
     isDeleted: false,
-  })
-    .populate({
-      path: "organization",
-      match: role == "user" ? { _id: userOrgId } : { userId: userId },
-    })
-    .lean()
-    .sort({ createdAt: -1 })
+    ...(role === "user" && { branchName: userBranchId }),
+    // you can add more conditions here if needed for other roles
+  };
+
+  const items = await Expense.find(filter)
+    // .populate({
+    //   path: "branchName",
+    //   match: role === "user" ? { _id: userBranchId } : { userId: userId },
+    // })
     .populate("organization branchName category stock modelName deviceName")
+    .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
     .lean();
 
-  const totalCount = await Expense.countDocuments({ isDeleted: false });
-
-  // console.log(items, "items");
+  const totalCount = await Expense.countDocuments(filter);
 
   return { totalCount, items };
 };
@@ -49,7 +55,7 @@ exports.createExpenseService = async (
   const updateStock = await Stock.findByIdAndUpdate(
     stock,
     {
-      expense:createExpense._id,
+      expense: createExpense._id,
       expenseAmount: amount,
       expenseDate: date,
       expenseDescription: description,
@@ -73,8 +79,8 @@ exports.updateExpenseService = async (exId, ex, stock, amount) => {
 
   console.log("updatedStock", updatedStock);
   console.log("stock", stock);
-  console.log("amount", amount);  
-  
+  console.log("amount", amount);
+
   const updatedExpense = await Expense.findByIdAndUpdate(exId, ex, {
     new: true,
   }).lean();
@@ -82,7 +88,6 @@ exports.updateExpenseService = async (exId, ex, stock, amount) => {
   console.log("updatedExpense", updatedExpense);
 
   console.log("exx", ex);
-
 
   return { updatedExpense, updatedStock };
 };

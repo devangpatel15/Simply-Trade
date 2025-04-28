@@ -3,7 +3,7 @@ const Stock = require("../models/stock");
 const Repair = require("../models/repair");
 
 const getLedgerData = async (req) => {
-  const { userId, role, userOrgId } = req.user || {}; // Assuming auth middleware sets `req.user`
+  const { userId, role, userOrgId, orgBranch } = req.user || {}; // Assuming auth middleware sets `req.user`
   const skip = 0;
   const limit = 1000; // or any limit you want for PDF
 

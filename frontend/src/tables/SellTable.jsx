@@ -134,7 +134,7 @@ const SellTable = () => {
       ),
     },
     { field: "organization", headerName: "Organization", flex: 2 },
-    { field: "organizationBranch", headerName: "Organization Branch", flex: 2 },
+    { field: "organizationBranch", headerName: "Branch", flex: 2 },
     { field: "model", headerName: "Model", flex: 2 },
     { field: "device", headerName: "Device", flex: 2 },
     { field: "purchaseAmount", headerName: "Purchase Amount", flex: 2 },

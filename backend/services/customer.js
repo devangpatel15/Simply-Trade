@@ -9,7 +9,14 @@ exports.getAllCustomerService = async (userId, role, userBranchId, req) => {
 
   const query = { customerName: { $regex: search, $options: "i" } };
 
-  const data = await Customer.find({ ...query, isDeleted: false })
+  const filter = {
+    ...query,
+    isDeleted: false,
+    ...(role === "user" && { branchName: userBranchId }),
+    // you can add more conditions here if needed for other roles
+  };
+
+  const data = await Customer.find(filter)
     .populate({
       path: role == "user" ? "branchName" : "organization",
       match: role == "user" ? { _id: userBranchId } : { userId: userId },
@@ -20,10 +27,7 @@ exports.getAllCustomerService = async (userId, role, userBranchId, req) => {
     .limit(limit)
     .lean();
 
-  const totalCount = await Customer.countDocuments({
-    ...query,
-    isDeleted: false,
-  });
+  const totalCount = await Customer.countDocuments(filter);
 
   return { totalCount, items: data };
 };
