@@ -19,6 +19,7 @@ import {
   getOneAccount,
   updateAccount,
 } from "../apis/AccountApi";
+import { errorMessage } from "../../errorMessage";
 
 const AccountForm = () => {
   const { id } = useParams();
@@ -30,7 +31,9 @@ const AccountForm = () => {
     accountName: "",
     balance: "",
   });
+  const [errors, setErrors] = useState({});
   const [selectedOrganization, setSelectedOrganization] = useState("");
+  const [loggedUserData, setLoggedUserData] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +44,27 @@ const AccountForm = () => {
     }));
   };
 
+  const validateStockForm = () => {
+    let newErrors = {};
+
+    // Validate organization, branch, and customerName
+    if (!formData.organization)
+      newErrors.organization = errorMessage.organizationName;
+    if (!formData.branchName) newErrors.branchName = errorMessage.branchName;
+    if (!formData.accountName) newErrors.accountName = errorMessage.accountName;
+    if (!formData.balance) newErrors.balance = errorMessage.balance;
+
+    console.log("newErrors", newErrors);
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
+
   const handleSubmit = async () => {
+    if (!validateStockForm()) {
+      return;
+    }
     try {
       if (id) {
         await updateAccount(
@@ -86,6 +109,42 @@ const AccountForm = () => {
 
   useEffect(() => {
     callApi();
+  }, []);
+
+  useEffect(() => {
+    const userData = localStorage.getItem("role");
+
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+
+        setLoggedUserData(parsedData || {});
+        if (!parsedData?.organization || !parsedData?.orgBranch) {
+          console.warn("Organization or branch data is missing!");
+        }
+
+        setFormData((prev) => {
+          const updatedFormData = {
+            ...prev,
+            organization: parsedData?.organization?._id
+              ? {
+                  label: parsedData?.organization?.organizationName,
+                  value: parsedData.organization._id,
+                }
+              : null,
+            branchName: parsedData?.orgBranch?._id
+              ? {
+                  label: parsedData?.orgBranch?.branchName,
+                  value: parsedData.orgBranch._id,
+                }
+              : null,
+          };
+          return updatedFormData;
+        });
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
   }, []);
 
   const handleOrganizationChange = (selectedOrg) => {
@@ -136,15 +195,19 @@ const AccountForm = () => {
           <Grid container spacing={2} mt={2}>
             <Grid item xs={6}>
               <OrgInput
+                role={loggedUserData.role == "admin" ? "admin" : "user"}
                 onChange={handleOrganizationChange}
-                value={formData.organization}
+                value={formData.organization || null}
+                error={errors.organization}
               />
             </Grid>
             <Grid item xs={6}>
               <OrgBranchInput
+                role={loggedUserData.role == "admin" ? "admin" : "user"}
                 onChange={handleOrganizationBranchChange}
-                value={formData.branchName}
+                value={formData.branchName || null}
                 selectedOrganization={selectedOrganization}
+                error={errors.branch}
               />
             </Grid>
             <Grid item xs={6}>
@@ -155,6 +218,8 @@ const AccountForm = () => {
                 name="accountName"
                 value={formData.accountName || ""}
                 onChange={handleChange}
+                error={errors.accountName}
+                helperText={errors.accountName}
               />
             </Grid>
             <Grid item xs={6}>
@@ -166,6 +231,8 @@ const AccountForm = () => {
                 name="balance"
                 value={formData.balance || ""}
                 onChange={handleChange}
+                error={errors.balance}
+                helperText={errors.balance}
               />
             </Grid>
           </Grid>

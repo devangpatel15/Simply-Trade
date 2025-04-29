@@ -13,6 +13,7 @@ import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
+import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
 
 // const CustomerDialog = () => {
 //   const [open, setOpen] = React.useState(false);
@@ -86,8 +87,7 @@ const CustomerDialog = ({
     customerPhone: "",
   });
 
-  // const { organization, branchName } = customerData;
-
+  const [errors, setErrors] = React.useState({});
   const organization = customerData?.organization ?? null;
   const branchName = customerData?.branchName ?? null;
   const branchId = customerData?._id ?? null;
@@ -117,13 +117,44 @@ const CustomerDialog = ({
     }));
   };
 
+  console.log("formData:",formData);
+  
+  const validateStockForm = () => {
+    let newErrors = {};
+
+    // Validate organization, branch, and customerName
+    if (!formData.organization)
+      newErrors.organization = errorMessage.organizationName;
+    if (!formData.branchName) newErrors.branchName = errorMessage.branchName;
+    if (!formData.customerName)
+      newErrors.customerName = errorMessage.customerName;
+    if (!formData.customerPhone) newErrors.customerPhone = errorMessage.mobile;
+    if (formData.customerPhone && !/^\d+$/.test(formData.customerPhone)) {
+      newErrors.customerPhone = formatMessage.mobile;
+    } else if (formData.customerPhone && formData.customerPhone.length !== 10) {
+      newErrors.customerPhone = lengthMessage.mobile;
+    }
+    console.log("newErrors", newErrors);
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
+  console.log("errors:",errors);
+  
+
   const handleSubmit = async () => {
     try {
+      if (!validateStockForm()) {
+        console.log("hiiiiiiiiiiiiii");
+        
+        return;
+      }
       await createCustomer({
         ...formData,
         role: field == "stock" ? "Buyer" : "Seller",
-        organization: formData.organization.value,
-        branchName: formData.branchName.value,
+        organization: formData?.organization?.value,
+        branchName: formData?.branchName?.value,
       });
       // navigate("/customerPage");
       setOpen(false);
@@ -140,6 +171,7 @@ const CustomerDialog = ({
       organization: selectedOrg,
     }));
   };
+
   const handleOrganizationBranchChange = (selectedOrgBranch) => {
     setFormData((prev) => ({
       ...prev,
@@ -185,6 +217,7 @@ const CustomerDialog = ({
                   role="user"
                   onChange={handleOrganizationChange}
                   value={formData.organization}
+                  error={errors.organization}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -193,6 +226,7 @@ const CustomerDialog = ({
                   onChange={handleOrganizationBranchChange}
                   value={formData.branchName}
                   selectedOrganization={selectedOrganization}
+                  error={errors.branchName}
                 />
               </Grid>
 
@@ -204,7 +238,8 @@ const CustomerDialog = ({
                   name="customerName"
                   value={formData.customerName || ""}
                   onChange={handleChange}
-                  required
+                  error={errors.customerName}
+                  helperText={errors.customerName}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -215,7 +250,8 @@ const CustomerDialog = ({
                   name="customerPhone"
                   value={formData.customerPhone || ""}
                   onChange={handleChange}
-                  required
+                  error={errors.customerPhone}
+                  helperText={errors.customerPhone}
                 />
               </Grid>
             </Grid>
