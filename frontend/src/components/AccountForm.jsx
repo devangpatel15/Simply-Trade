@@ -19,6 +19,7 @@ import {
   getOneAccount,
   updateAccount,
 } from "../apis/AccountApi";
+import { errorMessage } from "../../errorMessage";
 
 const AccountForm = () => {
   const { id } = useParams();
@@ -30,6 +31,7 @@ const AccountForm = () => {
     accountName: "",
     balance: "",
   });
+  const [errors, setErrors] = useState({});
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [loggedUserData, setLoggedUserData] = useState({});
 
@@ -42,7 +44,27 @@ const AccountForm = () => {
     }));
   };
 
+  const validateStockForm = () => {
+    let newErrors = {};
+
+    // Validate organization, branch, and customerName
+    if (!formData.organization)
+      newErrors.organization = errorMessage.organizationName;
+    if (!formData.branchName) newErrors.branchName = errorMessage.branchName;
+    if (!formData.accountName) newErrors.accountName = errorMessage.accountName;
+    if (!formData.balance) newErrors.balance = errorMessage.balance;
+
+    console.log("newErrors", newErrors);
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
+
   const handleSubmit = async () => {
+    if (!validateStockForm()) {
+      return;
+    }
     try {
       if (id) {
         await updateAccount(
@@ -176,7 +198,7 @@ const AccountForm = () => {
                 role={loggedUserData.role == "admin" ? "admin" : "user"}
                 onChange={handleOrganizationChange}
                 value={formData.organization || null}
-                // error={errors.organization}
+                error={errors.organization}
               />
             </Grid>
             <Grid item xs={6}>
@@ -185,7 +207,7 @@ const AccountForm = () => {
                 onChange={handleOrganizationBranchChange}
                 value={formData.branchName || null}
                 selectedOrganization={selectedOrganization}
-                // error={errors.branch}
+                error={errors.branch}
               />
             </Grid>
             <Grid item xs={6}>
@@ -196,6 +218,8 @@ const AccountForm = () => {
                 name="accountName"
                 value={formData.accountName || ""}
                 onChange={handleChange}
+                error={errors.accountName}
+                helperText={errors.accountName}
               />
             </Grid>
             <Grid item xs={6}>
@@ -207,6 +231,8 @@ const AccountForm = () => {
                 name="balance"
                 value={formData.balance || ""}
                 onChange={handleChange}
+                error={errors.balance}
+                helperText={errors.balance}
               />
             </Grid>
           </Grid>

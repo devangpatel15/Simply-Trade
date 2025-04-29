@@ -325,7 +325,7 @@ const ExpenseForm = ({ stockId }) => {
                     role={loggedUserData.role == "admin" ? "admin" : "user"}
                     onChange={handleOrganizationChange}
                     value={formData.organization || null}
-                    // error={errors.organization}
+                    error={errors.organization}
                     readOnlyExp={id}
                   />
                 </Grid>
@@ -336,7 +336,7 @@ const ExpenseForm = ({ stockId }) => {
                     onChange={handleOrganizationBranchChange}
                     value={formData.branchName || null}
                     selectedOrganization={selectedOrganization}
-                    // error={errors.branch}
+                    error={errors.branchName}
                     readOnlyExp={id}
                   />
                 </Grid>

@@ -30,12 +30,16 @@ export const errorMessage = {
   customerPaid:"customerPaid is required",
   paymentType : "paymentType is required",
   paymentAccount:"paymentAccount is required",
-  paymentAmount:"paymentAmount is required"
+  paymentAmount:"paymentAmount is required",
+  accountName:"accountName is required",
+  balance:"balance is required",
+  role:"role is required",
 };
 
 export const formatMessage = {
   email: "Invalid email format",
   zipCode: "Zip Code must be numeric",
+  mobile:"mobile includes only numbers"
 };
 
 export const lengthMessage = {
