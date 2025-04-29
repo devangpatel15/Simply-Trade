@@ -25,6 +25,7 @@ import { Link, useNavigate } from "react-router-dom";
 import DeleteDialog from "../components/DeleteDialog";
 import { deleteAccount, getAllAccounts } from "../apis/AccountApi";
 import image from "../assets/Rectangle 1900.png";
+import noDataImage from "../assets/Group 18992.png";
 
 const AccountPage = () => {
   const [accounts, setAccounts] = useState([]);
@@ -119,7 +120,7 @@ const AccountPage = () => {
               flexWrap: "wrap",
             }}
           >
-            {accounts &&
+            {accounts.length > 0 ? (
               accounts.map((option, index) => {
                 return (
                   <>
@@ -231,7 +232,16 @@ const AccountPage = () => {
                     />
                   </>
                 );
-              })}
+              })
+            ) : (
+              <Box
+                sx={{
+                  margin: "auto",
+                }}
+              >
+                <img src={noDataImage} alt="No Data Found" />
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>
