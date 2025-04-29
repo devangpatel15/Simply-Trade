@@ -31,6 +31,7 @@ const AccountForm = () => {
     balance: "",
   });
   const [selectedOrganization, setSelectedOrganization] = useState("");
+  const [loggedUserData, setLoggedUserData] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -88,6 +89,42 @@ const AccountForm = () => {
     callApi();
   }, []);
 
+  useEffect(() => {
+    const userData = localStorage.getItem("role");
+
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+
+        setLoggedUserData(parsedData || {});
+        if (!parsedData?.organization || !parsedData?.orgBranch) {
+          console.warn("Organization or branch data is missing!");
+        }
+
+        setFormData((prev) => {
+          const updatedFormData = {
+            ...prev,
+            organization: parsedData?.organization?._id
+              ? {
+                  label: parsedData?.organization?.organizationName,
+                  value: parsedData.organization._id,
+                }
+              : null,
+            branchName: parsedData?.orgBranch?._id
+              ? {
+                  label: parsedData?.orgBranch?.branchName,
+                  value: parsedData.orgBranch._id,
+                }
+              : null,
+          };
+          return updatedFormData;
+        });
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+  }, []);
+
   const handleOrganizationChange = (selectedOrg) => {
     setFormData((prev) => ({
       ...prev,
@@ -136,15 +173,19 @@ const AccountForm = () => {
           <Grid container spacing={2} mt={2}>
             <Grid item xs={6}>
               <OrgInput
+                role={loggedUserData.role == "admin" ? "admin" : "user"}
                 onChange={handleOrganizationChange}
-                value={formData.organization}
+                value={formData.organization || null}
+                // error={errors.organization}
               />
             </Grid>
             <Grid item xs={6}>
               <OrgBranchInput
+                role={loggedUserData.role == "admin" ? "admin" : "user"}
                 onChange={handleOrganizationBranchChange}
-                value={formData.branchName}
+                value={formData.branchName || null}
                 selectedOrganization={selectedOrganization}
+                // error={errors.branch}
               />
             </Grid>
             <Grid item xs={6}>
