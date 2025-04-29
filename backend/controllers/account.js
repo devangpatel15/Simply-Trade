@@ -5,6 +5,7 @@ const {
   updateAccountService,
   softDeleteAccountService,
   deleteAccountService,
+  selectAccountServices,
 } = require("../services/account");
 
 exports.getAllAccount = async (req, res) => {
@@ -105,6 +106,31 @@ exports.deleteAccount = async (req, res) => {
       return res.status(404).json({ message: "Account not found" });
     }
     return res.status(200).json({ message: "Account deleted", data: Account });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.selectAccountByBranch = async (req, res) => {
+  try {
+    const branchId = req.query.branchId;
+    const orgText = req?.query?.text || "";
+
+    console.log(branchId, "branchid");
+
+    // console.log("catID", catId);
+    const accountData = await selectAccountServices(branchId, orgText);
+
+    if (!accountData) {
+      return res.status(404).json({ message: "No Account found" });
+    }
+
+    return res.status(200).json({
+      message: "Account retrieved successfully",
+      data: accountData,
+    });
   } catch (err) {
     return res
       .status(500)

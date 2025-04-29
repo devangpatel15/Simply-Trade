@@ -33,3 +33,20 @@ exports.softDeleteAccountService = async (accountId) => {
 exports.deleteAccountService = async (accountId) => {
   return await Account.findByIdAndDelete(accountId);
 };
+
+exports.selectAccountServices = async (branchId, orgText) => {
+  let findObject = { isDeleted: false };
+
+  if (orgText.trim() !== "") {
+    findObject.$or = [
+      { accountName: { $regex: `^${orgText}`, $options: "i" } },
+    ];
+  }
+  if (branchId) {
+    findObject.branchName = branchId;
+  }
+
+  return await Account.find(findObject)
+    // .populate("organization branchName categoryId")
+    .limit(5);
+};
