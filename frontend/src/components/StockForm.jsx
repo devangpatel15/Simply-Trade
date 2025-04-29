@@ -650,7 +650,7 @@ const StockForm = () => {
               <OrgInput
                 role={loggedUserData.role == "admin" ? "admin" : "user"}
                 onChange={handleOrganizationChange}
-                value={formData.organization || null} 
+                value={formData.organization || null}
                 error={errors.organization}
               />
             </Grid>
@@ -658,7 +658,7 @@ const StockForm = () => {
               <OrgBranchInput
                 role={loggedUserData.role == "admin" ? "admin" : "user"}
                 onChange={handleOrganizationBranchChange}
-                value={formData.branch || null} 
+                value={formData.branch || null}
                 selectedOrganization={selectedOrganization}
                 error={errors.branch}
               />
@@ -1118,6 +1118,7 @@ const StockForm = () => {
                           errors.payment[paymentIndex] &&
                           errors.payment[paymentIndex].paymentAccount
                         }
+                        branchId={formData.branch?.value}
                       />
                     </Grid>
                     <Grid item xs={6}>

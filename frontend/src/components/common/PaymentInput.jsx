@@ -5,20 +5,22 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const PaymentInput = ({ onChange, value, error }) => {
+const PaymentInput = ({ onChange, value, error, branchId }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-   // Debounced API call wrapped in useCallback to avoid unnecessary recreations
-   const fetchOrganizations = useCallback(
+  console.log("branchId==========================================", branchId);
+
+  // Debounced API call wrapped in useCallback to avoid unnecessary recreations
+  const fetchOrganizations = useCallback(
     debounce(async (query) => {
       setLoading(true);
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/allAccount",
+          "http://localhost:4000/api/selectAccountByBranch",
           {
-            params: { text: query }, // Query parameters
+            params: { text: query, branchId: branchId }, // Query parameters
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -39,18 +41,19 @@ const PaymentInput = ({ onChange, value, error }) => {
         setLoading(false);
       }
     }, 500),
-    []
+    [branchId]
   );
 
   // Fetch organizations when inputValue changes
   useEffect(() => {
+    if (branchId) {
       if (inputValue.trim() !== "") {
         fetchOrganizations(inputValue);
       } else {
         fetchOrganizations(""); // Load default options
       }
-    
-  }, [inputValue, fetchOrganizations]);
+    }
+  }, [inputValue, fetchOrganizations, branchId]);
 
   return (
     <Autocomplete

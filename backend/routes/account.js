@@ -7,10 +7,11 @@ const {
   deleteAccount,
   selectAccountByBranch,
 } = require("../controllers/account");
+const { AuthUser } = require("../middleware/user");
 
 const accountRouter = express.Router();
 
-accountRouter.get("/allAccount", getAllAccount);
+accountRouter.get("/allAccount", AuthUser, getAllAccount);
 accountRouter.get("/account/:id", getAccount);
 accountRouter.post("/createAccount", createAccount);
 accountRouter.put("/updateAccount/:id", updateAccount);

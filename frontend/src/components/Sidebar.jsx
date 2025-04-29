@@ -45,8 +45,8 @@ import AssessmentIcon from "@mui/icons-material/Assessment";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import RestorePageIcon from "@mui/icons-material/RestorePage";
-import BuildIcon from '@mui/icons-material/Build';
-import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
+import BuildIcon from "@mui/icons-material/Build";
+import MobileFriendlyIcon from "@mui/icons-material/MobileFriendly";
 
 const iconColor = "#5C4E89"; // Custom icon color
 
@@ -221,29 +221,24 @@ const Sidebar = () => {
                       </PeopleAltIcon>
                       <ListItemText primary="Users" />
                     </ListItemButton>
-
-                    <ListItemButton
-                      sx={{ pl: 4, gap: "2rem" }}
-                      onClick={() => navigate("/accountPage")}
-                    >
-                      <AccountCircleRoundedIcon>
-                        <Business sx={{ color: iconColor }} />
-                      </AccountCircleRoundedIcon>
-                      <ListItemText primary="Account" />
-                    </ListItemButton>
                   </List>
                 </Collapse>
               </Box>
             )}
             {/* Other Sidebar Items */}
+            <ListItemButton onClick={() => navigate("/accountPage")}>
+              <ListItemIcon>
+                <AccountCircleRoundedIcon sx={{ color: iconColor }} />
+              </ListItemIcon>
+              <ListItemText primary="Account" />
+            </ListItemButton>
+
             <ListItemButton onClick={() => navigate("/stockPage")}>
               <ListItemIcon>
                 <Inventory sx={{ color: iconColor }} />
               </ListItemIcon>
               <ListItemText primary="Stock" />
             </ListItemButton>
-
-
             {/* sell device */}
             <ListItemButton onClick={() => navigate("/sellPage")}>
               <ListItemIcon>
@@ -328,14 +323,13 @@ const Sidebar = () => {
               </List>
             </Collapse>
 
-              {/* repair device */}
+            {/* repair device */}
             <ListItemButton onClick={() => navigate("/repairPage")}>
               <ListItemIcon>
                 <BuildIcon sx={{ color: iconColor }} />
               </ListItemIcon>
               <ListItemText primary="Repair" />
             </ListItemButton>
-           
           </List>
         </Box>
 

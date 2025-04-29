@@ -2,12 +2,19 @@ const Account = require("../models/account");
 
 exports.getAllAccountService = async (req) => {
   const search = req.query.search || "";
+  const role = req.user.role;
+  const userBranchId = req.user.orgBranch;
 
   const query = { accountName: { $regex: search, $options: "i" } };
 
-  return await Account.find({ ...query, isDeleted: false })
-    .populate("organization branchName")
-    .lean();
+  const filter = {
+    ...query,
+    isDeleted: false,
+    ...(role === "user" && { branchName: userBranchId }),
+    // you can add more conditions here if needed for other roles
+  };
+
+  return await Account.find(filter).populate("organization branchName").lean();
 };
 
 exports.getAccountService = async (accountId) => {
