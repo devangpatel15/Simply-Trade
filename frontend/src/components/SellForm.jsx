@@ -524,6 +524,7 @@ const SellForm = ({ stock }) => {
     }
   };
 
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -704,6 +705,9 @@ const SellForm = ({ stock }) => {
                           errors.device[deviceIndex].totalAmount) ||
                         ""
                       }
+                      helperText={
+                        errors.device?.[deviceIndex]?.totalAmount || ""
+                      }
                     />
                   </Grid>
                   <Grid item xs={4}>
@@ -723,6 +727,11 @@ const SellForm = ({ stock }) => {
                           errors.device[deviceIndex].amount) ||
                         ""
                       }
+                      helperText={ (errors &&
+                        errors.device &&
+                        errors.device[deviceIndex] &&
+                        errors.device[deviceIndex].amount) ||
+                      ""}
                     />
                   </Grid>
                   <Grid item xs={4}>
@@ -736,6 +745,13 @@ const SellForm = ({ stock }) => {
                         handleCustomerPaidChange(deviceIndex, e.target.value)
                       }
                       error={
+                        (errors &&
+                          errors.device &&
+                          errors.device[deviceIndex] &&
+                          errors.device[deviceIndex].customerPaid) ||
+                        ""
+                      }
+                      helperText={
                         (errors &&
                           errors.device &&
                           errors.device[deviceIndex] &&
@@ -758,6 +774,14 @@ const SellForm = ({ stock }) => {
                         readOnly: true,
                       }}
                       error={
+                        (errors &&
+                          errors.device &&
+                          errors.device[deviceIndex] &&
+                          errors.device[deviceIndex].remainingAmount) ||
+                        ""
+                      }
+
+                      helperText={
                         (errors &&
                           errors.device &&
                           errors.device[deviceIndex] &&
@@ -801,12 +825,13 @@ const SellForm = ({ stock }) => {
                             handlePaymentChange(index, selectAccount)
                           }
                           error={
-                            (errors &&
+                            !!(errors &&
                               errors.payment &&
                               errors.payment[index] &&
                               errors.payment[index].paymentAccount) ||
                             ""
                           }
+                         
                         />
                       </Grid>
                       <Grid item xs={5}>
@@ -825,6 +850,13 @@ const SellForm = ({ stock }) => {
                               errors.payment[index].paymentAmount) ||
                             ""
                           }
+                          helperText={
+                            (errors &&
+                              errors.payment &&
+                              errors.payment[index] &&
+                              errors.payment[index].paymentAmount) ||
+                            ""
+                          } 
                         />
                       </Grid>
                       <Grid item xs={2}>
