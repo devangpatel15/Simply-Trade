@@ -6,6 +6,7 @@ const {
   deleteStockService,
   softDeleteStockService,
   getStockByOrgAndCusService,
+  getAllStockDetailsService,
 } = require("../services/stock");
 
 exports.getAllStock = async (req, res) => {
@@ -230,6 +231,26 @@ exports.findStockByOrgAndCustomer = async (req, res) => {
       data: stock,
     });
   } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+exports.getAllStockDetails = async (req, res) => {
+  try {
+    const stock = await getAllStockDetailsService();
+    if (!stock) {
+      return res.status(404).json({ message: "No Stock found" });
+    }
+
+    return res.status(200).json({
+      message: "Stock retrieved successfully",
+      data: stock,
+    });
+  } catch (err) {
+    console.log(err);
+
     return res
       .status(500)
       .json({ message: "Internal server error", error: err.message });

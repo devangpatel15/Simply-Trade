@@ -1,6 +1,7 @@
 const Stock = require("../models/stock");
 const Expense = require("../models/expense");
-exports.getProfitLossService = async (userOrgId, role, userId, req) => {
+const { default: mongoose } = require("mongoose");
+exports.getProfitLossService = async (userOrgId, role, userId, branchId) => {
   const data = await Stock.find({ isSelled: true })
     .populate({
       path: "organization",
@@ -43,20 +44,53 @@ exports.getProfitLossService = async (userOrgId, role, userId, req) => {
     };
   });
 
+  const matchStage = {
+    category: "General",
+    isDeleted: false,
+  };
+
+  const isAdmin = role === "admin";
+
+  if (!isAdmin) {
+    matchStage.branchName = new mongoose.Types.ObjectId(branchId);
+  }
+
   const generalTotal = await Expense.aggregate([
+    { $match: matchStage },
     {
-      $match: {
-        category: "General",
-        isDeleted: false, // optional: include this if you want to exclude soft-deleted entries
+      $lookup: {
+        from: "stocks", // collection name (usually lowercase plural of model)
+        localField: "stock",
+        foreignField: "_id",
+        as: "stockData",
+      },
+    },
+    {
+      $unwind: {
+        path: "$stockData",
+        preserveNullAndEmptyArrays: true, // in case some expenses don't have linked stock
+      },
+    },
+    {
+      $addFields: {
+        combinedAmount: {
+          $add: [
+            { $ifNull: ["$amount", 0] },
+            { $ifNull: ["$stockData.totalAmount", 0] },
+          ],
+        },
       },
     },
     {
       $group: {
         _id: null,
-        totalAmount: { $sum: "$amount" },
+        totalAmount: { $sum: "$combinedAmount" },
       },
     },
   ]);
+
+  console.log(generalTotal);
+
   const totalGeneralExpense = generalTotal[0]?.totalAmount || 0;
 
   const totalAfterExpense = totalProfitOrLoss - totalGeneralExpense;

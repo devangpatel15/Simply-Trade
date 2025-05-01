@@ -16,8 +16,7 @@ const Home = () => {
 
   const callApi = async () => {
     const response = await getAllStocks();
-    console.log("RESPONSE==", response.data.data.items);
-    setStocks(response?.data?.data?.items);
+    setStocks(response?.data?.data);
   };
 
   useEffect(() => {
@@ -77,7 +76,8 @@ const Home = () => {
 
                     {/* Branch Name */}
                     <Typography variant="h6" color="primary" fontWeight="bold">
-                      {option?.modelName?.modelName}
+                      {option?.modelName?.modelName} -{" "}
+                      {option?.deviceName?.deviceName}
                     </Typography>
 
                     {/* Customer Name */}
@@ -87,7 +87,7 @@ const Home = () => {
                         fontWeight="bold"
                         display="inline"
                       >
-                        Customer Name:{" "}
+                        Buyer Name:{" "}
                       </Typography>
                       <Typography variant="body2" display="inline">
                         {option?.customerName?.customerName}

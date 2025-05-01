@@ -7,6 +7,7 @@ const {
   deleteStock,
   softDeleteStock,
   findStockByOrgAndCustomer,
+  getAllStockDetails,
 } = require("../controllers/stock");
 const {
   getStockValidation,
@@ -23,6 +24,7 @@ stockRouter.get("/stock/:id", getStockValidation, getStock);
 stockRouter.post("/createStock", createValidation, createStock);
 stockRouter.put("/updateStock/:id", updateStockValidation, updateStock);
 stockRouter.put("/deleteStock/:id", deleteStockValidation, softDeleteStock);
+stockRouter.get("/AllStockDetails", getAllStockDetails);
 
 stockRouter.get("/stockByOrgAndCus", findStockByOrgAndCustomer);
 

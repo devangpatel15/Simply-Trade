@@ -25,6 +25,6 @@ sellRouter.put("/updateSell/:id", updateSellData, updateSell);
 sellRouter.put("/deleteSell/:id", deleteSellValidation, softDeleteSell);
 sellRouter.get("/sellByDate", getSellByDate);
 
-sellRouter.get("/allSellStockRepair", getAllStockSellRepair);
+sellRouter.get("/allSellStockRepair", AuthUser, getAllStockSellRepair);
 
 module.exports = sellRouter;

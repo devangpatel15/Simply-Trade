@@ -5,12 +5,18 @@ exports.getProfitLoss = async (req, res) => {
     const userOrgId = req.user.org;
     const role = req.user.role;
     const userId = req.user.id;
+    const branchId = req.user.orgBranch;
 
     console.log(req.user);
 
     console.log("orgId", userOrgId, role, userId);
 
-    const profitLoss = await getProfitLossService(userOrgId, role, userId, req);
+    const profitLoss = await getProfitLossService(
+      userOrgId,
+      role,
+      userId,
+      branchId
+    );
     if (!profitLoss) {
       return res.status(404).json({ message: "No ProfitLoss found" });
     }
