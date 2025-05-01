@@ -7,7 +7,7 @@ exports.getProfitLoss = async (req, res) => {
     const userId = req.user.id;
     const branchId = req.user.orgBranch;
 
-    console.log(req.user);
+    console.log(branchId);
 
     console.log("orgId", userOrgId, role, userId);
 

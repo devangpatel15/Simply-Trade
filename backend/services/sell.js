@@ -273,7 +273,7 @@ exports.getAllStockSellRepairService = async (
     baseMatchCondition.customerName = new mongoose.Types.ObjectId(cusId);
   }
 
-  console.log(userBranchId, "userBranchId");
+  // console.log(userBranchId, "userBranchId");
 
   if (userBranchId) {
     baseMatchCondition.branch = new mongoose.Types.ObjectId(userBranchId);

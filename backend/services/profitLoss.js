@@ -2,7 +2,14 @@ const Stock = require("../models/stock");
 const Expense = require("../models/expense");
 const { default: mongoose } = require("mongoose");
 exports.getProfitLossService = async (userOrgId, role, userId, branchId) => {
-  const data = await Stock.find({ isSelled: true })
+  const filter = {
+    isSelled: true,
+  };
+  if (branchId) {
+    filter.branch = branchId;
+  }
+
+  const data = await Stock.find(filter)
     .populate({
       path: "organization",
       match: role === "user" ? { _id: userOrgId } : { userId: userId },
