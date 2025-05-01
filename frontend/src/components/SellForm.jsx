@@ -436,10 +436,6 @@ const SellForm = ({ stock }) => {
 
         if (!device.customerPaid)
           newErrors.device[index].customerPaid = errorMessage.customerPaid;
-
-        if (!device.remainingAmount)
-          newErrors.device[index].remainingAmount =
-            errorMessage.remainingAmount;
       });
     }
 
@@ -523,7 +519,6 @@ const SellForm = ({ stock }) => {
       console.log(error.message);
     }
   };
-
 
   return (
     <>
@@ -727,11 +722,13 @@ const SellForm = ({ stock }) => {
                           errors.device[deviceIndex].amount) ||
                         ""
                       }
-                      helperText={ (errors &&
-                        errors.device &&
-                        errors.device[deviceIndex] &&
-                        errors.device[deviceIndex].amount) ||
-                      ""}
+                      helperText={
+                        (errors &&
+                          errors.device &&
+                          errors.device[deviceIndex] &&
+                          errors.device[deviceIndex].amount) ||
+                        ""
+                      }
                     />
                   </Grid>
                   <Grid item xs={4}>
@@ -773,21 +770,6 @@ const SellForm = ({ stock }) => {
                       InputProps={{
                         readOnly: true,
                       }}
-                      error={
-                        (errors &&
-                          errors.device &&
-                          errors.device[deviceIndex] &&
-                          errors.device[deviceIndex].remainingAmount) ||
-                        ""
-                      }
-
-                      helperText={
-                        (errors &&
-                          errors.device &&
-                          errors.device[deviceIndex] &&
-                          errors.device[deviceIndex].remainingAmount) ||
-                        ""
-                      }
                     />
                   </Grid>
                 </Grid>
@@ -821,17 +803,18 @@ const SellForm = ({ stock }) => {
                           value={
                             formData.payment?.[index]?.paymentAccount || ""
                           }
+                          branchId={formData?.branch?.value}
                           onChange={(selectAccount) =>
                             handlePaymentChange(index, selectAccount)
                           }
                           error={
-                            !!(errors &&
+                            !!(
+                              errors &&
                               errors.payment &&
                               errors.payment[index] &&
-                              errors.payment[index].paymentAccount) ||
-                            ""
+                              errors.payment[index].paymentAccount
+                            ) || ""
                           }
-                         
                         />
                       </Grid>
                       <Grid item xs={5}>
@@ -856,7 +839,7 @@ const SellForm = ({ stock }) => {
                               errors.payment[index] &&
                               errors.payment[index].paymentAmount) ||
                             ""
-                          } 
+                          }
                         />
                       </Grid>
                       <Grid item xs={2}>

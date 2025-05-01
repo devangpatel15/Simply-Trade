@@ -1,28 +1,36 @@
+const { default: mongoose } = require("mongoose");
 const account = require("../models/account");
 const Repair = require("../models/repair");
 const Sell = require("../models/sell");
 const Stock = require("../models/stock");
 
-exports.getAllSellService = async (userOrgId, role, userId, req) => {
+exports.getAllSellService = async (userBranchId, role, userId, req) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1
   const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
 
+  const query = req.query.search || "";
+
   const skip = (page - 1) * limit;
 
-  const data = await Sell.find({ isDeleted: false })
-    .populate({
-      path: "organization",
-      match: role == "user" ? { _id: userOrgId } : { userId: userId },
-    })
-    .populate("branch customerName modelName deviceName stock")
+  const filter = {
+    ...query,
+    isDeleted: false,
+    ...(role === "user" && { branch: userBranchId }),
+    // you can add more conditions here if needed for other roles
+  };
+
+  const data = await Sell.find(filter)
+    // .populate({
+    //   path: "branchName",
+    //   match: role == "user" ? { _id: userOrgId } : { userId: userId },
+    // })
+    .populate("organization branch customerName modelName deviceName stock")
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
     .lean();
 
-  const totalCount = await Sell.countDocuments({
-    isDeleted: false,
-  });
+  const totalCount = await Sell.countDocuments(filter);
 
   return { totalCount, items: data };
 };
@@ -231,7 +239,13 @@ exports.getSellByDateService = async ({ startDate, endDate }) => {
     throw err;
   }
 };
-exports.getAllStockSellRepairService = async (userOrgId, role, userId, req) => {
+exports.getAllStockSellRepairService = async (
+  userOrgId,
+  role,
+  userId,
+  req,
+  userBranchId
+) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
@@ -245,20 +259,26 @@ exports.getAllStockSellRepairService = async (userOrgId, role, userId, req) => {
     isDeleted: false,
   };
 
-  if (role === "user") {
-    baseMatchCondition.organization = userOrgId;
-  } else {
-    baseMatchCondition["organization.userId"] = userId;
-  }
+  // if (role === "user") {
+  //   baseMatchCondition.organization = userOrgId;
+  // } else {
+  //   // baseMatchCondition["organization.userId"] = userId;
+  // }
 
   // Add filters if present
   if (orgId) {
-    baseMatchCondition.organization = orgId;
+    baseMatchCondition.organization = new mongoose.Types.ObjectId(orgId);
+  }
+  if (cusId) {
+    baseMatchCondition.customerName = new mongoose.Types.ObjectId(cusId);
   }
 
-  if (cusId) {
-    baseMatchCondition.customerName = cusId;
+  console.log(userBranchId, "userBranchId");
+
+  if (userBranchId) {
+    baseMatchCondition.branch = new mongoose.Types.ObjectId(userBranchId);
   }
+  console.log(baseMatchCondition);
 
   const result = {
     totalCount: 0,

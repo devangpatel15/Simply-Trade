@@ -12,9 +12,10 @@ const {
 exports.getAllSell = async (req, res) => {
   try {
     const userOrgId = req.user.org;
+    const userBranchId = req.user.orgBranch;
     const role = req.user.role;
     const userId = req.user.id;
-    const sell = await getAllSellService(userOrgId, role, userId, req);
+    const sell = await getAllSellService(userBranchId, role, userId, req);
     if (!sell) {
       return res.status(404).json({ message: "No sell found" });
     }
@@ -159,13 +160,16 @@ exports.getAllStockSellRepair = async (req, res) => {
     const userOrgId = req.user?.org;
     const role = req.user?.role;
     const userId = req.user?.id;
+    const userBranchId = req.user?.orgBranch;
+
+    console.log(req.user);
 
     const allData = await getAllStockSellRepairService(
       userOrgId,
       role,
       userId,
-
-      req
+      req,
+      userBranchId
     );
     if (!allData) {
       return res.status(404).json({ message: "No Data found" });
