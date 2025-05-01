@@ -50,7 +50,6 @@ const RepairForm = () => {
       },
     ],
   });
-  console.log(formData, "formData");
 
   const handleAddDevice = () => {
     setFormData((prev) => ({
@@ -109,7 +108,7 @@ const RepairForm = () => {
           return updatedFormData;
         });
       } catch (error) {
-        console.error("Error parsing user data:", error);
+        console.error("Error parsing user data:", error); 
       }
     }
   }, []);
@@ -145,13 +144,13 @@ const RepairForm = () => {
       customerName: formData?.customerName?.value || null,
       customerPhone: formData?.customerPhone || "",
       email: formData.email || "",
-      device: formData.device.map((d) => ({
-        modelName: d?.modelName?.value || null,
-        deviceName: d?.deviceName?.value || null,
-        amount: d.amount || "",
-        estimatedCost: d.estimatedCost || "",
-        status: d.status || "",
-        date: d.date || "",
+      device: formData.device.map((device) => ({
+        modelName: device?.modelName?.value || null,
+        deviceName: device?.deviceName?.value || null,
+        amount: device.amount || "",
+        estimatedCost: device.estimatedCost || "",
+        status: device.status || "",
+        date: device.date || "",
       })),
     };
 
@@ -226,6 +225,7 @@ const RepairForm = () => {
   };
 
   const handleDeviceChange = (index, field, value) => {
+    console.log("hii")
     const updatedDevices = [...formData.device];
     updatedDevices[index][field] = value;
     setFormData((prev) => ({
@@ -241,6 +241,10 @@ const RepairForm = () => {
   const handleDeviceInputChange = (index, selectedDevice) => {
     setSelectedDevice(selectedDevice.value);
     handleDeviceChange(index, "deviceName", selectedDevice);
+  };
+  const handleStatusInputChange = (index, selectedDevice) => {
+    setSelectedDevice(selectedDevice.value);
+    handleDeviceChange(index, "status", selectedDevice);
   };
 
   const handleCustomerChange = async (selectCustomer) => {
@@ -438,9 +442,9 @@ const RepairForm = () => {
                           labelId="status-label"
                           id="status"
                           name="status"
-                          value={formData.status || ""}
+                          value={device.status || ""}
                           onChange={(e) =>
-                            handleDeviceChange(index, "status", e.target.value)
+                            handleStatusInputChange(index, e.target.value)
                           }
                           label="Status"
                         >
