@@ -100,7 +100,7 @@ const ProfitLoseTable = () => {
               >
                 PROFIT AND LOSS
               </Typography>
-              <Box display="flex" gap={4}>
+              {/* <Box display="flex" gap={4}>
                 <Button
                   variant="outlined"
                   sx={{
@@ -113,7 +113,7 @@ const ProfitLoseTable = () => {
                 >
                   Download PDF
                 </Button>
-              </Box>
+              </Box> */}
             </Box>
 
             <Box display="flex" gap={2} sx={{ marginTop: 2 }}>

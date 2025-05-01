@@ -301,7 +301,7 @@ const Sidebar = () => {
                   <ListItemText primary="Profit & Loss" />
                 </ListItemButton>
 
-                <ListItemButton
+                {/* <ListItemButton
                   sx={{ pl: 4, gap: "2rem" }}
                   onClick={() => navigate("/expensePage")}
                 >
@@ -319,7 +319,7 @@ const Sidebar = () => {
                     <Business sx={{ color: iconColor }} />
                   </RestorePageIcon>
                   <ListItemText primary="Customer History" />
-                </ListItemButton>
+                </ListItemButton> */}
               </List>
             </Collapse>
 
