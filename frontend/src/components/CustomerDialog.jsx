@@ -77,6 +77,7 @@ const CustomerDialog = ({
   setOpen,
   customerData,
   field,
+  customerName
 }) => {
   const navigate = useNavigate();
 
@@ -86,6 +87,7 @@ const CustomerDialog = ({
     customerName: "",
     customerPhone: "",
   });
+
 
   const [errors, setErrors] = React.useState({});
   const organization = customerData?.organization ?? null;
@@ -100,7 +102,7 @@ const CustomerDialog = ({
           value: organization?._id,
         },
         branchName: { label: branchName, value: branchId },
-        customerName: customerData.customerName || "",
+        customerName:customerName || "",
         customerPhone: customerData.customerPhone || "",
       });
     }
@@ -117,7 +119,6 @@ const CustomerDialog = ({
     }));
   };
 
-  console.log("formData:",formData);
   
   const validateStockForm = () => {
     let newErrors = {};
@@ -140,13 +141,11 @@ const CustomerDialog = ({
 
     return Object.keys(newErrors).length === 0; // Returns true if no errors
   };
-  console.log("errors:",errors);
   
 
   const handleSubmit = async () => {
     try {
       if (!validateStockForm()) {
-        console.log("hiiiiiiiiiiiiii");
         
         return;
       }
@@ -232,6 +231,7 @@ const CustomerDialog = ({
 
               <Grid item xs={12}>
                 <TextField
+                
                   fullWidth
                   label="Customer Name"
                   variant="outlined"

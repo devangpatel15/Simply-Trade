@@ -16,13 +16,13 @@ const CustomerInput = ({
   field,
   pageName,
 }) => {
-  console.log("orgId:", orgId);
 
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [customerData, setCustomerdata] = useState({});
+  const [customerName, setCustomerName] = useState();
   // console.log(branchId, "branchId cus");
 
   const callApi = async () => {
@@ -36,7 +36,6 @@ const CustomerInput = ({
           }, // Request headers
         }
       );
-      console.log(response.data, "RESPONSESSSSSSSSSSSSSSS");
       setCustomerdata(response.data.data);
     } catch (error) {
       console.error("Error fetching organizations:", error);
@@ -44,6 +43,7 @@ const CustomerInput = ({
   };
 
   const handleOpen = () => {
+    
     setOpen(true);
     callApi();
   };
@@ -104,7 +104,6 @@ const CustomerInput = ({
 
   // Fetch organizations when inputValue changes
   useEffect(() => {
-    console.log("i am call use");
 
     if (branchId || orgId) {
       if (inputValue.trim() !== "") {
@@ -143,6 +142,7 @@ const CustomerInput = ({
         }
         renderInput={(params) => (
           <TextField
+          onChange={(e) => setCustomerName(e.target.value)}
             error={!!error}
             helperText={error}
             {...params}
@@ -169,6 +169,7 @@ const CustomerInput = ({
         fieldName="customerForm"
         setOpen={setOpen}
         field={field}
+        customerName={customerName}
       />
     </>
   );
