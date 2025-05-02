@@ -113,26 +113,26 @@ const SellTable = () => {
   };
 
   const columns = [
-    {
-      field: "action",
-      headerName: "Action",
-      flex: 2,
-      renderCell: (params) => (
-        <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
-            <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton> */}
-          <Link to={`/sellForm/${params.row.id}`}>
-            <IconButton>
-              <EditIcon sx={{ color: "#6c5ce7" }} />
-            </IconButton>
-          </Link>
-          <IconButton onClick={() => openDeleteDialog(params.row.id)}>
-            <DeleteIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton>
-        </>
-      ),
-    },
+    // {
+    //   field: "action",
+    //   headerName: "Action",
+    //   flex: 2,
+    //   renderCell: (params) => (
+    //     <>
+    //       {/* <IconButton onClick={() => handleOpen(params.row)}>
+    //         <VisibilityIcon sx={{ color: "#6c5ce7" }} />
+    //       </IconButton> */}
+    //       <Link to={`/sellForm/${params.row.id}`}>
+    //         <IconButton>
+    //           <EditIcon sx={{ color: "#6c5ce7" }} />
+    //         </IconButton>
+    //       </Link>
+    //       <IconButton onClick={() => openDeleteDialog(params.row.id)}>
+    //         <DeleteIcon sx={{ color: "#6c5ce7" }} />
+    //       </IconButton>
+    //     </>
+    //   ),
+    // },
     { field: "organization", headerName: "Organization", flex: 2 },
     { field: "organizationBranch", headerName: "Branch", flex: 2 },
     { field: "model", headerName: "Model", flex: 2 },

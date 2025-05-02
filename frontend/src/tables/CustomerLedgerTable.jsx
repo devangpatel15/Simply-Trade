@@ -1,16 +1,7 @@
-import { Box, Grid, Grid2, IconButton, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import DeleteDialog from "../components/DeleteDialog";
-import { deleteStock, getAllStocks } from "../apis/StockApi";
-import StockDialog from "../components/StockDialog";
-import PaymentDialog from "../components/PaymentDialog";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import axios from "axios";
 import { allSellStockRepair } from "../apis/SellApi";
 
 const CustomerLedgerTable = ({
