@@ -36,6 +36,8 @@ const ProfitLoseTable = () => {
   }, []);
 
   const columns = [
+    { field: "organization", headerName: "Organization", flex: 2 },
+    { field: "branch", headerName: "Branch", flex: 2 },
     { field: "modelName", headerName: "Model", flex: 2 },
     { field: "deviceName", headerName: "Device", flex: 2 },
     { field: "totalAmount", headerName: "Product Price", flex: 2 },
@@ -70,6 +72,8 @@ const ProfitLoseTable = () => {
   // Prepare the rows for the DataGrid
   const rows = profitLoss.map((profitLoss) => ({
     id: profitLoss._id,
+    organization: profitLoss?.organization?.organizationName,
+    branch: profitLoss?.branch?.branchName,
     modelName: profitLoss?.modelName?.modelName,
     deviceName: profitLoss?.deviceName?.deviceName,
     totalAmount: profitLoss.totalAmount,

@@ -79,7 +79,7 @@ const DashboardPage = () => {
                     variant="h6"
                     sx={{ color: "green", fontWeight: "bold" , marginTop : 2  }}
                   >
-                   Stock : {overAllData.totalAmount}
+                   Stock : ₹ {overAllData.totalAmount}
                   </Typography>
                 </Box>
               </Box>
@@ -115,7 +115,7 @@ const DashboardPage = () => {
                     variant="h6"
                     sx={{ color: "#EF6F71", fontWeight: "bold", marginTop : 2 }}
                   >
-                   Sell : {overAllData.totalCost}
+                   Sell : ₹ {overAllData.totalCost}
 
                   </Typography>
                 </Box>
