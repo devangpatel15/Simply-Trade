@@ -73,7 +73,7 @@ const CustomerLedgerTable = ({
 
   useEffect(() => {
     callApi();
-  }, [paginationModel, selectedCustomer, selectedRadioFilter,startDate, endDate]);
+  }, [paginationModel, selectedCustomer, selectedRadioFilter, endDate]);
 
   const handlePaginationModelChange = (newPaginationModel) => {
     setPaginationModel(newPaginationModel);
