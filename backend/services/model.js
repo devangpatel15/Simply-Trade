@@ -49,7 +49,7 @@ exports.findUserModelServices = async (userId) => {
 };
 
 exports.createModelServices = async (modelData) => {
-  console.log("in servise::::::::::", modelData);
+  // console.log("in servise::::::::::", modelData);
   const data = await Model.create(modelData);
 
   return data;

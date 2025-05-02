@@ -1,21 +1,14 @@
 import {
   Box,
-  Button,
-  IconButton,
   InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "../components/DeleteDialog";
 import DialogBox from "../components/DialogBox";
-import { allUserOrg, deleteOrg } from "../apis/OrganizationApi";
 import SearchIcon from "@mui/icons-material/Search";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
@@ -61,6 +54,10 @@ const SellTable = () => {
         params: {
           startDate: dateRange.startDate,
           endDate: dateRange.endDate,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
