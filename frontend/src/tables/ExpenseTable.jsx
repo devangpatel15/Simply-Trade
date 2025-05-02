@@ -62,6 +62,10 @@ const ExpenseTable = () => {
             startDate: dateRange.startDate,
             endDate: dateRange.endDate,
           },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
 
