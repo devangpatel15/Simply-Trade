@@ -43,7 +43,6 @@ const CustomerLedgerTable = ({
         selectedOrganization && selectedOrganization?.value,
         selectedCustomer && selectedCustomer?.value,
         startDate,
-
         endDate,);
       console.log(response, "API Response");
 
