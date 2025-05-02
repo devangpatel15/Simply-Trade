@@ -4,8 +4,8 @@ const {
   getAccount,
   createAccount,
   updateAccount,
-  deleteAccount,
   selectAccountByBranch,
+  softDeleteAccount,
 } = require("../controllers/account");
 const { AuthUser } = require("../middleware/user");
 
@@ -15,7 +15,7 @@ accountRouter.get("/allAccount", AuthUser, getAllAccount);
 accountRouter.get("/account/:id", getAccount);
 accountRouter.post("/createAccount", createAccount);
 accountRouter.put("/updateAccount/:id", updateAccount);
-accountRouter.put("/deleteAccount/:id", deleteAccount);
+accountRouter.put("/deleteAccount/:id", softDeleteAccount);
 accountRouter.get("/selectAccountByBranch", selectAccountByBranch);
 
 module.exports = accountRouter;

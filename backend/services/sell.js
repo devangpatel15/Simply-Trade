@@ -293,7 +293,6 @@ exports.getAllStockSellRepairService = async (
   if (userBranchId) {
     baseMatchCondition.branch = new mongoose.Types.ObjectId(userBranchId);
   }
-  console.log(baseMatchCondition);
 
   const result = {
     totalCount: 0,
@@ -345,8 +344,13 @@ exports.getAllStockSellRepairService = async (
 
   // STOCK
   if (type === "all" || type === "stock") {
+    const stockMatchCondition = {
+      ...baseMatchCondition,
+      isSelled: false,
+    };
+
     const [stockAggregates] = await Stock.aggregate([
-      { $match: baseMatchCondition },
+      { $match: stockMatchCondition },
       {
         $group: {
           _id: null,
@@ -357,7 +361,7 @@ exports.getAllStockSellRepairService = async (
       },
     ]);
 
-    const stockData = await Stock.find(baseMatchCondition)
+    const stockData = await Stock.find(stockMatchCondition)
       .populate({
         path: "organization",
         match: role === "user" ? { _id: userOrgId } : { userId },
@@ -370,7 +374,7 @@ exports.getAllStockSellRepairService = async (
       .limit(limit)
       .lean();
 
-    const stockCount = await Stock.countDocuments(baseMatchCondition);
+    const stockCount = await Stock.countDocuments(stockMatchCondition);
 
     result.items.stockData = stockData;
     result.stockTotals = stockAggregates || {
