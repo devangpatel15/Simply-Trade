@@ -78,6 +78,8 @@ const CustomerLedgerTable = ({
 
   const columns = [
     { field: "customerName", headerName: "Customer Name", flex: 2 },
+    { field: "organization", headerName: "Organization", flex: 2 },
+    { field: "branch", headerName: "Branch", flex: 2 },
     { field: "role", headerName: "Role", flex: 2 },
     { field: "deviceId", headerName: "Device", flex: 2 },
     { field: "totalAmount", headerName: "Total Amount", flex: 2 },
@@ -107,6 +109,8 @@ const CustomerLedgerTable = ({
       ? allCus.map((stock) => ({
           id: stock._id,
           customerName: stock?.customerName?.customerName,
+          organization: stock?.organization?.organizationName,
+          branch: stock?.branch?.branchName,
           role: stock?.customerName?.role,
           deviceId: stock?.deviceName?.deviceName,
           totalAmount: stock.totalAmount
@@ -127,6 +131,8 @@ const CustomerLedgerTable = ({
       ? stock.map((stock) => ({
           id: stock._id,
           customerName: stock?.customerName?.customerName,
+          organization: stock?.organization?.organizationName,
+          branch: stock?.branch?.branchName,
           role: stock?.customerName?.role,
           deviceId: stock?.deviceName?.deviceName,
           totalAmount: stock.totalAmount,
@@ -139,6 +145,8 @@ const CustomerLedgerTable = ({
       ? sell.map((stock) => ({
           id: stock._id,
           customerName: stock?.customerName?.customerName,
+          organization: stock?.organization?.organizationName,
+          branch: stock?.branch?.branchName,
           role: stock?.customerName?.role,
           deviceId: stock?.deviceName?.deviceName,
           totalAmount: stock.amount,
@@ -151,6 +159,8 @@ const CustomerLedgerTable = ({
       ? repair.map((stock) => ({
           id: stock._id,
           customerName: stock?.customerName?.customerName,
+          organization: stock?.organization?.organizationName,
+          branch: stock?.branch?.branchName,
           role: stock?.customerName?.role,
           deviceId: stock?.deviceName?.deviceName,
           totalAmount: stock.amount,
