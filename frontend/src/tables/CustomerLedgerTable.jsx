@@ -17,6 +17,8 @@ const CustomerLedgerTable = ({
   selectedOrganization,
   selectedCustomer,
   selectedRadioFilter,
+  startDate,
+  endDate,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -39,8 +41,10 @@ const CustomerLedgerTable = ({
         paginationModel.pageSize,
         type,
         selectedOrganization && selectedOrganization?.value,
-        selectedCustomer && selectedCustomer?.value
-      );
+        selectedCustomer && selectedCustomer?.value,
+        startDate,
+
+        endDate,);
       console.log(response, "API Response");
 
       if (selectedRadioFilter == "all") {
@@ -70,7 +74,7 @@ const CustomerLedgerTable = ({
 
   useEffect(() => {
     callApi();
-  }, [paginationModel, selectedCustomer, selectedRadioFilter]);
+  }, [paginationModel, selectedCustomer, selectedRadioFilter,startDate, endDate]);
 
   const handlePaginationModelChange = (newPaginationModel) => {
     setPaginationModel(newPaginationModel);
@@ -190,7 +194,7 @@ const CustomerLedgerTable = ({
                   fontWeight: 700,
                 }}
               >
-                Total Amount : {total?.totalAmount}
+                Total Amount : {total?.totalAmount || "0"}
               </Typography>
             </Grid>
             <Grid item xs={4}>
@@ -201,7 +205,7 @@ const CustomerLedgerTable = ({
                   fontWeight: 700,
                 }}
               >
-                Total Paid Amount : {total?.paidAmount}
+                Total Paid Amount : {total?.paidAmount || "0"}
               </Typography>
             </Grid>
             <Grid item xs={4}>
@@ -212,7 +216,7 @@ const CustomerLedgerTable = ({
                   fontWeight: 700,
                 }}
               >
-                Total Remaining Amount : {total?.remainingAmount}
+                Total Remaining Amount : {total?.remainingAmount || "0"}  
               </Typography>
             </Grid>
           </Grid>
