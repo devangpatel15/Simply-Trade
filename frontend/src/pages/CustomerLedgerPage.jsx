@@ -22,6 +22,40 @@ const CustomerLedgerPage = () => {
   const [selectedOrganization, setSelectedOrganization] = React.useState(null);
   const [selectedCustomer, setSelectedCustomer] = React.useState(null);
   const [selectedRadioFilter, setSelectedRadioFilter] = React.useState("all");
+  const [date , setDate] = React.useState([]);
+  const [dateRange, setDateRange] = React.useState({
+    startDate: "",
+    endDate: "",
+  });
+
+  // const fetchDates = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "http://localhost:4000/api/allSellStockRepair",
+  //       {
+  //         params: {
+  //           startDate: dateRange.startDate,
+  //           endDate: dateRange.endDate,
+  //         },
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       }
+  //     );
+  //     console.log(response.data.data, "API Response2222222222");
+  //     setDate(response.data.data.item); // ✅ Update the table rows
+  //     // setTotalRows(response.data.data.length); // ✅ Optional: update total count
+  //   } catch (error) {
+  //     console.error("Error fetching filtered expenses:", error);
+  //   }
+  // };
+
+  // React.useEffect(() => {
+  //   if (dateRange.startDate && dateRange.endDate) {
+  //     fetchDates();
+  //   }
+  // }, [dateRange.startDate, dateRange.endDate]);
 
   const handleOrganizationChange = (selectedOrg) => {
     setSelectedOrganization(selectedOrg);
@@ -87,7 +121,14 @@ const CustomerLedgerPage = () => {
                 fullWidth
                 type="date"
                 label="Start Date"
-                name="date"
+                name="startDate"
+                value={dateRange.startDate}
+                onChange={(e) =>
+                  setDateRange((prev) => ({
+                    ...prev,
+                    startDate: e.target.value,
+                  }))
+                }
                 // value={formData.date}
                 // onChange={handleNativeDateChange}
                 sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
@@ -101,7 +142,14 @@ const CustomerLedgerPage = () => {
                 fullWidth
                 type="date"
                 label="End Date"
-                name="date"
+                name="endDate"
+                value={dateRange.endDate}
+                onChange={(e) =>
+                  setDateRange((prev) => ({
+                    ...prev,
+                    endDate : e.target.value,
+                  }))
+                }
                 // value={formData.date}
                 // onChange={handleNativeDateChange}
                 sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
@@ -207,6 +255,8 @@ const CustomerLedgerPage = () => {
           selectedOrganization={selectedOrganization}
           selectedCustomer={selectedCustomer}
           selectedRadioFilter={selectedRadioFilter}
+          startDate={dateRange.startDate}
+          endDate={dateRange.endDate}
           />
         </Box>
       </Box>

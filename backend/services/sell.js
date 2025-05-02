@@ -254,10 +254,25 @@ exports.getAllStockSellRepairService = async (
   const orgId = req.query.orgId;
   const cusId = req.query.cusId;
 
+  const startDate = req.query.startDate ? new Date(req.query.startDate) : null;
+  const endDate = req.query.endDate ? new Date(req.query.endDate) : null;
+
   // Base match condition
   const baseMatchCondition = {
     isDeleted: false,
   };
+
+  if (startDate || endDate) {
+    baseMatchCondition.createdAt = {};
+    if (startDate) {
+      baseMatchCondition.createdAt.$gte = startDate;
+    }
+    if (endDate) {
+      // To include full end day, set time to 23:59:59.999
+      endDate.setHours(23, 59, 59, 999);
+      baseMatchCondition.createdAt.$lte = endDate;
+    }
+  }
 
   // if (role === "user") {
   //   baseMatchCondition.organization = userOrgId;
