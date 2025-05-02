@@ -506,16 +506,49 @@ const StockForm = () => {
               // Ensure the device array exists in newErrors
               if (!newErrors.device) newErrors.device = [];
               if (!newErrors.device[index]) newErrors.device[index] = {};
-              if (!newErrors.device[index].imei)
-                newErrors.device[index].imei = [];
-              if (!newErrors.device[index].imei[imeiIndex])
-                newErrors.device[index].imei[imeiIndex] = {};
-
+              if (!newErrors.device[index].imei) newErrors.device[index].imei = [];
+              if (!newErrors.device[index].imei[imeiIndex]) newErrors.device[index].imei[imeiIndex] = {};
+            
               newErrors.device[index].imei[imeiIndex].imeiNo =
                 "At least one of IMEI Number or Serial Number is required.";
               newErrors.device[index].imei[imeiIndex].srNo =
                 "At least one of IMEI Number or Serial Number is required.";
+            } else {
+              // Specific IMEI validation
+              if (imei.imeiNo && !/^\d{15}$/.test(imei.imeiNo)) {
+                if (!newErrors.device) newErrors.device = [];
+                if (!newErrors.device[index]) newErrors.device[index] = {};
+                if (!newErrors.device[index].imei) newErrors.device[index].imei = [];
+                if (!newErrors.device[index].imei[imeiIndex]) newErrors.device[index].imei[imeiIndex] = {};
+            
+                newErrors.device[index].imei[imeiIndex].imeiNo = "Invalid IMEI Number. It should be a 15-digit numeric value.";
+              }
+            
+              // Specific Serial Number validation
+              if (imei.srNo && (imei.srNo.length < 5 || imei.srNo.length > 20)) {
+                if (!newErrors.device) newErrors.device = [];
+                if (!newErrors.device[index]) newErrors.device[index] = {};
+                if (!newErrors.device[index].imei) newErrors.device[index].imei = [];
+                if (!newErrors.device[index].imei[imeiIndex]) newErrors.device[index].imei[imeiIndex] = {};
+            
+                newErrors.device[index].imei[imeiIndex].srNo = "Invalid Serial Number. It should be between 5 and 20 characters.";
+              }
             }
+            
+            // if (!imei.imeiNo && !imei.srNo) {
+            //   // Ensure the device array exists in newErrors
+            //   if (!newErrors.device) newErrors.device = [];
+            //   if (!newErrors.device[index]) newErrors.device[index] = {};
+            //   if (!newErrors.device[index].imei)
+            //     newErrors.device[index].imei = [];
+            //   if (!newErrors.device[index].imei[imeiIndex])
+            //     newErrors.device[index].imei[imeiIndex] = {};
+
+            //   newErrors.device[index].imei[imeiIndex].imeiNo =
+            //     "At least one of IMEI Number or Serial Number is required.";
+            //   newErrors.device[index].imei[imeiIndex].srNo =
+            //     "At least one of IMEI Number or Serial Number is required.";
+            // }
             if (!imei.totalAmount) {
               if (!newErrors.device[index].imei)
                 newErrors.device[index].imei = [];
