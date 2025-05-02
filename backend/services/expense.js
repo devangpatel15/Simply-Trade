@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Expense = require("../models/expense");
 const Stock = require("../models/stock");
 
@@ -111,7 +112,7 @@ exports.deleteExpenseService = async (exId) => {
 
 //   return await Expense.find(findObject).limit(5); // Increase limit if needed
 // };
-exports.getExpenseByDateService = async ({ startDate, endDate }) => {
+exports.getExpenseByDateService = async ({ startDate, endDate }, branchId) => {
   const filter = { isDeleted: false };
 
   try {
@@ -128,6 +129,9 @@ exports.getExpenseByDateService = async ({ startDate, endDate }) => {
       $gte: start,
       $lte: end,
     };
+    if (branchId) {
+      filter.branchName = new mongoose.Types.ObjectId(branchId);
+    }
 
     const result = await Expense.find(filter)
       .populate("organization branchName modelName deviceName")

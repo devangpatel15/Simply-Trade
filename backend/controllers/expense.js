@@ -111,7 +111,7 @@ exports.softDeleteExpense = async (req, res) => {
 exports.getExpenseByDate = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
-    // console.log("📥 Received from client:", req.query);
+    const branchId = req.user.orgBranch;
 
     if (!startDate || !endDate) {
       return res.status(400).json({
@@ -120,7 +120,10 @@ exports.getExpenseByDate = async (req, res) => {
       });
     }
 
-    const expenses = await getExpenseByDateService({ startDate, endDate });
+    const expenses = await getExpenseByDateService(
+      { startDate, endDate },
+      branchId
+    );
 
     res.status(200).json({
       success: true,

@@ -212,7 +212,7 @@ exports.deleteSellService = async (sellId) => {
 //   };
 // };
 
-exports.getSellByDateService = async ({ startDate, endDate }) => {
+exports.getSellByDateService = async ({ startDate, endDate }, branchId) => {
   const filter = { isDeleted: false };
 
   try {
@@ -228,6 +228,10 @@ exports.getSellByDateService = async ({ startDate, endDate }) => {
       $gte: start,
       $lte: end,
     };
+
+    if (branchId) {
+      filter.branch = new mongoose.Types.ObjectId(branchId);
+    }
 
     const result = await Sell.find(filter)
       .populate("organization branch modelName deviceName customerName stock")

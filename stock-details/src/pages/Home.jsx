@@ -10,6 +10,7 @@ import {
 import image from "../assets/Rectangle 1900.png";
 import { getAllStocks } from "../apis/StockApi";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import noDataFoundImage from "../assets/Group 18992.png";
 
 const Home = () => {
   const [stocks, setStocks] = useState([]);
@@ -36,7 +37,7 @@ const Home = () => {
           flexWrap: "wrap",
         }}
       >
-        {stocks &&
+        {stocks.length > 0 ? (
           stocks.map((option, index) => {
             return (
               <>
@@ -111,7 +112,12 @@ const Home = () => {
                 </Card>
               </>
             );
-          })}
+          })
+        ) : (
+          <Box sx={{ margin: "5rem auto" }}>
+            <img src={noDataFoundImage} alt="no data found image" />
+          </Box>
+        )}
       </Box>
     </Box>
   );
