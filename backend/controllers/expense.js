@@ -8,8 +8,6 @@ const {
 } = require("../services/expense");
 
 exports.getAllExpense = async (req, res) => {
-  console.log(req.user, "req.user");
-
   try {
     const userOrgId = req.user.org;
     const userBranchId = req.user.orgBranch;

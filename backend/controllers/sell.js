@@ -162,8 +162,6 @@ exports.getAllStockSellRepair = async (req, res) => {
     const userId = req.user?.id;
     const userBranchId = req.user?.orgBranch;
 
-    console.log(req.user);
-
     const allData = await getAllStockSellRepairService(
       userOrgId,
       role,
