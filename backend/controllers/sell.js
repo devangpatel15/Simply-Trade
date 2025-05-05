@@ -162,8 +162,6 @@ exports.getAllStockSellRepair = async (req, res) => {
     const userId = req.user?.id;
     const userBranchId = req.user?.orgBranch;
 
-    console.log(req.user);
-
     const allData = await getAllStockSellRepairService(
       userOrgId,
       role,
@@ -191,6 +189,7 @@ exports.getAllStockSellRepair = async (req, res) => {
 exports.getSellByDate = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
+    const branchId = req.user.orgBranch;
 
     if (!startDate || !endDate) {
       return res.status(400).json({
@@ -199,7 +198,10 @@ exports.getSellByDate = async (req, res) => {
       });
     }
 
-    const expenses = await getSellByDateService({ startDate, endDate });
+    const expenses = await getSellByDateService(
+      { startDate, endDate },
+      branchId
+    );
 
     res.status(200).json({
       success: true,

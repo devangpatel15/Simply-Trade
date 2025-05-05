@@ -110,9 +110,9 @@ const StockTable = ({ searchTerm }) => {
               <IconButton onClick={() => openDeleteDialog(params.row.id)}>
                 <DeleteIcon sx={{ color: "#6c5ce7" }} />
               </IconButton>
-              <IconButton onClick={() => handlePaymentDialogOpen(params.row)}>
+              {/* <IconButton onClick={() => handlePaymentDialogOpen(params.row)}>
                 <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
-              </IconButton>
+              </IconButton> */}
               <Link
                 to={
                   location.pathname.includes("stockPage")
