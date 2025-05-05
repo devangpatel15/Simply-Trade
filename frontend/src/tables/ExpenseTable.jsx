@@ -168,62 +168,51 @@ const ExpenseTable = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", marginTop: "4rem" }}>
-      <Sidebar />
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
-        <Box sx={{ padding: 3 }}>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-            >
-              EXPENSE
-            </Typography>
+    <Box>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+          EXPENSE
+        </Typography>
 
-            <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
-              <TextField
-                fullWidth
-                type="date"
-                label="Start Date"
-                name="startDate"
-                value={dateRange.startDate}
-                onChange={(e) =>
-                  setDateRange((prev) => ({
-                    ...prev,
-                    startDate: e.target.value,
-                  }))
-                }
-                // value={formData.date}
-                // onChange={handleNativeDateChange}
-                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
+        <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
+          <TextField
+            fullWidth
+            type="date"
+            label="Start Date"
+            name="startDate"
+            value={dateRange.startDate}
+            onChange={(e) =>
+              setDateRange((prev) => ({
+                ...prev,
+                startDate: e.target.value,
+              }))
+            }
+            // value={formData.date}
+            // onChange={handleNativeDateChange}
+            sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
 
-              <TextField
-                fullWidth
-                type="date"
-                label="End Date"
-                name="endDate"
-                value={dateRange.endDate}
-                onChange={(e) =>
-                  setDateRange((prev) => ({ ...prev, endDate: e.target.value }))
-                }
-                // value={formData.date}
-                // onChange={handleNativeDateChange}
-                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
+          <TextField
+            fullWidth
+            type="date"
+            label="End Date"
+            name="endDate"
+            value={dateRange.endDate}
+            onChange={(e) =>
+              setDateRange((prev) => ({ ...prev, endDate: e.target.value }))
+            }
+            // value={formData.date}
+            // onChange={handleNativeDateChange}
+            sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
 
-              {/* <TextField
+          {/* <TextField
                 variant="outlined"
                 placeholder="Search"
                 size="medium"
@@ -236,46 +225,46 @@ const ExpenseTable = () => {
                   ),
                 }}
               /> */}
-              <Button
-                variant="outlined"
-                sx={{
-                  color: "#6c5ce7",
-                  borderColor: "#6c5ce7",
-                  textTransform: "none",
-                  // fontWeight: "bold",
-                  fontSize: "1rem",
-                  width: "30%",
-                }}
-                component={Link}
-                to="/expenseForm"
-              >
-                Add Expense
-              </Button>
-            </Box>
-          </Box>
-          <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={paginationModel.pageSize}
-              rowCount={totalRows} // Ensure this is set to the total count of records
-              paginationMode="server" // Enable server-side pagination
-              onPaginationModelChange={handlePaginationModelChange}
-              paginationModel={paginationModel}
-              pageSizeOptions={[5, 10]}
-              sx={{
-                border: 0,
-                "& .MuiDataGrid-columnHeader": {
-                  background: "#C4BDFF",
-                  color: "White",
-                },
-                "& .MuiDataGrid-columnHeaderTitle": {
-                  fontWeight: "bold",
-                  fontSize: "1.2rem",
-                },
-              }}
-            />
-            {/* <Button
+          <Button
+            variant="outlined"
+            sx={{
+              color: "#6c5ce7",
+              borderColor: "#6c5ce7",
+              textTransform: "none",
+              // fontWeight: "bold",
+              fontSize: "1rem",
+              width: "30%",
+            }}
+            component={Link}
+            to="/expenseForm"
+          >
+            Add Expense
+          </Button>
+        </Box>
+      </Box>
+      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={paginationModel.pageSize}
+          rowCount={totalRows} // Ensure this is set to the total count of records
+          paginationMode="server" // Enable server-side pagination
+          onPaginationModelChange={handlePaginationModelChange}
+          paginationModel={paginationModel}
+          pageSizeOptions={[5, 10]}
+          sx={{
+            border: 0,
+            "& .MuiDataGrid-columnHeader": {
+              background: "#C4BDFF",
+              color: "White",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",
+              fontSize: "1.2rem",
+            },
+          }}
+        />
+        {/* <Button
               sx={{
                 backgroundColor: "#6c5ce7",
                 color: "white",
@@ -288,23 +277,21 @@ const ExpenseTable = () => {
             >
               StockPage
             </Button> */}
-          </Paper>
+      </Paper>
 
-          <DialogBox
-            handleClose={handleClose}
-            open={open}
-            data={data}
-            callApi={callApi}
-            fieldName="expenseForm"
-          />
-          <DeleteDialog
-            deleteOpen={deleteOpen}
-            handleClose={handleClose}
-            handleDelete={handleDelete}
-            closeDeleteDialog={closeDeleteDialog}
-          />
-        </Box>
-      </Box>
+      <DialogBox
+        handleClose={handleClose}
+        open={open}
+        data={data}
+        callApi={callApi}
+        fieldName="expenseForm"
+      />
+      <DeleteDialog
+        deleteOpen={deleteOpen}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        closeDeleteDialog={closeDeleteDialog}
+      />
     </Box>
   );
 };

@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import {
-  Box,
-  Button,
-  Grid,
-  
-  Typography,
-} from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import OrgInput from "../components/common/OrgInput";
@@ -87,24 +81,12 @@ const ProfitLoseTable = () => {
 
   const paginationModel = { page: 0, pageSize: 5 };
   return (
-    <div>
-      <Box sx={{ display: "flex", marginTop: "4rem" }}>
-        <Sidebar />
-        <Box sx={{ flexGrow: 1 }}>
-          <Header />
-          <Box sx={{ padding: 3 }}>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Typography
-                variant="h4"
-                sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-              >
-                PROFIT AND LOSS
-              </Typography>
-              {/* <Box display="flex" gap={4}>
+    <Box>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+          PROFIT AND LOSS
+        </Typography>
+        {/* <Box display="flex" gap={4}>
                 <Button
                   variant="outlined"
                   sx={{
@@ -118,102 +100,102 @@ const ProfitLoseTable = () => {
                   Download PDF
                 </Button>
               </Box> */}
-            </Box>
+      </Box>
 
-            <Box display="flex" gap={2} sx={{ marginTop: 2 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={3}>
-                  <Typography
-                    sx={{
-                      fontSize: "1.3rem",
-                      color: "#4C2D85",
-                      fontWeight: 700,
-                    }}
-                  >
-                    Total Product Price : {overAllData.totalAmount}
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography
-                    sx={{
-                      fontSize: "1.3rem",
-                      color: "#4C2D85",
-                      fontWeight: 700,
-                    }}
-                  >
-                    Total Expense : {overAllData.totalExpense}
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography
-                    sx={{
-                      fontSize: "1.3rem",
-                      color: "#4C2D85",
-                      fontWeight: 700,
-                    }}
-                  >
-                    Total Cost : {overAllData.totalCost}
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography
-                    sx={{
-                      fontSize: "1.3rem",
-                      color: "#4C2D85",
-                      fontWeight: 700,
-                    }}
-                  >
-                    Total Selling Amount : {overAllData.totalSellingAmount}
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography
-                    sx={{
-                      fontSize: "1.3rem",
-                      color: "#4C2D85",
-                      fontWeight: 700,
-                    }}
-                  >
-                    Total Profit Or Loss : {overAllData.profitOrLoss}
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography
-                    sx={{
-                      fontSize: "1.3rem",
-                      color: "#4C2D85",
-                      fontWeight: 700,
-                    }}
-                  >
-                    General Expense : {overAllData.totalGeneralExpense}
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography
-                    sx={{
-                      fontSize: "1.3rem",
-                      color: "#4C2D85",
-                      fontWeight: 700,
-                    }}
-                  >
-                    OverAll P/L : {overAllData.overAllProfitLoss}
-                  </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography
-                    sx={{
-                      color: overAllData.status == "profit" ? "Green" : "Red",
-                      fontWeight: "Bold",
-                      fontSize: "1.3rem",
-                    }}
-                  >
-                    Status : {overAllData.status}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Box>
-            {/* radio group not need now */}
-            {/* <Box display="flex" gap={2}>
+      <Box display="flex" gap={2} sx={{ marginTop: 2 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={3}>
+            <Typography
+              sx={{
+                fontSize: "1.3rem",
+                color: "#4C2D85",
+                fontWeight: 700,
+              }}
+            >
+              Total Product Price : {overAllData.totalAmount}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography
+              sx={{
+                fontSize: "1.3rem",
+                color: "#4C2D85",
+                fontWeight: 700,
+              }}
+            >
+              Total Expense : {overAllData.totalExpense}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography
+              sx={{
+                fontSize: "1.3rem",
+                color: "#4C2D85",
+                fontWeight: 700,
+              }}
+            >
+              Total Cost : {overAllData.totalCost}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography
+              sx={{
+                fontSize: "1.3rem",
+                color: "#4C2D85",
+                fontWeight: 700,
+              }}
+            >
+              Total Selling Amount : {overAllData.totalSellingAmount}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography
+              sx={{
+                fontSize: "1.3rem",
+                color: "#4C2D85",
+                fontWeight: 700,
+              }}
+            >
+              Total Profit Or Loss : {overAllData.profitOrLoss}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography
+              sx={{
+                fontSize: "1.3rem",
+                color: "#4C2D85",
+                fontWeight: 700,
+              }}
+            >
+              General Expense : {overAllData.totalGeneralExpense}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography
+              sx={{
+                fontSize: "1.3rem",
+                color: "#4C2D85",
+                fontWeight: 700,
+              }}
+            >
+              OverAll P/L : {overAllData.overAllProfitLoss}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography
+              sx={{
+                color: overAllData.status == "profit" ? "Green" : "Red",
+                fontWeight: "Bold",
+                fontSize: "1.3rem",
+              }}
+            >
+              Status : {overAllData.status}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Box>
+      {/* radio group not need now */}
+      {/* <Box display="flex" gap={2}>
                 <Grid container spacing={2} sx={{ marginTop: 0.5 }}>
                   <Grid item xs={6}>
                     <RadioGroup
@@ -251,7 +233,7 @@ const ProfitLoseTable = () => {
                   </Grid>
                   </Grid>
                 </Box> */}
-            {/* <Box display="flex" gap={2} sx={{ marginTop: 5 }}>
+      {/* <Box display="flex" gap={2} sx={{ marginTop: 5 }}>
               <Grid container spacing={2}>
                 <Grid item xs={3}>
                   <OrgInput />
@@ -289,33 +271,31 @@ const ProfitLoseTable = () => {
                 </Grid>
               </Grid>
             </Box> */}
-          </Box>
-          <Paper sx={{ height: 400, width: "100%", padding: 2 }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              initialState={{ pagination: { paginationModel } }}
-              pageSizeOptions={[5, 10]}
-              sx={{
-                border: 0,
-                "& .MuiDataGrid-columnHeader": {
-                  background: "#C4BDFF",
-                  color: "White",
-                },
-                "& .MuiDataGrid-columnHeaderTitle": {
-                  fontWeight: "bold",
-                  fontSize: "1.2rem",
-                },
-              }}
-            />
-          </Paper>
 
-          <Grid container spacing={2} sx={{ marginTop: 2, padding: 2 }}>
-            <Grid item xs={3}></Grid>
-          </Grid>
-        </Box>
-      </Box>
-    </div>
+      <Paper sx={{ height: 400, width: "100%", padding: 2 }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{ pagination: { paginationModel } }}
+          pageSizeOptions={[5, 10]}
+          sx={{
+            border: 0,
+            "& .MuiDataGrid-columnHeader": {
+              background: "#C4BDFF",
+              color: "White",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",
+              fontSize: "1.2rem",
+            },
+          }}
+        />
+      </Paper>
+
+      <Grid container spacing={2} sx={{ marginTop: 2, padding: 2 }}>
+        <Grid item xs={3}></Grid>
+      </Grid>
+    </Box>
   );
 };
 

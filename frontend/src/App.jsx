@@ -39,11 +39,12 @@ import RepairForm from "./components/RepairForm";
 import SellPage from "./pages/SellPage";
 import SellForm from "./components/SellForm";
 import ProfitLoseTable from "./tables/ProfitLoseTable";
+import Layout from "./pages/Layout";
 
 function App() {
   const PrivateRoute = ({ children }) => {
     const token = localStorage.getItem("token");
-    return token ? children : <Navigate to="/signIn" />;
+    return token ? <Layout>{children}</Layout> : <Navigate to="/signIn" />;
   };
 
   const PublicRoute = ({ children }) => {
@@ -87,6 +88,7 @@ function App() {
             </PublicRoute>
           }
         />
+        
         <Route
           path="/dashboard"
           element={

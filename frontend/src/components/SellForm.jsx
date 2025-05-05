@@ -523,382 +523,349 @@ const SellForm = ({ stock }) => {
   };
 
   return (
-    <>
-      <Box sx={{ display: "flex" }}>
-        <Sidebar />
-        <Box sx={{ flexGrow: 1 }}>
-          <Header />
-          <Box
-            sx={{
-              padding: 3,
-              margin: "auto",
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              marginTop: "4rem",
-            }}
-          >
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-            >
-              SELL DEVICE
-            </Typography>
+    <Box
+      sx={{
+        margin: "auto",
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
+      <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+        SELL DEVICE
+      </Typography>
 
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <OrgInput
-                  role="admin"
-                  onChange={handleOrganizationChange}
-                  value={formData.organization} // Now it's an object, not undefined
-                  error={errors.organization}
-                />
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <OrgInput
+            role="admin"
+            onChange={handleOrganizationChange}
+            value={formData.organization} // Now it's an object, not undefined
+            error={errors.organization}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <OrgBranchInput
+            role="admin"
+            onChange={handleOrganizationBranchChange}
+            value={formData.branch || null} // ✅ Ensure branch is always an object or null
+            selectedOrganization={selectedOrganization}
+            error={errors.branch}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomerInput
+            onChange={handleCustomerChange}
+            value={formData.customerName}
+            branchId={formData?.branch?.value}
+            error={errors.customerName}
+            field={"sell"}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            disabled
+            type="number"
+            fullWidth
+            label="Phone Number"
+            variant="outlined"
+            name="customerPhone"
+            value={formData.customerPhone || ""}
+            onChange={handleChange}
+            required
+          />
+        </Grid>
+      </Grid>
+
+      {formData?.device?.map((item, deviceIndex) => (
+        <Box
+          key={`device-${deviceIndex}`}
+          mt={3}
+          p={2}
+          sx={{ border: "1px solid #ccc", borderRadius: 2 }}
+        >
+          {id ? (
+            ""
+          ) : (
+            <>
+              <Grid container spacing={2} mt={1}>
+                <Grid item sx={2}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={addDevice}
+                  >
+                    Add Device
+                  </Button>
+                </Grid>
+                {deviceIndex > 0 && (
+                  <Grid item sx={2}>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={() => removeDevice(deviceIndex)}
+                    >
+                      Remove Device
+                    </Button>
+                  </Grid>
+                )}
               </Grid>
-              <Grid item xs={6}>
-                <OrgBranchInput
-                  role="admin"
-                  onChange={handleOrganizationBranchChange}
-                  value={formData.branch || null} // ✅ Ensure branch is always an object or null
-                  selectedOrganization={selectedOrganization}
-                  error={errors.branch}
-                />
+            </>
+          )}
+
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={6}>
+              <ModelInput
+                onChange={(selectedModel) =>
+                  handleModelChange(deviceIndex, selectedModel)
+                }
+                value={formData.device[deviceIndex]?.modelName}
+                branchId={formData?.branch?.value}
+                error={
+                  (errors &&
+                    errors.device &&
+                    errors.device[deviceIndex] &&
+                    errors.device[deviceIndex].modelName) ||
+                  ""
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DeviceInput
+                onChange={(selectedDevice) =>
+                  handleDeviceChange(deviceIndex, selectedDevice)
+                }
+                value={formData.device[deviceIndex]?.deviceName}
+                modelId={modelId}
+                error={
+                  (errors &&
+                    errors.device &&
+                    errors.device[deviceIndex] &&
+                    errors.device[deviceIndex].deviceName) ||
+                  ""
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl
+                fullWidth
+                variant="outlined"
+                error={!!errors.paymentType}
+                // helperText={errors.device?.[deviceIndex]?.paymentType || ""}
+                required
+              >
+                <InputLabel id="paymentType-label">Payment Type</InputLabel>
+                <Select
+                  labelId="paymentType-label"
+                  id="paymentType"
+                  name="paymentType"
+                  value={formData.device?.[deviceIndex]?.paymentType || ""}
+                  onChange={(e) =>
+                    handlePaymentTypeChange(deviceIndex, e.target.value)
+                  }
+                  label="paymentType"
+                >
+                  <MenuItem value="Cash">Cash</MenuItem>
+                  <MenuItem value="Cheque">Cheque</MenuItem>
+                  <MenuItem value="Upi">Upi</MenuItem>
+                  <MenuItem value="Neft">Neft</MenuItem>
+                  <MenuItem value="Card">Card</MenuItem>
+                  <MenuItem value="Other">Other</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                disabled
+                fullWidth
+                label="Stock Amount"
+                name="totalAmount"
+                value={formData.device?.[deviceIndex]?.totalAmount || ""}
+                type="number"
+                error={
+                  (errors &&
+                    errors.device &&
+                    errors.device[deviceIndex] &&
+                    errors.device[deviceIndex].totalAmount) ||
+                  ""
+                }
+                helperText={errors.device?.[deviceIndex]?.totalAmount || ""}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                label="Amount"
+                name="amount"
+                value={formData.device?.[deviceIndex]?.amount || ""}
+                type="number"
+                onChange={(e) =>
+                  handleAmountChange(deviceIndex, e.target.value)
+                }
+                error={
+                  (errors &&
+                    errors.device &&
+                    errors.device[deviceIndex] &&
+                    errors.device[deviceIndex].amount) ||
+                  ""
+                }
+                helperText={
+                  (errors &&
+                    errors.device &&
+                    errors.device[deviceIndex] &&
+                    errors.device[deviceIndex].amount) ||
+                  ""
+                }
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                label="customerPaid"
+                name="customerPaid"
+                value={formData.device?.[deviceIndex]?.customerPaid || ""}
+                type="number"
+                onChange={(e) =>
+                  handleCustomerPaidChange(deviceIndex, e.target.value)
+                }
+                error={
+                  (errors &&
+                    errors.device &&
+                    errors.device[deviceIndex] &&
+                    errors.device[deviceIndex].customerPaid) ||
+                  ""
+                }
+                helperText={
+                  (errors &&
+                    errors.device &&
+                    errors.device[deviceIndex] &&
+                    errors.device[deviceIndex].customerPaid) ||
+                  ""
+                }
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                label="Remaining Amount"
+                name="remainingAmount"
+                value={
+                  (formData.device?.[deviceIndex]?.amount || 0) -
+                  (formData.device?.[deviceIndex]?.customerPaid || 0)
+                }
+                type="number"
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+      ))}
+
+      <Box mt={3}>
+        <Button variant="contained" component="label" fullWidth>
+          Upload File
+          <input type="file" onChange={handleChange} hidden />
+        </Button>
+      </Box>
+
+      <Box mt={3} p={2} sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
+        {formData.payment.map((payment, paymentIndex) => (
+          <>
+            <Grid container spacing={2} mt={1}>
+              <Grid item sx={2}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={addPayment}
+                >
+                  Add Payment
+                </Button>
               </Grid>
+              {paymentIndex > 0 && (
+                <Grid item sx={2}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => removePayment(paymentIndex)}
+                  >
+                    Remove Payment
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+            <Grid
+              container
+              spacing={2}
+              key={payment.id}
+              alignItems="center"
+              sx={{ marginTop: ".5rem" }}
+            >
               <Grid item xs={6}>
-                <CustomerInput
-                  onChange={handleCustomerChange}
-                  value={formData.customerName}
+                <PaymentInput
+                  label="Payment Account"
+                  value={
+                    formData.payment?.[paymentIndex]?.paymentAccount || null
+                  }
                   branchId={formData?.branch?.value}
-                  error={errors.customerName}
-                  field={"sell"}
+                  onChange={(selectAccount) =>
+                    handlePaymentChange(paymentIndex, selectAccount)
+                  }
+                  error={
+                    !!(
+                      errors &&
+                      errors.payment &&
+                      errors.payment[paymentIndex] &&
+                      errors.payment[paymentIndex].paymentAccount
+                    ) || ""
+                  }
                 />
               </Grid>
               <Grid item xs={6}>
                 <TextField
-                  disabled
-                  type="number"
                   fullWidth
-                  label="Phone Number"
-                  variant="outlined"
-                  name="customerPhone"
-                  value={formData.customerPhone || ""}
-                  onChange={handleChange}
-                  required
+                  label="Payment Amount"
+                  value={formData.payment?.[paymentIndex]?.paymentAmount || ""}
+                  onChange={(e) =>
+                    handlePaymentAmountChange(paymentIndex, e.target.value)
+                  }
+                  type="number"
+                  error={
+                    (errors &&
+                      errors.payment &&
+                      errors.payment[paymentIndex] &&
+                      errors.payment[paymentIndex].paymentAmount) ||
+                    ""
+                  }
+                  helperText={
+                    (errors &&
+                      errors.payment &&
+                      errors.payment[paymentIndex] &&
+                      errors.payment[paymentIndex].paymentAmount) ||
+                    ""
+                  }
                 />
               </Grid>
             </Grid>
-
-            {formData?.device?.map((item, deviceIndex) => (
-              <Box
-                key={`device-${deviceIndex}`}
-                mt={3}
-                p={2}
-                sx={{ border: "1px solid #ccc", borderRadius: 2 }}
-              >
-                {id ? (
-                  ""
-                ) : (
-                  <>
-                    <Grid container spacing={2} mt={1}>
-                      <Grid item sx={2}>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={addDevice}
-                        >
-                          Add Device
-                        </Button>
-                      </Grid>
-                      {deviceIndex > 0 && (
-                        <Grid item sx={2}>
-                          <Button
-                            variant="contained"
-                            color="error"
-                            onClick={() => removeDevice(deviceIndex)}
-                          >
-                            Remove Device
-                          </Button>
-                        </Grid>
-                      )}
-                    </Grid>
-                  </>
-                )}
-
-                <Grid container spacing={2} mt={1}>
-                  <Grid item xs={6}>
-                    <ModelInput
-                      onChange={(selectedModel) =>
-                        handleModelChange(deviceIndex, selectedModel)
-                      }
-                      value={formData.device[deviceIndex]?.modelName}
-                      branchId={formData?.branch?.value}
-                      error={
-                        (errors &&
-                          errors.device &&
-                          errors.device[deviceIndex] &&
-                          errors.device[deviceIndex].modelName) ||
-                        ""
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <DeviceInput
-                      onChange={(selectedDevice) =>
-                        handleDeviceChange(deviceIndex, selectedDevice)
-                      }
-                      value={formData.device[deviceIndex]?.deviceName}
-                      modelId={modelId}
-                      error={
-                        (errors &&
-                          errors.device &&
-                          errors.device[deviceIndex] &&
-                          errors.device[deviceIndex].deviceName) ||
-                        ""
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <FormControl
-                      fullWidth
-                      variant="outlined"
-                      error={!!errors.paymentType}
-                      // helperText={errors.device?.[deviceIndex]?.paymentType || ""}
-                      required
-                    >
-                      <InputLabel id="paymentType-label">
-                        Payment Type
-                      </InputLabel>
-                      <Select
-                        labelId="paymentType-label"
-                        id="paymentType"
-                        name="paymentType"
-                        value={
-                          formData.device?.[deviceIndex]?.paymentType || ""
-                        }
-                        onChange={(e) =>
-                          handlePaymentTypeChange(deviceIndex, e.target.value)
-                        }
-                        label="paymentType"
-                      >
-                        <MenuItem value="Cash">Cash</MenuItem>
-                        <MenuItem value="Cheque">Cheque</MenuItem>
-                        <MenuItem value="Upi">Upi</MenuItem>
-                        <MenuItem value="Neft">Neft</MenuItem>
-                        <MenuItem value="Card">Card</MenuItem>
-                        <MenuItem value="Other">Other</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      disabled
-                      fullWidth
-                      label="Stock Amount"
-                      name="totalAmount"
-                      value={formData.device?.[deviceIndex]?.totalAmount || ""}
-                      type="number"
-                      error={
-                        (errors &&
-                          errors.device &&
-                          errors.device[deviceIndex] &&
-                          errors.device[deviceIndex].totalAmount) ||
-                        ""
-                      }
-                      helperText={
-                        errors.device?.[deviceIndex]?.totalAmount || ""
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      fullWidth
-                      label="Amount"
-                      name="amount"
-                      value={formData.device?.[deviceIndex]?.amount || ""}
-                      type="number"
-                      onChange={(e) =>
-                        handleAmountChange(deviceIndex, e.target.value)
-                      }
-                      error={
-                        (errors &&
-                          errors.device &&
-                          errors.device[deviceIndex] &&
-                          errors.device[deviceIndex].amount) ||
-                        ""
-                      }
-                      helperText={
-                        (errors &&
-                          errors.device &&
-                          errors.device[deviceIndex] &&
-                          errors.device[deviceIndex].amount) ||
-                        ""
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      fullWidth
-                      label="customerPaid"
-                      name="customerPaid"
-                      value={formData.device?.[deviceIndex]?.customerPaid || ""}
-                      type="number"
-                      onChange={(e) =>
-                        handleCustomerPaidChange(deviceIndex, e.target.value)
-                      }
-                      error={
-                        (errors &&
-                          errors.device &&
-                          errors.device[deviceIndex] &&
-                          errors.device[deviceIndex].customerPaid) ||
-                        ""
-                      }
-                      helperText={
-                        (errors &&
-                          errors.device &&
-                          errors.device[deviceIndex] &&
-                          errors.device[deviceIndex].customerPaid) ||
-                        ""
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      fullWidth
-                      label="Remaining Amount"
-                      name="remainingAmount"
-                      value={
-                        (formData.device?.[deviceIndex]?.amount || 0) -
-                        (formData.device?.[deviceIndex]?.customerPaid || 0)
-                      }
-                      type="number"
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-            ))}
-
-            <Box mt={3}>
-              <Button variant="contained" component="label" fullWidth>
-                Upload File
-                <input type="file" onChange={handleChange} hidden />
-              </Button>
-            </Box>
-
-            <Box
-              mt={3}
-              p={2}
-              sx={{ border: "1px solid #ccc", borderRadius: 2 }}
-            >
-              {formData.payment.map((payment, paymentIndex) => (
-                <>
-                  <Grid container spacing={2} mt={1}>
-                    <Grid item sx={2}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={addPayment}
-                      >
-                        Add Payment
-                      </Button>
-                    </Grid>
-                    {paymentIndex > 0 && (
-                      <Grid item sx={2}>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={() => removePayment(paymentIndex)}
-                        >
-                          Remove Payment
-                        </Button>
-                      </Grid>
-                    )}
-                  </Grid>
-                  <Grid
-                    container
-                    spacing={2}
-                    key={payment.id}
-                    alignItems="center"
-                    sx={{ marginTop: ".5rem" }}
-                  >
-                    <Grid item xs={6}>
-                      <PaymentInput
-                        label="Payment Account"
-                        value={
-                          formData.payment?.[paymentIndex]?.paymentAccount ||
-                          null
-                        }
-                        branchId={formData?.branch?.value}
-                        onChange={(selectAccount) =>
-                          handlePaymentChange(paymentIndex, selectAccount)
-                        }
-                        error={
-                          !!(
-                            errors &&
-                            errors.payment &&
-                            errors.payment[paymentIndex] &&
-                            errors.payment[paymentIndex].paymentAccount
-                          ) || ""
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField
-                        fullWidth
-                        label="Payment Amount"
-                        value={
-                          formData.payment?.[paymentIndex]?.paymentAmount || ""
-                        }
-                        onChange={(e) =>
-                          handlePaymentAmountChange(
-                            paymentIndex,
-                            e.target.value
-                          )
-                        }
-                        type="number"
-                        error={
-                          (errors &&
-                            errors.payment &&
-                            errors.payment[paymentIndex] &&
-                            errors.payment[paymentIndex].paymentAmount) ||
-                          ""
-                        }
-                        helperText={
-                          (errors &&
-                            errors.payment &&
-                            errors.payment[paymentIndex] &&
-                            errors.payment[paymentIndex].paymentAmount) ||
-                          ""
-                        }
-                      />
-                    </Grid>
-                  </Grid>
-                </>
-              ))}
-            </Box>
-
-            <Box mt={2} display="flex" justifyContent="end" gap={2}>
-              <Button
-                variant="outlined"
-                color="primary"
-                component={Link}
-                to="/sellPage"
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSubmit}
-              >
-                Submit
-              </Button>
-            </Box>
-          </Box>
-        </Box>
+          </>
+        ))}
       </Box>
-    </>
+
+      <Box mt={2} display="flex" justifyContent="end" gap={2}>
+        <Button
+          variant="outlined"
+          color="primary"
+          component={Link}
+          to="/sellPage"
+        >
+          Cancel
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          Submit
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

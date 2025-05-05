@@ -18,7 +18,6 @@ import ModelInput from "./common/ModelInput";
 import { errorMessage } from "../../errorMessage";
 import { toast } from "react-toastify";
 
-
 const DeviceForm = () => {
   const { id } = useParams();
 
@@ -77,7 +76,6 @@ const DeviceForm = () => {
           },
           id
         );
-
       } else {
         createDevice({
           ...formData,
@@ -86,12 +84,10 @@ const DeviceForm = () => {
           categoryId: formData.categoryId.value,
           modelId: formData.modelId.value,
         });
-
       }
       navigate("/devicePage");
     } catch (error) {
       console.error("Error submitting form:", error);
-
     }
   };
 
@@ -156,102 +152,87 @@ const DeviceForm = () => {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <Sidebar />
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
-        <Box
-          sx={{
-            padding: 3,
-            margin: "auto",
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            marginTop: "4rem",
-          }}
-        >
-          <Typography
-            variant="h4"
-            sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-          >
-            DEVICE
-          </Typography>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <OrgInput
-                  onChange={handleOrganizationChange}
-                  value={formData.organization}
-                  error={errors.organization}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <OrgBranchInput
-                  onChange={handleOrganizationBranchChange}
-                  value={formData.branchName}
-                  selectedOrganization={selectedOrganization}
-                  error={errors.branchName}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <CategoryInput
-                  onChange={handleCategoryChange}
-                  value={formData.categoryId}
-                  branchId={branchId}
-                  error={errors.categoryId}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <ModelInput
-                  onChange={handleModelChange}
-                  value={formData.modelId}
-                  catId={catId}
-                  error={errors.modelId}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  label="Device"
-                  variant="outlined"
-                  name="deviceName"
-                  value={formData.deviceName || ""}
-                  onChange={handleChange}
-                  required
-                  error={!!errors.deviceName}
-                  helperText={errors.deviceName}
-                />
-              </Grid>
-            </Grid>
-          </Box>
-
-          <Grid
-            item
-            xs={12}
-            sx={{ display: "flex", justifyContent: "space-between" }}
-          >
-            <Button
-              variant="contained"
-              color="error"
-              component={Link}
-              to="/devicePage"
-            >
-              Cancel
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-              Add
-            </Button>
+    <Box
+      sx={{
+        margin: "auto",
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
+      <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+        DEVICE
+      </Typography>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <OrgInput
+              onChange={handleOrganizationChange}
+              value={formData.organization}
+              error={errors.organization}
+            />
           </Grid>
-        </Box>
+
+          <Grid item xs={6}>
+            <OrgBranchInput
+              onChange={handleOrganizationBranchChange}
+              value={formData.branchName}
+              selectedOrganization={selectedOrganization}
+              error={errors.branchName}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <CategoryInput
+              onChange={handleCategoryChange}
+              value={formData.categoryId}
+              branchId={branchId}
+              error={errors.categoryId}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <ModelInput
+              onChange={handleModelChange}
+              value={formData.modelId}
+              catId={catId}
+              error={errors.modelId}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Device"
+              variant="outlined"
+              name="deviceName"
+              value={formData.deviceName || ""}
+              onChange={handleChange}
+              required
+              error={!!errors.deviceName}
+              helperText={errors.deviceName}
+            />
+          </Grid>
+        </Grid>
       </Box>
+
+      <Grid
+        item
+        xs={12}
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <Button
+          variant="contained"
+          color="error"
+          component={Link}
+          to="/devicePage"
+        >
+          Cancel
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          Add
+        </Button>
+      </Grid>
     </Box>
   );
 };

@@ -141,10 +141,10 @@ const StockTable = ({ searchTerm }) => {
       ),
     },
     { field: "organization", headerName: "organization", flex: 1.5 },
+    { field: "branchName", headerName: "Branch Name", flex: 1.5 },
     { field: "categoryId", headerName: "Category", flex: 1.5 },
     { field: "modelId", headerName: "Model", flex: 1.5 },
     { field: "deviceId", headerName: "Device", flex: 1.5 },
-    { field: "branchName", headerName: "Branch Name", flex: 1.5 },
     { field: "totalAmount", headerName: "Stock Amount", flex: 1.5 },
     { field: "expenseAmount", headerName: "Expenses Amount", flex: 1.5 },
     { field: "total", headerName: "Total", flex: 1.5 },
@@ -155,10 +155,10 @@ const StockTable = ({ searchTerm }) => {
     ? stock.map((stock) => ({
         id: stock._id,
         organization: stock?.organization?.organizationName,
+        branchName: stock?.branch?.branchName,
         categoryId: stock?.categoryName?.categoryName,
         modelId: stock?.modelName?.modelName,
         deviceId: stock?.deviceName?.deviceName,
-        branchName: stock?.branch?.branchName,
         totalAmount: stock?.totalAmount || "N/A",
         expenseAmount: stock?.expenseAmount || "N/A",
         total: stock?.expenseAmount
