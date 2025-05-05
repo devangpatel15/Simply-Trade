@@ -1,9 +1,12 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const api_call = import.meta.env.VITE_API_URL
+
+
 const getAllExpense = async (page = 1, limit = 5, search) => {
     try {
-      const response = await axios.get("http://localhost:4000/api/allExpense", {
+      const response = await axios.get(`${api_call}/allExpense`, {
         params: { page, limit, search  },
         headers: {
           "Content-Type": "application/json",
@@ -20,7 +23,7 @@ const getAllExpense = async (page = 1, limit = 5, search) => {
   const getOneExpense = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/expense/${id}`,
+        `${api_call}/expense/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -36,7 +39,7 @@ const getAllExpense = async (page = 1, limit = 5, search) => {
 
   const createExpense = async (formData) => {
     try {
-      const response =  await axios.post("http://localhost:4000/api/createExpense", formData, {
+      const response =  await axios.post(`${api_call}/createExpense`, formData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -53,7 +56,7 @@ const getAllExpense = async (page = 1, limit = 5, search) => {
   const updateExpense = async (formData, id) => {
     try {
       const response = await axios.put(
-        `http://localhost:4000/api/updateExpense/${id}`,
+        `${api_call}/updateExpense/${id}`,
         formData,
         {
           headers: {
@@ -73,7 +76,7 @@ const getAllExpense = async (page = 1, limit = 5, search) => {
     const deleteExpense = async (id) => {
         try {
         await axios.put(
-            `http://localhost:4000/api/deleteExpense/${id}`,
+            `${api_call}/deleteExpense/${id}`,
             {},
             {
             headers: {

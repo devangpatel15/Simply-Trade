@@ -1,9 +1,10 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+const api_call = import.meta.env.VITE_API_URL;
 
 const createCustomer = async (formData) => {
   try {
-    await axios.post("http://localhost:4000/api/createCustomer", formData, {
+    await axios.post(`${api_call}/createCustomer`, formData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -17,16 +18,12 @@ const createCustomer = async (formData) => {
 };
 const updateCustomer = async (formData, id) => {
   try {
-    await axios.put(
-      `http://localhost:4000/api/updateCustomer/${id}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    await axios.put(`${api_call}/updateCustomer/${id}`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     toast.success("Customer updated successfully!");
   } catch (error) {
     toast.error("Customer not updated!");
@@ -39,15 +36,12 @@ const getOneCustomer = async (id) => {
     if (!id) {
       return;
     }
-    const response = await axios.get(
-      `http://localhost:4000/api/customer/${id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.get(`${api_call}/customer/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log(error, "get Customer error");
@@ -56,7 +50,7 @@ const getOneCustomer = async (id) => {
 
 const getAllCustomer = async (page = 1, limit = 5, search) => {
   try {
-    const response = await axios.get("http://localhost:4000/api/allCustomer", {
+    const response = await axios.get(`${api_call}/allCustomer`, {
       params: { page, limit, search },
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +66,7 @@ const getAllCustomer = async (page = 1, limit = 5, search) => {
 const deleteCustomer = async (id) => {
   try {
     await axios.put(
-      `http://localhost:4000/api/deleteCustomer/${id}`,
+      `${api_call}/deleteCustomer/${id}`,
       {},
       {
         headers: {

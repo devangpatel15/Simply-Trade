@@ -9,7 +9,6 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import SearchIcon from "@mui/icons-material/Search";
@@ -19,7 +18,6 @@ import DialogBox from "../components/DialogBox";
 import DeleteDialog from "../components/DeleteDialog";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getAllCapacity } from "../apis/CapacityApi";
 
 const CategoryTable = () => {
   const [category, setCategory] = useState([]);

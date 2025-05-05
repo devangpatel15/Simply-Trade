@@ -1,10 +1,13 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const api_call = import.meta.env.VITE_API_URL
+
+
 const createAccount = async (formData) => {
   try {
     const response = await axios.post(
-      "http://localhost:4000/api/createAccount",
+      `${api_call}/createAccount`,
       formData,
       {
         headers: {
@@ -23,7 +26,7 @@ const updateAccount = async (formData, id) => {
   try {
     console.log(formData);
     const response = await axios.put(
-      `http://localhost:4000/api/updateAccount/${id}`,
+      `${api_call}/updateAccount/${id}`,
       formData,
       {
         headers: {
@@ -39,12 +42,13 @@ const updateAccount = async (formData, id) => {
     console.log(error, "updateUser error");
   }
 };
-const getAllAccounts = async () => {
+const getAllAccounts = async (search) => {
   try {
     const response = await axios.get(
-      "http://localhost:4000/api/allAccount",
+      `${api_call}/allAccount`,
 
       {
+        params:{search},
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -60,7 +64,7 @@ const getAllAccounts = async () => {
 const getOneAccount = async (id) => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/account/${id}`,
+      `${api_call}/account/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +81,7 @@ const getOneAccount = async (id) => {
 const deleteAccount = async (id) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/deleteAccount/${id}`,
+      `${api_call}/deleteAccount/${id}`,
       {},
       {
         headers: {

@@ -10,12 +10,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "../components/DeleteDialog";
 import axios from "axios";
-
 import DialogBox from "../components/DialogBox";
 import { deleteModel } from "../apis/ModelApi";
 import Sidebar from "../components/Sidebar";
@@ -44,8 +42,11 @@ const ModelTable = () => {
     pageSize: 5,
   });
 
+  const api_call = import.meta.env.VITE_API_URL
+
+
   const callApi = async (page = 1, limit = 5, search) => {
-    const response = await axios.get("http://localhost:4000/api/findAllModel", {
+    const response = await axios.get(`${api_call}/findAllModel`, {
       params: { page, limit, search },
       headers: {
         "Content-Type": "application/json",

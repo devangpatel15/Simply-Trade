@@ -1,10 +1,12 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const api_call = import.meta.env.VITE_API_URL
+
 const createModel = async (formData) => {
   try {
     const response = await axios.post(
-      "http://localhost:4000/api/createModel",
+      `${api_call}/createModel`,
       formData,
       {
         headers: {
@@ -23,7 +25,7 @@ const createModel = async (formData) => {
 const updateModel = async (formData, id) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/updateModel/${id}`,
+      `${api_call}/updateModel/${id}`,
       formData,
       {
         headers: {
@@ -43,7 +45,7 @@ const updateModel = async (formData, id) => {
 const findOneModel = async (id) => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/findOneModel/${id}`,
+      `${api_call}/findOneModel/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +62,7 @@ const findOneModel = async (id) => {
 const deleteModel = async (_id) => {
   try {
     await axios.put(
-      `http://localhost:4000/api/deleteModel/${_id}`,
+      `${api_call}/deleteModel/${_id}`,
       {},
       {
         headers: {
@@ -79,7 +81,7 @@ const deleteModel = async (_id) => {
 const getBranchModel = async (branchId) => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/selectDeviceByModel/${branchId}`,
+      `${api_call}/selectDeviceByModel/${branchId}`,
       {
         headers: {
           "Content-Type": "application/json",

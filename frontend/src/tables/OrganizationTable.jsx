@@ -10,7 +10,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "../components/DeleteDialog";
@@ -91,9 +90,9 @@ const OrganizationTable = () => {
       flex: 2,
       renderCell: (params) => (
         <>
-          <IconButton onClick={() => handleOpen(params.row)}>
+          {/* <IconButton onClick={() => handleOpen(params.row)}>
             <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton>
+          </IconButton> */}
           <Link to={`/organizationForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />

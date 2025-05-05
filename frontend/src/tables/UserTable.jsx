@@ -9,7 +9,6 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import SearchIcon from "@mui/icons-material/Search";
@@ -86,9 +85,9 @@ const UserTable = () => {
       width: 150,
       renderCell: (params) => (
         <>
-          <IconButton onClick={() => handleOpen(params.row)}>
+          {/* <IconButton onClick={() => handleOpen(params.row)}>
             <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton>
+          </IconButton> */}
           <Link to={`/userForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />

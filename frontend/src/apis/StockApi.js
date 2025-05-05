@@ -1,9 +1,11 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const api_call = import.meta.env.VITE_API_URL
+
 const createStock = async (formData) => {
   try {
-    await axios.post("http://localhost:4000/api/createStock", formData, {
+    await axios.post(`${api_call}/createStock`, formData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -18,7 +20,7 @@ const createStock = async (formData) => {
 
 const updateStock = async (formData, id) => {
   try {
-    await axios.put(`http://localhost:4000/api/updateStock/${id}`, formData, {
+    await axios.put(`${api_call}/updateStock/${id}`, formData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -33,7 +35,7 @@ const updateStock = async (formData, id) => {
 
 const getOneStock = async (id) => {
   try {
-    const response = await axios.get(`http://localhost:4000/api/stock/${id}`, {
+    const response = await axios.get(`${api_call}/stock/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -48,7 +50,7 @@ const getOneStock = async (id) => {
 
 const getAllStocks = async (page = 1, limit = 5 , search) => {
   try {
-    const response = await axios.get("http://localhost:4000/api/allStock", {
+    const response = await axios.get(`${api_call}/allStock`, {
       params: { page, limit, search },
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +66,7 @@ const getAllStocks = async (page = 1, limit = 5 , search) => {
 const deleteStock = async (id) => {
   try {
     await axios.put(
-      `http://localhost:4000/api/deleteStock/${id}`,
+      `${api_call}/deleteStock/${id}`,
       {},
       {
         headers: {

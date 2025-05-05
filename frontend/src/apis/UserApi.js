@@ -1,10 +1,12 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const api_call = import.meta.env.VITE_API_URL
+
 const createUser = async (formData) => {
   try {
     const response = await axios.post(
-      "http://localhost:4000/api/userSignUp",
+      `${api_call}/userSignUp`,
       formData,
       {
         headers: {
@@ -24,7 +26,7 @@ const updateUser = async (formData, id) => {
   try {
     console.log(formData);
     const response = await axios.put(
-      `http://localhost:4000/api/updateUser/${id}`,
+      `${api_call}/updateUser/${id}`,
       formData,
       {
         headers: {
@@ -43,7 +45,7 @@ const updateUser = async (formData, id) => {
 const getAllUsers = async (page = 1, limit = 5, search) => {
   try {
     const response = await axios.get(
-      "http://localhost:4000/api/findAllUser",
+      `${api_call}/findAllUser`,
 
       {
         params: { page, limit, search  },
@@ -63,7 +65,7 @@ const getAllUsers = async (page = 1, limit = 5, search) => {
 const getOneUser = async (id) => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/findOneUser/${id}`,
+      `${api_call}/findOneUser/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +82,7 @@ const getOneUser = async (id) => {
 const deleteUser = async (id) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/deleteUser/${id}`,
+      `${api_call}/deleteUser/${id}`,
       {},
       {
         headers: {

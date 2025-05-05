@@ -48,9 +48,12 @@ const SellTable = () => {
     callApi(); // +1 for 1-based API pagination
   }, [paginationModel.page, paginationModel.pageSize, searchTerm]);
 
+  const api_call = import.meta.env.VITE_API_URL
+
+
   const fetchExpenses = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/sellByDate", {
+      const response = await axios.get(`${api_call}/sellByDate`, {
         params: {
           startDate: dateRange.startDate,
           endDate: dateRange.endDate,

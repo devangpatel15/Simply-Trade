@@ -13,7 +13,6 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 import DialogBox from "../components/DialogBox";
-import SearchIcon from "@mui/icons-material/Search";
 import DeleteDialog from "../components/DeleteDialog";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
@@ -52,11 +51,15 @@ const ExpenseTable = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  };  
+  console.log(import.meta.env.VITE_API_URL , "API URL");
+
+  const api_call = import.meta.env.VITE_API_URL
+  
   const fetchExpenses = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/api/expenseByDate",
+        `${api_call}/expenseByDate`,
         {
           params: {
             startDate: dateRange.startDate,

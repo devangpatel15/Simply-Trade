@@ -1,9 +1,11 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const api_call = import.meta.env.VITE_API_URL
+
 const createColor = async (formData) => {
   try {
-    await axios.post("http://localhost:4000/api/createColor", formData, {
+    await axios.post(`${api_call}/createColor`, formData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -19,7 +21,7 @@ const createColor = async (formData) => {
 const getOneColor = async (id) => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/findOneColor/${id}`,
+      `${api_call}/findOneColor/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -35,7 +37,7 @@ const getOneColor = async (id) => {
 const updateColor = async (formData, id) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/updateColor/${id}`,
+      `${api_call}/updateColor/${id}`,
       formData,
       {
         headers: {
@@ -54,7 +56,7 @@ const updateColor = async (formData, id) => {
 
 const getAllColor = async (page = 1, limit = 5, search) => {
   try {
-    const response = await axios.get("http://localhost:4000/api/findAllColor", {
+    const response = await axios.get(`${api_call}/findAllColor`, {
       params: { page, limit, search },
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +73,7 @@ const getAllColor = async (page = 1, limit = 5, search) => {
 const deleteColor = async (id) => {
   try {
     await axios.put(
-      `http://localhost:4000/api/deleteColor/${id}`,
+      `${api_call}/deleteColor/${id}`,
       {},
       {
         headers: {

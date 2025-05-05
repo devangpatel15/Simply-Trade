@@ -1,9 +1,12 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const api_call = import.meta.env.VITE_API_URL
+
+
 const getAllRepair = async (page = 1, limit = 5, search) => {
     try {
-      const response = await axios.get("http://localhost:4000/api/getAllRepair", {
+      const response = await axios.get(`${api_call}/getAllRepair`, {
         params: { page, limit, search  },
         headers: {
           "Content-Type": "application/json",
@@ -20,7 +23,7 @@ const getAllRepair = async (page = 1, limit = 5, search) => {
   const getOneRepair = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/getRepair/${id}`,
+        `${api_call}/getRepair/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -36,7 +39,7 @@ const getAllRepair = async (page = 1, limit = 5, search) => {
 
   const createRepair = async (formData) => {
     try {
-      const response =  await axios.post("http://localhost:4000/api/createRepair", formData, {
+      const response =  await axios.post(`${api_call}/createRepair`, formData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -53,7 +56,7 @@ const getAllRepair = async (page = 1, limit = 5, search) => {
   const updateRepair = async (formData, id) => {
     try {
       const response = await axios.put(
-        `http://localhost:4000/api/updateRepair/${id}`,
+        `${api_call}/updateRepair/${id}`,
         formData,
         {
           headers: {
@@ -74,7 +77,7 @@ const getAllRepair = async (page = 1, limit = 5, search) => {
     const deleteRepair = async (id) => {
         try {
         await axios.put(
-            `http://localhost:4000/api/deleteRepair/${id}`,
+            `${api_call}/deleteRepair/${id}`,
             {},
             {
             headers: {

@@ -1,10 +1,12 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const api_call = import.meta.env.VITE_API_URL
+
 const createSell = async (formData) => {
   try {
     const response = await axios.post(
-      "http://localhost:4000/api/createSell",
+      `${api_call}/createSell`,
       formData,
       {
         headers: {
@@ -23,7 +25,7 @@ const createSell = async (formData) => {
  const getOneSell = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/sell/${id}`,
+        `${api_call}/sell/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -40,7 +42,7 @@ const createSell = async (formData) => {
 const updateSell = async (formData, id) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/updateSell/${id}`,
+      `${api_call}/updateSell/${id}`,
       formData,
       {
         headers: {
@@ -60,7 +62,7 @@ const updateSell = async (formData, id) => {
 
 const allSell = async (page = 1, limit = 5, search) => {
   try {
-    const response = await axios.get("http://localhost:4000/api/allSell", {
+    const response = await axios.get(`${api_call}/allSell`, {
       params: { page, limit, search }, // Pass page and limit as query parameters
       headers: {
         "Content-Type": "application/json",
@@ -77,7 +79,7 @@ const allSell = async (page = 1, limit = 5, search) => {
 const allSellStockRepair = async (page = 1, limit = 5,type,orgId,cusId ,startDate , endDate) => {
   
   try {
-    const response = await axios.get("http://localhost:4000/api/allSellStockRepair", {
+    const response = await axios.get(`${api_call}/allSellStockRepair`, {
       params: { page, limit, type,orgId,cusId,startDate , endDate }, 
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +97,7 @@ const allSellStockRepair = async (page = 1, limit = 5,type,orgId,cusId ,startDat
 const deleteSell = async (_id) => {
   try {
     await axios.put(
-      `http://localhost:4000/api/deleteSell/${_id}`,
+      `${api_call}/deleteSell/${_id}`,
       {},
       {
         headers: {
