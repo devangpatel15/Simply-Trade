@@ -12,6 +12,7 @@ const {
   getBuyerByOrgService,
   getSellerByBranchService,
   getBuyerByBranchService,
+  getCustomerByBranchService,
 } = require("../services/customer");
 
 exports.getAllCustomer = async (req, res) => {
@@ -193,6 +194,21 @@ exports.getCustomerByOrg = async (req, res) => {
   try {
     const orgId = req?.params?.id;
     const cus = await getCustomerByOrgService(orgId);
+    if (!cus) {
+      return res.status(404).json({ message: "No Customer found" });
+    }
+    return res.status(200).json({
+      message: "Customer retrieved successfully",
+      data: cus,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+exports.getCustomerByBranch = async (req, res) => {
+  try {
+    const branchId = req?.params?.id;
+    const cus = await getCustomerByBranchService(branchId);
     if (!cus) {
       return res.status(404).json({ message: "No Customer found" });
     }

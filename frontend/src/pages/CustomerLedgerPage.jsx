@@ -20,47 +20,34 @@ import CustomerInput from "../components/common/CustomerInput";
 import axios from "axios";
 const CustomerLedgerPage = () => {
   const [selectedOrganization, setSelectedOrganization] = React.useState(null);
+  const [selectedBranch, setSelectedBranch] = React.useState(null);
   const [selectedCustomer, setSelectedCustomer] = React.useState(null);
   const [selectedRadioFilter, setSelectedRadioFilter] = React.useState("all");
-  const [date , setDate] = React.useState([]);
+  const [date, setDate] = React.useState([]);
   const [dateRange, setDateRange] = React.useState({
     startDate: "",
     endDate: "",
   });
 
-  // const fetchDates = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "http://localhost:4000/api/allSellStockRepair",
-  //       {
-  //         params: {
-  //           startDate: dateRange.startDate,
-  //           endDate: dateRange.endDate,
-  //         },
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       }
-  //     );
-  //     console.log(response.data.data, "API Response2222222222");
-  //     setDate(response.data.data.item); // ✅ Update the table rows
-  //     // setTotalRows(response.data.data.length); // ✅ Optional: update total count
-  //   } catch (error) {
-  //     console.error("Error fetching filtered expenses:", error);
-  //   }
-  // };
+  React.useEffect(() => {
+    const userData = localStorage.getItem("role");
 
-  // React.useEffect(() => {
-  //   if (dateRange.startDate && dateRange.endDate) {
-  //     fetchDates();
-  //   }
-  // }, [dateRange.startDate, dateRange.endDate]);
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+        setSelectedBranch({
+          label: parsedData?.orgBranch?.branchName,
+          value: parsedData.orgBranch._id,
+        });
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+  }, [selectedRadioFilter]);
 
   const handleOrganizationChange = (selectedOrg) => {
     setSelectedOrganization(selectedOrg);
     setSelectedCustomer(null);
-
   };
   const handleCustomerChange = (selectedCustomer) => {
     setSelectedCustomer(selectedCustomer);
@@ -147,7 +134,7 @@ const CustomerLedgerPage = () => {
                 onChange={(e) =>
                   setDateRange((prev) => ({
                     ...prev,
-                    endDate : e.target.value,
+                    endDate: e.target.value,
                   }))
                 }
                 // value={formData.date}
@@ -231,32 +218,43 @@ const CustomerLedgerPage = () => {
               </Grid>
 
               <Grid item xs={3}>
-                <OrgInput
-                  onChange={handleOrganizationChange}
-                  value={selectedOrganization}
-                />
+                {selectedBranch ? (
+                  <OrgBranchInput value={selectedBranch} role="user" />
+                ) : (
+                  <OrgInput
+                    onChange={handleOrganizationChange}
+                    value={selectedOrganization}
+                  />
+                )}
               </Grid>
 
               <Grid item xs={3}>
-                
-                <CustomerInput
-                  onChange={handleCustomerChange}
-                  
-                  orgId={selectedOrganization}
-                  value={selectedCustomer}
-                  field={selectedRadioFilter}
-                  pageName = "customerLedger"
-                />
-             
+                {selectedBranch ? (
+                  <CustomerInput
+                    onChange={handleCustomerChange}
+                    branchId={selectedBranch?.value}
+                    value={selectedCustomer}
+                    field={selectedRadioFilter}
+                    pageName="customerLedger"
+                  />
+                ) : (
+                  <CustomerInput
+                    onChange={handleCustomerChange}
+                    orgId={selectedOrganization}
+                    value={selectedCustomer}
+                    field={selectedRadioFilter}
+                    pageName="customerLedger"
+                  />
+                )}
               </Grid>
             </Grid>
           </Box>
           <CustomerLedgerTable
-          selectedOrganization={selectedOrganization}
-          selectedCustomer={selectedCustomer}
-          selectedRadioFilter={selectedRadioFilter}
-          startDate={dateRange.startDate}
-          endDate={dateRange.endDate}
+            selectedOrganization={selectedOrganization}
+            selectedCustomer={selectedCustomer}
+            selectedRadioFilter={selectedRadioFilter}
+            startDate={dateRange.startDate}
+            endDate={dateRange.endDate}
           />
         </Box>
       </Box>
