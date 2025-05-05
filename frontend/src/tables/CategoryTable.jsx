@@ -128,105 +128,93 @@ const CategoryTable = () => {
   // const paginationModel = { page: 0, pageSize: 3 };
 
   return (
-    <div>
-      <Box sx={{ display: "flex", marginTop: "4rem" }}>
-        <Sidebar />
-        <Box sx={{ flexGrow: 1 }}>
-          <Header />
-          <Box sx={{ padding: 3 }}>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Typography
-                variant="h4"
-                sx={{
-                  fontWeight: "bold",
-                  color: "#6c5ce7", // Apply color to the header
-                }}
-              >
-                CATEGORY
-              </Typography>
-              <Box display="flex" gap={2}>
-                <TextField
-                  variant="outlined"
-                  placeholder="Search by Category Name"
-                  size="small"
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: 1,
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "#6c5ce7", // Border color for the search input
-                      },
-                    },
-                  }}
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon sx={{ color: "#6c5ce7" }} />{" "}
-                        {/* Search icon color */}
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <Button
-                  variant="outlined"
-                  sx={{
-                    color: "#6c5ce7", // Text color of the button
-                    borderColor: "#6c5ce7", // Border color of the button
-                    textTransform: "none",
-                  }}
-                  component={Link}
-                  to="/categoryForm"
-                >
-                  Add Category
-                </Button>
-              </Box>
-            </Box>
-            <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
-              <DataGrid
-                rows={rows}
-                columns={columns}
-                pageSize={paginationModel.pageSize}
-                rowCount={totalRows}
-                paginationMode="server"
-                onPaginationModelChange={handlePaginationModelChange}
-                paginationModel={paginationModel}
-                pageSizeOptions={[5, 10]}
-                sx={{
-                  border: 0,
-                  "& .MuiDataGrid-columnHeader": {
-                    background: "#C4BDFF",
-                    color: "White",
-                  },
-                  "& .MuiDataGrid-columnHeaderTitle": {
-                    fontWeight: "bold",
-                    fontSize: "1.2rem",
-                  },
-                }}
-              />
-            </Paper>
-            <DialogBox
-              handleClose={handleClose}
-              open={open}
-              data={data}
-              callApi={callApi}
-              fieldName="categoryForm"
-            />
-            <DeleteDialog
-              deleteOpen={deleteOpen}
-              handleClose={handleClose}
-              handleDelete={handleDelete}
-              closeDeleteDialog={closeDeleteDialog}
-            />
-          </Box>
+    <Box>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: "bold",
+            color: "#6c5ce7", // Apply color to the header
+          }}
+        >
+          CATEGORY
+        </Typography>
+        <Box display="flex" gap={2}>
+          <TextField
+            variant="outlined"
+            placeholder="Search by Category Name"
+            size="small"
+            sx={{
+              backgroundColor: "white",
+              borderRadius: 1,
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#6c5ce7", // Border color for the search input
+                },
+              },
+            }}
+            value={searchTerm}
+            onChange={handleSearchChange}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: "#6c5ce7" }} />{" "}
+                  {/* Search icon color */}
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Button
+            variant="outlined"
+            sx={{
+              color: "#6c5ce7", // Text color of the button
+              borderColor: "#6c5ce7", // Border color of the button
+              textTransform: "none",
+            }}
+            component={Link}
+            to="/categoryForm"
+          >
+            Add Category
+          </Button>
         </Box>
       </Box>
-    </div>
+      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={paginationModel.pageSize}
+          rowCount={totalRows}
+          paginationMode="server"
+          onPaginationModelChange={handlePaginationModelChange}
+          paginationModel={paginationModel}
+          pageSizeOptions={[5, 10]}
+          sx={{
+            border: 0,
+            "& .MuiDataGrid-columnHeader": {
+              background: "#C4BDFF",
+              color: "White",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",
+              fontSize: "1.2rem",
+            },
+          }}
+        />
+      </Paper>
+      <DialogBox
+        handleClose={handleClose}
+        open={open}
+        data={data}
+        callApi={callApi}
+        fieldName="categoryForm"
+      />
+      <DeleteDialog
+        deleteOpen={deleteOpen}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        closeDeleteDialog={closeDeleteDialog}
+      />
+    </Box>
   );
 };
 

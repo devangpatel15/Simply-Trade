@@ -108,7 +108,7 @@ const RepairForm = () => {
           return updatedFormData;
         });
       } catch (error) {
-        console.error("Error parsing user data:", error); 
+        console.error("Error parsing user data:", error);
       }
     }
   }, []);
@@ -225,7 +225,7 @@ const RepairForm = () => {
   };
 
   const handleDeviceChange = (index, field, value) => {
-    console.log("hii")
+    console.log("hii");
     const updatedDevices = [...formData.device];
     updatedDevices[index][field] = value;
     setFormData((prev) => ({
@@ -279,240 +279,211 @@ const RepairForm = () => {
   };
 
   return (
-    <div>
-      <Box sx={{ display: "flex" }}>
-        <Sidebar />
-        <Box sx={{ flexGrow: 1 }}>
-          <Header />
-          <Box
-            sx={{
-              padding: 3,
-              margin: "auto",
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              marginTop: "4rem",
-            }}
-          >
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-            >
-              REPAIR
-            </Typography>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <OrgInput
-                    role={loggedUserData.role == "admin" ? "admin" : "user"}
-                    onChange={handleOrganizationChange}
-                    value={formData.organization || null}
-                    // error={errors.organization}
-                  />
-                </Grid>
+    <Box
+      sx={{
+        margin: "auto",
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
+      <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+        REPAIR
+      </Typography>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <OrgInput
+              role={loggedUserData.role == "admin" ? "admin" : "user"}
+              onChange={handleOrganizationChange}
+              value={formData.organization || null}
+              // error={errors.organization}
+            />
+          </Grid>
 
-                <Grid item xs={6}>
-                  <OrgBranchInput
-                    role={loggedUserData.role == "admin" ? "admin" : "user"}
-                    onChange={handleOrganizationBranchChange}
-                    value={formData.branchName || null}
-                    selectedOrganization={selectedOrganization}
-                    // error={errors.branch}
-                  />
-                </Grid>
+          <Grid item xs={6}>
+            <OrgBranchInput
+              role={loggedUserData.role == "admin" ? "admin" : "user"}
+              onChange={handleOrganizationBranchChange}
+              value={formData.branchName || null}
+              selectedOrganization={selectedOrganization}
+              // error={errors.branch}
+            />
+          </Grid>
 
-                <Grid item xs={6}>
-                  <CustomerInput
-                    onChange={handleCustomerChange}
-                    value={formData.customerName}
-                    branchId={formData?.branch?.value}
-                    error={errors.customerName}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    fullWidth
-                    type="text"
-                    label="Phone Number"
-                    name="customerPhone"
-                    value={formData.customerPhone}
-                    onChange={handleChange}
-                  />
-                </Grid>
+          <Grid item xs={6}>
+            <CustomerInput
+              onChange={handleCustomerChange}
+              value={formData.customerName}
+              branchId={formData?.branch?.value}
+              error={errors.customerName}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              type="text"
+              label="Phone Number"
+              name="customerPhone"
+              value={formData.customerPhone}
+              onChange={handleChange}
+            />
+          </Grid>
 
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
-                </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </Grid>
 
-                {formData.device.map((device, index) => (
-                  <React.Fragment key={index}>
-                    <Grid
-                      item
-                      xs={11}
-                      sx={{ display: "flex", justifyContent: "flex-end" }}
-                    >
-                      {index > 0 && (
-                        <Button
-                          variant="outlined"
-                          color="error"
-                          onClick={() => handleRemoveDevice(index)}
-                        >
-                          Remove
-                        </Button>
-                      )}
-                    </Grid>
-                    <Grid item xs={1}>
-                      <Box sx={{ display: "flex", justifyContent: "end" }}>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={handleAddDevice}
-                        >
-                          ADD DEVICE
-                        </Button>
-                      </Box>
-                    </Grid>
+          {formData.device.map((device, index) => (
+            <React.Fragment key={index}>
+              <Grid
+                item
+                xs={11}
+                sx={{ display: "flex", justifyContent: "flex-end" }}
+              >
+                {index > 0 && (
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => handleRemoveDevice(index)}
+                  >
+                    Remove
+                  </Button>
+                )}
+              </Grid>
+              <Grid item xs={1}>
+                <Box sx={{ display: "flex", justifyContent: "end" }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleAddDevice}
+                  >
+                    ADD DEVICE
+                  </Button>
+                </Box>
+              </Grid>
 
-                    <Grid item xs={6}>
-                      <ModelInput
-                        branchId={branchId}
-                        value={device.modelName || ""}
-                        onChange={(value) =>
-                          handleModelInputChange(index, value)
-                        }
-                        error={errors.modelName}
-                      />
-                    </Grid>
+              <Grid item xs={6}>
+                <ModelInput
+                  branchId={branchId}
+                  value={device.modelName || ""}
+                  onChange={(value) => handleModelInputChange(index, value)}
+                  error={errors.modelName}
+                />
+              </Grid>
 
-                    <Grid item xs={6}>
-                      <DeviceInput
-                        modelId={selectedModel}
-                        value={device.deviceName || ""}
-                        onChange={(value) =>
-                          handleDeviceInputChange(index, value)
-                        }
-                        error={errors.deviceName}
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField
-                        fullWidth
-                        label="Amount"
-                        name="amount"
-                        value={device.amount}
-                        onChange={(e) =>
-                          handleDeviceChange(index, "amount", e.target.value)
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField
-                        fullWidth
-                        label="Estimated Cost"
-                        name="estimatedCost"
-                        value={device.estimatedCost}
-                        onChange={(e) =>
-                          handleDeviceChange(
-                            index,
-                            "estimatedCost",
-                            e.target.value
-                          )
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <FormControl
-                        fullWidth
-                        variant="outlined"
-                        // error={!!errors.role}
-                        required
-                      >
-                        <InputLabel id="status-label">Status</InputLabel>
-                        <Select
-                          labelId="status-label"
-                          id="status"
-                          name="status"
-                          value={device.status || ""}
-                          onChange={(e) =>
-                            handleStatusInputChange(index, e.target.value)
-                          }
-                          label="Status"
-                        >
-                          <MenuItem value="Pending">Pending</MenuItem>
-                          <MenuItem value="InProcess">In-Process</MenuItem>
-                          <MenuItem value="Completed">Completed</MenuItem>
-                        </Select>
-                        {/* {errors.role && (
+              <Grid item xs={6}>
+                <DeviceInput
+                  modelId={selectedModel}
+                  value={device.deviceName || ""}
+                  onChange={(value) => handleDeviceInputChange(index, value)}
+                  error={errors.deviceName}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Amount"
+                  name="amount"
+                  value={device.amount}
+                  onChange={(e) =>
+                    handleDeviceChange(index, "amount", e.target.value)
+                  }
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Estimated Cost"
+                  name="estimatedCost"
+                  value={device.estimatedCost}
+                  onChange={(e) =>
+                    handleDeviceChange(index, "estimatedCost", e.target.value)
+                  }
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <FormControl
+                  fullWidth
+                  variant="outlined"
+                  // error={!!errors.role}
+                  required
+                >
+                  <InputLabel id="status-label">Status</InputLabel>
+                  <Select
+                    labelId="status-label"
+                    id="status"
+                    name="status"
+                    value={device.status || ""}
+                    onChange={(e) =>
+                      handleStatusInputChange(index, e.target.value)
+                    }
+                    label="Status"
+                  >
+                    <MenuItem value="Pending">Pending</MenuItem>
+                    <MenuItem value="InProcess">In-Process</MenuItem>
+                    <MenuItem value="Completed">Completed</MenuItem>
+                  </Select>
+                  {/* {errors.role && (
                       <FormHelperText>{errors.role}</FormHelperText>
                     )} */}
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField
-                        fullWidth
-                        type="date"
-                        label="Date"
-                        name="date"
-                        InputLabelProps={{ shrink: true }}
-                        value={device.date}
-                        onChange={(e) =>
-                          handleDeviceChange(index, "date", e.target.value)
-                        }
-                      />
-                    </Grid>
-                    {/* Remove button */}
-                  </React.Fragment>
-                ))}
-
-                <Grid item xs={12}>
-                  <Stack>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleSubmit}
-                    >
-                      UPLOAD
-                    </Button>
-                  </Stack>
-                </Grid>
+                </FormControl>
               </Grid>
-            </Box>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  type="date"
+                  label="Date"
+                  name="date"
+                  InputLabelProps={{ shrink: true }}
+                  value={device.date}
+                  onChange={(e) =>
+                    handleDeviceChange(index, "date", e.target.value)
+                  }
+                />
+              </Grid>
+              {/* Remove button */}
+            </React.Fragment>
+          ))}
 
-            <Grid
-              item
-              xs={12}
-              sx={{ display: "flex", justifyContent: "space-between" }}
-            >
-              <Button
-                variant="contained"
-                color="error"
-                component={Link}
-                to="/repairPage"
-              >
-                Cancel
-              </Button>
+          <Grid item xs={12}>
+            <Stack>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
               >
-                {id ? "Update" : "Add"}
+                UPLOAD
               </Button>
-            </Grid>
-          </Box>
-        </Box>
+            </Stack>
+          </Grid>
+        </Grid>
       </Box>
-    </div>
+
+      <Grid
+        item
+        xs={12}
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <Button
+          variant="contained"
+          color="error"
+          component={Link}
+          to="/repairPage"
+        >
+          Cancel
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          {id ? "Update" : "Add"}
+        </Button>
+      </Grid>
+    </Box>
   );
 };
 

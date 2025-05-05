@@ -163,93 +163,80 @@ const AccountForm = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", marginTop: "4rem" }}>
-      <Sidebar />
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
-        <Box sx={{ padding: 3 }}>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-            >
-              ACCOUNT
-            </Typography>
-            <Button
-              variant="outlined"
-              sx={{
-                color: "#6c5ce7",
-                borderColor: "#6c5ce7",
-                textTransform: "none",
-              }}
-              component={Link}
-              to="/accountForm"
-            >
-              Add Account
-            </Button>
-          </Box>
-          <Grid container spacing={2} mt={2}>
-            <Grid item xs={6}>
-              <OrgInput
-                role={loggedUserData.role == "admin" ? "admin" : "user"}
-                onChange={handleOrganizationChange}
-                value={formData.organization || null}
-                error={errors.organization}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <OrgBranchInput
-                role={loggedUserData.role == "admin" ? "admin" : "user"}
-                onChange={handleOrganizationBranchChange}
-                value={formData.branchName || null}
-                selectedOrganization={selectedOrganization}
-                error={errors.branch}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Enter Account Name"
-                variant="outlined"
-                name="accountName"
-                value={formData.accountName || ""}
-                onChange={handleChange}
-                error={errors.accountName}
-                helperText={errors.accountName}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Enter Balance"
-                variant="outlined"
-                type="number"
-                name="balance"
-                value={formData.balance || ""}
-                onChange={handleChange}
-                error={errors.balance}
-                helperText={errors.balance}
-              />
-            </Grid>
-          </Grid>
-          <Box display="flex" justifyContent="flex-end" mt={2}>
-            <Button
-              variant="outlined"
-              color="error"
-              sx={{ mr: 2 }}
-              onClick={() => navigate("/accountPage")}
-            >
-              Cancel
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-              Submit
-            </Button>
-          </Box>
-        </Box>
+    <Box>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+          ACCOUNT
+        </Typography>
+        <Button
+          variant="outlined"
+          sx={{
+            color: "#6c5ce7",
+            borderColor: "#6c5ce7",
+            textTransform: "none",
+          }}
+          component={Link}
+          to="/accountForm"
+        >
+          Add Account
+        </Button>
+      </Box>
+      <Grid container spacing={2} mt={2}>
+        <Grid item xs={6}>
+          <OrgInput
+            role={loggedUserData.role == "admin" ? "admin" : "user"}
+            onChange={handleOrganizationChange}
+            value={formData.organization || null}
+            error={errors.organization}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <OrgBranchInput
+            role={loggedUserData.role == "admin" ? "admin" : "user"}
+            onChange={handleOrganizationBranchChange}
+            value={formData.branchName || null}
+            selectedOrganization={selectedOrganization}
+            error={errors.branch}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Enter Account Name"
+            variant="outlined"
+            name="accountName"
+            value={formData.accountName || ""}
+            onChange={handleChange}
+            error={errors.accountName}
+            helperText={errors.accountName}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Enter Balance"
+            variant="outlined"
+            type="number"
+            name="balance"
+            value={formData.balance || ""}
+            onChange={handleChange}
+            error={errors.balance}
+            helperText={errors.balance}
+          />
+        </Grid>
+      </Grid>
+      <Box display="flex" justifyContent="flex-end" mt={2}>
+        <Button
+          variant="outlined"
+          color="error"
+          sx={{ mr: 2 }}
+          onClick={() => navigate("/accountPage")}
+        >
+          Cancel
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          Submit
+        </Button>
       </Box>
     </Box>
   );

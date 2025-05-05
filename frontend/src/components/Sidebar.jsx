@@ -364,3 +364,107 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
+
+// import React, { useEffect, useState } from "react";
+// import {
+//   Drawer,
+//   List,
+//   ListItemButton,
+//   ListItemIcon,
+//   ListItemText,
+//   Collapse,
+//   Box,
+//   Badge,
+// } from "@mui/material";
+// import { Dashboard, Notifications, Support, Settings } from "@mui/icons-material";
+// import { useNavigate, useLocation } from "react-router-dom";
+// import logo from "../assets/Group 18763.png";
+// import SegmentIcon from "@mui/icons-material/Segment";
+
+// const iconColor = "#5C4E89"; // Custom icon color
+// const activeColor = "#E0E0E0"; // Highlight color for selected item
+
+// const Sidebar = () => {
+//   const navigate = useNavigate();
+//   const location = useLocation();
+//   const [openMaster, setOpenMaster] = useState(false);
+
+//   const menuItems = [
+//     { path: "/dashboard", label: "Dashboard", icon: <Dashboard sx={{ color: iconColor }} /> },
+//     { path: "/accountPage", label: "Account", icon: <Dashboard sx={{ color: iconColor }} /> },
+//     { path: "/stockPage", label: "Stock", icon: <Dashboard sx={{ color: iconColor }} /> },
+//     { path: "/sellPage", label: "Sell Devices", icon: <Dashboard sx={{ color: iconColor }} /> },
+//     // Add more menu items as needed
+//   ];
+
+//   const isActive = (path) => location.pathname === path;
+
+//   return (
+//     <Drawer
+//       variant="permanent"
+//       sx={{
+//         width: 240,
+//         flexShrink: 0,
+//         "& .MuiDrawer-paper": {
+//           width: 240,
+//           boxSizing: "border-box",
+//           background: "#ffffff",
+//           color: iconColor,
+//         },
+//       }}
+//     >
+//       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around", py: 2 }}>
+//         <img
+//           src={logo}
+//           alt="Simply Trade Logo"
+//           style={{ width: 160 }}
+//           onClick={() => navigate("/dashboard")}
+//         />
+//         <SegmentIcon sx={{ height: 30, width: 30, borderRadius: 50, padding: 0.4, boxShadow: 4 }} />
+//       </Box>
+
+//       <List>
+//         {menuItems.map((item) => (
+//           <ListItemButton
+//             key={item.path}
+//             onClick={() => navigate(item.path)}
+//             sx={{
+//               backgroundColor: isActive(item.path) ? activeColor : "transparent",
+//               "&:hover": { backgroundColor: activeColor },
+//             }}
+//           >
+//             <ListItemIcon>{item.icon}</ListItemIcon>
+//             <ListItemText primary={item.label} />
+//           </ListItemButton>
+//         ))}
+
+//         <ListItemButton>
+//           <ListItemIcon>
+//             <Badge color="primary">
+//               <Notifications sx={{ color: iconColor }} />
+//             </Badge>
+//           </ListItemIcon>
+//           <ListItemText primary="Notification" />
+//         </ListItemButton>
+
+//         <ListItemButton>
+//           <ListItemIcon>
+//             <Support sx={{ color: iconColor }} />
+//           </ListItemIcon>
+//           <ListItemText primary="Support" />
+//         </ListItemButton>
+
+//         <ListItemButton>
+//           <ListItemIcon>
+//             <Settings sx={{ color: iconColor }} />
+//           </ListItemIcon>
+//           <ListItemText primary="Settings" />
+//         </ListItemButton>
+//       </List>
+//     </Drawer>
+//   );
+// };
+
+// export default Sidebar;
+

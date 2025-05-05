@@ -17,6 +17,7 @@ import CustomerInput from "../components/common/CustomerInput";
 import axios from "axios";
 const CustomerLedgerPage = () => {
   const [selectedOrganization, setSelectedOrganization] = React.useState(null);
+  const [selectedBranch, setSelectedBranch] = React.useState(null);
   const [selectedCustomer, setSelectedCustomer] = React.useState(null);
   const [selectedRadioFilter, setSelectedRadioFilter] = React.useState("all");
   const [dateRange, setDateRange] = React.useState({
@@ -24,39 +25,25 @@ const CustomerLedgerPage = () => {
     endDate: "",
   });
 
-  // const fetchDates = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "http://localhost:4000/api/allSellStockRepair",
-  //       {
-  //         params: {
-  //           startDate: dateRange.startDate,
-  //           endDate: dateRange.endDate,
-  //         },
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       }
-  //     );
-  //     console.log(response.data.data, "API Response2222222222");
-  //     setDate(response.data.data.item); // ✅ Update the table rows
-  //     // setTotalRows(response.data.data.length); // ✅ Optional: update total count
-  //   } catch (error) {
-  //     console.error("Error fetching filtered expenses:", error);
-  //   }
-  // };
+  React.useEffect(() => {
+    const userData = localStorage.getItem("role");
 
-  // React.useEffect(() => {
-  //   if (dateRange.startDate && dateRange.endDate) {
-  //     fetchDates();
-  //   }
-  // }, [dateRange.startDate, dateRange.endDate]);
+    if (userData) {
+      try {
+        const parsedData = JSON.parse(userData);
+        setSelectedBranch({
+          label: parsedData?.orgBranch?.branchName,
+          value: parsedData.orgBranch._id,
+        });
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+  }, [selectedRadioFilter]);
 
   const handleOrganizationChange = (selectedOrg) => {
     setSelectedOrganization(selectedOrg);
     setSelectedCustomer(null);
-
   };
   const handleCustomerChange = (selectedCustomer) => {
     setSelectedCustomer(selectedCustomer);
@@ -96,67 +83,56 @@ const CustomerLedgerPage = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", marginTop: "4rem" }}>
-      <Sidebar />
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
-        <Box sx={{ padding: 3 }}>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-            >
-              CUSTOMER LEDGER
-            </Typography>
+    <Box>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+          CUSTOMER LEDGER
+        </Typography>
 
-            <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
-              <TextField
-                disabled={selectedRadioFilter == "all"}
-                fullWidth
-                type="date"
-                label="Start Date"
-                name="startDate"
-                value={dateRange.startDate}
-                onChange={(e) =>
-                  setDateRange((prev) => ({
-                    ...prev,
-                    startDate: e.target.value,
-                  }))
-                }
-                // value={formData.date}
-                // onChange={handleNativeDateChange}
-                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
+        <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
+          <TextField
+            disabled={selectedRadioFilter == "all"}
+            fullWidth
+            type="date"
+            label="Start Date"
+            name="startDate"
+            value={dateRange.startDate}
+            onChange={(e) =>
+              setDateRange((prev) => ({
+                ...prev,
+                startDate: e.target.value,
+              }))
+            }
+            // value={formData.date}
+            // onChange={handleNativeDateChange}
+            sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
 
-              <TextField
-                disabled={selectedRadioFilter == "all"}
-                fullWidth
-                type="date"
-                label="End Date"
-                name="endDate"
-                value={dateRange.endDate}
-                onChange={(e) =>
-                  setDateRange((prev) => ({
-                    ...prev,
-                    endDate : e.target.value,
-                  }))
-                }
-                // value={formData.date}
-                // onChange={handleNativeDateChange}
-                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
+          <TextField
+            disabled={selectedRadioFilter == "all"}
+            fullWidth
+            type="date"
+            label="End Date"
+            name="endDate"
+            value={dateRange.endDate}
+            onChange={(e) =>
+              setDateRange((prev) => ({
+                ...prev,
+                endDate: e.target.value,
+              }))
+            }
+            // value={formData.date}
+            // onChange={handleNativeDateChange}
+            sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
 
-              {/* <TextField
+          {/* <TextField
                 variant="outlined"
                 placeholder="Search"
                 size="medium"
@@ -169,95 +145,94 @@ const CustomerLedgerPage = () => {
                   ),
                 }}
               /> */}
-              <Button
-                variant="outlined"
-                sx={{
-                  color: "#6c5ce7",
-                  borderColor: "#6c5ce7",
-                  textTransform: "none",
-                  // fontWeight: "bold",
-                  fontSize: "1rem",
-                  width: "30%",
-                }}
-                onClick={handleDownload}
-                // component={Link}
-                // to="/stockForm"
-              >
-                Download PDF
-              </Button>
-            </Box>
-          </Box>
-          <Box
-            sx={{ marginTop: 2, display: "flex", alignItems: "center", gap: 2 }}
+          <Button
+            variant="outlined"
+            sx={{
+              color: "#6c5ce7",
+              borderColor: "#6c5ce7",
+              textTransform: "none",
+              // fontWeight: "bold",
+              fontSize: "1rem",
+              width: "30%",
+            }}
+            onClick={handleDownload}
+            // component={Link}
+            // to="/stockForm"
           >
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="radioFilter"
-                  defaultValue="all"
-                  onChange={handleRadioFilter}
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#6c5ce7",
-                    padding: "0.4rem",
-                  }}
-                >
-                  <FormControlLabel
-                    value="all"
-                    control={<Radio />}
-                    label="All"
-                  />
-                  <FormControlLabel
-                    value="stock"
-                    control={<Radio />}
-                    label="Stock"
-                  />
-                  <FormControlLabel
-                    value="sell"
-                    control={<Radio />}
-                    label="Sell"
-                  />
-                  <FormControlLabel
-                    value="repair"
-                    // disabled
-                    control={<Radio />}
-                    label="Repair"
-                  />
-                </RadioGroup>
-              </Grid>
-
-              <Grid item xs={3}>
-                <OrgInput
-                  onChange={handleOrganizationChange}
-                  value={selectedOrganization}
-                />
-              </Grid>
-
-              <Grid item xs={3}>
-                
-                <CustomerInput
-                  onChange={handleCustomerChange}
-                  
-                  orgId={selectedOrganization}
-                  value={selectedCustomer}
-                  field={selectedRadioFilter}
-                  pageName = "customerLedger"
-                />
-             
-              </Grid>
-            </Grid>
-          </Box>
-          <CustomerLedgerTable
-          selectedOrganization={selectedOrganization}
-          selectedCustomer={selectedCustomer}
-          selectedRadioFilter={selectedRadioFilter}
-          startDate={dateRange.startDate}
-          endDate={dateRange.endDate}
-          />
+            Download PDF
+          </Button>
         </Box>
       </Box>
+      <Box sx={{ marginTop: 2, display: "flex", alignItems: "center", gap: 2 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="radioFilter"
+              defaultValue="all"
+              onChange={handleRadioFilter}
+              sx={{
+                fontWeight: "bold",
+                color: "#6c5ce7",
+                padding: "0.4rem",
+              }}
+            >
+              <FormControlLabel value="all" control={<Radio />} label="All" />
+              <FormControlLabel
+                value="stock"
+                control={<Radio />}
+                label="Stock"
+              />
+              <FormControlLabel value="sell" control={<Radio />} label="Sell" />
+              <FormControlLabel
+                value="repair"
+                // disabled
+                control={<Radio />}
+                label="Repair"
+              />
+            </RadioGroup>
+          </Grid>
+
+          <Grid item xs={3}>
+            {selectedBranch ? (
+              <OrgBranchInput value={selectedBranch} role="user" />
+            ) : (
+              <OrgInput
+                onChange={handleOrganizationChange}
+                value={selectedOrganization}
+              />
+            )}
+          </Grid>
+
+          <Grid item xs={3}>
+            {selectedBranch ? (
+              <CustomerInput
+                onChange={handleCustomerChange}
+                branchId={selectedBranch?.value}
+                value={selectedCustomer}
+                field={selectedRadioFilter}
+                pageName="customerLedger"
+              />
+            ) : (
+              <CustomerInput
+                onChange={handleCustomerChange}
+                orgId={selectedOrganization}
+                value={selectedCustomer}
+                field={selectedRadioFilter}
+                pageName="customerLedger"
+              />
+            )}
+          </Grid>
+        </Grid>
+      </Box>
+      <CustomerLedgerTable
+        selectedOrganization={selectedOrganization}
+        selectedCustomer={selectedCustomer}
+        selectedRadioFilter={selectedRadioFilter}
+        startDate={dateRange.startDate}
+        endDate={dateRange.endDate}
+      />
     </Box>
   );
 };

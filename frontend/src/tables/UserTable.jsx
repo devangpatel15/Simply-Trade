@@ -93,6 +93,7 @@ const UserTable = () => {
               <EditIcon sx={{ color: "#6c5ce7" }} />
             </IconButton>
           </Link>
+
           <IconButton onClick={() => openDeleteDialog(params.row.id)}>
             <DeleteIcon sx={{ color: "#6c5ce7" }} />
           </IconButton>
@@ -128,91 +129,78 @@ const UserTable = () => {
   // });
 
   return (
-    <Box sx={{ display: "flex", marginTop: "4rem" }}>
-      <Sidebar />
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
-        <Box sx={{ padding: 3 }}>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
+    <Box>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+          Users
+        </Typography>
+        <Box display="flex" gap={2}>
+          <TextField
+            variant="outlined"
+            placeholder="Search by User Name"
+            size="small"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            sx={{ backgroundColor: "white", borderRadius: 1 }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: "#6c5ce7" }} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Button
+            variant="outlined"
+            sx={{
+              color: "#6c5ce7",
+              borderColor: "#6c5ce7",
+              textTransform: "none",
+            }}
+            component={Link}
+            to="/userForm"
           >
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-            >
-              Users
-            </Typography>
-            <Box display="flex" gap={2}>
-              <TextField
-                variant="outlined"
-                placeholder="Search by User Name"
-                size="small"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                sx={{ backgroundColor: "white", borderRadius: 1 }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon sx={{ color: "#6c5ce7" }} />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Button
-                variant="outlined"
-                sx={{
-                  color: "#6c5ce7",
-                  borderColor: "#6c5ce7",
-                  textTransform: "none",
-                }}
-                component={Link}
-                to="/userForm"
-              >
-                Add User
-              </Button>
-            </Box>
-          </Box>
-
-          <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={paginationModel.pageSize}
-              rowCount={totalRows} // Ensure this is set to the total count of records
-              paginationMode="server" // Enable server-side pagination
-              onPaginationModelChange={handlePaginationModelChange}
-              paginationModel={paginationModel}
-              pageSizeOptions={[5, 10]}
-              sx={{
-                border: 0,
-                "& .MuiDataGrid-columnHeader": {
-                  background: "#C4BDFF",
-                  color: "White",
-                },
-                "& .MuiDataGrid-columnHeaderTitle": {
-                  fontWeight: "bold",
-                  fontSize: "1.2rem",
-                },
-              }}
-            />
-          </Paper>
-          <DialogBox
-            handleClose={handleClose}
-            open={open}
-            data={data}
-            callApi={callApi}
-            fieldName="userForm"
-          />
-          <DeleteDialog
-            deleteOpen={deleteOpen}
-            handleClose={handleClose}
-            handleDelete={handleDelete}
-            closeDeleteDialog={closeDeleteDialog}
-          />
+            Add User
+          </Button>
         </Box>
       </Box>
+
+      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={paginationModel.pageSize}
+          rowCount={totalRows} // Ensure this is set to the total count of records
+          paginationMode="server" // Enable server-side pagination
+          onPaginationModelChange={handlePaginationModelChange}
+          paginationModel={paginationModel}
+          pageSizeOptions={[5, 10]}
+          sx={{
+            border: 0,
+            "& .MuiDataGrid-columnHeader": {
+              background: "#C4BDFF",
+              color: "White",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",
+              fontSize: "1.2rem",
+            },
+          }}
+        />
+      </Paper>
+      <DialogBox
+        handleClose={handleClose}
+        open={open}
+        data={data}
+        callApi={callApi}
+        fieldName="userForm"
+      />
+      <DeleteDialog
+        deleteOpen={deleteOpen}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        closeDeleteDialog={closeDeleteDialog}
+      />
     </Box>
   );
 };

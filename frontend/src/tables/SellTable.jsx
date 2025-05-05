@@ -1,9 +1,4 @@
-import {
-  Box,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, InputAdornment, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
@@ -168,75 +163,64 @@ const SellTable = () => {
 
   // const paginationModel = { page: 0, pageSize: 5 };
   return (
-    <Box sx={{ display: "flex", marginTop: "4rem" }}>
-      <Sidebar />
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
-        <Box sx={{ padding: 3 }}>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-            >
-              SELL DEVICES
-            </Typography>
-            <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
-              <TextField
-                fullWidth
-                type="date"
-                label="Start Date"
-                name="startDate"
-                value={dateRange.startDate}
-                onChange={(e) =>
-                  setDateRange((prev) => ({
-                    ...prev,
-                    startDate: e.target.value,
-                  }))
-                }
-                // value={formData.date}
-                // onChange={handleNativeDateChange}
-                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
+    <Box>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+          SELL DEVICES
+        </Typography>
+        <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
+          <TextField
+            fullWidth
+            type="date"
+            label="Start Date"
+            name="startDate"
+            value={dateRange.startDate}
+            onChange={(e) =>
+              setDateRange((prev) => ({
+                ...prev,
+                startDate: e.target.value,
+              }))
+            }
+            // value={formData.date}
+            // onChange={handleNativeDateChange}
+            sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
 
-              <TextField
-                fullWidth
-                type="date"
-                label="End Date"
-                name="endDate"
-                value={dateRange.endDate}
-                onChange={(e) =>
-                  setDateRange((prev) => ({ ...prev, endDate: e.target.value }))
-                }
-                // value={formData.date}
-                // onChange={handleNativeDateChange}
-                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-              <TextField
-                variant="outlined"
-                placeholder="Search"
-                size="medium"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                sx={{ backgroundColor: "white", borderRadius: 1 , width: "50%" }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon sx={{ color: "#6c5ce7" }} />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              {/* <Button
+          <TextField
+            fullWidth
+            type="date"
+            label="End Date"
+            name="endDate"
+            value={dateRange.endDate}
+            onChange={(e) =>
+              setDateRange((prev) => ({ ...prev, endDate: e.target.value }))
+            }
+            // value={formData.date}
+            // onChange={handleNativeDateChange}
+            sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <TextField
+            variant="outlined"
+            placeholder="Search"
+            size="medium"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: "#6c5ce7" }} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          {/* <Button
                 variant="outlined"
                 sx={{
                   color: "#6c5ce7",
@@ -248,31 +232,31 @@ const SellTable = () => {
               >
                 Add TO DEVICES SELL
               </Button> */}
-            </Box>
-          </Box>
-          <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={paginationModel.pageSize}
-              rowCount={totalRows}
-              paginationMode="server"
-              onPaginationModelChange={handlePaginationModelChange}
-              paginationModel={paginationModel}
-              pageSizeOptions={[5, 10]}
-              sx={{
-                border: 0,
-                "& .MuiDataGrid-columnHeader": {
-                  background: "#C4BDFF",
-                  color: "White",
-                },
-                "& .MuiDataGrid-columnHeaderTitle": {
-                  fontWeight: "bold",
-                  fontSize: "1.2rem",
-                },
-              }}
-            />
-            {/* <Button
+        </Box>
+      </Box>
+      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={paginationModel.pageSize}
+          rowCount={totalRows}
+          paginationMode="server"
+          onPaginationModelChange={handlePaginationModelChange}
+          paginationModel={paginationModel}
+          pageSizeOptions={[5, 10]}
+          sx={{
+            border: 0,
+            "& .MuiDataGrid-columnHeader": {
+              background: "#C4BDFF",
+              color: "White",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",
+              fontSize: "1.2rem",
+            },
+          }}
+        />
+        {/* <Button
               sx={{
                 backgroundColor: "#6c5ce7",
                 color: "white",
@@ -285,23 +269,21 @@ const SellTable = () => {
             >
               StockPage
             </Button> */}
-          </Paper>
+      </Paper>
 
-          <DialogBox
-            handleClose={handleClose}
-            open={open}
-            data={data}
-            callApi={callApi}
-            fieldName="organizationForm"
-          />
-          <DeleteDialog
-            deleteOpen={deleteOpen}
-            handleClose={handleClose}
-            handleDelete={handleDelete}
-            closeDeleteDialog={closeDeleteDialog}
-          />
-        </Box>
-      </Box>
+      <DialogBox
+        handleClose={handleClose}
+        open={open}
+        data={data}
+        callApi={callApi}
+        fieldName="organizationForm"
+      />
+      <DeleteDialog
+        deleteOpen={deleteOpen}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+        closeDeleteDialog={closeDeleteDialog}
+      />
     </Box>
   );
 };

@@ -16,15 +16,16 @@ const CustomerInput = ({
   field,
   pageName,
 }) => {
-
+  console.log(branchId, "branchId cus");
+  console.log(orgId, "orgId cus");
+  console.log(field, "field cus");
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [customerData, setCustomerdata] = useState({});
-  const [customerName, setCustomerName] = useState();
-  // console.log(branchId, "branchId cus");
 
+  const [customerName, setCustomerName] = useState();
   const callApi = async () => {
     try {
       const response = await axios.get(
@@ -43,7 +44,6 @@ const CustomerInput = ({
   };
 
   const handleOpen = () => {
-    
     setOpen(true);
     callApi();
   };
@@ -67,11 +67,26 @@ const CustomerInput = ({
           apiPath = `getSellerByOrg/${orgId.value}`;
         }
       } else if (branchId) {
-        if (field === "stock") {
+        if (field === "all") {
+          console.log("getCustomerByBranch");
+          apiPath = `getCustomerByBranch/${branchId}`;
+        } else if (field === "stock") {
+          console.log("getBuyerByBranch");
           apiPath = `getBuyerByBranch/${branchId}`;
-        } else {
+        } else if (field === "sell") {
+          console.log("getSellerByBranch");
+          apiPath = `getSellerByBranch/${branchId}`;
+        } else if (field === "repair") {
+          console.log("getSellerByBranch");
           apiPath = `getSellerByBranch/${branchId}`;
         }
+
+        // if (field === "stock") {
+        //   apiPath = `getBuyerByBranch/${branchId}`;
+        // } else {
+        //   console.log("hii");
+        //   apiPath = `getSellerByBranch/${branchId}`;
+        // }
       }
 
       try {
@@ -99,12 +114,11 @@ const CustomerInput = ({
         setLoading(false);
       }
     }, 500),
-    [branchId, orgId]
+    [branchId, orgId,field]
   );
 
   // Fetch organizations when inputValue changes
   useEffect(() => {
-
     if (branchId || orgId) {
       if (inputValue.trim() !== "") {
         fetchOrganizations(inputValue);
@@ -112,12 +126,12 @@ const CustomerInput = ({
         fetchOrganizations(""); // Load default options
       }
     }
-  }, [inputValue, branchId, orgId]);
+  }, [inputValue, branchId, orgId,field]);
 
   return (
     <>
       <Autocomplete
-        readOnly={pageName == "customerLedger" && !orgId}
+        // readOnly={pageName == "customerLedger" && !orgId}
         options={options}
         getOptionLabel={(option) => option.label}
         loading={loading}
@@ -142,7 +156,7 @@ const CustomerInput = ({
         }
         renderInput={(params) => (
           <TextField
-          onChange={(e) => setCustomerName(e.target.value)}
+            onChange={(e) => setCustomerName(e.target.value)}
             error={!!error}
             helperText={error}
             {...params}

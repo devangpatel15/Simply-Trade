@@ -506,9 +506,11 @@ const StockForm = () => {
               // Ensure the device array exists in newErrors
               if (!newErrors.device) newErrors.device = [];
               if (!newErrors.device[index]) newErrors.device[index] = {};
-              if (!newErrors.device[index].imei) newErrors.device[index].imei = [];
-              if (!newErrors.device[index].imei[imeiIndex]) newErrors.device[index].imei[imeiIndex] = {};
-            
+              if (!newErrors.device[index].imei)
+                newErrors.device[index].imei = [];
+              if (!newErrors.device[index].imei[imeiIndex])
+                newErrors.device[index].imei[imeiIndex] = {};
+
               newErrors.device[index].imei[imeiIndex].imeiNo =
                 "At least one of IMEI Number or Serial Number is required.";
               newErrors.device[index].imei[imeiIndex].srNo =
@@ -518,23 +520,32 @@ const StockForm = () => {
               if (imei.imeiNo && !/^\d{15}$/.test(imei.imeiNo)) {
                 if (!newErrors.device) newErrors.device = [];
                 if (!newErrors.device[index]) newErrors.device[index] = {};
-                if (!newErrors.device[index].imei) newErrors.device[index].imei = [];
-                if (!newErrors.device[index].imei[imeiIndex]) newErrors.device[index].imei[imeiIndex] = {};
-            
-                newErrors.device[index].imei[imeiIndex].imeiNo = "Invalid IMEI Number. It should be a 15-digit numeric value.";
+                if (!newErrors.device[index].imei)
+                  newErrors.device[index].imei = [];
+                if (!newErrors.device[index].imei[imeiIndex])
+                  newErrors.device[index].imei[imeiIndex] = {};
+
+                newErrors.device[index].imei[imeiIndex].imeiNo =
+                  "Invalid IMEI Number. It should be a 15-digit numeric value.";
               }
-            
+
               // Specific Serial Number validation
-              if (imei.srNo && (imei.srNo.length < 5 || imei.srNo.length > 20)) {
+              if (
+                imei.srNo &&
+                (imei.srNo.length < 5 || imei.srNo.length > 20)
+              ) {
                 if (!newErrors.device) newErrors.device = [];
                 if (!newErrors.device[index]) newErrors.device[index] = {};
-                if (!newErrors.device[index].imei) newErrors.device[index].imei = [];
-                if (!newErrors.device[index].imei[imeiIndex]) newErrors.device[index].imei[imeiIndex] = {};
-            
-                newErrors.device[index].imei[imeiIndex].srNo = "Invalid Serial Number. It should be between 5 and 20 characters.";
+                if (!newErrors.device[index].imei)
+                  newErrors.device[index].imei = [];
+                if (!newErrors.device[index].imei[imeiIndex])
+                  newErrors.device[index].imei[imeiIndex] = {};
+
+                newErrors.device[index].imei[imeiIndex].srNo =
+                  "Invalid Serial Number. It should be between 5 and 20 characters.";
               }
             }
-            
+
             // if (!imei.imeiNo && !imei.srNo) {
             //   // Ensure the device array exists in newErrors
             //   if (!newErrors.device) newErrors.device = [];
@@ -617,7 +628,6 @@ const StockForm = () => {
       if (!validateStockForm()) {
         return;
       }
-    
     }
 
     try {
@@ -648,7 +658,7 @@ const StockForm = () => {
         customerName: formData.customerName?.value || null,
         customerPhone: formData.customerPhone,
         device: formattedDevices,
-        payment:id ? null : formattedPayment,
+        payment: id ? null : formattedPayment,
       };
 
       console.log("payload", payload);
@@ -666,189 +676,180 @@ const StockForm = () => {
   console.log("error", errors);
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <Sidebar />
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
-        <Box
-          sx={{
-            padding: 3,
-            margin: "auto",
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            marginTop: "4rem",
-          }}
-        >
-          <Typography
-            variant="h4"
-            sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-          >
-            STOCK
-          </Typography>
+    <Box
+      sx={{
+        margin: "auto",
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
+      <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+        STOCK
+      </Typography>
 
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <OrgInput
-                role={loggedUserData.role == "admin" ? "admin" : "user"}
-                onChange={handleOrganizationChange}
-                value={formData.organization || null}
-                error={errors.organization}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <OrgBranchInput
-                role={loggedUserData.role == "admin" ? "admin" : "user"}
-                onChange={handleOrganizationBranchChange}
-                value={formData.branch || null}
-                selectedOrganization={selectedOrganization}
-                error={errors.branch}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <CustomerInput
-                onChange={handleCustomerChange}
-                value={formData.customerName}
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <OrgInput
+            role={loggedUserData.role == "admin" ? "admin" : "user"}
+            onChange={handleOrganizationChange}
+            value={formData.organization || null}
+            error={errors.organization}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <OrgBranchInput
+            role={loggedUserData.role == "admin" ? "admin" : "user"}
+            onChange={handleOrganizationBranchChange}
+            value={formData.branch || null}
+            selectedOrganization={selectedOrganization}
+            error={errors.branch}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CustomerInput
+            onChange={handleCustomerChange}
+            value={formData.customerName}
+            branchId={formData.branch?.value}
+            error={errors.customerName}
+            field="stock"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            disabled
+            type="number"
+            fullWidth
+            label="Phone Number"
+            variant="outlined"
+            name="customerPhone"
+            value={formData.customerPhone || ""}
+            onChange={handleChange}
+            required
+          />
+        </Grid>
+      </Grid>
+
+      {formData?.device?.map((item, deviceIndex) => (
+        <Box
+          key={`device-${deviceIndex}`}
+          mt={3}
+          p={2}
+          sx={{ border: "1px solid #ccc", borderRadius: 2 }}
+        >
+          {id ? (
+            ""
+          ) : (
+            <>
+              <Grid container spacing={2} mt={1}>
+                <Grid item sx={2}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={addDevice}
+                  >
+                    Add Device
+                  </Button>
+                </Grid>
+                {deviceIndex > 0 && (
+                  <Grid item sx={2}>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={() => removeDevice(deviceIndex)}
+                    >
+                      Remove Device
+                    </Button>
+                  </Grid>
+                )}
+              </Grid>
+            </>
+          )}
+
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={4}>
+              <CategoryInput
+                onChange={(selectedCategory) =>
+                  handleCategoryChange(deviceIndex, selectedCategory)
+                }
+                value={formData.device[deviceIndex]?.categoryName}
                 branchId={formData.branch?.value}
-                error={errors.customerName}
-                field="stock"
+                error={
+                  (errors &&
+                    errors.device &&
+                    errors.device[deviceIndex] &&
+                    errors.device[deviceIndex].categoryName) ||
+                  ""
+                }
               />
             </Grid>
-            <Grid item xs={6}>
-              <TextField
-                disabled
-                type="number"
-                fullWidth
-                label="Phone Number"
-                variant="outlined"
-                name="customerPhone"
-                value={formData.customerPhone || ""}
-                onChange={handleChange}
-                required
+            <Grid item xs={4}>
+              <ModelInput
+                onChange={(selectedModel) =>
+                  handleModelChange(deviceIndex, selectedModel)
+                }
+                value={formData.device[deviceIndex]?.modelName}
+                catId={catId}
+                error={
+                  (errors &&
+                    errors.device &&
+                    errors.device[deviceIndex] &&
+                    errors.device[deviceIndex].modelName) ||
+                  ""
+                }
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <DeviceInput
+                onChange={(selectedDevice) =>
+                  handleDeviceChange(deviceIndex, selectedDevice)
+                }
+                value={formData.device[deviceIndex]?.deviceName}
+                modelId={modelId}
+                error={
+                  (errors &&
+                    errors.device &&
+                    errors.device[deviceIndex] &&
+                    errors.device[deviceIndex].deviceName) ||
+                  ""
+                }
               />
             </Grid>
           </Grid>
-
-          {formData?.device?.map((item, deviceIndex) => (
-            <Box
-              key={`device-${deviceIndex}`}
-              mt={3}
-              p={2}
-              sx={{ border: "1px solid #ccc", borderRadius: 2 }}
-            >
-              {id ? (
-                ""
-              ) : (
-                <>
-                  <Grid container spacing={2} mt={1}>
-                    <Grid item sx={2}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={addDevice}
-                      >
-                        Add Device
-                      </Button>
-                    </Grid>
-                    {deviceIndex > 0 && (
-                      <Grid item sx={2}>
-                        <Button
-                          variant="contained"
-                          color="error"
-                          onClick={() => removeDevice(deviceIndex)}
-                        >
-                          Remove Device
-                        </Button>
-                      </Grid>
-                    )}
-                  </Grid>
-                </>
-              )}
-
-              <Grid container spacing={2} mt={1}>
-                <Grid item xs={4}>
-                  <CategoryInput
-                    onChange={(selectedCategory) =>
-                      handleCategoryChange(deviceIndex, selectedCategory)
-                    }
-                    value={formData.device[deviceIndex]?.categoryName}
-                    branchId={formData.branch?.value}
-                    error={
-                      (errors &&
-                        errors.device &&
-                        errors.device[deviceIndex] &&
-                        errors.device[deviceIndex].categoryName) ||
-                      ""
-                    }
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <ModelInput
-                    onChange={(selectedModel) =>
-                      handleModelChange(deviceIndex, selectedModel)
-                    }
-                    value={formData.device[deviceIndex]?.modelName}
-                    catId={catId}
-                    error={
-                      (errors &&
-                        errors.device &&
-                        errors.device[deviceIndex] &&
-                        errors.device[deviceIndex].modelName) ||
-                      ""
-                    }
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <DeviceInput
-                    onChange={(selectedDevice) =>
-                      handleDeviceChange(deviceIndex, selectedDevice)
-                    }
-                    value={formData.device[deviceIndex]?.deviceName}
-                    modelId={modelId}
-                    error={
-                      (errors &&
-                        errors.device &&
-                        errors.device[deviceIndex] &&
-                        errors.device[deviceIndex].deviceName) ||
-                      ""
-                    }
-                  />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2} mt={1}>
-                <Grid item xs={6}>
-                  <ColorInput
-                    onChange={(selectedColor) =>
-                      handleColorChange(deviceIndex, selectedColor)
-                    }
-                    value={formData.device[deviceIndex]?.color}
-                    deviceId={deviceId}
-                    error={
-                      (errors &&
-                        errors.device &&
-                        errors.device[deviceIndex] &&
-                        errors.device[deviceIndex].color) ||
-                      ""
-                    }
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CapacityInput
-                    onChange={(selectedCapacity) =>
-                      handleCapacityChange(deviceIndex, selectedCapacity)
-                    }
-                    value={formData.device[deviceIndex]?.capacityName}
-                    deviceId={deviceId}
-                    error={
-                      (errors &&
-                        errors.device &&
-                        errors.device[deviceIndex] &&
-                        errors.device[deviceIndex].capacityName) ||
-                      ""
-                    }
-                  />
-                </Grid>
-                {/* <Grid item xs={4}>
+          <Grid container spacing={2} mt={1}>
+            <Grid item xs={6}>
+              <ColorInput
+                onChange={(selectedColor) =>
+                  handleColorChange(deviceIndex, selectedColor)
+                }
+                value={formData.device[deviceIndex]?.color}
+                deviceId={deviceId}
+                error={
+                  (errors &&
+                    errors.device &&
+                    errors.device[deviceIndex] &&
+                    errors.device[deviceIndex].color) ||
+                  ""
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <CapacityInput
+                onChange={(selectedCapacity) =>
+                  handleCapacityChange(deviceIndex, selectedCapacity)
+                }
+                value={formData.device[deviceIndex]?.capacityName}
+                deviceId={deviceId}
+                error={
+                  (errors &&
+                    errors.device &&
+                    errors.device[deviceIndex] &&
+                    errors.device[deviceIndex].capacityName) ||
+                  ""
+                }
+              />
+            </Grid>
+            {/* <Grid item xs={4}>
                   <TextField
                     type="number"
                     fullWidth
@@ -859,348 +860,338 @@ const StockForm = () => {
                     onChange={handleChange}
                   />
                 </Grid> */}
-              </Grid>
+          </Grid>
 
-              {item.imei.map((imeiItem, imeiIndex) => (
-                <Box key={`imei-${deviceIndex}-${imeiIndex}`}>
-                  <Box
-                    mt={2}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <RadioGroup
-                      row
-                      value={imeiItem.useImei ? "imei" : "sr"}
-                      onChange={(e) =>
-                        toggleImeiSr(
-                          deviceIndex,
-                          imeiIndex,
-                          e.target.value === "imei"
-                        )
-                      }
-                    >
-                      <FormControlLabel
-                        disabled={id ? true : false}
-                        value="imei"
-                        control={<Radio />}
-                        label="IMEI No"
-                      />
-                      <FormControlLabel
-                        disabled={id ? true : false}
-                        value="sr"
-                        control={<Radio />}
-                        label="Serial No"
-                      />
-                    </RadioGroup>
+          {item.imei.map((imeiItem, imeiIndex) => (
+            <Box key={`imei-${deviceIndex}-${imeiIndex}`}>
+              <Box
+                mt={2}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <RadioGroup
+                  row
+                  value={imeiItem.useImei ? "imei" : "sr"}
+                  onChange={(e) =>
+                    toggleImeiSr(
+                      deviceIndex,
+                      imeiIndex,
+                      e.target.value === "imei"
+                    )
+                  }
+                >
+                  <FormControlLabel
+                    disabled={id ? true : false}
+                    value="imei"
+                    control={<Radio />}
+                    label="IMEI No"
+                  />
+                  <FormControlLabel
+                    disabled={id ? true : false}
+                    value="sr"
+                    control={<Radio />}
+                    label="Serial No"
+                  />
+                </RadioGroup>
 
-                    <Box>
-                      <Grid container spacing={2}>
-                        {imeiIndex > 0 && (
-                          <Grid item sx={2}>
-                            <Button
-                              variant="outlined"
-                              color="primary"
-                              onClick={() => removeImei(deviceIndex, imeiIndex)}
-                            >
-                              Remove
-                            </Button>
-                          </Grid>
-                        )}
-                        {id ? (
-                          ""
-                        ) : (
-                          <>
-                            <Grid item sx={2}>
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={() => addImei(deviceIndex)}
-                              >
-                                Add Imei
-                              </Button>
-                            </Grid>
-                          </>
-                        )}
+                <Box>
+                  <Grid container spacing={2}>
+                    {imeiIndex > 0 && (
+                      <Grid item sx={2}>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          onClick={() => removeImei(deviceIndex, imeiIndex)}
+                        >
+                          Remove
+                        </Button>
                       </Grid>
-                    </Box>
-                  </Box>
-                  <Grid container spacing={2} mt={1} key={imeiIndex}>
-                    <Grid item xs={12}>
-                      {imeiItem.useImei ? (
-                        <TextField
-                          label={`IMEI No ${imeiIndex + 1}`}
-                          value={imeiItem.imeiNo}
-                          onChange={(e) =>
-                            handleImeiChange(
-                              deviceIndex,
-                              imeiIndex,
-                              "imeiNo",
-                              e.target.value
-                            )
-                          }
-                          required
-                          error={
-                            !!(
-                              errors &&
-                              errors.device &&
-                              errors.device[deviceIndex] &&
-                              errors.device[deviceIndex].imei[imeiIndex] &&
-                              errors.device[deviceIndex].imei[imeiIndex].imeiNo
-                            )
-                          }
-                          helperText={
-                            (errors &&
-                              errors.device &&
-                              errors.device[deviceIndex] &&
-                              errors.device[deviceIndex].imei[imeiIndex] &&
-                              errors.device[deviceIndex].imei[imeiIndex]
-                                .imeiNo) ||
-                            ""
-                          }
-                          fullWidth
-                          margin="normal"
-                        />
-                      ) : (
-                        <TextField
-                          label={`Serial No ${imeiIndex + 1}`}
-                          value={imeiItem.srNo}
-                          onChange={(e) =>
-                            handleImeiChange(
-                              deviceIndex,
-                              imeiIndex,
-                              "srNo",
-                              e.target.value
-                            )
-                          }
-                          error={
-                            !!(
-                              errors &&
-                              errors.device &&
-                              errors.device[deviceIndex] &&
-                              errors.device[deviceIndex].imei[imeiIndex] &&
-                              errors.device[deviceIndex].imei[imeiIndex].srNo
-                            )
-                          }
-                          helperText={
-                            (errors &&
-                              errors.device &&
-                              errors.device[deviceIndex] &&
-                              errors.device[deviceIndex].imei[imeiIndex] &&
-                              errors.device[deviceIndex].imei[imeiIndex]
-                                .srNo) ||
-                            ""
-                          }
-                          fullWidth
-                          margin="normal"
-                        />
-                      )}
-                    </Grid>
-
-                    <Grid item xs={4}>
-                      <TextField
-                        fullWidth
-                        label="Total Amount"
-                        name="totalAmount"
-                        value={imeiItem.totalAmount}
-                        type="number"
-                        onChange={(e) => {
-                          handleImeiChange(
-                            deviceIndex,
-                            imeiIndex,
-                            "totalAmount",
-                            e.target.value
-                          );
-                          setTotalAmount(e.target.value);
-                        }}
-                        error={
-                          !!(
-                            errors &&
-                            errors.device &&
-                            errors.device[deviceIndex] &&
-                            errors.device[deviceIndex].imei[imeiIndex] &&
-                            errors.device[deviceIndex].imei[imeiIndex]
-                              .totalAmount
-                          )
-                        }
-                        helperText={
-                          (errors &&
-                            errors.device &&
-                            errors.device[deviceIndex] &&
-                            errors.device[deviceIndex].imei[imeiIndex] &&
-                            errors.device[deviceIndex].imei[imeiIndex]
-                              .totalAmount) ||
-                          ""
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        type="number"
-                        fullWidth
-                        label="Paid To Customer"
-                        name="paidToCustomer"
-                        value={imeiItem.paidToCustomer}
-                        onChange={(e) => {
-                          handleImeiChange(
-                            deviceIndex,
-                            imeiIndex,
-                            "paidToCustomer",
-                            e.target.value
-                          );
-                          setPaidtoCustomer(e.target.value);
-                        }}
-                        error={
-                          !!(
-                            errors &&
-                            errors.device &&
-                            errors.device[deviceIndex] &&
-                            errors.device[deviceIndex].imei[imeiIndex] &&
-                            errors.device[deviceIndex].imei[imeiIndex]
-                              .paidToCustomer
-                          )
-                        }
-                        helperText={
-                          (errors &&
-                            errors.device &&
-                            errors.device[deviceIndex] &&
-                            errors.device[deviceIndex].imei[imeiIndex] &&
-                            errors.device[deviceIndex].imei[imeiIndex]
-                              .paidToCustomer) ||
-                          ""
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        type="number"
-                        aria-readonly
-                        fullWidth
-                        label="Remaining Amount"
-                        name="remainingAmount"
-                        value={imeiItem.remainingAmount ?? ""}
-                        onChange={(e) =>
-                          handleImeiChange(
-                            deviceIndex,
-                            imeiIndex,
-                            "remainingAmount",
-                            e.target.value
-                          )
-                        }
-                      />
-                    </Grid>
+                    )}
+                    {id ? (
+                      ""
+                    ) : (
+                      <>
+                        <Grid item sx={2}>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => addImei(deviceIndex)}
+                          >
+                            Add Imei
+                          </Button>
+                        </Grid>
+                      </>
+                    )}
                   </Grid>
                 </Box>
-              ))}
-            </Box>
-          ))}
-
-          <Box mt={3}>
-            <Button variant="contained" component="label" fullWidth>
-              Upload File
-              <input type="file" onChange={handleChange} hidden />
-            </Button>
-          </Box>
-
-          <Box mt={3} p={2} sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
-            {formData?.payment?.map((payment, paymentIndex) => (
-              <>
-                <Grid container spacing={2} mt={1}>
-                  <Grid item sx={2}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={addPayment}
-                    >
-                      Add Payment
-                    </Button>
-                  </Grid>
-                  {paymentIndex > 0 && (
-                    <Grid item sx={2}>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => removePayment(paymentIndex)}
-                      >
-                        Remove Payment
-                      </Button>
-                    </Grid>
-                  )}
-                </Grid>
-                <Grid
-                  container
-                  spacing={2}
-                  key={payment.id}
-                  alignItems="center"
-                  sx={{ marginTop: ".5rem" }}
-                >
-                  <Grid item xs={6}>
-                    <PaymentInput
-                      onChange={(selectedPaymentAccount) =>
-                        handlePaymentChange(
-                          paymentIndex,
-                          selectedPaymentAccount
+              </Box>
+              <Grid container spacing={2} mt={1} key={imeiIndex}>
+                <Grid item xs={12}>
+                  {imeiItem.useImei ? (
+                    <TextField
+                      label={`IMEI No ${imeiIndex + 1}`}
+                      value={imeiItem.imeiNo}
+                      onChange={(e) =>
+                        handleImeiChange(
+                          deviceIndex,
+                          imeiIndex,
+                          "imeiNo",
+                          e.target.value
                         )
                       }
-                      value={
-                        formData.payment[paymentIndex].paymentAccount || null
-                      }
-                      error={
-                        errors &&
-                        errors.payment &&
-                        errors.payment[paymentIndex] &&
-                        errors.payment[paymentIndex].paymentAccount
-                      }
-                      branchId={formData.branch?.value}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      fullWidth
-                      type="number"
-                      label="Payment amount"
-                      value={formData.payment[paymentIndex].paymentAmount || ""}
-                      onChange={(e) =>
-                        handlePaymentAmountChange(paymentIndex, e.target.value)
-                      }
+                      required
                       error={
                         !!(
                           errors &&
-                          errors.payment &&
-                          errors.payment[paymentIndex] &&
-                          errors.payment[paymentIndex].paymentAmount
+                          errors.device &&
+                          errors.device[deviceIndex] &&
+                          errors.device[deviceIndex].imei[imeiIndex] &&
+                          errors.device[deviceIndex].imei[imeiIndex].imeiNo
                         )
                       }
                       helperText={
                         (errors &&
-                          errors.payment &&
-                          errors.payment[paymentIndex] &&
-                          errors.payment[paymentIndex].paymentAmount) ||
+                          errors.device &&
+                          errors.device[deviceIndex] &&
+                          errors.device[deviceIndex].imei[imeiIndex] &&
+                          errors.device[deviceIndex].imei[imeiIndex].imeiNo) ||
                         ""
                       }
+                      fullWidth
+                      margin="normal"
                     />
-                  </Grid>
+                  ) : (
+                    <TextField
+                      label={`Serial No ${imeiIndex + 1}`}
+                      value={imeiItem.srNo}
+                      onChange={(e) =>
+                        handleImeiChange(
+                          deviceIndex,
+                          imeiIndex,
+                          "srNo",
+                          e.target.value
+                        )
+                      }
+                      error={
+                        !!(
+                          errors &&
+                          errors.device &&
+                          errors.device[deviceIndex] &&
+                          errors.device[deviceIndex].imei[imeiIndex] &&
+                          errors.device[deviceIndex].imei[imeiIndex].srNo
+                        )
+                      }
+                      helperText={
+                        (errors &&
+                          errors.device &&
+                          errors.device[deviceIndex] &&
+                          errors.device[deviceIndex].imei[imeiIndex] &&
+                          errors.device[deviceIndex].imei[imeiIndex].srNo) ||
+                        ""
+                      }
+                      fullWidth
+                      margin="normal"
+                    />
+                  )}
                 </Grid>
-              </>
-            ))}
-          </Box>
 
-          <Box mt={2} display="flex" justifyContent="end" gap={2}>
-            <Button
-              variant="outlined"
-              color="primary"
-              component={Link}
-              to="/stockPage"
-            >
-              Cancel
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-              Submit
-            </Button>
-          </Box>
+                <Grid item xs={4}>
+                  <TextField
+                    fullWidth
+                    label="Total Amount"
+                    name="totalAmount"
+                    value={imeiItem.totalAmount}
+                    type="number"
+                    onChange={(e) => {
+                      handleImeiChange(
+                        deviceIndex,
+                        imeiIndex,
+                        "totalAmount",
+                        e.target.value
+                      );
+                      setTotalAmount(e.target.value);
+                    }}
+                    error={
+                      !!(
+                        errors &&
+                        errors.device &&
+                        errors.device[deviceIndex] &&
+                        errors.device[deviceIndex].imei[imeiIndex] &&
+                        errors.device[deviceIndex].imei[imeiIndex].totalAmount
+                      )
+                    }
+                    helperText={
+                      (errors &&
+                        errors.device &&
+                        errors.device[deviceIndex] &&
+                        errors.device[deviceIndex].imei[imeiIndex] &&
+                        errors.device[deviceIndex].imei[imeiIndex]
+                          .totalAmount) ||
+                      ""
+                    }
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    type="number"
+                    fullWidth
+                    label="Paid To Customer"
+                    name="paidToCustomer"
+                    value={imeiItem.paidToCustomer}
+                    onChange={(e) => {
+                      handleImeiChange(
+                        deviceIndex,
+                        imeiIndex,
+                        "paidToCustomer",
+                        e.target.value
+                      );
+                      setPaidtoCustomer(e.target.value);
+                    }}
+                    error={
+                      !!(
+                        errors &&
+                        errors.device &&
+                        errors.device[deviceIndex] &&
+                        errors.device[deviceIndex].imei[imeiIndex] &&
+                        errors.device[deviceIndex].imei[imeiIndex]
+                          .paidToCustomer
+                      )
+                    }
+                    helperText={
+                      (errors &&
+                        errors.device &&
+                        errors.device[deviceIndex] &&
+                        errors.device[deviceIndex].imei[imeiIndex] &&
+                        errors.device[deviceIndex].imei[imeiIndex]
+                          .paidToCustomer) ||
+                      ""
+                    }
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    type="number"
+                    aria-readonly
+                    fullWidth
+                    label="Remaining Amount"
+                    name="remainingAmount"
+                    value={imeiItem.remainingAmount ?? ""}
+                    onChange={(e) =>
+                      handleImeiChange(
+                        deviceIndex,
+                        imeiIndex,
+                        "remainingAmount",
+                        e.target.value
+                      )
+                    }
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          ))}
         </Box>
+      ))}
+
+      <Box mt={3}>
+        <Button variant="contained" component="label" fullWidth>
+          Upload File
+          <input type="file" onChange={handleChange} hidden />
+        </Button>
+      </Box>
+
+      <Box mt={3} p={2} sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
+        {formData?.payment?.map((payment, paymentIndex) => (
+          <>
+            <Grid container spacing={2} mt={1}>
+              <Grid item sx={2}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={addPayment}
+                >
+                  Add Payment
+                </Button>
+              </Grid>
+              {paymentIndex > 0 && (
+                <Grid item sx={2}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => removePayment(paymentIndex)}
+                  >
+                    Remove Payment
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+            <Grid
+              container
+              spacing={2}
+              key={payment.id}
+              alignItems="center"
+              sx={{ marginTop: ".5rem" }}
+            >
+              <Grid item xs={6}>
+                <PaymentInput
+                  onChange={(selectedPaymentAccount) =>
+                    handlePaymentChange(paymentIndex, selectedPaymentAccount)
+                  }
+                  value={formData.payment[paymentIndex].paymentAccount || null}
+                  error={
+                    errors &&
+                    errors.payment &&
+                    errors.payment[paymentIndex] &&
+                    errors.payment[paymentIndex].paymentAccount
+                  }
+                  branchId={formData.branch?.value}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  type="number"
+                  label="Payment amount"
+                  value={formData.payment[paymentIndex].paymentAmount || ""}
+                  onChange={(e) =>
+                    handlePaymentAmountChange(paymentIndex, e.target.value)
+                  }
+                  error={
+                    !!(
+                      errors &&
+                      errors.payment &&
+                      errors.payment[paymentIndex] &&
+                      errors.payment[paymentIndex].paymentAmount
+                    )
+                  }
+                  helperText={
+                    (errors &&
+                      errors.payment &&
+                      errors.payment[paymentIndex] &&
+                      errors.payment[paymentIndex].paymentAmount) ||
+                    ""
+                  }
+                />
+              </Grid>
+            </Grid>
+          </>
+        ))}
+      </Box>
+
+      <Box mt={2} display="flex" justifyContent="end" gap={2}>
+        <Button
+          variant="outlined"
+          color="primary"
+          component={Link}
+          to="/stockPage"
+        >
+          Cancel
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          Submit
+        </Button>
       </Box>
     </Box>
   );

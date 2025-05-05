@@ -21,8 +21,6 @@ import OrgBranchInput from "./common/OrgBranchInput";
 import { errorMessage } from "../../errorMessage";
 import { toast } from "react-toastify";
 
-
-
 const CategoryForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -47,7 +45,8 @@ const CategoryForm = () => {
     let newErrors = {};
     if (!formData.orgId) newErrors.orgId = errorMessage.organizationName;
     if (!formData.orgBranchId) newErrors.orgBranchId = errorMessage.branchName;
-    if (!formData.categoryName) newErrors.categoryName = errorMessage.categoryName;
+    if (!formData.categoryName)
+      newErrors.categoryName = errorMessage.categoryName;
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Returns true if no errors
   };
@@ -122,80 +121,77 @@ const CategoryForm = () => {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <Sidebar />
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
-        <Box
-          sx={{
-            padding: 3,
-            margin: "auto",
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            marginTop: "4rem",
-          }}
-        >
-          <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
-            CATEGORY
-          </Typography>
-          <Box display="flex" alignItems="center" justifyContent="space-between">
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <OrgInput
-                  onChange={handleOrganizationChange}
-                  value={formData.orgId}
-                  error={errors.orgId}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <OrgBranchInput
-                  onChange={handleOrganizationBranchChange}
-                  value={formData.orgBranchId}
-                  selectedOrganization={selectedOrganization}
-                  error={errors.orgBranchId}
-                />
-              </Grid>
-            </Grid>
-          </Box>
-
-          <TextField
-            fullWidth
-            label="Category"
-            variant="outlined"
-            name="categoryName"
-            value={formData.categoryName || ""}
-            onChange={handleChange}
-            required
-            error={!!errors.categoryName}
-            helperText={errors.categoryName}
-          />
-
-          <Grid
-            item
-            xs={12}
-            sx={{ display: "flex", justifyContent: "space-between" }}
-          >
-            <Button variant="contained" color="error" component={Link} to="/category">
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSubmit}
-              disabled={loading}
-            >
-              {loading ? (
-                <CircularProgress size={24} sx={{ color: "white" }} />
-              ) : (
-                id ? "Update" : "Add"
-              )}
-            </Button>
+    <Box
+      sx={{
+        margin: "auto",
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
+      <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+        CATEGORY
+      </Typography>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <OrgInput
+              onChange={handleOrganizationChange}
+              value={formData.orgId}
+              error={errors.orgId}
+            />
           </Grid>
-        </Box>
+          <Grid item xs={6}>
+            <OrgBranchInput
+              onChange={handleOrganizationBranchChange}
+              value={formData.orgBranchId}
+              selectedOrganization={selectedOrganization}
+              error={errors.orgBranchId}
+            />
+          </Grid>
+        </Grid>
       </Box>
-      {/* Add ToastContainer here to show the toasts */}
-      
+
+      <TextField
+        fullWidth
+        label="Category"
+        variant="outlined"
+        name="categoryName"
+        value={formData.categoryName || ""}
+        onChange={handleChange}
+        required
+        error={!!errors.categoryName}
+        helperText={errors.categoryName}
+      />
+
+      <Grid
+        item
+        xs={12}
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <Button
+          variant="contained"
+          color="error"
+          component={Link}
+          to="/category"
+        >
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+          disabled={loading}
+        >
+          {loading ? (
+            <CircularProgress size={24} sx={{ color: "white" }} />
+          ) : id ? (
+            "Update"
+          ) : (
+            "Add"
+          )}
+        </Button>
+      </Grid>
     </Box>
   );
 };

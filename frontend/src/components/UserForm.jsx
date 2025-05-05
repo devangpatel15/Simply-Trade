@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  TextField,
-  Button,
-  Grid,
-  Typography,
-  Box,
-} from "@mui/material";
+import { TextField, Button, Grid, Typography, Box } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
@@ -134,117 +128,106 @@ const UserForm = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", marginTop: "4rem" }}>
-      <Sidebar />
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
-        <Box
-          sx={{
-            padding: 3,
-            backgroundColor: "#f9f9f9",
-            borderRadius: 2,
-            margin: "auto",
-          }}
-        >
-          <Typography variant="h5" sx={{ mb: 2, color: " #4C2D85" }}>
-            User
-          </Typography>
+    <Box
+      sx={{
+        backgroundColor: "#f9f9f9",
+        borderRadius: 2,
+        margin: "auto",
+      }}
+    >
+      <Typography variant="h5" sx={{ mb: 2, color: " #4C2D85" }}>
+        User
+      </Typography>
 
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <OrgInput
-                onChange={handleOrganizationChange}
-                value={formData.organization}
-                error={errors.organization}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <OrgBranchInput
-                onChange={handleOrganizationBranchChange}
-                value={formData.orgBranch}
-                selectedOrganization={selectedOrganization}
-                error={errors.orgBranch}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Enter Name"
-                variant="outlined"
-                name="name"
-                value={formData.name || ""}
-                onChange={handleChange}
-                required
-                error={errors.name}
-                helperText={errors.name}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Enter Email Address"
-                variant="outlined"
-                name="email"
-                value={formData.email || ""}
-                onChange={handleChange}
-                required
-                error={errors.email}
-                helperText={errors.email}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Enter Phone Number"
-                variant="outlined"
-                name="mobileNo"
-                value={formData.mobileNo || ""}
-                onChange={handleChange}
-                required
-                error={errors.mobileNo}
-                helperText={errors.mobileNo}
-              />
-            </Grid>
-            {!id && (
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  label="Enter Password"
-                  variant="outlined"
-                  name="password"
-                  value={formData.password || ""}
-                  onChange={handleChange}
-                  required
-                  error={errors.password}
-                  helperText={errors.password}
-                />
-              </Grid>
-            )}
-
-            <Grid
-              item
-              xs={12}
-              sx={{ display: "flex", justifyContent: "space-between" }}
-            >
-              <Button
-                variant="contained"
-                color="error"
-                component={Link}
-                to="/userPage"
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSubmit}
-              >
-                Submit
-              </Button>
-            </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <OrgInput
+            onChange={handleOrganizationChange}
+            value={formData.organization}
+            error={errors.organization}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <OrgBranchInput
+            onChange={handleOrganizationBranchChange}
+            value={formData.orgBranch}
+            selectedOrganization={selectedOrganization}
+            error={errors.orgBranch}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Enter Name"
+            variant="outlined"
+            name="name"
+            value={formData.name || ""}
+            onChange={handleChange}
+            required
+            error={errors.name}
+            helperText={errors.name}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Enter Email Address"
+            variant="outlined"
+            name="email"
+            value={formData.email || ""}
+            onChange={handleChange}
+            required
+            error={errors.email}
+            helperText={errors.email}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Enter Phone Number"
+            variant="outlined"
+            name="mobileNo"
+            value={formData.mobileNo || ""}
+            onChange={handleChange}
+            required
+            error={errors.mobileNo}
+            helperText={errors.mobileNo}
+          />
+        </Grid>
+        {!id && (
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Enter Password"
+              variant="outlined"
+              name="password"
+              value={formData.password || ""}
+              onChange={handleChange}
+              required
+              error={errors.password}
+              helperText={errors.password}
+            />
           </Grid>
-        </Box>
-      </Box>
+        )}
+
+        <Grid
+          item
+          xs={12}
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <Button
+            variant="contained"
+            color="error"
+            component={Link}
+            to="/userPage"
+          >
+            Cancel
+          </Button>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

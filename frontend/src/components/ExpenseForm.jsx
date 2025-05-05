@@ -206,7 +206,6 @@ const ExpenseForm = ({ stockId }) => {
           },
         });
       }
-
     }
   };
 
@@ -293,176 +292,155 @@ const ExpenseForm = ({ stockId }) => {
   };
 
   return (
-    <div>
-      <Box sx={{ display: "flex" }}>
-        <Sidebar />
-        <Box sx={{ flexGrow: 1 }}>
-          <Header />
-          <Box
-            sx={{
-              padding: 3,
-              margin: "auto",
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              marginTop: "4rem",
-            }}
-          >
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+    <Box
+      sx={{
+        margin: "auto",
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
+      <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+        EXPENSE
+      </Typography>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <OrgInput
+              role={loggedUserData.role == "admin" ? "admin" : "user"}
+              onChange={handleOrganizationChange}
+              value={formData.organization || null}
+              error={errors.organization}
+              readOnlyExp={id}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <OrgBranchInput
+              role={loggedUserData.role == "admin" ? "admin" : "user"}
+              onChange={handleOrganizationBranchChange}
+              value={formData.branchName || null}
+              selectedOrganization={selectedOrganization}
+              error={errors.branchName}
+              readOnlyExp={id}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <FormControl
+              disabled
+              fullWidth
+              variant="outlined"
+              error={!!errors.category}
+              required
             >
-              EXPENSE
-            </Typography>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <OrgInput
-                    role={loggedUserData.role == "admin" ? "admin" : "user"}
-                    onChange={handleOrganizationChange}
-                    value={formData.organization || null}
-                    error={errors.organization}
-                    readOnlyExp={id}
-                  />
-                </Grid>
+              <InputLabel id="category-label">Category</InputLabel>
+              <Select
+                labelId="category-label"
+                id="category"
+                name="category"
+                value={formData.category || ""}
+                onChange={handleChange}
+                label="Category"
+              >
+                <MenuItem value="Phone">Phone</MenuItem>
+                <MenuItem value="General">General</MenuItem>
+              </Select>
+              {errors.category && (
+                <FormHelperText>{errors.category}</FormHelperText>
+              )}
+            </FormControl>
+          </Grid>
 
-                <Grid item xs={6}>
-                  <OrgBranchInput
-                    role={loggedUserData.role == "admin" ? "admin" : "user"}
-                    onChange={handleOrganizationBranchChange}
-                    value={formData.branchName || null}
-                    selectedOrganization={selectedOrganization}
-                    error={errors.branchName}
-                    readOnlyExp={id}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <FormControl
-                    disabled
-                    fullWidth
-                    variant="outlined"
-                    error={!!errors.category}
-                    required
-                  >
-                    <InputLabel id="category-label">Category</InputLabel>
-                    <Select
-                      labelId="category-label"
-                      id="category"
-                      name="category"
-                      value={formData.category || ""}
-                      onChange={handleChange}
-                      label="Category"
-                    >
-                      <MenuItem value="Phone">Phone</MenuItem>
-                      <MenuItem value="General">General</MenuItem>
-                    </Select>
-                    {errors.category && (
-                      <FormHelperText>{errors.category}</FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
-
-                {formData.category == "Phone" ? (
-                  <>
-                    <Grid item xs={6}>
-                      <ModelInput
-                        branchId={branchId}
-                        onChange={handleModelChange}
-                        value={formData.modelName || ""}
-                        error={errors.modelName}
-                        readOnlyExp={id}
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <DeviceInput
-                        modelId={selectedModel}
-                        onChange={handleDeviceChange}
-                        value={formData.deviceName || ""}
-                        error={errors.deviceName}
-                        readOnlyExp={id}
-                      />
-                    </Grid>
-                  </>
-                ) : (
-                  ""
-                )}
-
-                <Grid item xs={6}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    label="Date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleNativeDateChange}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    error={!!errors.date}
-                    helperText={errors.date}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <TextField
-                    fullWidth
-                    label="Description"
-                    variant="outlined"
-                    name="description"
-                    value={formData.description || ""}
-                    onChange={handleChange}
-                    required
-                    error={!!errors.description}
-                    helperText={errors.description}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <TextField
-                    fullWidth
-                    label="Amount"
-                    variant="outlined"
-                    name="amount"
-                    value={formData.amount || ""}
-                    onChange={handleChange}
-                    required
-                    error={!!errors.amount}
-                    helperText={errors.amount}
-                  />
-                </Grid>
+          {formData.category == "Phone" ? (
+            <>
+              <Grid item xs={6}>
+                <ModelInput
+                  branchId={branchId}
+                  onChange={handleModelChange}
+                  value={formData.modelName || ""}
+                  error={errors.modelName}
+                  readOnlyExp={id}
+                />
               </Grid>
-            </Box>
+              <Grid item xs={6}>
+                <DeviceInput
+                  modelId={selectedModel}
+                  onChange={handleDeviceChange}
+                  value={formData.deviceName || ""}
+                  error={errors.deviceName}
+                  readOnlyExp={id}
+                />
+              </Grid>
+            </>
+          ) : (
+            ""
+          )}
 
-            <Grid
-              item
-              xs={12}
-              sx={{ display: "flex", justifyContent: "space-between" }}
-            >
-              <Button
-                variant="contained"
-                color="error"
-                component={Link}
-                to="/expensePage"
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSubmit}
-              >
-                {id ? (stockId ? "Add" : "Update") : "Add"}
-              </Button>
-            </Grid>
-          </Box>
-        </Box>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              type="date"
+              label="Date"
+              name="date"
+              value={formData.date}
+              onChange={handleNativeDateChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              error={!!errors.date}
+              helperText={errors.date}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Description"
+              variant="outlined"
+              name="description"
+              value={formData.description || ""}
+              onChange={handleChange}
+              required
+              error={!!errors.description}
+              helperText={errors.description}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Amount"
+              variant="outlined"
+              name="amount"
+              value={formData.amount || ""}
+              onChange={handleChange}
+              required
+              error={!!errors.amount}
+              helperText={errors.amount}
+            />
+          </Grid>
+        </Grid>
       </Box>
-    </div>
+
+      <Grid
+        item
+        xs={12}
+        sx={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <Button
+          variant="contained"
+          color="error"
+          component={Link}
+          to="/expensePage"
+        >
+          Cancel
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          {id ? (stockId ? "Add" : "Update") : "Add"}
+        </Button>
+      </Grid>
+    </Box>
   );
 };
 

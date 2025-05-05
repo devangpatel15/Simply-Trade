@@ -15,64 +15,50 @@ import { Link } from "react-router-dom";
 const StockPage = () => {
   // const [stock, setStock] = React.useState([]);
   // const [payment, setPayment] = React.useState([]);
-    const [searchTerm, setSearchTerm] = React.useState("");
-  
+  const [searchTerm, setSearchTerm] = React.useState("");
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
   return (
-    <Box sx={{ display: "flex", marginTop: "4rem" }}>
-      <Sidebar />
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
-        <Box sx={{ padding: 3 }}>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
+    <Box>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+          STOCK
+        </Typography>
+
+        <Box display="flex" gap={2}>
+          <TextField
+            variant="outlined"
+            placeholder="Search"
+            onChange={handleSearchChange}
+            size="small"
+            sx={{ backgroundColor: "white", borderRadius: 1 }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: "#6c5ce7" }} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Button
+            variant="outlined"
+            sx={{
+              color: "#6c5ce7",
+              borderColor: "#6c5ce7",
+              textTransform: "none",
+            }}
+            component={Link}
+            to="/stockForm"
           >
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: "bold", color: "#6c5ce7" }}
-            >
-              STOCK
-            </Typography>
-
-            <Box display="flex" gap={2}>
-              <TextField
-                variant="outlined"
-                placeholder="Search"
-                onChange={handleSearchChange}
-                size="small"
-                sx={{ backgroundColor: "white", borderRadius: 1 }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon sx={{ color: "#6c5ce7" }} />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Button
-                variant="outlined"
-                sx={{
-                  color: "#6c5ce7",
-                  borderColor: "#6c5ce7",
-                  textTransform: "none",
-                }}
-                component={Link}
-                to="/stockForm"
-              >
-                Add Stock
-              </Button>
-            </Box>
-          </Box>
-
-          <StockTable searchTerm={searchTerm}/>
+            Add Stock
+          </Button>
         </Box>
       </Box>
+
+      <StockTable searchTerm={searchTerm} />
     </Box>
   );
 };

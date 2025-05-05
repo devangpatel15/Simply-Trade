@@ -150,254 +150,242 @@ const OrganizationForm = () => {
   }, []);
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <Sidebar />
-      <Box sx={{ flexGrow: 1 }}>
-        <Header />
-        <Box
-          sx={{
-            padding: 3,
-            backgroundColor: "#f9f9f9",
-            borderRadius: 2,
-            margin: "auto",
-            marginTop: "3rem",
-          }}
-        >
-          <Typography variant="h5" sx={{ mb: 2, color: " #4C2D85" }}>
-            Organizations
-          </Typography>
+    <Box
+      sx={{
+        backgroundColor: "#f9f9f9",
+        borderRadius: 2,
+        margin: "auto",
+      }}
+    >
+      <Typography variant="h5" sx={{ mb: 2, color: " #4C2D85" }}>
+        Organizations
+      </Typography>
 
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Organization Name"
-                variant="outlined"
-                name="organizationName"
-                value={formData.organizationName || ""}
-                onChange={handleChange}
-                required
-                error={!!errors.organizationName}
-                helperText={errors.organizationName}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Address Line 1"
-                variant="outlined"
-                name="addressLine1"
-                value={formData.addressLine1 || ""}
-                onChange={handleChange}
-                required
-                error={!!errors.addressLine1}
-                helperText={errors.addressLine1}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Primary Address"
-                variant="outlined"
-                name="primaryAddress"
-                value={formData.primaryAddress || ""}
-                onChange={handleChange}
-                required
-                error={!!errors.primaryAddress}
-                helperText={errors.primaryAddress}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="City"
-                variant="outlined"
-                name="city"
-                value={formData.city || ""}
-                onChange={handleChange}
-                required
-                error={!!errors.city}
-                helperText={errors.city}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Address Line 2"
-                variant="outlined"
-                name="addressLine2"
-                value={formData.addressLine2 || ""}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="State"
-                variant="outlined"
-                name="state"
-                value={formData.state || ""}
-                onChange={handleChange}
-                required
-                error={!!errors.state}
-                helperText={errors.state}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="District"
-                variant="outlined"
-                name="district"
-                value={formData.district || ""}
-                onChange={handleChange}
-                required
-                error={!!errors.district}
-                helperText={errors.district}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                type="number"
-                fullWidth
-                label="Zip Code"
-                variant="outlined"
-                name="zipCode"
-                value={formData.zipCode || ""}
-                onChange={handleChange}
-                required
-                error={!!errors.zipCode}
-                helperText={errors.zipCode}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Country"
-                variant="outlined"
-                name="country"
-                value={formData.country || ""}
-                onChange={handleChange}
-                required
-                error={!!errors.country}
-                helperText={errors.country}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Email"
-                variant="outlined"
-                name="email"
-                value={formData.email || ""}
-                onChange={handleChange}
-                required
-                error={!!errors.email}
-                helperText={errors.email}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Telephone"
-                variant="outlined"
-                name="telePhone"
-                value={formData.telePhone || ""}
-                onChange={handleChange}
-                required
-                error={!!errors.telePhone}
-                helperText={errors.telePhone}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Company Registration Type"
-                variant="outlined"
-                name="companyType"
-                value={formData.companyType || ""}
-                onChange={handleChange}
-                required
-                error={!!errors.companyType}
-                helperText={errors.companyType}
-              />
-            </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Organization Name"
+            variant="outlined"
+            name="organizationName"
+            value={formData.organizationName || ""}
+            onChange={handleChange}
+            required
+            error={!!errors.organizationName}
+            helperText={errors.organizationName}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Address Line 1"
+            variant="outlined"
+            name="addressLine1"
+            value={formData.addressLine1 || ""}
+            onChange={handleChange}
+            required
+            error={!!errors.addressLine1}
+            helperText={errors.addressLine1}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Primary Address"
+            variant="outlined"
+            name="primaryAddress"
+            value={formData.primaryAddress || ""}
+            onChange={handleChange}
+            required
+            error={!!errors.primaryAddress}
+            helperText={errors.primaryAddress}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="City"
+            variant="outlined"
+            name="city"
+            value={formData.city || ""}
+            onChange={handleChange}
+            required
+            error={!!errors.city}
+            helperText={errors.city}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Address Line 2"
+            variant="outlined"
+            name="addressLine2"
+            value={formData.addressLine2 || ""}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="State"
+            variant="outlined"
+            name="state"
+            value={formData.state || ""}
+            onChange={handleChange}
+            required
+            error={!!errors.state}
+            helperText={errors.state}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="District"
+            variant="outlined"
+            name="district"
+            value={formData.district || ""}
+            onChange={handleChange}
+            required
+            error={!!errors.district}
+            helperText={errors.district}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            type="number"
+            fullWidth
+            label="Zip Code"
+            variant="outlined"
+            name="zipCode"
+            value={formData.zipCode || ""}
+            onChange={handleChange}
+            required
+            error={!!errors.zipCode}
+            helperText={errors.zipCode}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Country"
+            variant="outlined"
+            name="country"
+            value={formData.country || ""}
+            onChange={handleChange}
+            required
+            error={!!errors.country}
+            helperText={errors.country}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Email"
+            variant="outlined"
+            name="email"
+            value={formData.email || ""}
+            onChange={handleChange}
+            required
+            error={!!errors.email}
+            helperText={errors.email}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Telephone"
+            variant="outlined"
+            name="telePhone"
+            value={formData.telePhone || ""}
+            onChange={handleChange}
+            required
+            error={!!errors.telePhone}
+            helperText={errors.telePhone}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Company Registration Type"
+            variant="outlined"
+            name="companyType"
+            value={formData.companyType || ""}
+            onChange={handleChange}
+            required
+            error={!!errors.companyType}
+            helperText={errors.companyType}
+          />
+        </Grid>
 
-            <Grid item xs={6}>
-              <FormControl>
-                <FormLabel>GST Applicable</FormLabel>
-                <RadioGroup
-                  row
-                  name="gstApplicable"
-                  value={formData.gstApplicable || ""}
-                  onChange={handleChange}
-                >
-                  <FormControlLabel
-                    value="yes"
-                    control={<Radio />}
-                    label="Yes"
-                    onChange={(e) => setGstApplicable(e.target.value)}
-                  />
-                  <FormControlLabel
-                    value="no"
-                    control={<Radio />}
-                    label="No"
-                    onChange={(e) => setGstApplicable(e.target.value)}
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                type="file"
-                variant="outlined"
-                name="upload"
-                onChange={handleChange}
-              />
-            </Grid>
-
-            {gstApplicable == "yes" && (
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  label="GST Number"
-                  variant="outlined"
-                  name="gstNumber"
-                  value={formData.gstNumber || ""}
-                  onChange={handleChange}
-                  required
-                  error={!!errors.gstNumber}
-                  helperText={errors.gstNumber}
-                />
-              </Grid>
-            )}
-
-            <Grid
-              item
-              xs={12}
-              sx={{ display: "flex", justifyContent: "space-between" }}
+        <Grid item xs={6}>
+          <FormControl>
+            <FormLabel>GST Applicable</FormLabel>
+            <RadioGroup
+              row
+              name="gstApplicable"
+              value={formData.gstApplicable || ""}
+              onChange={handleChange}
             >
-              <Button
-                variant="contained"
-                color="error"
-                component={Link}
-                to="/organizationPage"
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSubmit}
-              >
-                Submit
-              </Button>
-            </Grid>
+              <FormControlLabel
+                value="yes"
+                control={<Radio />}
+                label="Yes"
+                onChange={(e) => setGstApplicable(e.target.value)}
+              />
+              <FormControlLabel
+                value="no"
+                control={<Radio />}
+                label="No"
+                onChange={(e) => setGstApplicable(e.target.value)}
+              />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            type="file"
+            variant="outlined"
+            name="upload"
+            onChange={handleChange}
+          />
+        </Grid>
+
+        {gstApplicable == "yes" && (
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="GST Number"
+              variant="outlined"
+              name="gstNumber"
+              value={formData.gstNumber || ""}
+              onChange={handleChange}
+              required
+              error={!!errors.gstNumber}
+              helperText={errors.gstNumber}
+            />
           </Grid>
-        </Box>
-      </Box>
+        )}
+
+        <Grid
+          item
+          xs={12}
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <Button
+            variant="contained"
+            color="error"
+            component={Link}
+            to="/organizationPage"
+          >
+            Cancel
+          </Button>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Grid>
+      </Grid>
     </Box>
   );
 };
