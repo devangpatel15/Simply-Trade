@@ -319,7 +319,9 @@ const SellForm = ({ stock }) => {
                 value: data?.deviceName?._id || "",
               },
 
-              totalAmount: data.totalAmount,
+              totalAmount: data?.expenseAmount
+                ? data?.totalAmount + data?.expenseAmount
+                : data?.totalAmount || "N/A",
             },
           ],
           payment: [
@@ -567,6 +569,7 @@ const SellForm = ({ stock }) => {
                   value={formData.customerName}
                   branchId={formData?.branch?.value}
                   error={errors.customerName}
+                  field={"sell"}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -782,116 +785,98 @@ const SellForm = ({ stock }) => {
                 <input type="file" onChange={handleChange} hidden />
               </Button>
             </Box>
-            <>
-              <Box mt={2} display="flex" gap={2} justifyContent="end">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={addPayment}
-                >
-                  Add Payment
-                </Button>
-              </Box>
 
-              {Array.isArray(formData.payment) &&
-                formData.payment.map((pay, index) => (
-                  <Box key={index} mt={2}>
-                    <Grid container spacing={2} alignItems="center">
-                      <Grid item xs={5}>
-                        <PaymentInput
-                          label="Payment Account"
-                          value={
-                            formData.payment?.[index]?.paymentAccount || ""
-                          }
-                          branchId={formData?.branch?.value}
-                          onChange={(selectAccount) =>
-                            handlePaymentChange(index, selectAccount)
-                          }
-                          error={
-                            !!(
-                              errors &&
-                              errors.payment &&
-                              errors.payment[index] &&
-                              errors.payment[index].paymentAccount
-                            ) || ""
-                          }
-                        />
-                      </Grid>
-                      <Grid item xs={5}>
-                        <TextField
-                          fullWidth
-                          label="Payment Amount"
-                          value={formData.payment?.[index]?.paymentAmount || ""}
-                          onChange={(e) =>
-                            handlePaymentAmountChange(index, e.target.value)
-                          }
-                          type="number"
-                          error={
-                            (errors &&
-                              errors.payment &&
-                              errors.payment[index] &&
-                              errors.payment[index].paymentAmount) ||
-                            ""
-                          }
-                          helperText={
-                            (errors &&
-                              errors.payment &&
-                              errors.payment[index] &&
-                              errors.payment[index].paymentAmount) ||
-                            ""
-                          }
-                        />
-                      </Grid>
-                      <Grid item xs={2}>
-                        {formData.payment.length > 1 && (
-                          <Button
-                            variant="outlined"
-                            color="error"
-                            onClick={() => removePayment(index)}
-                          >
-                            Remove
-                          </Button>
-                        )}
-                      </Grid>
-                    </Grid>
-                  </Box>
-                ))}
-            </>
-            {/* <Box mt={3} p={2} sx={{ border: "1px solid #ccc", borderRadius: 2 }}>
-              {payments.map((payment) => (
-                <Grid container spacing={2} key={payment.id} alignItems="center">
-                  <Grid item xs={5}>
-                    <FormControl fullWidth>
-                      <InputLabel>Payment Account</InputLabel>
-                      <Select>
-                        <MenuItem value="ICICI">ICICI</MenuItem>
-                        <MenuItem value="SBI">State Bank of India</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={5}>
-                    <TextField fullWidth label="Payment Account" />
-                  </Grid>
-  
-                  <Grid item xs={2}>
-                    {payment.id > 1 && (
+            <Box
+              mt={3}
+              p={2}
+              sx={{ border: "1px solid #ccc", borderRadius: 2 }}
+            >
+              {formData.payment.map((payment, paymentIndex) => (
+                <>
+                  <Grid container spacing={2} mt={1}>
+                    <Grid item sx={2}>
                       <Button
-                        variant="outlined"
+                        variant="contained"
                         color="primary"
-                        onClick={() => removePayment(payment.id)}
+                        onClick={addPayment}
                       >
-                        Remove
+                        Add Payment
                       </Button>
+                    </Grid>
+                    {paymentIndex > 0 && (
+                      <Grid item sx={2}>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          onClick={() => removePayment(paymentIndex)}
+                        >
+                          Remove Payment
+                        </Button>
+                      </Grid>
                     )}
                   </Grid>
-                </Grid>
+                  <Grid
+                    container
+                    spacing={2}
+                    key={payment.id}
+                    alignItems="center"
+                    sx={{ marginTop: ".5rem" }}
+                  >
+                    <Grid item xs={6}>
+                      <PaymentInput
+                        label="Payment Account"
+                        value={
+                          formData.payment?.[paymentIndex]?.paymentAccount ||
+                          null
+                        }
+                        branchId={formData?.branch?.value}
+                        onChange={(selectAccount) =>
+                          handlePaymentChange(paymentIndex, selectAccount)
+                        }
+                        error={
+                          !!(
+                            errors &&
+                            errors.payment &&
+                            errors.payment[paymentIndex] &&
+                            errors.payment[paymentIndex].paymentAccount
+                          ) || ""
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        fullWidth
+                        label="Payment Amount"
+                        value={
+                          formData.payment?.[paymentIndex]?.paymentAmount || ""
+                        }
+                        onChange={(e) =>
+                          handlePaymentAmountChange(
+                            paymentIndex,
+                            e.target.value
+                          )
+                        }
+                        type="number"
+                        error={
+                          (errors &&
+                            errors.payment &&
+                            errors.payment[paymentIndex] &&
+                            errors.payment[paymentIndex].paymentAmount) ||
+                          ""
+                        }
+                        helperText={
+                          (errors &&
+                            errors.payment &&
+                            errors.payment[paymentIndex] &&
+                            errors.payment[paymentIndex].paymentAmount) ||
+                          ""
+                        }
+                      />
+                    </Grid>
+                  </Grid>
+                </>
               ))}
-              <Box mt={2}>
-                <Button variant="contained" color="primary" onClick={addPayment}>
-                  Add Payment
-                </Button>
-              </Box>
-            </Box> */}
+            </Box>
 
             <Box mt={2} display="flex" justifyContent="end" gap={2}>
               <Button

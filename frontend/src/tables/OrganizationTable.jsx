@@ -91,9 +91,9 @@ const OrganizationTable = () => {
       flex: 2,
       renderCell: (params) => (
         <>
-          <IconButton onClick={() => handleOpen(params.row)}>
+          {/* <IconButton onClick={() => handleOpen(params.row)}>
             <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton>
+          </IconButton> */}
           <Link to={`/organizationForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />

@@ -174,10 +174,19 @@ const AccountPage = () => {
                             variant="body2"
                             fontWeight="bold"
                             display="inline"
+                            sx={{
+                              fontSize: "1rem",
+                            }}
                           >
-                            Acc. Name: :
+                            Acc. Name:
                           </Typography>
-                          <Typography variant="body2" display="inline">
+                          <Typography
+                            variant="body2"
+                            display="inline"
+                            sx={{
+                              fontSize: "1rem",
+                            }}
+                          >
                             {option.accountName}
                           </Typography>
                         </Box>
@@ -188,10 +197,22 @@ const AccountPage = () => {
                             variant="body2"
                             fontWeight="bold"
                             display="inline"
+                            sx={{
+                              color: option.balance > 0 ? "Green" : "Red",
+                              fontSize: "1rem",
+                            }}
                           >
                             Balance:
                           </Typography>
-                          <Typography variant="body2" display="inline">
+                          <Typography
+                            variant="body2"
+                            display="inline"
+                            sx={{
+                              paddingLeft:"0.5rem",
+                              color: option.balance > 0 ? "Green" : "Red",
+                              fontSize: "1rem",
+                            }}
+                          >
                             {option.balance}
                           </Typography>
                         </Box>

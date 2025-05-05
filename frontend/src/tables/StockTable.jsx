@@ -99,8 +99,8 @@ const StockTable = ({ searchTerm }) => {
       flex: 2,
       renderCell: (params) => (
         <>
-          {(loginUser && loginUser.role === "admin" ||
-          params?.row?.branchName === loginUser?.orgBranch?.branchName) && (
+          {((loginUser && loginUser.role === "admin") ||
+            params?.row?.branchName === loginUser?.orgBranch?.branchName) && (
             <>
               <Link to={`/stockForm/${params.row.id}`}>
                 <IconButton>
@@ -147,7 +147,7 @@ const StockTable = ({ searchTerm }) => {
     { field: "branchName", headerName: "Branch Name", flex: 1.5 },
     { field: "totalAmount", headerName: "Stock Amount", flex: 1.5 },
     { field: "expenseAmount", headerName: "Expenses Amount", flex: 1.5 },
-    // { field: "total", headerName: "Total", flex: 1.5 },
+    { field: "total", headerName: "Total", flex: 1.5 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -161,7 +161,9 @@ const StockTable = ({ searchTerm }) => {
         branchName: stock?.branch?.branchName,
         totalAmount: stock?.totalAmount || "N/A",
         expenseAmount: stock?.expenseAmount || "N/A",
-        // total: stock?.total || "N/A",
+        total: stock?.expenseAmount
+          ? stock?.totalAmount + stock?.expenseAmount
+          : stock?.totalAmount || "N/A",
       }))
     : [];
 

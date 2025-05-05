@@ -69,7 +69,6 @@ const CustomerInput = ({
       } else if (branchId) {
         if (field === "all") {
           console.log("getCustomerByBranch");
-          
           apiPath = `getCustomerByBranch/${branchId}`;
         } else if (field === "stock") {
           console.log("getBuyerByBranch");

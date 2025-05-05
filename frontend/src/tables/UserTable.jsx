@@ -86,14 +86,16 @@ const UserTable = () => {
       width: 150,
       renderCell: (params) => (
         <>
-          <IconButton onClick={() => handleOpen(params.row)}>
+          {/* <IconButton onClick={() => handleOpen(params.row)}>
             <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton>
+          </IconButton> */}
+          
           <Link to={`/userForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
             </IconButton>
           </Link>
+
           <IconButton onClick={() => openDeleteDialog(params.row.id)}>
             <DeleteIcon sx={{ color: "#6c5ce7" }} />
           </IconButton>
