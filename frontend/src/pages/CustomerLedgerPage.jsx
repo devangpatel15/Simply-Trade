@@ -15,6 +15,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import OrgInput from "../components/common/OrgInput";
 import CustomerInput from "../components/common/CustomerInput";
 import axios from "axios";
+import OrgBranchInput from "../components/common/OrgBranchInput";
 const CustomerLedgerPage = () => {
   const [selectedOrganization, setSelectedOrganization] = React.useState(null);
   const [selectedBranch, setSelectedBranch] = React.useState(null);
@@ -33,7 +34,7 @@ const CustomerLedgerPage = () => {
         const parsedData = JSON.parse(userData);
         setSelectedBranch({
           label: parsedData?.orgBranch?.branchName,
-          value: parsedData.orgBranch._id,
+          value: parsedData.orgBranch?._id,
         });
       } catch (error) {
         console.error("Error parsing user data:", error);
