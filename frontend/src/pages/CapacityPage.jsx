@@ -1,4 +1,4 @@
-
+import { useEffect, useState } from "react";
 import { getAllCapacity } from "../apis/CapacityApi";
 import CapacityTable from "../tables/CapacityTable";
 
@@ -17,14 +17,7 @@ const CapacityPage = () => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({});
 
-
-  return (
-   
-
-          <CapacityTable capacity = {capacity} callApi = {callApi}/>
-
-         
-  );
+  return <CapacityTable capacity={capacity} callApi={callApi} />;
 };
 
 export default CapacityPage;
