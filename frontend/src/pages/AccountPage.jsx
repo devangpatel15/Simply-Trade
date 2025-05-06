@@ -29,6 +29,8 @@ const AccountPage = () => {
 
   const navigate = useNavigate();
 
+  
+
   const callApi = async () => {
     const response = await getAllAccounts();
     setAccounts(response.data.data);

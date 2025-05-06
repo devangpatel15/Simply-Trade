@@ -131,7 +131,7 @@ const CustomerInput = ({
   return (
     <>
       <Autocomplete
-        // readOnly={pageName == "customerLedger" && !orgId}
+        readOnly={pageName == "customerLedger" && !orgId}
         options={options}
         getOptionLabel={(option) => option.label}
         loading={loading}

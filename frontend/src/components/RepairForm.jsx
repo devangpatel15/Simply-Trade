@@ -98,7 +98,7 @@ const RepairForm = () => {
                   value: parsedData.organization._id,
                 }
               : null,
-            branchName: parsedData?.orgBranch?._id
+            branch: parsedData?.orgBranch?._id
               ? {
                   label: parsedData?.orgBranch?.branchName,
                   value: parsedData.orgBranch._id,
