@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Grid } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import StorefrontIcon from "@mui/icons-material/Storefront";
-import StorefrontRoundedIcon from "@mui/icons-material/StorefrontRounded";
+import StorefrontRoundedIcon from '@mui/icons-material/StorefrontRounded';
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { getProfitLoss } from "../apis/ProfitLossApi";

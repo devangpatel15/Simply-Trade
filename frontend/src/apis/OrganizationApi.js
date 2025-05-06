@@ -1,10 +1,12 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const api_call = import.meta.env.VITE_API_URL
+
 const createOrg = async (formData) => {
   try {
     const response = await axios.post(
-      "http://localhost:4000/api/createOrg",
+      `${api_call}/createOrg`,
       formData,
       {
         headers: {
@@ -23,7 +25,7 @@ const createOrg = async (formData) => {
 const updateOrg = async (formData, id) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/updateOrg/${id}`,
+      `${api_call}/updateOrg/${id}`,
       formData,
       {
         headers: {
@@ -42,7 +44,7 @@ const updateOrg = async (formData, id) => {
 
 const allUserOrg = async (page = 1, limit = 5, search) => {
   try {
-    const response = await axios.get("http://localhost:4000/api/allUserOrg", {
+    const response = await axios.get(`${api_call}/allUserOrg`, {
       params: { page, limit, search }, // Pass page and limit as query parameters
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +62,7 @@ const allUserOrg = async (page = 1, limit = 5, search) => {
 const deleteOrg = async (_id) => {
   try {
     await axios.put(
-      `http://localhost:4000/api/deleteOrg/${_id}`,
+      `${api_call}/deleteOrg/${_id}`,
       {},
       {
         headers: {

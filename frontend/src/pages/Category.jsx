@@ -1,25 +1,5 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { getAllCategory } from "../apis/CategoryApi";
-import DialogBox from "../components/DialogBox";
-import moment from "moment";
-import SearchIcon from "@mui/icons-material/Search";
 import CategoryTable from "../tables/CategoryTable";
 
 const Category = () => {
@@ -34,18 +14,10 @@ const Category = () => {
     callApi();
   }, []);
 
-  const [open, setOpen] = useState(false);
-  const [data, setData] = useState({});
 
-  const handleOpen = (data) => {
-    setData(data);
-    setOpen(true);
-  };
-
-  const handleClose = () => setOpen(false);
 
   return (
-    <CategoryTable/>
+    <CategoryTable />
     // <Box sx={{ display: "flex", marginTop: "4rem" }}>
     //   <Sidebar />
     //   <Box sx={{ flexGrow: 1 }}>

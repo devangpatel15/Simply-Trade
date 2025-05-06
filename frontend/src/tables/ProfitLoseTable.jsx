@@ -4,8 +4,6 @@ import Paper from "@mui/material/Paper";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import OrgInput from "../components/common/OrgInput";
-import OrgBranchInput from "../components/common/OrgBranchInput";
 import { getProfitLoss } from "../apis/ProfitLossApi";
 
 const ProfitLoseTable = () => {

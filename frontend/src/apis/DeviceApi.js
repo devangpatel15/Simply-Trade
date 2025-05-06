@@ -1,9 +1,11 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const api_call = import.meta.env.VITE_API_URL;
+
 const createDevice = async (formData) => {
   try {
-    await axios.post("http://localhost:4000/api/createDevice", formData, {
+    await axios.post(`${api_call}/createDevice`, formData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -16,18 +18,15 @@ const createDevice = async (formData) => {
   }
 };
 
-const getAllDevice = async (page = 1, limit = 5, search ) => {
+const getAllDevice = async (page = 1, limit = 5, search) => {
   try {
-    const response = await axios.get(
-      "http://localhost:4000/api/findAllDevice",
-      {
-        params: { page, limit , search },
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.get(`${api_call}/findAllDevice`, {
+      params: { page, limit, search },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log(error, "Get Device error");
@@ -37,15 +36,12 @@ const getAllDevice = async (page = 1, limit = 5, search ) => {
 
 const getOneDevice = async (id) => {
   try {
-    const response = await axios.get(
-      `http://localhost:4000/api/findOneDevice/${id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.get(`${api_call}/findOneDevice/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log(error, "GetOne Device error");
@@ -54,7 +50,7 @@ const getOneDevice = async (id) => {
 
 const updateDevice = async (formData, id) => {
   try {
-    await axios.put(`http://localhost:4000/api/updateDevice/${id}`, formData, {
+    await axios.put(`${api_call}/updateDevice/${id}`, formData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -70,7 +66,7 @@ const updateDevice = async (formData, id) => {
 const deleteDevice = async (_id) => {
   try {
     await axios.put(
-      `http://localhost:4000/api/deleteDevice/${_id}`,
+      `${api_call}/deleteDevice/${_id}`,
       {},
       {
         headers: {

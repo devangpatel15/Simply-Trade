@@ -1,11 +1,13 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const api_call = import.meta.env.VITE_API_URL
+
 const createOrgBranch = async (formData) => {
   try {
     console.log(formData);
     const response = await axios.post(
-      "http://localhost:4000/api/createOrganizationBranch",
+      `${api_call}/createOrganizationBranch`,
       formData,
       {
         headers: {
@@ -25,7 +27,7 @@ const createOrgBranch = async (formData) => {
 const getAllUserOrgBranch = async (page = 1, limit = 5, search) => {
   try {
     const response = await axios.get(
-      "http://localhost:4000/api/findAllUserOrganizationBranch",
+      `${api_call}/findAllUserOrganizationBranch`,
       {
         params: { page, limit, search  },
         headers: {
@@ -43,7 +45,7 @@ const getAllUserOrgBranch = async (page = 1, limit = 5, search) => {
 const updateOrgBranch = async (formData, id) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/updateOrganizationBranch/${id}`,
+      `${api_call}/updateOrganizationBranch/${id}`,
       formData,
       {
         headers: {
@@ -63,7 +65,7 @@ const updateOrgBranch = async (formData, id) => {
 const deleteOrgBranch = async (_id) => {
   try {
     await axios.put(
-      `http://localhost:4000/api/deleteOrganizationBranch/${_id}`,
+      `${api_call}/deleteOrganizationBranch/${_id}`,
       {},
       {
         headers: {
@@ -82,7 +84,7 @@ const deleteOrgBranch = async (_id) => {
 const getOrgBranch = async (id) => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/selectOrganizationBranch/${id}`,
+      `${api_call}/selectOrganizationBranch/${id}`,
       {
         headers: {
           "Content-Type": "application/json",

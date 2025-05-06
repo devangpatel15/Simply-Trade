@@ -103,7 +103,7 @@ const SigninForm = () => {
           onChange={handleChange}
         />
 
-        <FormControlLabel
+        {/* <FormControlLabel
           control={
             <Checkbox
               name="rememberMe"
@@ -113,7 +113,7 @@ const SigninForm = () => {
           }
           label="Remember Me"
           sx={{ display: "flex", justifyContent: "center" }}
-        />
+        /> */}
 
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
           Sign In

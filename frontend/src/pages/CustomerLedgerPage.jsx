@@ -5,17 +5,14 @@ import {
   Box,
   Button,
   Grid,
-  InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import CustomerLedgerTable from "../tables/CustomerLedgerTable";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import OrgInput from "../components/common/OrgInput";
-import OrgBranchInput from "../components/common/OrgBranchInput";
 import CustomerInput from "../components/common/CustomerInput";
 import axios from "axios";
 const CustomerLedgerPage = () => {
@@ -23,7 +20,6 @@ const CustomerLedgerPage = () => {
   const [selectedBranch, setSelectedBranch] = React.useState(null);
   const [selectedCustomer, setSelectedCustomer] = React.useState(null);
   const [selectedRadioFilter, setSelectedRadioFilter] = React.useState("all");
-  const [date, setDate] = React.useState([]);
   const [dateRange, setDateRange] = React.useState({
     startDate: "",
     endDate: "",
@@ -60,9 +56,11 @@ const CustomerLedgerPage = () => {
   console.log(selectedRadioFilter, "selectedRadioFilter");
   console.log(selectedOrganization, "selectedOrganization");
 
+  const api_call = import.meta.env.VITE_API_URL
+
   const handleDownload = async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/api/export-ledger`, {
+      const res = await axios.get(`${api_call}/export-ledger`, {
         responseType: "blob",
         headers: { Accept: "application/pdf" },
       });

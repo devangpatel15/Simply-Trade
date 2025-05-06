@@ -1,9 +1,11 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const api_call = import.meta.env.VITE_API_URL
+
 const createCategory = async (formData) => {
   try {
-    await axios.post("http://localhost:4000/api/createCategory", formData, {
+    await axios.post(`${api_call}/createCategory`, formData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -18,7 +20,7 @@ const createCategory = async (formData) => {
 
 const getAllCategory = async (page = 1, limit = 5, search) => {
   try {
-    const response = await axios.get("http://localhost:4000/api/allCategory", {
+    const response = await axios.get(`${api_call}/allCategory`, {
       params: { page, limit, search  },
       headers: {
         "Content-Type ": "application/json",
@@ -35,7 +37,7 @@ const getAllCategory = async (page = 1, limit = 5, search) => {
 const getOneCategory = async (id) => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/category/${id}`,
+      `${api_call}/category/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +54,7 @@ const getOneCategory = async (id) => {
 const deleteCategory = async (id) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/deleteCategory/${id}`,
+      `${api_call}/deleteCategory/${id}`,
       {},
       {
         headers: {
@@ -71,7 +73,7 @@ const deleteCategory = async (id) => {
 const updateCategory = async (formData, id) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/updateCategory/${id}`,
+      `${api_call}/updateCategory/${id}`,
       formData,
       {
         headers: {
@@ -91,7 +93,7 @@ const updateCategory = async (formData, id) => {
 const getBranchCategory = async (branchId) => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/selectCategoryByBranch/${branchId}`,
+      `${api_call}/selectCategoryByBranch/${branchId}`,
       {
         headers: {
           "Content-Type": "application/json",

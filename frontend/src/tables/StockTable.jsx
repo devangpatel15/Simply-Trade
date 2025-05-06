@@ -9,7 +9,6 @@ import DeleteDialog from "../components/DeleteDialog";
 import { deleteStock, getAllStocks } from "../apis/StockApi";
 import StockDialog from "../components/StockDialog";
 import PaymentDialog from "../components/PaymentDialog";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import MobileFriendlyIcon from "@mui/icons-material/MobileFriendly";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import noDataImage from "../assets/Group 18992.png";
@@ -21,7 +20,6 @@ const StockTable = ({ searchTerm }) => {
   const [data, setData] = useState({});
   const [paymentDialog, setPaymentDialog] = React.useState(false);
   const [stock, setStock] = React.useState([]);
-  const [payment, setPayment] = React.useState([]);
   const [totalRows, setTotalRows] = useState(0);
   const [deleteOpen, setDeleteOpen] = useState(false);
 

@@ -1,9 +1,11 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const api_call = import.meta.env.VITE_API_URL;
+
 const createCapacity = async (formData) => {
   try {
-    await axios.post("http://localhost:4000/api/createCapacity", formData, {
+    await axios.post(`${api_call}/createCapacity`, formData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -18,14 +20,14 @@ const createCapacity = async (formData) => {
 
 const getAllCapacity = async (page = 1, limit = 5, search) => {
   try {
-    const response = await axios.get("http://localhost:4000/api/allCapacity", {
-      params: { page, limit , search },
+    const response = await axios.get(`${api_call}/allCapacity`, {
+      params: { page, limit, search },
       headers: {
         "Content-Type ": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    
+
     return response.data;
   } catch (error) {
     console.log(error, "get Capacity error");
@@ -36,7 +38,7 @@ const getAllCapacity = async (page = 1, limit = 5, search) => {
 const updateCapacity = async (formData, id) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/updateCapacity/${id}`,
+      `${api_call}/updateCapacity/${id}`,
       formData,
       {
         headers: {
@@ -56,7 +58,7 @@ const updateCapacity = async (formData, id) => {
 const deleteCapacity = async (id) => {
   try {
     const response = await axios.put(
-      `http://localhost:4000/api/deleteCapacity/${id}`,
+      `${api_call}/deleteCapacity/${id}`,
       {},
       {
         headers: {
@@ -75,15 +77,12 @@ const deleteCapacity = async (id) => {
 
 const getOneCapacity = async (id) => {
   try {
-    const response = await axios.get(
-      `http://localhost:4000/api/capacity/${id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.get(`${api_call}/capacity/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log(error, "GetOne Device error");

@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Grid } from "@mui/material";
 import sideImage from "../assets/Group 18754.png";
 import Logo from "../components/Logo";
-import SignupForm from "../components/SignupForm";
 import SigninForm from "../components/SignInForm";
 
 const SignInPage = () => {
