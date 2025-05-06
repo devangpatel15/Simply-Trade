@@ -118,7 +118,7 @@ exports.selectAccountByBranch = async (req, res) => {
     const branchId = req.query.branchId;
     const orgText = req?.query?.text || "";
 
-    console.log(branchId, "branchid");
+    // console.log(branchId, "branchid");
 
     // console.log("catID", catId);
     const accountData = await selectAccountServices(branchId, orgText);

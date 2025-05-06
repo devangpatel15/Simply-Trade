@@ -51,7 +51,7 @@ exports.createExpenseService = async (
   date,
   description
 ) => {
-  console.log(stock);
+  // console.log(stock);
   const createExpense = await Expense.create(newEx);
   const updateStock = await Stock.findByIdAndUpdate(
     stock,
@@ -88,7 +88,7 @@ exports.updateExpenseService = async (exId, ex, stock, amount) => {
 
   console.log("updatedExpense", updatedExpense);
 
-  console.log("exx", ex);
+  // console.log("exx", ex);
 
   return { updatedExpense, updatedStock };
 };

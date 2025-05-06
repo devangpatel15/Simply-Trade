@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
-  CardHeader,
-  Avatar,
   Typography,
   IconButton,
-  Grid,
   TextField,
   Button,
   Box,
@@ -19,8 +16,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteDialog from "../components/DeleteDialog";
 import { deleteAccount, getAllAccounts } from "../apis/AccountApi";

@@ -36,15 +36,12 @@ import CategoryIcon from "@mui/icons-material/Category";
 import DevicesIcon from "@mui/icons-material/Devices";
 import ColorizeIcon from "@mui/icons-material/Colorize";
 import OnDeviceTrainingIcon from "@mui/icons-material/OnDeviceTraining";
-import InventoryIcon from "@mui/icons-material/Inventory";
 import StorageIcon from "@mui/icons-material/Storage";
 import ArticleIcon from "@mui/icons-material/Article";
 import PersonIcon from "@mui/icons-material/Person";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
-import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
-import RestorePageIcon from "@mui/icons-material/RestorePage";
 import BuildIcon from "@mui/icons-material/Build";
 import MobileFriendlyIcon from "@mui/icons-material/MobileFriendly";
 
