@@ -168,7 +168,7 @@ const SellTable = () => {
         <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
           SELL DEVICES
         </Typography>
-        <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
+        <Box display="flex" gap={2} width={"40%"} alignContent={"center"}>
           <TextField
             fullWidth
             type="date"
@@ -205,7 +205,7 @@ const SellTable = () => {
               shrink: true,
             }}
           />
-          <TextField
+          {/* <TextField
             variant="outlined"
             placeholder="Search"
             size="medium"
@@ -219,7 +219,7 @@ const SellTable = () => {
                 </InputAdornment>
               ),
             }}
-          />
+          /> */}
           {/* <Button
                 variant="outlined"
                 sx={{
