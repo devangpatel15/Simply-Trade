@@ -26,19 +26,18 @@ const AccountPage = () => {
   const [accounts, setAccounts] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [accountId, setAccountId] = useState("");
+  const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
 
-  
-
   const callApi = async () => {
-    const response = await getAllAccounts();
+    const response = await getAllAccounts(search);
     setAccounts(response.data.data);
   };
 
   useEffect(() => {
     callApi();
-  }, []);
+  }, [search]);
 
   const handleClick = (event, id) => {
     setAnchorEl(event.currentTarget);
@@ -66,6 +65,10 @@ const AccountPage = () => {
     setDeleteOpen(false);
   };
 
+  const handleSearch = async (e) => {
+    setSearch(e.target.value);
+  };
+
   return (
     <Box>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -77,6 +80,8 @@ const AccountPage = () => {
             variant="outlined"
             placeholder="Search"
             size="small"
+            value={search}
+            onChange={handleSearch}
             sx={{ backgroundColor: "white", borderRadius: 1 }}
             InputProps={{
               startAdornment: (
