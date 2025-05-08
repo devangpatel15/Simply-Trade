@@ -1,13 +1,6 @@
 import * as React from "react";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
-import {
-  Box,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import CustomerLedgerTable from "../tables/CustomerLedgerTable";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -32,10 +25,15 @@ const CustomerLedgerPage = () => {
     if (userData) {
       try {
         const parsedData = JSON.parse(userData);
-        setSelectedBranch({
-          label: parsedData?.orgBranch?.branchName,
-          value: parsedData.orgBranch?._id,
-        });
+
+        if (parsedData.role == "user") {
+          setSelectedBranch({
+            label: parsedData?.orgBranch?.branchName,
+            value: parsedData.orgBranch?._id,
+          });
+        } else {
+          setSelectedBranch(null);
+        }
       } catch (error) {
         console.error("Error parsing user data:", error);
       }
@@ -54,10 +52,8 @@ const CustomerLedgerPage = () => {
     setSelectedOrganization(null);
     setSelectedRadioFilter(e.target.value);
   };
-  console.log(selectedRadioFilter, "selectedRadioFilter");
-  console.log(selectedOrganization, "selectedOrganization");
 
-  const api_call = import.meta.env.VITE_API_URL
+  const api_call = import.meta.env.VITE_API_URL;
 
   const handleDownload = async () => {
     try {
@@ -188,7 +184,6 @@ const CustomerLedgerPage = () => {
               <FormControlLabel value="sell" control={<Radio />} label="Sell" />
               <FormControlLabel
                 value="repair"
-                // disabled
                 control={<Radio />}
                 label="Repair"
               />
