@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import { allSellStockRepair } from "../apis/SellApi";
+import moment from "moment";
 
 const CustomerLedgerTable = ({
   selectedOrganization,
@@ -79,6 +80,7 @@ const CustomerLedgerTable = ({
     { field: "totalAmount", headerName: "Total Amount", flex: 2 },
     { field: "paidToCustomer", headerName: "Paid Amount", flex: 2 },
     { field: "remainingAmount", headerName: "Remaining Amount", flex: 2 },
+    { field: "createdAt", headerName: "Date", flex: 2 },
   ];
 
   let rows;
@@ -92,6 +94,7 @@ const CustomerLedgerTable = ({
           totalAmount: stock.totalAmount,
           paidToCustomer: stock.paidToCustomer,
           remainingAmount: stock.remainingAmount,
+          createdAt: moment(stock.createdAt).format("DD-MM-YYYY"),
         }))
       : [];
   }
@@ -118,6 +121,7 @@ const CustomerLedgerTable = ({
             ? stock.customerPaid
             : "--",
           remainingAmount: stock.remainingAmount ? stock.remainingAmount : "--",
+          createdAt: moment(stock.createdAt).format("DD-MM-YYYY"),
         }))
       : [];
   } else if (selectedRadioFilter == "stock") {
@@ -132,6 +136,7 @@ const CustomerLedgerTable = ({
           totalAmount: stock.totalAmount,
           paidToCustomer: stock.paidToCustomer,
           remainingAmount: stock.remainingAmount,
+          createdAt: moment(stock.createdAt).format("DD-MM-YYYY"),
         }))
       : [];
   } else if (selectedRadioFilter == "sell") {
@@ -146,6 +151,7 @@ const CustomerLedgerTable = ({
           totalAmount: stock.amount,
           paidToCustomer: stock.customerPaid,
           remainingAmount: stock.remainingAmount,
+          createdAt: moment(stock.createdAt).format("DD-MM-YYYY"),
         }))
       : [];
   } else if (selectedRadioFilter == "repair") {
@@ -160,6 +166,7 @@ const CustomerLedgerTable = ({
           totalAmount: stock.amount,
           paidToCustomer: stock.paidToCustomer || "--",
           remainingAmount: stock.remainingAmount || "--",
+          createdAt: moment(stock.createdAt).format("DD-MM-YYYY"),
         }))
       : [];
   }
