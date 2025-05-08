@@ -16,9 +16,7 @@ const CustomerInput = ({
   field,
   pageName,
 }) => {
-  console.log(branchId, "branchId cus");
-  console.log(orgId, "orgId cus");
-  console.log(field, "field cus");
+ 
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);

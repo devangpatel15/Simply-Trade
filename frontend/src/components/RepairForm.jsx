@@ -225,7 +225,6 @@ const RepairForm = () => {
   };
 
   const handleDeviceChange = (index, field, value) => {
-    console.log("hii");
     const updatedDevices = [...formData.device];
     updatedDevices[index][field] = value;
     setFormData((prev) => ({
@@ -305,7 +304,7 @@ const RepairForm = () => {
             <OrgBranchInput
               role={loggedUserData.role == "admin" ? "admin" : "user"}
               onChange={handleOrganizationBranchChange}
-              value={formData.branchName || null}
+              value={formData.branch || null}
               selectedOrganization={selectedOrganization}
               // error={errors.branch}
             />
@@ -317,6 +316,7 @@ const RepairForm = () => {
               value={formData.customerName}
               branchId={formData?.branch?.value}
               error={errors.customerName}
+              filed="sell"
             />
           </Grid>
           <Grid item xs={6}>
