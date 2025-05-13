@@ -207,7 +207,7 @@ const CustomerLedgerPage = () => {
                 branchId={selectedBranch?.value}
                 value={selectedCustomer}
                 field={selectedRadioFilter}
-                pageName="customerLedger"
+                role="user"
               />
             ) : (
               <CustomerInput
@@ -215,7 +215,7 @@ const CustomerLedgerPage = () => {
                 orgId={selectedOrganization}
                 value={selectedCustomer}
                 field={selectedRadioFilter}
-                pageName="customerLedger"
+                role="admin"
               />
             )}
           </Grid>
