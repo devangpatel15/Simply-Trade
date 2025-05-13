@@ -189,7 +189,7 @@ const StockTable = ({ searchTerm }) => {
 
   return (
     <>
-      <Paper sx={{ height: 400, width:"100%", marginTop: "2rem" }}>
+      <Paper sx={{ height: 400, width:"90rem", marginTop: "2rem" ,overflowX:"auto",position:"fixed",justifyContent:"space-around"}}>
         <DataGrid
           rows={rows}
           columns={columns}
