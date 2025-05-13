@@ -14,9 +14,8 @@ const CustomerInput = ({
   error,
   orgId,
   field,
-  pageName,
+  role,
 }) => {
- 
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -66,8 +65,8 @@ const CustomerInput = ({
         }
       } else if (branchId) {
         if (field === "all") {
-          console.log("getCustomerByBranch");
           apiPath = `getCustomerByBranch/${branchId}`;
+          console.log("getCustomerByBranch");
         } else if (field === "stock") {
           console.log("getBuyerByBranch");
           apiPath = `getBuyerByBranch/${branchId}`;
@@ -112,7 +111,7 @@ const CustomerInput = ({
         setLoading(false);
       }
     }, 500),
-    [branchId, orgId,field]
+    [branchId, orgId, field]
   );
 
   // Fetch organizations when inputValue changes
@@ -124,12 +123,12 @@ const CustomerInput = ({
         fetchOrganizations(""); // Load default options
       }
     }
-  }, [inputValue, branchId, orgId,field]);
+  }, [inputValue, branchId, orgId, field]);
 
   return (
     <>
       <Autocomplete
-        readOnly={pageName == "customerLedger" && !orgId}
+        readOnly={role == "admin" && !orgId}
         options={options}
         getOptionLabel={(option) => option.label}
         loading={loading}
