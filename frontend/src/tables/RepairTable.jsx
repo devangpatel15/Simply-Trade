@@ -92,7 +92,7 @@ const RepairTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex: 2,
+      width:163,
       renderCell: (params) => (
         <>
           {/* <IconButton onClick={() => handleOpen(params.row)}>
@@ -109,15 +109,15 @@ const RepairTable = () => {
         </>
       ),
     },
-    { field: "organization", headerName: "Organization", flex: 2 },
-    { field: "branch", headerName: "Branch", flex: 2 },
-    { field: "customerName", headerName: "customerName", flex: 2 },
-    { field: "email", headerName: "email", flex: 2 },
-    { field: "modelName", headerName: "modelName", flex: 2 },
-    { field: "deviceName", headerName: "deviceName", flex: 2 },
-    { field: "amount", headerName: "Amount", flex: 2 },
-    { field: "date", headerName: "Date", flex: 2 },
-    { field: "status", headerName: "status", flex: 2 },
+    { field: "organization", headerName: "Organization", width:163 },
+    { field: "branch", headerName: "Branch", width:160 },
+    { field: "customerName", headerName: "customerName", width:163 },
+    { field: "email", headerName: "email", width:168 },
+    { field: "modelName", headerName: "modelName", width:163 },
+    { field: "deviceName", headerName: "deviceName", width:163 },
+    { field: "amount", headerName: "Amount", width:163 },
+    { field: "date", headerName: "Date", width:163 },
+    { field: "status", headerName: "status", width:163 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -193,7 +193,7 @@ const RepairTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+      <Paper sx={{ height: "auto", width: "85%", marginTop: "2rem",overflow: "auto",position:"fixed" }}>
         <DataGrid
           rows={rows}
           columns={columns}

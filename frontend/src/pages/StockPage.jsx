@@ -57,7 +57,7 @@ const StockPage = () => {
           </Button>
         </Box>
       </Box>
-      <Box sx={{position:"fixed", overflow:"auto", width:"83%"}}>
+      <Box >
         <StockTable searchTerm={searchTerm} />
       </Box>
     </>

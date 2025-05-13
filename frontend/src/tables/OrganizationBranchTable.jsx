@@ -167,7 +167,7 @@ const OrganizationBranchTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+      <Paper sx={{ height: "auto", width: "100%", marginTop: "2rem" }}>
         <DataGrid
           rows={rows}
           columns={columns}

@@ -128,13 +128,13 @@ const SellTable = () => {
     //     </>
     //   ),
     // },
-    { field: "organization", headerName: "Organization", flex: 2 },
-    { field: "organizationBranch", headerName: "Branch", flex: 2 },
-    { field: "model", headerName: "Model", flex: 2 },
-    { field: "device", headerName: "Device", flex: 2 },
-    { field: "purchaseAmount", headerName: "Purchase Amount", flex: 2 },
-    { field: "sellAmount", headerName: "Sell Amount", flex: 2 },
-    { field: "date", headerName: "Date", flex: 2 },
+    { field: "organization", headerName: "Organization", width:233 },
+    { field: "organizationBranch", headerName: "Branch", width:233 },
+    { field: "model", headerName: "Model", width:233 },
+    { field: "device", headerName: "Device", width:233 },
+    { field: "purchaseAmount", headerName: "Purchase Amount", width:233 },
+    { field: "sellAmount", headerName: "Sell Amount", width:233 },
+    { field: "date", headerName: "Date", width:233 },
   ];
 
   const rows = Array.isArray(sellData)
@@ -234,7 +234,7 @@ const SellTable = () => {
               </Button> */}
         </Box>
       </Box>
-      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+      <Paper sx={{ height: "auto", width: "85%", marginTop: "2rem" , overflow: "auto" , position:"fixed"}}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -245,6 +245,7 @@ const SellTable = () => {
           paginationModel={paginationModel}
           pageSizeOptions={[5, 10]}
           sx={{
+            
             border: 0,
             "& .MuiDataGrid-columnHeader": {
               background: "#C4BDFF",

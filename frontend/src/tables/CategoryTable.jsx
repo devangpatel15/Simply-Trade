@@ -82,7 +82,7 @@ const CategoryTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex: 2,
+      width: 408,
       renderCell: (params) => (
         <>
           {/* <IconButton onClick={() => handleOpen(params.row)}>
@@ -99,9 +99,9 @@ const CategoryTable = () => {
         </>
       ),
     },
-    { field: "categoryName", headerName: "Category Name", flex: 2 },
-    { field: "orgId", headerName: "Organization", flex: 2 },
-    { field: "branchName", headerName: "Branch Name", flex: 2 },
+    { field: "categoryName", headerName: "Category Name", width: 408, },
+    { field: "orgId", headerName: "Organization", width: 408, },
+    { field: "branchName", headerName: "Branch Name", width: 408, },
   ];
 
   // Prepare the rows for the DataGrid
@@ -178,7 +178,7 @@ const CategoryTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+      <Paper sx={{ height: "auto", width: "85%", marginTop: "2rem", position: "fixed", overflow: "auto" }}>
         <DataGrid
           rows={rows}
           columns={columns}

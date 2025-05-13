@@ -82,7 +82,7 @@ const UserTable = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 300,
       renderCell: (params) => (
         <>
           {/* <IconButton onClick={() => handleOpen(params.row)}>
@@ -100,10 +100,10 @@ const UserTable = () => {
         </>
       ),
     },
-    { field: "userName", headerName: "User Name", flex: 2 },
-    { field: "email", headerName: "email", flex: 2 },
-    { field: "orgName", headerName: "Org Name", flex: 2 },
-    { field: "branchName", headerName: "Branch Name", flex: 2 },
+    { field: "userName", headerName: "User Name", width:333 },
+    { field: "email", headerName: "email", width:333 },
+    { field: "orgName", headerName: "Org Name", width:333 },
+    { field: "branchName", headerName: "Branch Name", width:333 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -165,7 +165,7 @@ const UserTable = () => {
         </Box>
       </Box>
 
-      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+      <Paper sx={{ height: "auto", width: "85%", marginTop: "2rem",position:"fixed", overflow:"auto" }}>
         <DataGrid
           rows={rows}
           columns={columns}
