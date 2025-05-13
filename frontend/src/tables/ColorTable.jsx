@@ -81,7 +81,7 @@ const ColorTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex: 2,
+      width:272,
       renderCell: (params) => (
         <>
           {/* <IconButton onClick={() => handleOpen(params.row)}>
@@ -98,11 +98,11 @@ const ColorTable = () => {
         </>
       ),
     },
-    { field: "colorName", headerName: "Color Name", flex: 2 },
-    { field: "modelId", headerName: "Model", flex: 2 },
-    { field: "deviceId", headerName: "Device", flex: 2 },
-    { field: "organization", headerName: "Organization", flex: 2 },
-    { field: "branchName", headerName: "Branch", flex: 2 },
+    { field: "colorName", headerName: "Color Name", width:272 },
+    { field: "modelId", headerName: "Model", width:272 },
+    { field: "deviceId", headerName: "Device", width:272 },
+    { field: "organization", headerName: "Organization", width:272 },
+    { field: "branchName", headerName: "Branch", width:272 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -167,7 +167,7 @@ const ColorTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+      <Paper sx={{ height: "auto", width: "85%", marginTop: "2rem", overflow: "auto",position:"fixed" }}>
         <DataGrid
           rows={rows}
           columns={columns}

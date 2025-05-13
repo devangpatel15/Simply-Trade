@@ -94,7 +94,7 @@ const StockTable = ({ searchTerm }) => {
     {
       field: "action",
       headerName: "Action",
-      width: 180,
+      width: 250,
       renderCell: (params) => (
         <>
           {((loginUser && loginUser.role === "admin") ||
@@ -138,14 +138,14 @@ const StockTable = ({ searchTerm }) => {
         </>
       ),
     },
-    { field: "organization", headerName: "organization" ,width:150},
-    { field: "branchName", headerName: "Branch" ,width:150},
-    { field: "categoryId", headerName: "Category", width:150},
-    { field: "modelId", headerName: "Model", width:150 },
-    { field: "deviceId", headerName: "Device" , width:150},
-    { field: "totalAmount", headerName: "Stock Amount", width:150 },
-    { field: "expenseAmount", headerName: "Expenses Amount", width:195 },
-    { field: "total", headerName: "Total" , width:140},
+    { field: "organization", headerName: "organization" ,width:166},
+    { field: "branchName", headerName: "Branch" ,width:166},
+    { field: "categoryId", headerName: "Category", width:166},
+    { field: "modelId", headerName: "Model", width:166 },
+    { field: "deviceId", headerName: "Device" , width:166},
+    { field: "totalAmount", headerName: "Stock Amount", width:166 },
+    { field: "expenseAmount", headerName: "Expenses Amount", width:220 },
+    { field: "total", headerName: "Total" , width:166},
   ];
 
   // Prepare the rows for the DataGrid
@@ -189,7 +189,7 @@ const StockTable = ({ searchTerm }) => {
 
   return (
     <>
-      <Paper sx={{ height: 400, width:"90rem", marginTop: "2rem" ,overflowX:"auto",position:"fixed",justifyContent:"space-around"}}>
+      <Paper sx={{ height: "auto", width:"85%", marginTop: "2rem" ,position:"fixed", overflow:"auto" }}>
         <DataGrid
           rows={rows}
           columns={columns}

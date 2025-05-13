@@ -240,7 +240,7 @@ const ExpenseTable = () => {
         </Box>
         </Box>
       </Box>
-      <Paper sx={{ height: 400, width: "85%", marginTop: "2rem" , position:"fixed" , overflowX:"auto" }}>
+      <Paper sx={{ height: "auto", width: "85%", marginTop: "2rem" , position:"fixed" , overflowX:"auto" }}>
         <DataGrid
           rows={rows}
           columns={columns}

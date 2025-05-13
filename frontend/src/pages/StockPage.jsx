@@ -57,7 +57,7 @@ const StockPage = () => {
           </Button>
         </Box>
       </Box>
-      <Box sx={{ display:"flex" , justifyContent:"space-around"}}>
+      <Box >
         <StockTable searchTerm={searchTerm} />
       </Box>
     </>

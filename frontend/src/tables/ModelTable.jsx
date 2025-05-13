@@ -92,7 +92,7 @@ const ModelTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex: 2,
+      width: 328,
       renderCell: (params) => (
         <>
           {/* <IconButton onClick={() => handleOpen(params.row)}>
@@ -109,10 +109,10 @@ const ModelTable = () => {
         </>
       ),
     },
-    { field: "modelName", headerName: "Model Name", flex: 2 },
-    { field: "categoryId", headerName: "Category", flex: 2 },
-    { field: "organization", headerName: "Organization", flex: 2 },
-    { field: "branchName", headerName: "Branch Name", flex: 2 },
+    { field: "modelName", headerName: "Model Name", width: 326, },
+    { field: "categoryId", headerName: "Category", width: 326, },
+    { field: "organization", headerName: "Organization", width: 326, },
+    { field: "branchName", headerName: "Branch Name", width: 326, },
   ];
 
   // Prepare the rows for the DataGrid
@@ -172,7 +172,7 @@ const ModelTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+      <Paper sx={{ height: "auto", width: "85%", marginTop: "2rem",position:"fixed", overflow: "auto" }}>
         <DataGrid
           rows={rows}
           columns={columns}

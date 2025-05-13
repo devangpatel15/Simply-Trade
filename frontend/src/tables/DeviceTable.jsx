@@ -86,7 +86,7 @@ const DeviceTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex: 2,
+      width:272,
       renderCell: (params) => (
         <>
           {/* <IconButton onClick={() => handleOpen(params.row)}>
@@ -103,11 +103,11 @@ const DeviceTable = () => {
         </>
       ),
     },
-    { field: "deviceName", headerName: "Device", flex: 2 },
-    { field: "categoryId", headerName: "Category", flex: 2 },
-    { field: "modelId", headerName: "Model", flex: 2 },
-    { field: "organization", headerName: "Organization", flex: 2 },
-    { field: "branchName", headerName: "Branch Name", flex: 2 },
+    { field: "deviceName", headerName: "Device", width:272 },
+    { field: "categoryId", headerName: "Category", width:272 },
+    { field: "modelId", headerName: "Model", width:272 },
+    { field: "organization", headerName: "Organization", width:272 },
+    { field: "branchName", headerName: "Branch Name", width:272 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -168,7 +168,7 @@ const DeviceTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+      <Paper sx={{ height: "auto", width: "85%", marginTop: "2rem" , position:"fixed", overflow: "auto"}}>
         <DataGrid
           rows={rows}
           columns={columns}
