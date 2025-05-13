@@ -22,7 +22,7 @@ const StockPage = () => {
   };
 
   return (
-    <Box>
+    <>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
           STOCK
@@ -57,9 +57,10 @@ const StockPage = () => {
           </Button>
         </Box>
       </Box>
-
-      <StockTable searchTerm={searchTerm} />
-    </Box>
+      <Box sx={{position:"fixed", overflow:"auto", width:"83%"}}>
+        <StockTable searchTerm={searchTerm} />
+      </Box>
+    </>
   );
 };
 
