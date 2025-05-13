@@ -53,7 +53,8 @@ const Sidebar = () => {
 
   useEffect(() => {
     // Fetch user data from local storage
-    const userData = JSON.parse(localStorage.getItem("user")) || {};
+    const userData = JSON.parse(localStorage.getItem("role")) || {};
+    console.log(userData, "userData");
     if (userData.isLoggedIn || userData.role === "user") {
       setIsMasterVisible(false);
     }
