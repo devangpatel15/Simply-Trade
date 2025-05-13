@@ -141,6 +141,7 @@ const CustomerLedgerPage = () => {
                   ),
                 }}
               /> */}
+              
           <Button
             variant="outlined"
             sx={{
@@ -207,7 +208,7 @@ const CustomerLedgerPage = () => {
                 branchId={selectedBranch?.value}
                 value={selectedCustomer}
                 field={selectedRadioFilter}
-                pageName="customerLedger"
+                pageName="admin"
               />
             ) : (
               <CustomerInput
@@ -215,7 +216,7 @@ const CustomerLedgerPage = () => {
                 orgId={selectedOrganization}
                 value={selectedCustomer}
                 field={selectedRadioFilter}
-                pageName="customerLedger"
+                pageName="user"
               />
             )}
           </Grid>

@@ -13,7 +13,6 @@ const CustomerLedgerTable = ({
   endDate,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
-
   const [stock, setStock] = React.useState([]);
   const [stockData, setStockData] = React.useState([]);
   const [sell, setSell] = React.useState([]);

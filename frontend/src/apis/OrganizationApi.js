@@ -35,7 +35,6 @@ const updateOrg = async (formData, id) => {
       }
     );
     toast.success("Organization updated successfully!");
-    alert(response.data.message);
   } catch (error) {
     toast.error("Organization not updated!");
     console.log(error, "createOrg error");

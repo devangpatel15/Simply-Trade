@@ -1,16 +1,12 @@
 import {
   Box,
   Button,
-  Grid,
   IconButton,
-  InputAdornment,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 import DialogBox from "../components/DialogBox";
 import DeleteDialog from "../components/DeleteDialog";
@@ -51,26 +47,23 @@ const ExpenseTable = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };  
-  console.log(import.meta.env.VITE_API_URL , "API URL");
+  };
+  console.log(import.meta.env.VITE_API_URL, "API URL");
 
-  const api_call = import.meta.env.VITE_API_URL
-  
+  const api_call = import.meta.env.VITE_API_URL;
+
   const fetchExpenses = async () => {
     try {
-      const response = await axios.get(
-        `${api_call}/expenseByDate`,
-        {
-          params: {
-            startDate: dateRange.startDate,
-            endDate: dateRange.endDate,
-          },
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.get(`${api_call}/expenseByDate`, {
+        params: {
+          startDate: dateRange.startDate,
+          endDate: dateRange.endDate,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       setExpense(response.data.data); // ✅ Update the table rows
       setTotalRows(response.data.data.length); // ✅ Optional: update total count
@@ -124,7 +117,7 @@ const ExpenseTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex: 2,
+      width:200,
       renderCell: (params) => (
         <>
           {/* <IconButton onClick={() => handleOpen(params.row)}>
@@ -141,14 +134,14 @@ const ExpenseTable = () => {
         </>
       ),
     },
-    { field: "organization", headerName: "Organization", flex: 2 },
-    { field: "branchName", headerName: "Branch", flex: 2 },
-    { field: "category", headerName: "Category", flex: 2 },
-    { field: "modelName", headerName: "Model", flex: 2 },
-    { field: "deviceName", headerName: "Device", flex: 2 },
-    { field: "description", headerName: "Description", flex: 2 },
-    { field: "amount", headerName: "Amount", flex: 2 },
-    { field: "date", headerName: "Date", flex: 2 },
+    { field: "organization", headerName: "Organization", width:176 },
+    { field: "branchName", headerName: "Branch", width:176 },
+    { field: "category", headerName: "Category", width:176 },
+    { field: "modelName", headerName: "Model", width:176 },
+    { field: "deviceName", headerName: "Device", width:176 },
+    { field: "description", headerName: "Description", width:200 },
+    { field: "amount", headerName: "Amount", width:176 },
+    { field: "date", headerName: "Date", width:176 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -171,6 +164,7 @@ const ExpenseTable = () => {
   };
 
   return (
+    <>
     <Box>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
@@ -196,7 +190,7 @@ const ExpenseTable = () => {
             InputLabelProps={{
               shrink: true,
             }}
-          />
+            />
 
           <TextField
             fullWidth
@@ -213,7 +207,7 @@ const ExpenseTable = () => {
             InputLabelProps={{
               shrink: true,
             }}
-          />
+            />
 
           {/* <TextField
                 variant="outlined"
@@ -223,11 +217,11 @@ const ExpenseTable = () => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SearchIcon sx={{ color: "#6c5ce7" }} />
+                    <SearchIcon sx={{ color: "#6c5ce7" }} />
                     </InputAdornment>
-                  ),
-                }}
-              /> */}
+                    ),
+                    }}
+                    /> */}
           <Button
             variant="outlined"
             sx={{
@@ -240,12 +234,13 @@ const ExpenseTable = () => {
             }}
             component={Link}
             to="/expenseForm"
-          >
+            >
             Add Expense
           </Button>
         </Box>
+        </Box>
       </Box>
-      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+      <Paper sx={{ height: 400, width: "85%", marginTop: "2rem" , position:"fixed" , overflowX:"auto" }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -266,20 +261,20 @@ const ExpenseTable = () => {
               fontSize: "1.2rem",
             },
           }}
-        />
+          />
         {/* <Button
               sx={{
                 backgroundColor: "#6c5ce7",
                 color: "white",
                 marginTop: "1rem",
                 marginLeft: "1rem",
-              }}
-              variant="contained"
-              component={Link}
-              to="/stockPage"
-            >
-              StockPage
-            </Button> */}
+                }}
+                variant="contained"
+                component={Link}
+                to="/stockPage"
+                >
+                StockPage
+                </Button> */}
       </Paper>
 
       <DialogBox
@@ -288,14 +283,14 @@ const ExpenseTable = () => {
         data={data}
         callApi={callApi}
         fieldName="expenseForm"
-      />
+        />
       <DeleteDialog
         deleteOpen={deleteOpen}
         handleClose={handleClose}
         handleDelete={handleDelete}
         closeDeleteDialog={closeDeleteDialog}
-      />
-    </Box>
+        />
+        </>
   );
 };
 

@@ -11,12 +11,9 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 import { createRepair, getOneRepair, updateRepair } from "../apis/RepairApi";

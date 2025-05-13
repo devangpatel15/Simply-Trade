@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Grid } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import StorefrontRoundedIcon from '@mui/icons-material/StorefrontRounded';
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
+import StorefrontRoundedIcon from "@mui/icons-material/StorefrontRounded";
 import { getProfitLoss } from "../apis/ProfitLossApi";
 
 const DashboardPage = () => {
@@ -32,7 +30,7 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
-    callApi();
+    callApi();  
   }, []);
 
   return (
