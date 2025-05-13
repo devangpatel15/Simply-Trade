@@ -94,7 +94,7 @@ const StockTable = ({ searchTerm }) => {
     {
       field: "action",
       headerName: "Action",
-      flex: 2,
+      width: 180,
       renderCell: (params) => (
         <>
           {((loginUser && loginUser.role === "admin") ||
@@ -138,14 +138,14 @@ const StockTable = ({ searchTerm }) => {
         </>
       ),
     },
-    { field: "organization", headerName: "organization", flex: 1.5 },
-    { field: "branchName", headerName: "Branch Name", flex: 1.5 },
-    { field: "categoryId", headerName: "Category", flex: 1.5 },
-    { field: "modelId", headerName: "Model", flex: 1.5 },
-    { field: "deviceId", headerName: "Device", flex: 1.5 },
-    { field: "totalAmount", headerName: "Stock Amount", flex: 1.5 },
-    { field: "expenseAmount", headerName: "Expenses Amount", flex: 1.5 },
-    { field: "total", headerName: "Total", flex: 1.5 },
+    { field: "organization", headerName: "organization" ,width:150},
+    { field: "branchName", headerName: "Branch" ,width:150},
+    { field: "categoryId", headerName: "Category", width:150},
+    { field: "modelId", headerName: "Model", width:150 },
+    { field: "deviceId", headerName: "Device" , width:150},
+    { field: "totalAmount", headerName: "Stock Amount", width:150 },
+    { field: "expenseAmount", headerName: "Expenses Amount", width:195 },
+    { field: "total", headerName: "Total" , width:140},
   ];
 
   // Prepare the rows for the DataGrid
@@ -188,8 +188,8 @@ const StockTable = ({ searchTerm }) => {
   };
 
   return (
-    <div>
-      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+    <>
+      <Paper sx={{ height: 400, width:"100%", marginTop: "2rem" }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -203,6 +203,7 @@ const StockTable = ({ searchTerm }) => {
             noRowsOverlay: CustomNoRowsOverlay,
           }}
           sx={{
+           
             border: 0,
             "& .MuiDataGrid-columnHeader": {
               background: "#C4BDFF",
@@ -236,7 +237,7 @@ const StockTable = ({ searchTerm }) => {
         handleDelete={handleDelete}
         closeDeleteDialog={closeDeleteDialog}
       />
-    </div>
+    </>
   );
 };
 
