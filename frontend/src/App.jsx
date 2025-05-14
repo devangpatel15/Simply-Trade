@@ -40,6 +40,7 @@ import SellPage from "./pages/SellPage";
 import SellForm from "./components/SellForm";
 import ProfitLoseTable from "./tables/ProfitLoseTable";
 import Layout from "./pages/Layout";
+import ExpenseTable from "./tables/ExpenseTable";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -384,7 +385,7 @@ function App() {
           path="/expensePage"
           element={
             <PrivateRoute>
-              <ExpensePage />
+              <ExpenseTable />
             </PrivateRoute>
           }
         />

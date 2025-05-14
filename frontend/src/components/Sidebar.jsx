@@ -39,16 +39,27 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import BuildIcon from "@mui/icons-material/Build";
+import Layout from "../pages/Layout";
 
 const iconColor = "#5C4E89"; // Custom icon color
 const activeColor = "#E0E0E0"; // Highlight color for selected item
 
-const Sidebar = () => {
+const Sidebar = ({ setIsSidebarMinimized }) => {
+
+
+  // const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
+   const [isMinimized, setIsMinimized] = useState(false);
+
+  const toggleSidebar = () => {
+    const newState = !isMinimized;
+    setIsMinimized(newState);
+    setIsSidebarMinimized(newState); // pass back to Layout
+  };
+
   const navigate = useNavigate();
   const location = useLocation();
 
   const [openMenu, setOpenMenu] = useState({});
-  const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
   const [isMasterVisible, setIsMasterVisible] = useState(true);
 
   useEffect(() => {
@@ -64,9 +75,11 @@ const Sidebar = () => {
     setOpenMenu((prev) => ({ ...prev, [label]: !prev[label] }));
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarMinimized(!isSidebarMinimized);
-  };
+ 
+
+  // const toggleSidebar = () => {
+  //   setIsSidebarMinimized(!isSidebarMinimized);
+  // };
 
   const menuItems = [
     {
@@ -177,10 +190,10 @@ const Sidebar = () => {
     <Drawer
       variant="permanent"
       sx={{
-        width: isSidebarMinimized ? 100 : 240,
+        width: isMinimized ? 100 : 240,
         flexShrink: 0,
         "& .MuiDrawer-paper": {
-          width: isSidebarMinimized ? 100 : 240,
+          width:isMinimized ? 100 : 240,
           boxSizing: "border-box",
           background: "#ffffff",
           color: iconColor,
@@ -198,14 +211,14 @@ const Sidebar = () => {
           alignItems: "center",
           justifyContent: "space-around",
           py: 2,
-          px: isSidebarMinimized ? 1 : 2,
+          px: isMinimized ? 1 : 2,
           position: "sticky",
           top: 0,
           background: "#ffffff",
           zIndex: 1000,
         }}
       >
-        {isSidebarMinimized ? (
+        {isMinimized ? (
           <img
             src={minimizedLogo} // Replace with the path to your minimized logo
             alt="Minimized Logo"
@@ -247,17 +260,17 @@ const Sidebar = () => {
                 <ListItemButton
                   onClick={() => handleToggle(item.label)}
                   sx={{
-                    justifyContent: isSidebarMinimized
+                    justifyContent: isMinimized
                       ? "center"
                       : "flex-start",
                   }}
                 >
                   <ListItemIcon>{item.icon}</ListItemIcon>
-                  {!isSidebarMinimized && <ListItemText primary={item.label} />}
+                  {!isMinimized && <ListItemText primary={item.label} />}
                   {openMenu[item.label] ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
 
-                {isSidebarMinimized ? (
+                {isMinimized ? (
                   // Submenu directly below in minimized state
                   openMenu[item.label] && (
                     <Box sx={{ pl: 2 }}>
@@ -333,7 +346,7 @@ const Sidebar = () => {
                 }}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                {!isSidebarMinimized && <ListItemText primary={item.label} />}
+                {!isMinimized && <ListItemText primary={item.label} />}
               </ListItemButton>
             )
           )}
@@ -346,7 +359,7 @@ const Sidebar = () => {
           display: "flex",
           flexDirection: "column",
           gap: 1,
-          p: isSidebarMinimized ? 1 : 2, // Adjust padding based on sidebar state
+          p: isMinimized ? 1 : 2, // Adjust padding based on sidebar state
           background: "#ffffff",
           position: "sticky",
           bottom: 0,
@@ -355,7 +368,7 @@ const Sidebar = () => {
       >
         <ListItemButton
           sx={{
-            justifyContent: isSidebarMinimized ? "center" : "flex-start",
+            justifyContent: isMinimized ? "center" : "flex-start",
           }}
         >
           <ListItemIcon>
@@ -363,32 +376,34 @@ const Sidebar = () => {
               <Notifications sx={{ color: iconColor }} />
             </Badge>
           </ListItemIcon>
-          {!isSidebarMinimized && <ListItemText primary="Notification" />}
+          {!isMinimized && <ListItemText primary="Notification" />}
         </ListItemButton>
 
         <ListItemButton
           sx={{
-            justifyContent: isSidebarMinimized ? "center" : "flex-start",
+            justifyContent: isMinimized ? "center" : "flex-start",
           }}
         >
           <ListItemIcon>
             <SupportAgent sx={{ color: iconColor }} />
           </ListItemIcon>
-          {!isSidebarMinimized && <ListItemText primary="Support" />}
+          {!isMinimized && <ListItemText primary="Support" />}
         </ListItemButton>
 
         <ListItemButton
           sx={{
-            justifyContent: isSidebarMinimized ? "center" : "flex-start",
+            justifyContent: isMinimized ? "center" : "flex-start",
           }}
         >
           <ListItemIcon>
             <Settings sx={{ color: iconColor }} />
           </ListItemIcon>
-          {!isSidebarMinimized && <ListItemText primary="Settings" />}
+          {!isMinimized && <ListItemText primary="Settings" />}
         </ListItemButton>
       </Box>
     </Drawer>
+
+     
   );
 };
 

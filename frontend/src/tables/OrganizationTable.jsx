@@ -135,7 +135,8 @@ const OrganizationTable = () => {
   // const paginationModel = { page: 0, pageSize: 5 };
 
   return (
-    <Box>
+    
+    <>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
           ORGANIZATIONS
@@ -170,7 +171,7 @@ const OrganizationTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height:"auto", width: "100%", marginTop: "2rem" }}>
+      <Paper sx={{ height:"auto", width: "85%" , position:"fixed" , overflow:"auto" , marginTop:"2rem",}}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -191,7 +192,7 @@ const OrganizationTable = () => {
               fontSize: "1.2rem",
             },
           }}
-        />
+          />
       </Paper>
 
       <DialogBox
@@ -200,14 +201,15 @@ const OrganizationTable = () => {
         data={data}
         callApi={callApi}
         fieldName="organizationForm"
-      />
+        />
       <DeleteDialog
         deleteOpen={deleteOpen}
         handleClose={handleClose}
         handleDelete={handleDelete}
         closeDeleteDialog={closeDeleteDialog}
-      />
-    </Box>
+        />
+        </>
+  
   );
 };
 

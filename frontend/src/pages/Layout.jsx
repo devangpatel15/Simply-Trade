@@ -1,20 +1,34 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { Box } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import { Box } from "@mui/material";
 
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
+  const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
+
   return (
-      <Box sx={{ display: "flex", marginTop: "4rem" }}>
-        <Sidebar />
-        <Box sx={{ flexGrow: 1 }}>
-          <Header />
-          <Box sx={{ padding: 3 }}>
-            {children}
-          </Box>
+    <Box sx={{ display: "flex", marginTop: "4rem" }}>
+      <Sidebar setIsSidebarMinimized={setIsSidebarMinimized} />
+      <Box
+        sx={{
+          // marginLeft: isSidebarMinimized ? "100px" : "240px",
+          transition: "margin-left 0.3s ease",
+          width: `calc(100% - ${isSidebarMinimized ? "100px" : "240px"})`,
+        }}
+      >
+        <Header />
+        <Box
+          sx={{
+            padding: 3,
+            height: "93vh",
+            border: "2px solid red",
+            boxSizing: "border-box",
+          }}
+        >
+          {children}
         </Box>
       </Box>
+    </Box>
   );
 };
 

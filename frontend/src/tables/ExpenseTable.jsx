@@ -25,7 +25,6 @@ const ExpenseTable = () => {
     startDate: "",
     endDate: "",
   });
-
   const [expense, setExpense] = useState([]);
   const [totalRows, setTotalRows] = useState(0);
   const [paginationModel, setPaginationModel] = useState({
@@ -141,7 +140,7 @@ const ExpenseTable = () => {
     { field: "deviceName", headerName: "Device", width:176 },
     { field: "description", headerName: "Description", width:200 },
     { field: "amount", headerName: "Amount", width:176 },
-    { field: "date", headerName: "Date", width:176 },
+    { field: "date", headerName: "Date", flex : 1 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -162,6 +161,8 @@ const ExpenseTable = () => {
     setSearchTerm(event.target.value);
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
+
+ 
 
   return (
     <>
@@ -240,42 +241,42 @@ const ExpenseTable = () => {
         </Box>
         </Box>
       </Box>
-      <Paper sx={{ height: "auto", width: "85%", marginTop: "2rem" , position:"fixed" , overflowX:"auto" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={paginationModel.pageSize}
-          rowCount={totalRows} // Ensure this is set to the total count of records
-          paginationMode="server" // Enable server-side pagination
-          onPaginationModelChange={handlePaginationModelChange}
-          paginationModel={paginationModel}
-          pageSizeOptions={[5, 10]}
-          sx={{
-            border: 0,
-            "& .MuiDataGrid-columnHeader": {
-              background: "#C4BDFF",
-              color: "White",
-            },
-            "& .MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold",
-              fontSize: "1.2rem",
-            },
-          }}
-          />
-        {/* <Button
-              sx={{
-                backgroundColor: "#6c5ce7",
-                color: "white",
-                marginTop: "1rem",
-                marginLeft: "1rem",
-                }}
-                variant="contained"
-                component={Link}
-                to="/stockPage"
-                >
-                StockPage
-                </Button> */}
-      </Paper>
+      {/* <Box sx={{display:"flex"}}>  */}
+
+      <Paper
+  sx={{
+    width: "100%",
+    marginTop: "2rem",
+    overflowX: "auto",
+    boxSizing: "border-box",
+  }}
+>
+  <DataGrid
+    rows={rows}
+    columns={columns}
+    pageSize={paginationModel.pageSize}
+    rowCount={totalRows}
+    paginationMode="server"
+    onPaginationModelChange={handlePaginationModelChange}
+    paginationModel={paginationModel}
+    pageSizeOptions={[5, 10]}
+    sx={{
+      border: 0,
+      minWidth: "100%",
+      "& .MuiDataGrid-columnHeader": {
+        background: "#C4BDFF",
+        // color: "#6d5de7",
+        color: "white",
+      },
+      "& .MuiDataGrid-columnHeaderTitle": {
+        fontWeight: "bold",
+        fontSize: "1.2rem",
+      },
+    }}
+  />
+</Paper>
+
+      {/* </Box> */}
 
       <DialogBox
         handleClose={handleClose}
