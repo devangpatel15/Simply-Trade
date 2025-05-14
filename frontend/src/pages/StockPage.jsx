@@ -31,7 +31,7 @@ const StockPage = () => {
         <Box display="flex" gap={2}>
           <TextField
             variant="outlined"
-            placeholder="Search"
+            placeholder="Search by Model"
             onChange={handleSearchChange}
             size="small"
             sx={{ backgroundColor: "white", borderRadius: 1 }}
