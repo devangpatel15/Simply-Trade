@@ -218,7 +218,7 @@ const CustomerLedgerTable = ({
           </Grid>
         )}
       </Box>
-      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem" }}>
+      <Paper sx={{ height: "auto", width: "100%", marginTop: "2rem", overflowX: "auto",boxSizing: "border-box" }}>
         <DataGrid
           rows={rows}
           columns={columns}

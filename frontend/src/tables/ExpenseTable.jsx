@@ -116,7 +116,7 @@ const ExpenseTable = () => {
     {
       field: "action",
       headerName: "Action",
-      width:200,
+      flex : 1,
       renderCell: (params) => (
         <>
           {/* <IconButton onClick={() => handleOpen(params.row)}>
@@ -133,13 +133,13 @@ const ExpenseTable = () => {
         </>
       ),
     },
-    { field: "organization", headerName: "Organization", width:176 },
-    { field: "branchName", headerName: "Branch", width:176 },
-    { field: "category", headerName: "Category", width:176 },
-    { field: "modelName", headerName: "Model", width:176 },
-    { field: "deviceName", headerName: "Device", width:176 },
-    { field: "description", headerName: "Description", width:200 },
-    { field: "amount", headerName: "Amount", width:176 },
+    { field: "organization", headerName: "Organization", flex : 1 },
+    { field: "branchName", headerName: "Branch", flex : 1 },
+    { field: "category", headerName: "Category", flex : 1 },
+    { field: "modelName", headerName: "Model", flex : 1 },
+    { field: "deviceName", headerName: "Device", flex : 1 },
+    { field: "description", headerName: "Description", flex : 1 },
+    { field: "amount", headerName: "Amount", flex : 1 },
     { field: "date", headerName: "Date", flex : 1 },
   ];
 

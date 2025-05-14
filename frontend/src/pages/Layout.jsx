@@ -21,7 +21,6 @@ const Layout = ({ children }) => {
           sx={{
             padding: 3,
             height: "93vh",
-            border: "2px solid red",
             boxSizing: "border-box",
           }}
         >

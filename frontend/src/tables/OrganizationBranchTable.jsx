@@ -110,7 +110,7 @@ const OrganizationBranchTable = () => {
     { field: "branchName", headerName: "Branch Name", flex: 2 },
     { field: "organization", headerName: "Organization", flex: 2 },
     { field: "email", headerName: "Email", flex: 2 },
-    { field: "telePhone", headerName: "Telephone", flex: 4 },
+    { field: "telePhone", headerName: "Telephone", flex: 2 },
   ];
 
   // Map orgData to rows for the DataGrid

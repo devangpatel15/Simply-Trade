@@ -81,7 +81,7 @@ const ColorTable = () => {
     {
       field: "action",
       headerName: "Action",
-      width:272,
+     flex:1,
       renderCell: (params) => (
         <>
           {/* <IconButton onClick={() => handleOpen(params.row)}>
@@ -98,10 +98,10 @@ const ColorTable = () => {
         </>
       ),
     },
-    { field: "colorName", headerName: "Color Name", width:272 },
-    { field: "modelId", headerName: "Model", width:272 },
-    { field: "deviceId", headerName: "Device", width:272 },
-    { field: "organization", headerName: "Organization", width:272 },
+    { field: "colorName", headerName: "Color Name",flex:1 },
+    { field: "modelId", headerName: "Model",flex:1 },
+    { field: "deviceId", headerName: "Device",flex:1 },
+    { field: "organization", headerName: "Organization",flex:1 },
     { field: "branchName", headerName: "Branch", flex : 1 },
   ];
 

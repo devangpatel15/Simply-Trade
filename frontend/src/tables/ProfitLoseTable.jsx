@@ -270,7 +270,7 @@ const ProfitLoseTable = () => {
               </Grid>
             </Box> */}
 
-      <Paper sx={{ height: 400, width: "100%", padding: 2 }}>
+      <Paper sx={{ height: "auto", width: "100%", padding: 2 , overflowX: "auto",boxSizing: "border-box"}}>
         <DataGrid
           rows={rows}
           columns={columns}
