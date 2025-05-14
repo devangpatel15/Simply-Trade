@@ -77,7 +77,7 @@ const CapacityTable = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 249,
+      flex: 1 ,
       renderCell: (params) => (
         <>
           {/* <IconButton onClick={() => handleOpen(params.row)}>
@@ -94,12 +94,12 @@ const CapacityTable = () => {
         </>
       ),
     },
-    { field: "capacityName", headerName: "Capacity", width: 230, },
-    { field: "categoryId", headerName: "Category", width: 230, },
-    { field: "modelId", headerName: "Model", width: 230, },
-    { field: "deviceId", headerName: "Device", width: 230, },
-    { field: "organization", headerName: "Organization", width: 233, },
-    { field: "branchName", headerName: "Branch", width: 230, },
+    { field: "capacityName", headerName: "Capacity", flex: 1 },
+    { field: "categoryId", headerName: "Category", flex: 1 },
+    { field: "modelId", headerName: "Model", flex: 1 },
+    { field: "deviceId", headerName: "Device", flex: 1 },
+    { field: "organization", headerName: "Organization", flex: 1 },
+    { field: "branchName", headerName: "Branch", flex: 1 },
   ];
 
   const handlePaginationModelChange = (newPaginationModel) => {
@@ -169,7 +169,15 @@ const CapacityTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: "auto", width: "85%", marginTop: "2rem",position:"fixed", overflow: "auto" }}>
+      <Paper
+        sx={{
+          height: "auto",
+          width: "100%",
+          marginTop: "2rem",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}

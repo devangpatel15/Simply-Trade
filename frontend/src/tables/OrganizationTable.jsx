@@ -171,7 +171,7 @@ const OrganizationTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height:"auto", width: "85%" , position:"fixed" , overflow:"auto" , marginTop:"2rem",}}>
+      <Paper sx={{ height:"auto", width: "100%" , overflowX: "auto",boxSizing: "border-box" , marginTop:"2rem",}}>
         <DataGrid
           rows={rows}
           columns={columns}

@@ -245,6 +245,7 @@ const ExpenseTable = () => {
 
       <Paper
   sx={{
+    height: "auto",
     width: "100%",
     marginTop: "2rem",
     overflowX: "auto",

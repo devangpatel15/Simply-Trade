@@ -94,7 +94,7 @@ const StockTable = ({ searchTerm }) => {
     {
       field: "action",
       headerName: "Action",
-      width: 250,
+      flex : 1,
       renderCell: (params) => (
         <>
           {((loginUser && loginUser.role === "admin") ||
@@ -126,7 +126,7 @@ const StockTable = ({ searchTerm }) => {
                 to={
                   location.pathname.includes("stockPage")
                     ? `/stockPage/sellForm/${params.row.id}`
-                    : `/sellForm/${params.row.id}`
+                    : `/sellFoflex : 1ms.row.id}`
                 }
               >
                 <IconButton>
@@ -138,14 +138,14 @@ const StockTable = ({ searchTerm }) => {
         </>
       ),
     },
-    { field: "organization", headerName: "organization" ,width:166},
-    { field: "branchName", headerName: "Branch" ,width:166},
-    { field: "categoryId", headerName: "Category", width:166},
-    { field: "modelId", headerName: "Model", width:166 },
-    { field: "deviceId", headerName: "Device" , width:166},
-    { field: "totalAmount", headerName: "Stock Amount", width:166 },
-    { field: "expenseAmount", headerName: "Expenses Amount", width:220 },
-    { field: "total", headerName: "Total" , width:166},
+    { field: "organization", headerName: "organization" ,flex : 1},
+    { field: "branchName", headerName: "Branch" ,flex : 1},
+    { field: "categoryId", headerName: "Category", flex : 1},
+    { field: "modelId", headerName: "Model", flex : 1 },
+    { field: "deviceId", headerName: "Device" , flex : 1},
+    { field: "totalAmount", headerName: "Stock Amount", flex : 1 },
+    { field: "expenseAmount", headerName: "Expenses Amount", flex : 1 },
+    { field: "total", headerName: "Total" , flex : 1},
   ];
 
   // Prepare the rows for the DataGrid
@@ -189,7 +189,7 @@ const StockTable = ({ searchTerm }) => {
 
   return (
     <>
-      <Paper sx={{ height: "auto", width:"85%", marginTop: "2rem" ,position:"fixed", overflow:"auto" }}>
+      <Paper sx={{ height: "auto", width:"100%", marginTop: "2rem" , overflowX: "auto",boxSizing: "border-box" }}>
         <DataGrid
           rows={rows}
           columns={columns}

@@ -132,7 +132,7 @@ const OrganizationBranchTable = () => {
   // );
 
   return (
-    <Box >
+    <Box>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
           ORGANIZATIONS BRANCH
@@ -167,7 +167,16 @@ const OrganizationBranchTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: "auto", width: "100%", marginTop: "2rem" ,position:"sticky" }}>
+      <Paper
+        sx={{
+          width: "100%",
+          marginTop: "2rem",
+          height: "auto",
+          // position: "sticky",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}

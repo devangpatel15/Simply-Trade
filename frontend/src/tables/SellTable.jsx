@@ -128,13 +128,13 @@ const SellTable = () => {
     //     </>
     //   ),
     // },
-    { field: "organization", headerName: "Organization", width:233 },
-    { field: "organizationBranch", headerName: "Branch", width:233 },
-    { field: "model", headerName: "Model", width:233 },
-    { field: "device", headerName: "Device", width:233 },
-    { field: "purchaseAmount", headerName: "Purchase Amount", width:233 },
-    { field: "sellAmount", headerName: "Sell Amount", width:233 },
-    { field: "date", headerName: "Date", width:233 },
+    { field: "organization", headerName: "Organization", flex : 1 },
+    { field: "organizationBranch", headerName: "Branch", flex : 1 },
+    { field: "model", headerName: "Model", flex : 1 },
+    { field: "device", headerName: "Device", flex : 1 },
+    { field: "purchaseAmount", headerName: "Purchase Amount", flex : 1 },
+    { field: "sellAmount", headerName: "Sell Amount", flex : 1 },
+    { field: "date", headerName: "Date", flex : 1 },
   ];
 
   const rows = Array.isArray(sellData)
@@ -234,7 +234,7 @@ const SellTable = () => {
               </Button> */}
         </Box>
       </Box>
-      <Paper sx={{ height: "auto", width: "85%", marginTop: "2rem" , overflow: "auto" , position:"fixed"}}>
+      <Paper sx={{ height: "auto", width: "100%", marginTop: "2rem" , overflowX: "auto",boxSizing: "border-box"}}>
         <DataGrid
           rows={rows}
           columns={columns}

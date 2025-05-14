@@ -102,7 +102,7 @@ const ColorTable = () => {
     { field: "modelId", headerName: "Model", width:272 },
     { field: "deviceId", headerName: "Device", width:272 },
     { field: "organization", headerName: "Organization", width:272 },
-    { field: "branchName", headerName: "Branch", width:272 },
+    { field: "branchName", headerName: "Branch", flex : 1 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -167,7 +167,7 @@ const ColorTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: "auto", width: "85%", marginTop: "2rem", overflow: "auto",position:"fixed" }}>
+      <Paper sx={{ height: "auto", width: "100%", marginTop: "2rem", overflowX: "auto",boxSizing: "border-box" }}>
         <DataGrid
           rows={rows}
           columns={columns}
