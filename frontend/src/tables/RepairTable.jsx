@@ -92,7 +92,7 @@ const RepairTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex : 1,
+      flex: 1,
       renderCell: (params) => (
         <>
           {/* <IconButton onClick={() => handleOpen(params.row)}>
@@ -109,15 +109,15 @@ const RepairTable = () => {
         </>
       ),
     },
-    { field: "organization", headerName: "Organization", flex : 1 },
-    { field: "branch", headerName: "Branch", width:160 },
-    { field: "customerName", headerName: "customerName", flex : 1 },
-    { field: "email", headerName: "email", width:168 },
-    { field: "modelName", headerName: "modelName", flex : 1 },
-    { field: "deviceName", headerName: "deviceName", flex : 1 },
-    { field: "amount", headerName: "Amount", flex : 1 },
-    { field: "date", headerName: "Date", flex : 1 },
-    { field: "status", headerName: "status", flex : 1 },
+    { field: "organization", headerName: "Organization", flex: 1 },
+    { field: "branch", headerName: "Branch", width: 160 },
+    { field: "customerName", headerName: "customerName", flex: 1 },
+    { field: "email", headerName: "email", width: 168 },
+    { field: "modelName", headerName: "modelName", flex: 1 },
+    { field: "deviceName", headerName: "deviceName", flex: 1 },
+    { field: "amount", headerName: "Amount", flex: 1 },
+    { field: "date", headerName: "Date", flex: 1 },
+    { field: "status", headerName: "status", flex: 1 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -150,7 +150,7 @@ const RepairTable = () => {
         <img
           src={noDataImage}
           alt="No data Image"
-          style={{ width: 250, marginBottom: 16 }}
+          style={{ width: 100, marginBottom: 16 }}
         />
       </Box>
     );
@@ -193,7 +193,15 @@ const RepairTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: "auto", width: "100%", marginTop: "2rem", overflowX: "auto",boxSizing: "border-box" }}>
+      <Paper
+        sx={{
+          height: "auto",
+          width: "100%",
+          marginTop: "2rem",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}

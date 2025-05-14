@@ -94,7 +94,7 @@ const StockTable = ({ searchTerm }) => {
     {
       field: "action",
       headerName: "Action",
-      flex : 1,
+      flex: 1,
       renderCell: (params) => (
         <>
           {((loginUser && loginUser.role === "admin") ||
@@ -138,14 +138,14 @@ const StockTable = ({ searchTerm }) => {
         </>
       ),
     },
-    { field: "organization", headerName: "organization" ,flex : 1},
-    { field: "branchName", headerName: "Branch" ,flex : 1},
-    { field: "categoryId", headerName: "Category", flex : 1},
-    { field: "modelId", headerName: "Model", flex : 1 },
-    { field: "deviceId", headerName: "Device" , flex : 1},
-    { field: "totalAmount", headerName: "Stock Amount", flex : 1 },
-    { field: "expenseAmount", headerName: "Expenses Amount", flex : 1 },
-    { field: "total", headerName: "Total" , flex : 1},
+    { field: "organization", headerName: "organization", flex: 1 },
+    { field: "branchName", headerName: "Branch", flex: 1 },
+    { field: "categoryId", headerName: "Category", flex: 1 },
+    { field: "modelId", headerName: "Model", flex: 1 },
+    { field: "deviceId", headerName: "Device", flex: 1 },
+    { field: "totalAmount", headerName: "Stock Amount", flex: 1 },
+    { field: "expenseAmount", headerName: "Expenses Amount", flex: 1 },
+    { field: "total", headerName: "Total", flex: 1 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -181,7 +181,7 @@ const StockTable = ({ searchTerm }) => {
         <img
           src={noDataImage}
           alt="No data Image"
-          style={{ width: 250, marginBottom: 16 }}
+          style={{ width: 100, marginBottom: 16 }}
         />
       </Box>
     );
@@ -189,7 +189,15 @@ const StockTable = ({ searchTerm }) => {
 
   return (
     <>
-      <Paper sx={{ height: "auto", width:"100%", marginTop: "2rem" , overflowX: "auto",boxSizing: "border-box" }}>
+      <Paper
+        sx={{
+          height: "auto",
+          width: "100%",
+          marginTop: "2rem",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}
@@ -203,7 +211,6 @@ const StockTable = ({ searchTerm }) => {
             noRowsOverlay: CustomNoRowsOverlay,
           }}
           sx={{
-           
             border: 0,
             "& .MuiDataGrid-columnHeader": {
               background: "#C4BDFF",
