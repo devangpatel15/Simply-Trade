@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import { Box, Button, Grid, Typography } from "@mui/material";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import { getProfitLoss } from "../apis/ProfitLossApi";
 
 const ProfitLoseTable = () => {
