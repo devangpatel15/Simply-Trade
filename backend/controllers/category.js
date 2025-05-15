@@ -67,6 +67,9 @@ exports.createCategory = async (req, res) => {
     const newCat = req.body;
 
     const createdCat = await createCategoryService(newCat);
+
+    await logActivity(req, `Created category of ₹${amount} for stock ${stock}`);
+
     return res
       .status(200)
       .json({ message: "Category added", data: createdCat });

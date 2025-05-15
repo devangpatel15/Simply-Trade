@@ -85,7 +85,7 @@ exports.updateExpense = async (req, res) => {
       return res.status(404).json({ message: "Expense not found" });
     }
 
-    await logActivity(req, `Updated expense ${updateEx.category} with amount ₹${req.body.amount}`);
+    await logActivity(req, `Updated expense with amount ₹${req.body.amount}`);
 
     return res
       .status(200)
