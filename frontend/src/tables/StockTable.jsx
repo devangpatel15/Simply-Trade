@@ -94,7 +94,11 @@ const StockTable = ({ searchTerm }) => {
     {
       field: "action",
       headerName: "Action",
+<<<<<<< HEAD
       flex : 1.5,
+=======
+      flex: 1.5,
+>>>>>>> 4ff03798383245103dec0a91fbc6a4ae0b1eab3e
       renderCell: (params) => (
         <>
           {((loginUser && loginUser.role === "admin") ||
@@ -138,14 +142,14 @@ const StockTable = ({ searchTerm }) => {
         </>
       ),
     },
-    { field: "organization", headerName: "organization" ,flex : 1},
-    { field: "branchName", headerName: "Branch" ,flex : 1},
-    { field: "categoryId", headerName: "Category", flex : 1},
-    { field: "modelId", headerName: "Model", flex : 1 },
-    { field: "deviceId", headerName: "Device" , flex : 1},
-    { field: "totalAmount", headerName: "Stock Amount", flex : 1 },
-    { field: "expenseAmount", headerName: "Expenses Amount", flex : 1.5 },
-    { field: "total", headerName: "Total" , flex : 1},
+    { field: "organization", headerName: "organization", flex: 1 },
+    { field: "branchName", headerName: "Branch", flex: 1 },
+    { field: "categoryId", headerName: "Category", flex: 1 },
+    { field: "modelId", headerName: "Model", flex: 1 },
+    { field: "deviceId", headerName: "Device", flex: 1 },
+    { field: "totalAmount", headerName: "Stock Amount", flex: 1 },
+    { field: "expenseAmount", headerName: "Expenses Amount", flex: 1.5 },
+    { field: "total", headerName: "Total", flex: 1 },
   ];
 
   // Prepare the rows for the DataGrid
