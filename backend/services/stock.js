@@ -290,7 +290,7 @@ exports.getStockByOrgAndCusService = async (orgId, cusId) => {
 
 exports.getAllStockDetailsService = async () => {
   const data = await Stock.find({ isDeleted: false, isSelled: false }).populate(
-    "customerName modelName deviceName"
+    "customerName modelName deviceName color"
   );
 
   return data;

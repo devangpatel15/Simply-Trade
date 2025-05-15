@@ -43,7 +43,7 @@ const Home = () => {
               <>
                 <Card
                   sx={{
-                    width: 280,
+                    width: 278,
                     borderRadius: 2,
                     boxShadow: 3,
                     m: 1,
@@ -75,10 +75,11 @@ const Home = () => {
                       </IconButton>
                     </Box>
 
+                    {console.log(option, "option")}
+
                     {/* Branch Name */}
                     <Typography variant="h6" color="primary" fontWeight="bold">
-                      {option?.modelName?.modelName} -{" "}
-                      {option?.deviceName?.deviceName}
+                      {`${option?.modelName?.modelName} - ${option?.deviceName?.deviceName}(${option?.color?.colorName}) `}
                     </Typography>
 
                     {/* Customer Name */}
