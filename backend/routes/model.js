@@ -27,9 +27,9 @@ modelRoute.get(
   validateGetOneModelData,
   selectModelByCat
 );
-modelRoute.post("/createModel", validateCreateModelData, createModel);
-modelRoute.put("/updateModel/:id", validateUpdateModelData, updateModel);
-modelRoute.put("/deleteModel/:id", validateDeleteModelData, softDeleteModel);
+modelRoute.post("/createModel",AuthUser, validateCreateModelData, createModel);
+modelRoute.put("/updateModel/:id",AuthUser, validateUpdateModelData, updateModel);
+modelRoute.put("/deleteModel/:id",AuthUser, validateDeleteModelData, softDeleteModel);
 modelRoute.get(
   "/selectModelByBranch/:id",
   // validateGetOneModelData,

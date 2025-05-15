@@ -9,6 +9,7 @@ const {
   selectDeviceByModelServices,
   searchDeviceService,
 } = require("../services/device");
+const { createLogActivity } = require("../utils/logActivity");
 
 exports.findAllDevice = async (req, res) => {
   try {
@@ -105,6 +106,8 @@ exports.createDevice = async (req, res) => {
       data
       // userId: req.user.id,
     );
+    await createLogActivity(req, `Created device`);
+
     return res
       .status(200)
       .json({ message: "Device created", data: deviceData });
@@ -124,6 +127,7 @@ exports.updateDevice = async (req, res) => {
     if (!deviceData) {
       return res.status(404).json({ message: "Device not found" });
     }
+    await createLogActivity(req, `update device`);
 
     return res
       .status(200)
@@ -142,6 +146,7 @@ exports.softDeleteDevice = async (req, res) => {
     if (!data) {
       return res.status(404).json({ message: "Device not found" });
     }
+    await createLogActivity(req, `delete device`);
 
     return res.status(200).json({ message: "Device soft deleted", data: data });
   } catch (err) {

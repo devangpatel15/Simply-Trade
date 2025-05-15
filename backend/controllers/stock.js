@@ -8,6 +8,7 @@ const {
   getStockByOrgAndCusService,
   getAllStockDetailsService,
 } = require("../services/stock");
+const { createLogActivity } = require("../utils/logActivity");
 
 exports.getAllStock = async (req, res) => {
   try {
@@ -99,6 +100,7 @@ exports.createStock = async (req, res) => {
     const createdStocks = await Promise.all(
       stockEntries.map((entry) => createStockService(entry))
     );
+    await createLogActivity(req, `create ${stockEntries.length} stock`);
 
     return res
       .status(200)
@@ -174,6 +176,7 @@ exports.updateStock = async (req, res) => {
     if (!updatedStock) {
       return res.status(404).json({ message: "Stock not found" });
     }
+    await createLogActivity(req, `update stock`);
 
     return res
       .status(200)
@@ -192,6 +195,7 @@ exports.softDeleteStock = async (req, res) => {
     if (!stock) {
       return res.status(404).json({ message: "Stock not found" });
     }
+    await createLogActivity(req, `update stock`);
 
     return res.status(200).json({ message: "Stock soft deleted", data: stock });
   } catch (err) {
@@ -208,6 +212,8 @@ exports.deleteStock = async (req, res) => {
     if (!stock) {
       return res.status(404).json({ message: "Stock not found" });
     }
+    await createLogActivity(req, `delete stock`);
+
     return res.status(200).json({ message: "Stock deleted", data: stock });
   } catch (err) {
     return res

@@ -42,7 +42,7 @@ const api_call = import.meta.env.VITE_API_URL
 
   const fetchLogs = async () => {
       try {
-        const response = await axios.get(`${api_call}/activityLog`, {
+        const response = await axios.get(`${api_call}/getActivityLog`, {
           
           headers: {
             "Content-Type": "application/json",
@@ -97,6 +97,7 @@ const api_call = import.meta.env.VITE_API_URL
         <TableHead>
           <TableRow>
             <TableCell>User</TableCell>
+            <TableCell>Role</TableCell>
             <TableCell>Organization</TableCell>
             <TableCell>Branch</TableCell>
             <TableCell>Message</TableCell>
@@ -108,6 +109,7 @@ const api_call = import.meta.env.VITE_API_URL
             logs.map((log) => (
               <TableRow key={log._id}>
                 <TableCell>{log.userId?.name || "-"}</TableCell>
+                <TableCell>{log.role || "-"}</TableCell>
                 <TableCell>{log.organization?.organizationName || "-"}</TableCell>
                 <TableCell>{log.branchName?.branchName || "-"}</TableCell>
                 <TableCell>{log.message}</TableCell>

@@ -21,9 +21,9 @@ const stockRouter = express.Router();
 
 stockRouter.get("/allStock", AuthUser, getAllStock);
 stockRouter.get("/stock/:id", getStockValidation, getStock);
-stockRouter.post("/createStock", createValidation, createStock);
-stockRouter.put("/updateStock/:id", updateStockValidation, updateStock);
-stockRouter.put("/deleteStock/:id", deleteStockValidation, softDeleteStock);
+stockRouter.post("/createStock", AuthUser,createValidation, createStock);
+stockRouter.put("/updateStock/:id",AuthUser, updateStockValidation, updateStock);
+stockRouter.put("/deleteStock/:id", AuthUser,deleteStockValidation, softDeleteStock);
 stockRouter.get("/AllStockDetails", getAllStockDetails);
 
 stockRouter.get("/stockByOrgAndCus", findStockByOrgAndCustomer);

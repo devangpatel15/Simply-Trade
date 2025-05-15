@@ -7,6 +7,7 @@ const {
   deleteAccountService,
   selectAccountServices,
 } = require("../services/account");
+const { createLogActivity } = require("../utils/logActivity");
 
 exports.getAllAccount = async (req, res) => {
   try {
@@ -51,6 +52,8 @@ exports.createAccount = async (req, res) => {
     const newAccount = req.body;
     const createdAccount = await createAccountService(newAccount);
 
+    await createLogActivity(req, `Created account`);
+
     return res
       .status(200)
       .json({ message: "Account created", data: createdAccount });
@@ -70,6 +73,8 @@ exports.updateAccount = async (req, res) => {
       return res.status(404).json({ message: "Account not found" });
     }
 
+    await createLogActivity(req, `Updated account`);
+
     return res
       .status(200)
       .json({ message: "Account updated", data: updatedAccount });
@@ -88,6 +93,8 @@ exports.softDeleteAccount = async (req, res) => {
       return res.status(404).json({ message: "Account not found" });
     }
 
+    await createLogActivity(req, `Soft deleted account`);
+
     return res
       .status(200)
       .json({ message: "Account soft deleted", data: Account });
@@ -105,6 +112,9 @@ exports.deleteAccount = async (req, res) => {
     if (!Account) {
       return res.status(404).json({ message: "Account not found" });
     }
+
+    await createLogActivity(req, `Deleted account`);
+
     return res.status(200).json({ message: "Account deleted", data: Account });
   } catch (err) {
     return res
@@ -118,9 +128,6 @@ exports.selectAccountByBranch = async (req, res) => {
     const branchId = req.query.branchId;
     const orgText = req?.query?.text || "";
 
-    // console.log(branchId, "branchid");
-
-    // console.log("catID", catId);
     const accountData = await selectAccountServices(branchId, orgText);
 
     if (!accountData) {

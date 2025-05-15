@@ -6,13 +6,12 @@ const {
   softDeleteExpenseService,
   getExpenseByDateService,
 } = require("../services/expense");
-const logActivity = require("../utils/logActivity");
+const { createLogActivity } = require("../utils/logActivity");
 
 exports.getAllExpense = async (req, res) => {
   try {
     const userOrgId = req.user.org;
     const userBranchId = req.user.orgBranch;
-
     const role = req.user.role;
     const userId = req.user.id;
     const ex = await getAllExpenseService(
@@ -64,7 +63,7 @@ exports.createExpense = async (req, res) => {
       description
     );
 
-    await logActivity(req, `Created expense of ₹${amount} for stock ${stock}`)
+    await createLogActivity(req, `Created expense`);
 
     return res.status(200).json({ message: "Expense added", data: createdEx });
   } catch (error) {
@@ -85,7 +84,7 @@ exports.updateExpense = async (req, res) => {
       return res.status(404).json({ message: "Expense not found" });
     }
 
-    await logActivity(req, `Updated expense ${updateEx.category} with amount ₹${req.body.amount}`);
+    await createLogActivity(req, `Updated expense`);
 
     return res
       .status(200)
@@ -105,7 +104,7 @@ exports.softDeleteExpense = async (req, res) => {
       return res.status(404).json({ message: "Expense not found" });
     }
 
-    await logActivity(req, `Deleted expense ${req.params.id}`);
+    await createLogActivity(req, `Deleted expense`);
 
     return res.status(200).json({ message: "Expense soft deleted", data: ex });
   } catch (err) {

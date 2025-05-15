@@ -25,8 +25,8 @@ userRoute.get("/findAllUser",AuthUser, findAllUser);
 userRoute.get("/findOneUser/:id", validateGetOneUserData, findOneUser);
 userRoute.post("/userSignUp", validateCreateData, registerUser);
 userRoute.post("/userLogIn", loginUser);
-userRoute.put("/updateUser/:id", validateUpdateUserData, updateUser);
-userRoute.put("/deleteUser/:id", validateDeleteUserData, softDeleteUser);
+userRoute.put("/updateUser/:id", AuthUser,validateUpdateUserData, updateUser);
+userRoute.put("/deleteUser/:id",AuthUser, validateDeleteUserData, softDeleteUser);
 
 userRoute.post("/sendOtp", sendOtp);
 userRoute.post("/verifyOtp", verifyOtp);

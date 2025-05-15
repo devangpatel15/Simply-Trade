@@ -10,6 +10,7 @@ const {
   searchCategoryService,
   selectCategoryServices,
 } = require("../services/category");
+const { createLogActivity } = require("../utils/logActivity");
 
 exports.getAllCategory = async (req, res) => {
   try {
@@ -67,6 +68,8 @@ exports.createCategory = async (req, res) => {
     const newCat = req.body;
 
     const createdCat = await createCategoryService(newCat);
+    await createLogActivity(req, `Created Category`);
+
     return res
       .status(200)
       .json({ message: "Category added", data: createdCat });
@@ -85,6 +88,8 @@ exports.updateCategory = async (req, res) => {
     if (!updatedCat) {
       return res.status(404).json({ message: "category not found" });
     }
+    await createLogActivity(req, `updated Category`);
+
     return res
       .status(200)
       .json({ message: "category updated", data: updatedCat });
@@ -102,6 +107,7 @@ exports.softDeleteCategory = async (req, res) => {
     if (!cat) {
       return res.status(404).json({ message: "category not found" });
     }
+    await createLogActivity(req, `delete Category`);
 
     return res
       .status(200)

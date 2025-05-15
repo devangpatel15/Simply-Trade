@@ -10,6 +10,7 @@ const {
   searchColorServices,
   selectColorServices,
 } = require("../services/color");
+const { createLogActivity } = require("../utils/logActivity");
 
 exports.findAllColor = async (req, res) => {
   try {
@@ -75,6 +76,8 @@ exports.createColor = async (req, res) => {
   try {
     const data = req.body;
     const colorData = await createColorServices(data);
+    await createLogActivity(req, `Created Color`);
+
     return res.status(200).json({ message: "Color created", data: colorData });
   } catch (err) {
     return res
@@ -92,6 +95,7 @@ exports.updateColor = async (req, res) => {
     if (!colorData) {
       return res.status(404).json({ message: "Color not found" });
     }
+    await createLogActivity(req, `update Color`);
 
     return res.status(200).json({ message: "Color updated", data: colorData });
   } catch (err) {
@@ -108,6 +112,7 @@ exports.softDeleteColor = async (req, res) => {
     if (!color) {
       return res.status(404).json({ message: "Color not found" });
     }
+    await createLogActivity(req, `delete Color`);
 
     return res.status(200).json({ message: "Color soft deleted", data: color });
   } catch (err) {

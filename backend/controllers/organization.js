@@ -16,6 +16,7 @@ const {
 const {
   createOrganizationBranchServices,
 } = require("../services/organizationBranch");
+const { createLogActivity } = require("../utils/logActivity");
 
 exports.getAllOrganization = async (req, res) => {
   const userId = req.user.id;
@@ -132,6 +133,7 @@ exports.createOrganization = async (req, res) => {
         .status(500)
         .json({ message: "Failed to create branch for the organization." });
     }
+    await createLogActivity(req, `Organization and branch created`);
 
     return res.status(200).json({
       message: "Organization and branch created successfully",
@@ -153,6 +155,7 @@ exports.updateOrganization = async (req, res) => {
     if (!updatedOrg) {
       return res.status(404).json({ message: "Organization not found" });
     }
+    await createLogActivity(req, `Organization update`);
 
     return res
       .status(200)
@@ -171,6 +174,7 @@ exports.softDeleteOrganization = async (req, res) => {
     if (!org) {
       return res.status(404).json({ message: "Organization not found" });
     }
+    await createLogActivity(req, `Organization delete`);
 
     return res
       .status(200)
@@ -202,7 +206,7 @@ exports.searchOrganization = async (req, res) => {
     const orgText = req.query.text || "";
     const userId = req.user.id;
 
-    const org = await searchOrganizationService(orgText , userId);
+    const org = await searchOrganizationService(orgText, userId);
 
     if (!org) {
       return res.status(404).json({ message: "searchCustomer not found" });

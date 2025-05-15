@@ -6,6 +6,7 @@ const {
   deleteRepairService,
   getRepairService,
 } = require("../services/repair");
+const { createLogActivity } = require("../utils/logActivity");
 
 exports.getAllRepairData = async (req, res) => {
   try {
@@ -86,6 +87,7 @@ exports.createRepair = async (req, res) => {
     const createRepair = await Promise.all(
       repairEntries.map((entry) => createRepairService(entry))
     );
+    await createLogActivity(req, ` repair ${repairEntries?.length} created`);
 
     return res
       .status(200)
@@ -110,6 +112,8 @@ exports.updateRepairData = async (req, res) => {
     if (!updatedRepair) {
       return res.status(404).json({ message: "Repair not found" });
     }
+    await createLogActivity(req, `repair update`);
+
     return res
       .status(200)
       .json({ message: "Repair updated", data: updatedRepair });
@@ -127,6 +131,7 @@ exports.softDeleteRepair = async (req, res) => {
     if (!repair) {
       return res.status(404).json({ message: "Repair not found" });
     }
+    await createLogActivity(req, `repair delete`);
 
     return res
       .status(200)

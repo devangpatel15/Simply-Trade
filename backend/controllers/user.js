@@ -11,6 +11,7 @@ const {
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { createLogActivity } = require("../utils/logActivity");
 
 const generateVerificationCode = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -92,6 +93,7 @@ exports.loginUser = async (req, res) => {
         },
         process.env.JWT_SECRET
       );
+
       return res
         .status(200)
         .json({ message: "login successfully", token: token, role: user });
@@ -183,6 +185,8 @@ exports.createUser = async (req, res) => {
   try {
     const data = req.body;
     const userData = await createUserServices(data);
+    await createLogActivity(req, `create user`);
+
     return res.status(200).json({ message: "User created", data: userData });
   } catch (err) {
     return res
@@ -205,6 +209,8 @@ exports.updateUser = async (req, res) => {
       organization,
       orgBranch,
     };
+    await createLogActivity(req, `update user`);
+
     const userData = await updateUserServices(userId, uData);
 
     if (!userData) {

@@ -140,11 +140,11 @@ const Header = () => {
             <ClickAwayListener onClickAway={handleClose}>
               <Paper sx={{ mt: 1, borderRadius: 2, boxShadow: 3 }}>
                 <List>
-                  <ListItem button>
+                  <ListItem button onClick={()=>navigate("/activityLog")}>
                     <AccountCircleRoundedIcon>
                       <Business sx={{ color: "primary" }} />
                     </AccountCircleRoundedIcon>
-                    Profile
+                    Activity Logs
                   </ListItem>
                   <ListItem onClick={handleLogout} button>
                     <LogoutIcon>

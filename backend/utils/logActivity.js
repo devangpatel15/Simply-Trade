@@ -1,18 +1,49 @@
 const ActivityLog = require("../models/ActivityLog");
 
-const logActivity = async (req, message) => {
+exports.createLogActivity = async (req, message) => {
   try {
-    console.log("Logging activity:", req.user.org);
-    await ActivityLog.create({
+    const activityLog = {
       userId: req.user.id,
-      organization: req.user.org,
-      branchName: req.user.orgBranch,
+      role: req.user.role,
+      organization: req.user.org || null,
+      branchName: req.user.orgBranch || null,
       message,
-    });
+    };
+    await ActivityLog.create(activityLog);
     console.log("Activity logged successfully");
   } catch (err) {
     console.error("Activity logging failed:", err.message);
   }
 };
 
-module.exports = logActivity;
+exports.getAllLogActivity = async (req, res) => {
+  try {
+    // const { userId, startDate, endDate } = req.query;
+
+    // let filter = {};
+    // if (userId) filter.userId = userId;
+    // if (startDate && endDate) {
+    //   filter.createdAt = {
+    //     $gte: new Date(startDate),
+    //     $lte: new Date(endDate),
+    //   };
+    // }
+
+    // const logs = await ActivityLog.find(filter)
+    //   .populate("userId", "name")
+    //   .populate("organization", "name")
+    //   .populate("branchName", "branchName")
+    //   .sort({ createdAt: -1 });
+
+    const logs = await ActivityLog.find()
+      .populate("userId", "name")
+      .populate("organization")
+      .populate("branchName", "branchName")
+      .sort({ createdAt: -1 });
+    return res.status(200).json({ message: "mili gayiii", data: logs });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch logs", error: err.message });
+  }
+};

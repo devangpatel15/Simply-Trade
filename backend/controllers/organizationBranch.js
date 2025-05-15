@@ -10,6 +10,7 @@ const {
   searchOrgBranchService,
   findOrganizationBranchByOrganizationService,
 } = require("../services/organizationBranch");
+const { createLogActivity } = require("../utils/logActivity");
 
 exports.findAllOrganizationBranch = async (req, res) => {
   const userId = req.user.id;
@@ -112,6 +113,8 @@ exports.createOrganizationBranch = async (req, res) => {
       ...data,
       userId,
     });
+    await createLogActivity(req, ` branch created`);
+
     return res.status(200).json({
       message: "OrganizationBranch created",
       data: organizationBranchData,
@@ -135,6 +138,7 @@ exports.updateOrganizationBranch = async (req, res) => {
     if (!organizationBranchData) {
       return res.status(404).json({ message: "OrganizationBranch not found" });
     }
+    await createLogActivity(req, ` branch update`);
 
     return res.status(200).json({
       message: "OrganizationBranch updated",
@@ -156,6 +160,7 @@ exports.softDeleteOrganizationBranch = async (req, res) => {
     if (!organizationBranchData) {
       return res.status(404).json({ message: "OrganizationBranch not found" });
     }
+    await createLogActivity(req, ` branch delete`);
 
     return res.status(200).json({
       message: "OrganizationBranch soft deleted",

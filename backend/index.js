@@ -13,15 +13,13 @@ const catRouter = require("./routes/category.js");
 const capRouter = require("./routes/capacity.js");
 const cusRouter = require("./routes/customer.js");
 const stockRouter = require("./routes/stock.js");
-const paymentRouter = require("./routes/payment.js");
 const accountRouter = require("./routes/account.js");
 const expenseRouter = require("./routes/expense.js");
 const sellRouter = require("./routes/sell.js");
 const repairRouter = require("./routes/repair.js");
 const cusLeaderRouter = require("./routes/cusLeadger.js");
-const { promises } = require("nodemailer/lib/xoauth2/index.js");
 const profitLossRouter = require("./routes/profitLoss.js");
-const router = require("./routes/activityLog.js");
+const activityLogRouter = require("./routes/activityLog.js");
 
 const PORT = process.env.PORT;
 connectMongoDB();
@@ -40,17 +38,14 @@ app.use(
   capRouter,
   cusRouter,
   stockRouter,
-  paymentRouter,
   accountRouter,
   expenseRouter,
   sellRouter,
   repairRouter,
   cusLeaderRouter,
   profitLossRouter,
-  router
+  activityLogRouter
 );
-
-
 
 app.get("/", (req, res) => {
   res.send("Hello World");

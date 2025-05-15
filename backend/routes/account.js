@@ -13,9 +13,9 @@ const accountRouter = express.Router();
 
 accountRouter.get("/allAccount", AuthUser, getAllAccount);
 accountRouter.get("/account/:id", getAccount);
-accountRouter.post("/createAccount", createAccount);
-accountRouter.put("/updateAccount/:id", updateAccount);
-accountRouter.put("/deleteAccount/:id", softDeleteAccount);
+accountRouter.post("/createAccount",AuthUser, createAccount);
+accountRouter.put("/updateAccount/:id",AuthUser, updateAccount);
+accountRouter.put("/deleteAccount/:id",AuthUser, softDeleteAccount);
 accountRouter.get("/selectAccountByBranch", selectAccountByBranch);
 
 module.exports = accountRouter;

@@ -8,6 +8,7 @@ const {
   getAllStockSellRepairService,
   getSellByDateService,
 } = require("../services/sell");
+const { createLogActivity } = require("../utils/logActivity");
 
 exports.getAllSell = async (req, res) => {
   try {
@@ -92,6 +93,7 @@ exports.createSell = async (req, res) => {
         createSellService(entry, stock, deviceData.amount)
       )
     );
+    await createLogActivity(req, `create ${sellEntries.length} sell `);
 
     return res
       .status(200)
@@ -116,6 +118,8 @@ exports.updateSell = async (req, res) => {
     if (!updatedSell) {
       return res.status(404).json({ message: "Sell not found" });
     }
+    await createLogActivity(req, `sell update`);
+
     return res.status(200).json({ message: "Sell updated", data: updatedSell });
   } catch (err) {
     return res
@@ -131,6 +135,7 @@ exports.softDeleteSell = async (req, res) => {
     if (!sell) {
       return res.status(404).json({ message: "Sell not found" });
     }
+    await createLogActivity(req, `sell delete`);
 
     return res.status(200).json({ message: "Sell soft deleted", data: sell });
   } catch (err) {

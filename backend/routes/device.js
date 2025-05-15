@@ -8,8 +8,8 @@ deviceRoute.get('/findAllDevice',AuthUser,findAllDevice)
 // deviceRoute.get('/searchDevice',searchDevice)
 deviceRoute.get('/findOneDevice/:id',validateGetOneDeviceData,findOneDevice)
 deviceRoute.get('/selectDeviceByModel/:id',validateGetOneDeviceData,selectDeviceByModel)
-deviceRoute.post('/createDevice',validateCreateDeviceData,createDevice)
-deviceRoute.put('/updateDevice/:id',validateUpdateDeviceData,updateDevice)
-deviceRoute.put('/deleteDevice/:id',validateDeleteDeviceData,softDeleteDevice)
+deviceRoute.post('/createDevice',AuthUser,validateCreateDeviceData,createDevice)
+deviceRoute.put('/updateDevice/:id',AuthUser,validateUpdateDeviceData,updateDevice)
+deviceRoute.put('/deleteDevice/:id',AuthUser,validateDeleteDeviceData,softDeleteDevice)
 
 module.exports =deviceRoute

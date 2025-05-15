@@ -20,9 +20,9 @@ const sellRouter = express.Router();
 
 sellRouter.get("/allSell", AuthUser, getAllSell);
 sellRouter.get("/sell/:id", getSellValidation, getSell);
-sellRouter.post("/createSell", createSellData, createSell);
-sellRouter.put("/updateSell/:id", updateSellData, updateSell);
-sellRouter.put("/deleteSell/:id", deleteSellValidation, softDeleteSell);
+sellRouter.post("/createSell",AuthUser, createSellData, createSell);
+sellRouter.put("/updateSell/:id",AuthUser, updateSellData, updateSell);
+sellRouter.put("/deleteSell/:id", AuthUser,deleteSellValidation, softDeleteSell);
 sellRouter.get("/sellByDate", AuthUser, getSellByDate);
 
 sellRouter.get("/allSellStockRepair", AuthUser, getAllStockSellRepair);

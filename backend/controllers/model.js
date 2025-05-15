@@ -9,6 +9,7 @@ const {
   selectModelByCatServices,
   selectModelByBranchServices,
 } = require("../services/model");
+const { createLogActivity } = require("../utils/logActivity");
 
 exports.findAllModel = async (req, res) => {
   try {
@@ -99,6 +100,8 @@ exports.createModel = async (req, res) => {
     if (!modelData) {
       return res.status(404).json({ message: "No Model found" });
     }
+    await createLogActivity(req, `Created model`);
+
     return res.status(200).json({ message: "Model created", data: modelData });
   } catch (err) {
     return res
@@ -116,6 +119,7 @@ exports.updateModel = async (req, res) => {
     if (!modelData) {
       return res.status(404).json({ message: "Model not found" });
     }
+    await createLogActivity(req, `update model`);
 
     return res.status(200).json({ message: "Model updated", data: modelData });
   } catch (err) {
@@ -132,6 +136,7 @@ exports.softDeleteModel = async (req, res) => {
     if (!data) {
       return res.status(404).json({ message: "Model not found" });
     }
+    await createLogActivity(req, `delete model`);
 
     return res.status(200).json({ message: "Model soft deleted", data });
   } catch (err) {

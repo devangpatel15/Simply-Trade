@@ -25,8 +25,8 @@ catRouter.get("/userCategory", AuthUser, getUserCategory);
 catRouter.get("/searchCategory", searchCategory);
 catRouter.get("/category/:id", categoryIdValidation, getCategory);
 catRouter.get("/selectCategoryByBranch/:id", selectCategory);
-catRouter.post("/createCategory", createCategoryValidation, createCategory);
-catRouter.put("/updateCategory/:id", updateCategoryValidation, updateCategory);
-catRouter.put("/deleteCategory/:id", categoryIdValidation, softDeleteCategory);
+catRouter.post("/createCategory", AuthUser,createCategoryValidation, createCategory);
+catRouter.put("/updateCategory/:id",AuthUser, updateCategoryValidation, updateCategory);
+catRouter.put("/deleteCategory/:id", AuthUser,categoryIdValidation, softDeleteCategory);
 
 module.exports = catRouter;

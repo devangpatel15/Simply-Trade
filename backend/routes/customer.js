@@ -30,9 +30,9 @@ cusRouter.get("/allCustomer", AuthUser, getAllCustomer);
 
 cusRouter.get("/selectCustomer/:id", selectCustomer);
 cusRouter.get("/customer/:id", customerIdValidation, getCustomer);
-cusRouter.post("/createCustomer", createCustomerValidation, createCustomer);
-cusRouter.put("/updateCustomer/:id", updateCustomerValidation, updateCustomer);
-cusRouter.put("/deleteCustomer/:id", customerIdValidation, softDeleteCustomer);
+cusRouter.post("/createCustomer",AuthUser, createCustomerValidation, createCustomer);
+cusRouter.put("/updateCustomer/:id", AuthUser,updateCustomerValidation, updateCustomer);
+cusRouter.put("/deleteCustomer/:id",AuthUser, customerIdValidation, softDeleteCustomer);
 cusRouter.get("/getCustomerByOrg/:id", getCustomerByOrg);
 cusRouter.get("/getCustomerByBranch/:id", getCustomerByBranch);
 cusRouter.get("/getSellerByOrg/:id", getSellerByOrg);

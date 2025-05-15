@@ -14,6 +14,7 @@ const {
   getBuyerByBranchService,
   getCustomerByBranchService,
 } = require("../services/customer");
+const { createLogActivity } = require("../utils/logActivity");
 
 exports.getAllCustomer = async (req, res) => {
   try {
@@ -56,6 +57,8 @@ exports.createCustomer = async (req, res) => {
   try {
     const newCus = req.body;
     const createdCus = await createCustomerService(newCus);
+    await createLogActivity(req, `Created customer`);
+
     return res
       .status(200)
       .json({ message: "Customer added", data: createdCus });
@@ -74,6 +77,8 @@ exports.updateCustomer = async (req, res) => {
     if (!updatedCus) {
       return res.status(404).json({ message: "Customer not found" });
     }
+    await createLogActivity(req, `update customer`);
+
     return res
       .status(200)
       .json({ message: "Customer updated", data: updatedCus });
@@ -91,6 +96,7 @@ exports.softDeleteCustomer = async (req, res) => {
     if (!cus) {
       return res.status(404).json({ message: "Customer not found" });
     }
+    await createLogActivity(req, `delete customer`);
 
     return res
       .status(200)

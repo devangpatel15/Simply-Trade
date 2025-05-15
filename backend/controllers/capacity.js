@@ -9,6 +9,7 @@ const {
   searchCapacityService,
   selectCapacityServices,
 } = require("../services/capacity");
+const { createLogActivity } = require("../utils/logActivity");
 
 exports.getAllCapacity = async (req, res) => {
   try {
@@ -63,6 +64,8 @@ exports.createCapacity = async (req, res) => {
   try {
     const newCap = req.body;
     const createdCap = await createCapacityService(newCap);
+    await createLogActivity(req, `Created Capacity`);
+
     return res
       .status(200)
       .json({ message: "Capacity added", data: createdCap });
@@ -81,6 +84,8 @@ exports.updateCapacity = async (req, res) => {
     if (!updatedCap) {
       return res.status(404).json({ message: "Capacity not found" });
     }
+    await createLogActivity(req, `update Capacity`);
+
     return res
       .status(200)
       .json({ message: "Capacity updated", data: updatedCap });
@@ -98,6 +103,7 @@ exports.softDeleteCapacity = async (req, res) => {
     if (!cap) {
       return res.status(404).json({ message: "Capacity not found" });
     }
+    await createLogActivity(req, `delete Capacity`);
 
     return res
       .status(200)
