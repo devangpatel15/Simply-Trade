@@ -41,6 +41,7 @@ import SellForm from "./components/SellForm";
 import ProfitLoseTable from "./tables/ProfitLoseTable";
 import Layout from "./pages/Layout";
 import ExpenseTable from "./tables/ExpenseTable";
+import ActivityLogTable from "./tables/ActivityLogTable";
 
 function App() {
   const PrivateRoute = ({ children }) => {
@@ -486,6 +487,15 @@ function App() {
           element={
             <PrivateRoute>
               <ProfitLoseTable/>
+            </PrivateRoute>
+          }
+        />
+
+         <Route
+          path="/activityLog"
+          element={
+            <PrivateRoute>
+              <ActivityLogTable/>
             </PrivateRoute>
           }
         />

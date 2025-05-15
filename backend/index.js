@@ -21,6 +21,7 @@ const repairRouter = require("./routes/repair.js");
 const cusLeaderRouter = require("./routes/cusLeadger.js");
 const { promises } = require("nodemailer/lib/xoauth2/index.js");
 const profitLossRouter = require("./routes/profitLoss.js");
+const router = require("./routes/activityLog.js");
 
 const PORT = process.env.PORT;
 connectMongoDB();
@@ -45,8 +46,11 @@ app.use(
   sellRouter,
   repairRouter,
   cusLeaderRouter,
-  profitLossRouter
+  profitLossRouter,
+  router
 );
+
+
 
 app.get("/", (req, res) => {
   res.send("Hello World");

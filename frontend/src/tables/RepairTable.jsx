@@ -14,8 +14,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DialogBox from "../components/DialogBox";
 import DeleteDialog from "../components/DeleteDialog";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 import SearchIcon from "@mui/icons-material/Search";
 import { deleteRepair, getAllRepair } from "../apis/RepairApi";
 import moment from "moment";
@@ -109,15 +107,15 @@ const RepairTable = () => {
         </>
       ),
     },
-    { field: "organization", headerName: "Organization", flex: 1 },
-    { field: "branch", headerName: "Branch", width: 160 },
-    { field: "customerName", headerName: "customerName", flex: 1 },
-    { field: "email", headerName: "email", width: 168 },
-    { field: "modelName", headerName: "modelName", flex: 1 },
-    { field: "deviceName", headerName: "deviceName", flex: 1 },
-    { field: "amount", headerName: "Amount", flex: 1 },
-    { field: "date", headerName: "Date", flex: 1 },
-    { field: "status", headerName: "status", flex: 1 },
+    { field: "organization", headerName: "Organization", flex : 1 },
+    { field: "branch", headerName: "Branch", flex : 1 },
+    { field: "customerName", headerName: "customerName", flex : 1 },
+    { field: "email", headerName: "email", flex : 1 },
+    { field: "modelName", headerName: "modelName", flex : 1 },
+    { field: "deviceName", headerName: "deviceName", flex : 1 },
+    { field: "amount", headerName: "Amount", flex : 1 },
+    { field: "date", headerName: "Date", flex : 1 },
+    { field: "status", headerName: "status", flex : 1 },
   ];
 
   // Prepare the rows for the DataGrid
