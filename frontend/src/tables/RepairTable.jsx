@@ -90,7 +90,7 @@ const RepairTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex : 1,
+      flex: 1,
       renderCell: (params) => (
         <>
           {/* <IconButton onClick={() => handleOpen(params.row)}>
@@ -148,7 +148,7 @@ const RepairTable = () => {
         <img
           src={noDataImage}
           alt="No data Image"
-          style={{ width: 250, marginBottom: 16 }}
+          style={{ width: 100, marginBottom: 16 }}
         />
       </Box>
     );
@@ -191,7 +191,15 @@ const RepairTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: "auto", width: "100%", marginTop: "2rem", overflowX: "auto",boxSizing: "border-box" }}>
+      <Paper
+        sx={{
+          height: "auto",
+          width: "100%",
+          marginTop: "2rem",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}

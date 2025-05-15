@@ -94,7 +94,11 @@ const StockTable = ({ searchTerm }) => {
     {
       field: "action",
       headerName: "Action",
+<<<<<<< HEAD
+      flex: 1,
+=======
       flex : 1.5,
+>>>>>>> 3d5170845c413aa270e0dc9f40e0f47c2bbe5993
       renderCell: (params) => (
         <>
           {((loginUser && loginUser.role === "admin") ||
@@ -181,7 +185,7 @@ const StockTable = ({ searchTerm }) => {
         <img
           src={noDataImage}
           alt="No data Image"
-          style={{ width: 250, marginBottom: 16 }}
+          style={{ width: 100, marginBottom: 16 }}
         />
       </Box>
     );
@@ -189,7 +193,15 @@ const StockTable = ({ searchTerm }) => {
 
   return (
     <>
-      <Paper sx={{ height: "auto", width:"100%", marginTop: "2rem" , overflowX: "auto",boxSizing: "border-box" }}>
+      <Paper
+        sx={{
+          height: "auto",
+          width: "100%",
+          marginTop: "2rem",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}
@@ -203,7 +215,6 @@ const StockTable = ({ searchTerm }) => {
             noRowsOverlay: CustomNoRowsOverlay,
           }}
           sx={{
-           
             border: 0,
             "& .MuiDataGrid-columnHeader": {
               background: "#C4BDFF",
