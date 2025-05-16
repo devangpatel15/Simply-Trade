@@ -7,7 +7,6 @@ import {
   Grid,
   IconButton,
   Card,
-  CardContent,
   Avatar,
   DialogActions,
   Button,
@@ -34,11 +33,9 @@ const StockDialog = ({ open, handleClose, data, fieldName }) => {
     color,
     payment,
     imeiNo,
-    srNo,
     totalAmount,
-    paidToCustomer,
     remainingAmount,
-    id
+    id,
   } = data;
 
   const [deleteOpen, setDeleteOpen] = useState(false);

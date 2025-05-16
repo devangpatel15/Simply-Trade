@@ -1,10 +1,6 @@
 const Color = require("../models/color");
 
 exports.findAllColorServices = async (userId, req) => {
-  // const data = await Color.find({ isDeleted: false })
-  //   .populate("categoryId modelId deviceId organization branchName")
-  //   .lean();
-
   const page = parseInt(req.query.page) || 1; // Default to page 1
   const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
   const search = req.query.search || "";
@@ -36,11 +32,6 @@ exports.findOneColorServices = async (colorId) => {
 
   return data;
 };
-// exports.selectColorByDeviceServices = async (deviceId) => {
-//   const data = await Color.find({ deviceId, isDeleted: false }).lean();
-
-//   return data;
-// };
 exports.findUserColorServices = async (userId) => {
   const data = await Color.find().populate().lean();
   return data;

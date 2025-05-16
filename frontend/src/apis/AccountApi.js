@@ -1,21 +1,16 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const api_call = import.meta.env.VITE_API_URL
-
+const api_call = import.meta.env.VITE_API_URL;
 
 const createAccount = async (formData) => {
   try {
-    const response = await axios.post(
-      `${api_call}/createAccount`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.post(`${api_call}/createAccount`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     toast.success("Account created successfully!");
   } catch (error) {
     toast.error("Account not created ");
@@ -24,7 +19,6 @@ const createAccount = async (formData) => {
 };
 const updateAccount = async (formData, id) => {
   try {
-    console.log(formData);
     const response = await axios.put(
       `${api_call}/updateAccount/${id}`,
       formData,
@@ -48,7 +42,7 @@ const getAllAccounts = async (search) => {
       `${api_call}/allAccount`,
 
       {
-        params:{search},
+        params: { search },
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -63,15 +57,12 @@ const getAllAccounts = async (search) => {
 
 const getOneAccount = async (id) => {
   try {
-    const response = await axios.get(
-      `${api_call}/account/${id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.get(`${api_call}/account/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log(error.message);

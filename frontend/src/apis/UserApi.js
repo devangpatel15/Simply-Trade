@@ -1,20 +1,16 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const api_call = import.meta.env.VITE_API_URL
+const api_call = import.meta.env.VITE_API_URL;
 
 const createUser = async (formData) => {
   try {
-    const response = await axios.post(
-      `${api_call}/userSignUp`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.post(`${api_call}/userSignUp`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     toast.success("User created successfully!");
     return response;
   } catch (error) {
@@ -24,17 +20,12 @@ const createUser = async (formData) => {
 };
 const updateUser = async (formData, id) => {
   try {
-    console.log(formData);
-    const response = await axios.put(
-      `${api_call}/updateUser/${id}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.put(`${api_call}/updateUser/${id}`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     toast.success("User updated successfully!");
     return response;
   } catch (error) {
@@ -48,7 +39,7 @@ const getAllUsers = async (page = 1, limit = 5, search) => {
       `${api_call}/findAllUser`,
 
       {
-        params: { page, limit, search  },
+        params: { page, limit, search },
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -64,15 +55,12 @@ const getAllUsers = async (page = 1, limit = 5, search) => {
 
 const getOneUser = async (id) => {
   try {
-    const response = await axios.get(
-      `${api_call}/findOneUser/${id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.get(`${api_call}/findOneUser/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log(error.message);

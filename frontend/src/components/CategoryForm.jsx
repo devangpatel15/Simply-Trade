@@ -6,8 +6,6 @@ import {
   Typography,
   CircularProgress,
 } from "@mui/material";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {

@@ -1,20 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  TextField,
-  Button,
-  Grid,
-  Typography,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Box,
-  MenuItem,
-} from "@mui/material";
+import { TextField, Button, Grid, Typography, Box } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import axios from "axios";
 import {
   createOrgBranch,
@@ -175,22 +161,6 @@ const OrganizationBranchForm = () => {
 
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          {/* <TextField
-                select
-                fullWidth
-                label="Organization Name"
-                variant="outlined"
-                name="organization"
-                value={formData.organization || ""}
-                onChange={handleChange}
-                required
-              >
-                {organizationOptions.map((option) => (
-                  <MenuItem key={option._id} value={option._id}>
-                    {option.organizationName}
-                  </MenuItem>
-                ))}
-              </TextField> */}
           <OrgInput
             onChange={handleOrganizationChange}
             value={formData.organization}

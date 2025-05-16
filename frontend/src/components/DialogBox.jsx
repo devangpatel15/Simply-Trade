@@ -38,7 +38,6 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
     email,
     gstNumber,
     companyType,
-    _id,
     organization,
     branchName,
     name,
@@ -47,12 +46,8 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
     modelName,
     colorName,
     categoryId,
-    id
+    id,
   } = data;
-
-  // console.log("data", data);
-  
-  
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
@@ -207,7 +202,7 @@ const DialogBox = ({ handleClose, open, data, callApi, fieldName }) => {
           {organization && (
             <Typography variant="body1">
               <b>Organization :</b>{" "}
-              {organization && organization || organization.organizationName}
+              {(organization && organization) || organization.organizationName}
             </Typography>
           )}
           {orgBranch && (

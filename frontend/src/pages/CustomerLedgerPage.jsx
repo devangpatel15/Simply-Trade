@@ -99,8 +99,6 @@ const CustomerLedgerPage = () => {
                 startDate: e.target.value,
               }))
             }
-            // value={formData.date}
-            // onChange={handleNativeDateChange}
             sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
             InputLabelProps={{
               shrink: true,
@@ -120,41 +118,22 @@ const CustomerLedgerPage = () => {
                 endDate: e.target.value,
               }))
             }
-            // value={formData.date}
-            // onChange={handleNativeDateChange}
             sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
             InputLabelProps={{
               shrink: true,
             }}
           />
 
-          {/* <TextField
-                variant="outlined"
-                placeholder="Search"
-                size="medium"
-                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon sx={{ color: "#6c5ce7" }} />
-                    </InputAdornment>
-                  ),
-                }}
-              /> */}
-              
           <Button
             variant="outlined"
             sx={{
               color: "#6c5ce7",
               borderColor: "#6c5ce7",
               textTransform: "none",
-              // fontWeight: "bold",
               fontSize: "1rem",
               width: "30%",
             }}
             onClick={handleDownload}
-            // component={Link}
-            // to="/stockForm"
           >
             Download PDF
           </Button>

@@ -21,7 +21,10 @@ exports.findAllDeviceServices = async (userId, req) => {
     .limit(limit)
     .lean();
 
-  const totalCount = await Device.countDocuments({ ...query, isDeleted: false });
+  const totalCount = await Device.countDocuments({
+    ...query,
+    isDeleted: false,
+  });
 
   return { totalCount, items };
 };
@@ -33,8 +36,6 @@ exports.findOneDeviceServices = async (deviceId) => {
   return data;
 };
 exports.selectDeviceByModelServices = async (modelId, orgText) => {
-  // const data = await Device.find({modelId , isDeleted: false}).lean();
-
   let findObject = { isDeleted: false };
 
   if (orgText && orgText.trim() !== "") {
@@ -75,15 +76,3 @@ exports.deleteDeviceServices = async (deviceId) => {
   const data = await Device.findByIdAndDelete(deviceId).lean();
   return data;
 };
-
-// exports.searchDeviceService = async (orgText) => {
-//   let findObject = { isDeleted: false };
-
-//   if (orgText.trim() !== "") {
-//     findObject.$or = [
-//       { deviceName: { $regex: `^${orgText}`, $options: "i" } },
-//     ];
-//   }
-
-//   return await Device.find(findObject).limit(5); // Increase limit if needed
-// };

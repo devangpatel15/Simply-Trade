@@ -1,6 +1,4 @@
 import * as React from "react";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import {
   Box,
   Button,
@@ -13,8 +11,6 @@ import StockTable from "../tables/StockTable";
 import { Link } from "react-router-dom";
 
 const StockPage = () => {
-  // const [stock, setStock] = React.useState([]);
-  // const [payment, setPayment] = React.useState([]);
   const [searchTerm, setSearchTerm] = React.useState("");
 
   const handleSearchChange = (event) => {
@@ -57,7 +53,7 @@ const StockPage = () => {
           </Button>
         </Box>
       </Box>
-      <Box >
+      <Box>
         <StockTable searchTerm={searchTerm} />
       </Box>
     </>

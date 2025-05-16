@@ -12,8 +12,6 @@ import {
   Box,
 } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import axios from "axios";
 import { createOrg, updateOrg } from "../apis/OrganizationApi";
 import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
@@ -99,7 +97,6 @@ const OrganizationForm = () => {
     const file = files[0];
     if (file) {
       const base64 = await convertToBase64(file);
-      console.log("Base64 String:", base64); // optional
       // Now you can store base64 in your form state or send it to your database
       setFormData((prev) => ({ ...prev, upload: base64 }));
     }

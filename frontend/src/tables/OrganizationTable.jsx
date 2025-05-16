@@ -16,8 +16,6 @@ import DeleteDialog from "../components/DeleteDialog";
 import DialogBox from "../components/DialogBox";
 import { allUserOrg, deleteOrg } from "../apis/OrganizationApi";
 import SearchIcon from "@mui/icons-material/Search";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 
 const OrganizationTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,8 +35,6 @@ const OrganizationTable = () => {
       paginationModel.pageSize,
       searchTerm
     );
-    console.log(response, "responss");
-    console.log(response.data.totalCount, "totalRows");
 
     setOrgData(response.data.items);
     setTotalRows(response.data.totalCount);
@@ -71,13 +67,6 @@ const OrganizationTable = () => {
     callApi();
   };
 
-  // const handlePaginationModelChange = (newPaginationModel) => {
-  //   setPaginationModel(newPaginationModel);
-  //   const currentPage = newPaginationModel.page;
-
-  //   console.log("Current page:", currentPage);
-  // };
-
   const handlePaginationModelChange = (newPaginationModel) => {
     setPaginationModel(newPaginationModel);
     callApi(newPaginationModel.page + 1, newPaginationModel.pageSize); // Pass page + 1 since API is likely 1-based
@@ -90,9 +79,6 @@ const OrganizationTable = () => {
       flex: 2,
       renderCell: (params) => (
         <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
-            <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton> */}
           <Link to={`/organizationForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -126,16 +112,7 @@ const OrganizationTable = () => {
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
 
-  // const filteredOrganization = rows.filter((row) => {
-  //   return row.organizationName
-  //     .toLowerCase()
-  //     .includes(searchTerm.toLowerCase());
-  // });
-
-  // const paginationModel = { page: 0, pageSize: 5 };
-
   return (
-    
     <>
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
@@ -171,7 +148,15 @@ const OrganizationTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height:"auto", width: "100%" , overflowX: "auto",boxSizing: "border-box" , marginTop:"2rem",}}>
+      <Paper
+        sx={{
+          height: "auto",
+          width: "100%",
+          overflowX: "auto",
+          boxSizing: "border-box",
+          marginTop: "2rem",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}
@@ -192,7 +177,7 @@ const OrganizationTable = () => {
               fontSize: "1.2rem",
             },
           }}
-          />
+        />
       </Paper>
 
       <DialogBox
@@ -201,15 +186,14 @@ const OrganizationTable = () => {
         data={data}
         callApi={callApi}
         fieldName="organizationForm"
-        />
+      />
       <DeleteDialog
         deleteOpen={deleteOpen}
         handleClose={handleClose}
         handleDelete={handleDelete}
         closeDeleteDialog={closeDeleteDialog}
-        />
-        </>
-  
+      />
+    </>
   );
 };
 

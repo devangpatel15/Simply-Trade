@@ -20,10 +20,6 @@ exports.getAllSellService = async (userBranchId, role, userId, req) => {
   };
 
   const data = await Sell.find(filter)
-    // .populate({
-    //   path: "branchName",
-    //   match: role == "user" ? { _id: userOrgId } : { userId: userId },
-    // })
     .populate("organization branch customerName modelName deviceName stock")
     .sort({ createdAt: -1 })
     .skip(skip)
@@ -65,9 +61,6 @@ exports.createSellService = async (newSell, stock, amount) => {
 };
 
 exports.updateSellService = async (sellId, sell) => {
-  console.log(sellId, "sellId");
-  console.log(sell, "sell");
-
   const deviceData = sell && sell.device && sell.device[0];
 
   const data = await Sell.findByIdAndUpdate(
@@ -81,7 +74,6 @@ exports.updateSellService = async (sellId, sell) => {
     { new: true }
   );
 
-  // console.log(data, "77777777");
   return data;
 };
 
@@ -92,125 +84,6 @@ exports.softDeleteSellService = async (sellId) => {
 exports.deleteSellService = async (sellId) => {
   return await Sell.findByIdAndDelete(sellId);
 };
-
-// exports.getAllStockSellRepairService = async (userOrgId, role, userId, req) => {
-//   const page = parseInt(req.query.page) || 1;
-//   const limit = parseInt(req.query.limit) || 10;
-//   const skip = (page - 1) * limit;
-
-//   const matchCondition = {
-//     isDeleted: false,
-//   };
-
-//   // If role is user, restrict by organization ID
-//   if (role === "user") {
-//     matchCondition.organization = userOrgId;
-//   } else {
-//     matchCondition["organization.userId"] = userId; // Optional, depending on your schema
-//   }
-
-//   // 👉 Aggregation for total amounts
-//   const [sellAggregates] = await Sell.aggregate([
-//     { $match: matchCondition },
-//     {
-//       $group: {
-//         _id: null,
-//         totalAmount: { $sum: "$amount" },
-//         paidAmount: { $sum: "$customerPaid" },
-//         remainingAmount: { $sum: "$remainingAmount" },
-//       },
-//     },
-//   ]);
-
-//   const [stockAggregates] = await Stock.aggregate([
-//     { $match: matchCondition },
-//     {
-//       $group: {
-//         _id: null,
-//         totalAmount: { $sum: "$totalAmount" },
-//         paidAmount: { $sum: "$paidToCustomer" },
-//         remainingAmount: { $sum: "$remainingAmount" },
-//       },
-//     },
-//   ]);
-//   const [repairAggregates] = await Repair.aggregate([
-//     { $match: matchCondition },
-//     {
-//       $group: {
-//         _id: null,
-//         totalAmount: { $sum: "$amount" },
-//         estimatedCost: { $sum: "$estimatedCost" },
-//       },
-//     },
-//   ]);
-
-//   // 👇 Regular paginated fetch
-//   const sellData = await Sell.find({ isDeleted: false })
-//     .populate({
-//       path: "organization",
-//       match: role == "user" ? { _id: userOrgId } : { userId: userId },
-//     })
-//     .populate("branch customerName modelName deviceName")
-//     .sort({ createdAt: -1 })
-//     .skip(skip)
-//     .limit(limit)
-//     .lean();
-
-//   const stockData = await Stock.find({ isDeleted: false })
-//     .populate({
-//       path: "organization",
-//       match: role == "user" ? { _id: userOrgId } : { userId: userId },
-//     })
-//     .populate(
-//       "branch customerName categoryName modelName deviceName capacityName color"
-//     )
-//     .sort({ createdAt: -1 })
-//     .skip(skip)
-//     .limit(limit)
-//     .lean();
-
-//   const repairData = await Repair.find({ isDeleted: false })
-//     .populate({
-//       path: "organization",
-//       match: role == "user" ? { _id: userOrgId } : { userId: userId },
-//     })
-//     .populate("branch customerName modelName deviceName")
-//     .sort({ createdAt: -1 })
-//     .skip(skip)
-//     .limit(limit)
-//     .lean();
-
-//   const sellCount = await Sell.countDocuments({ isDeleted: false });
-//   const stockCount = await Stock.countDocuments({ isDeleted: false });
-//   const repairCount = await Repair.countDocuments({ isDeleted: false });
-
-//   return {
-//     totalCount: sellCount + stockCount + repairCount,
-//     items: {
-//       sellData,
-//       stockData,
-//       repairData,
-//     },
-//     sellTotals: sellAggregates || {
-//       totalAmount: 0,
-//       paidAmount: 0,
-//       remainingAmount: 0,
-//     },
-//     sellCount,
-//     stockTotals: stockAggregates || {
-//       totalAmount: 0,
-//       paidAmount: 0,
-//       remainingAmount: 0,
-//     },
-//     stockCount,
-//     repairTotals: repairAggregates || {
-//       totalAmount: 0,
-//       paidAmount: 0,
-//       remainingAmount: 0,
-//     },
-//     repairCount,
-//   };
-// };
 
 exports.getSellByDateService = async ({ startDate, endDate }, branchId) => {
   const filter = { isDeleted: false };
@@ -278,12 +151,6 @@ exports.getAllStockSellRepairService = async (
     }
   }
 
-  // if (role === "user") {
-  //   baseMatchCondition.organization = userOrgId;
-  // } else {
-  //   // baseMatchCondition["organization.userId"] = userId;
-  // }
-
   // Add filters if present
   if (orgId) {
     baseMatchCondition.organization = new mongoose.Types.ObjectId(orgId);
@@ -291,8 +158,6 @@ exports.getAllStockSellRepairService = async (
   if (cusId) {
     baseMatchCondition.customerName = new mongoose.Types.ObjectId(cusId);
   }
-
-  // console.log(userBranchId, "userBranchId");
 
   if (userBranchId) {
     baseMatchCondition.branch = new mongoose.Types.ObjectId(userBranchId);

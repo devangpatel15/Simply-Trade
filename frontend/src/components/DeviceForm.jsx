@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Grid,
-  MenuItem,
-  TextField,
-  Typography,
-} from "@mui/material";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { createDevice, getOneDevice, updateDevice } from "../apis/DeviceApi";
@@ -16,7 +7,6 @@ import OrgBranchInput from "./common/OrgBranchInput";
 import CategoryInput from "./common/CategoryInput";
 import ModelInput from "./common/ModelInput";
 import { errorMessage } from "../../errorMessage";
-import { toast } from "react-toastify";
 
 const DeviceForm = () => {
   const { id } = useParams();

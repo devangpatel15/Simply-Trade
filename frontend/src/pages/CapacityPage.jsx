@@ -14,9 +14,6 @@ const CapacityPage = () => {
     callApi();
   }, []);
 
-  const [open, setOpen] = useState(false);
-  const [data, setData] = useState({});
-
   return <CapacityTable capacity={capacity} callApi={callApi} />;
 };
 

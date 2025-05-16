@@ -11,8 +11,6 @@ const ProfitLoseTable = () => {
   const callApi = async () => {
     try {
       const response = await getProfitLoss(); // +1 because API uses 1-based indexing
-      console.log(response.data.individualDetails, "API Response");
-      console.log(response.data.overall, "API Response");
       setProfitLoss(response.data.individualDetails);
       setOverAllData(response.data.overall);
     } catch (error) {
@@ -35,7 +33,6 @@ const ProfitLoseTable = () => {
     { field: "totalCost", headerName: "Total Cost", flex: 2 },
     { field: "totalSellingAmount", headerName: "Selling Amount", flex: 2 },
     { field: "profitOrLoss", headerName: "Profit/Loss", flex: 2 },
-    // { field: "totalGeneralExpense", headerName: "GeneralExpense", flex: 2 },
     {
       field: "status",
       headerName: "status",
@@ -82,20 +79,6 @@ const ProfitLoseTable = () => {
         <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
           PROFIT AND LOSS
         </Typography>
-        {/* <Box display="flex" gap={4}>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    color: "#6c5ce7",
-                    borderColor: "#6c5ce7",
-                    textTransform: "none",
-                  }}
-                  // component={Link}
-                  // to="/deviceForm"
-                >
-                  Download PDF
-                </Button>
-              </Box> */}
       </Box>
 
       <Box display="flex" gap={2} sx={{ marginTop: 2 }}>
@@ -190,85 +173,16 @@ const ProfitLoseTable = () => {
           </Grid>
         </Grid>
       </Box>
-      {/* radio group not need now */}
-      {/* <Box display="flex" gap={2}>
-                <Grid container spacing={2} sx={{ marginTop: 0.5 }}>
-                  <Grid item xs={6}>
-                    <RadioGroup
-                      row
-                      aria-labelledby="demo-row-radio-buttons-group-label"
-                      name="row-radio-buttons-group"
-                      sx={{
-                        fontWeight: "bold",
-                        color: "#6c5ce7",
-                        padding: "0.4rem",
-                      }}
-                    >
-                      <FormControlLabel
-                        value="female"
-                        control={<Radio />}
-                        label="Profit & Loss"
-                      />
-                      <FormControlLabel
-                        value="male"
-                        control={<Radio />}
-                        label="Stock"
-                      />
-                      <FormControlLabel
-                        value="other"
-                        control={<Radio />}
-                        label="Sell"
-                      />
-                      <FormControlLabel
-                        value="repair"
-                        // disabled
-                        control={<Radio />}
-                        label="Repair"
-                      />
-                    </RadioGroup>
-                  </Grid>
-                  </Grid>
-                </Box> */}
-      {/* <Box display="flex" gap={2} sx={{ marginTop: 5 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={3}>
-                  <OrgInput />
-                </Grid>
-                <Grid item xs={3}>
-                  <OrgBranchInput />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    label="Start Date"
-                    name="date"
-                    // value={formData.date}
-                    // onChange={handleNativeDateChange}
-                    // sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    fullWidth
-                    type="date"
-                    label="End Date"
-                    name="date"
-                    // value={formData.date}
-                    // onChange={handleNativeDateChange}
-                    // sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </Box> */}
 
-      <Paper sx={{ height: "auto", width: "100%", padding: 2 , overflowX: "auto",boxSizing: "border-box"}}>
+      <Paper
+        sx={{
+          height: "auto",
+          width: "100%",
+          padding: 2,
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}

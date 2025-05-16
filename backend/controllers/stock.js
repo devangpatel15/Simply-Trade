@@ -112,54 +112,6 @@ exports.createStock = async (req, res) => {
   }
 };
 
-// exports.createStock = async (req, res) => {
-//   try {
-//     const newStock = req.body;
-//     const {deviceData}=newStock;
-//     const{ imeiFormData}=deviceData;
-
-//     // const stock={
-//     //   organization:"",
-//     //   branch:"",
-//     //   customerName:"",
-//     //   customerPhone:"",
-//     //   deviceData:[
-//     //     {
-//     //       categoryName:"",
-//     //       modelName:"",
-//     //       deviceName:"",
-//     //       capacityName:"",
-//     //       color:"",
-//     //       imeiFormData:[
-//     //         {
-//     //           imeiNo:"",
-//     //           totalAmount:"",
-//     //           paidToCustomer:"",
-//     //           remainingAmount:"",
-//     //         }
-//     //       ]
-//     //     }
-//     //   ]
-//     // };
-
-//     // deviceData.map((device) => {
-//     //   return device.imeiFormData.map((imei) => {
-//     //     return console.log(imei);
-//     //   });
-//     // });
-
-//     const createdStock = await createStockService(newStock);
-
-//     return res
-//       .status(200)
-//       .json({ message: "Stock created", data: createdStock });
-//   } catch (err) {
-//     return res
-//       .status(500)
-//       .json({ message: "Internal server error", error: err.message });
-//   }
-// };
-
 exports.updateStock = async (req, res) => {
   try {
     const stockId = req.params.id;

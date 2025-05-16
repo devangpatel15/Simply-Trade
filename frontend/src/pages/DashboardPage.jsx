@@ -19,9 +19,7 @@ const DashboardPage = () => {
 
   const callApi = async () => {
     try {
-      const response = await getProfitLoss(); // +1 because API uses 1-based indexing
-      console.log(response.data.individualDetails, "API Response");
-      console.log(response.data.overall, "API Response");
+      const response = await getProfitLoss();
       setProfitLoss(response.data.individualDetails);
       setOverAllData(response.data.overall);
     } catch (error) {
@@ -30,7 +28,7 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
-    callApi();  
+    callApi();
   }, []);
 
   return (

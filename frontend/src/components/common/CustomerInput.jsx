@@ -66,24 +66,13 @@ const CustomerInput = ({
       } else if (branchId) {
         if (field === "all") {
           apiPath = `getCustomerByBranch/${branchId}`;
-          console.log("getCustomerByBranch");
         } else if (field === "stock") {
-          console.log("getBuyerByBranch");
           apiPath = `getBuyerByBranch/${branchId}`;
         } else if (field === "sell") {
-          console.log("getSellerByBranch");
           apiPath = `getSellerByBranch/${branchId}`;
         } else if (field === "repair") {
-          console.log("getSellerByBranch");
           apiPath = `getSellerByBranch/${branchId}`;
         }
-
-        // if (field === "stock") {
-        //   apiPath = `getBuyerByBranch/${branchId}`;
-        // } else {
-        //   console.log("hii");
-        //   apiPath = `getSellerByBranch/${branchId}`;
-        // }
       }
 
       try {

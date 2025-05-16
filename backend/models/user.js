@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     mobileNo: { type: String, required: true },
     password: { type: String, required: true },
-    role : { type: String , enum : ['admin','user'], default : 'admin'},
+    role: { type: String, enum: ["admin", "user"], default: "admin" },
     verificationCode: { type: String },
     codeExpires: { type: Date },
     organization: { type: mongoose.Schema.Types.ObjectId, ref: "Organization" },

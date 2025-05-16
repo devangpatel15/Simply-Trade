@@ -53,28 +53,6 @@ exports.deleteCustomerService = async (cusId) => {
   return await Customer.findByIdAndDelete(cusId).lean();
 };
 
-// exports.searchCustomerServices = async (orgText) => {
-//   let findObject = { isDeleted: false };
-
-//   if (orgText.trim() !== "") {
-//     findObject.$or = [
-//       { customerName: { $regex: `^${orgText}`, $options: "i" } },
-//     ];
-//   }
-
-//   return await Customer.find(findObject).limit(5); // Increase limit if needed
-// };
-
-// exports.selectCustomerServices = async (branchId) => {
-//   const data = await Customer.find({
-//     branchName: branchId,
-//     isDeleted: false,
-//   })
-//     .populate("branchName organization")
-//     .lean();
-//   return data;
-// };
-
 exports.selectCustomerServices = async (branchId, orgText) => {
   let findObject = { isDeleted: false };
 

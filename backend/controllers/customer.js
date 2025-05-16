@@ -124,50 +124,6 @@ exports.deleteCustomer = async (req, res) => {
   }
 };
 
-// exports.searchCustomer = async (req, res) => {
-
-//   try {
-//     const orgText = req.query.text || "";
-
-//     const org = await searchCustomerServices(orgText);
-
-//     if (!org) {
-//       return res.status(404).json({ message: "searchCustomer not found" });
-//     }
-//     return res
-//       .status(200)
-//       .json({ message: "searchCustomer searched successfully", data: org });
-//   } catch (err) {
-//     return res
-//       .status(500)
-//       .json({ message: "Internal server error", error: err.message });
-//   }
-// };
-
-// exports.selectCustomer = async (req, res) => {
-//   try {
-//     // const orgId = req?.query?.id;
-//     const branchId = req?.params?.id;
-//     // const text = req.query.text || "";
-//     const customerData = await selectCustomerServices(
-//       branchId
-//     );
-
-//     if (!customerData) {
-//       return res.status(404).json({ message: "No customerData found" });
-//     }
-
-//     return res.status(200).json({
-//       message: "customerData retrieved successfully",
-//       data: customerData,
-//     });
-//   } catch (err) {
-//     return res
-//       .status(500)
-//       .json({ message: "Internal server error", error: err.message });
-//   }
-// };
-
 exports.selectCustomer = async (req, res) => {
   try {
     const branchId = req?.params?.id;

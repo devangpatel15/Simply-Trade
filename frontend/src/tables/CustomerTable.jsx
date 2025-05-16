@@ -8,8 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 import DialogBox from "../components/DialogBox";
 import SearchIcon from "@mui/icons-material/Search";
@@ -17,8 +15,6 @@ import DeleteDialog from "../components/DeleteDialog";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteExpense, getAllExpense } from "../apis/ExpenseApi";
-import moment from "moment";
 import { deleteCustomer, getAllCustomer } from "../apis/CustomerApi";
 
 const CustomerTable = () => {
@@ -40,7 +36,6 @@ const CustomerTable = () => {
         paginationModel.pageSize,
         searchTerm
       ); // +1 because API uses 1-based indexing
-      console.log(response, "API Response");
       setCustomer(response.data.data.items); // Set the items to orgData
       setTotalRows(response.data.data.totalCount); // Set the total count (rowCount) from API response
     } catch (error) {
@@ -87,12 +82,9 @@ const CustomerTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex : 1,
+      flex: 1,
       renderCell: (params) => (
         <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
-                    <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-                  </IconButton> */}
           <Link to={`/customerForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -104,11 +96,11 @@ const CustomerTable = () => {
         </>
       ),
     },
-    { field: "organization", headerName: "Organization", flex : 1 },
-    { field: "branchName", headerName: "Branch", flex : 1 },
-    { field: "customerName", headerName: "Customer Name", flex : 1 },
-    { field: "customerPhone", headerName: "Customer Phone", flex : 1 },
-    { field: "role", headerName: "Role", flex : 1 },
+    { field: "organization", headerName: "Organization", flex: 1 },
+    { field: "branchName", headerName: "Branch", flex: 1 },
+    { field: "customerName", headerName: "Customer Name", flex: 1 },
+    { field: "customerPhone", headerName: "Customer Phone", flex: 1 },
+    { field: "role", headerName: "Role", flex: 1 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -166,7 +158,15 @@ const CustomerTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: "auto", width: "100%", marginTop: "2rem", overflowX: "auto",boxSizing: "border-box" }}>
+      <Paper
+        sx={{
+          height: "auto",
+          width: "100%",
+          marginTop: "2rem",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}

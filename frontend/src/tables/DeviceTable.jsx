@@ -10,14 +10,11 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteDevice, getAllDevice } from "../apis/DeviceApi";
 import DialogBox from "../components/DialogBox";
 import DeleteDialog from "../components/DeleteDialog";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 import SearchIcon from "@mui/icons-material/Search";
 
 const DeviceTable = () => {
@@ -39,7 +36,6 @@ const DeviceTable = () => {
         paginationModel.pageSize,
         searchTerm
       ); // +1 because API uses 1-based indexing
-      console.log(response, "API Response");
       setDevice(response.data.data.items); // Set the items to orgData
       setTotalRows(response.data.data.totalCount); // Set the total count (rowCount) from API response
     } catch (error) {
@@ -86,12 +82,9 @@ const DeviceTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex : 1,
+      flex: 1,
       renderCell: (params) => (
         <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
-                <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-              </IconButton> */}
           <Link to={`/deviceForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -103,11 +96,11 @@ const DeviceTable = () => {
         </>
       ),
     },
-    { field: "deviceName", headerName: "Device", flex : 1 },
-    { field: "categoryId", headerName: "Category", flex : 1 },
-    { field: "modelId", headerName: "Model", flex : 1 },
-    { field: "organization", headerName: "Organization", flex : 1 },
-    { field: "branchName", headerName: "Branch Name", flex : 1 },
+    { field: "deviceName", headerName: "Device", flex: 1 },
+    { field: "categoryId", headerName: "Category", flex: 1 },
+    { field: "modelId", headerName: "Model", flex: 1 },
+    { field: "organization", headerName: "Organization", flex: 1 },
+    { field: "branchName", headerName: "Branch Name", flex: 1 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -125,11 +118,6 @@ const DeviceTable = () => {
     setSearchTerm(event.target.value);
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
-
-  // Filter categories based on search term
-  // const filteredDevice = rows.filter((row) => {
-  //   return row.deviceName.toLowerCase().includes(searchTerm.toLowerCase());
-  // });
 
   return (
     <Box>
@@ -168,7 +156,15 @@ const DeviceTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: "auto", width: "100%", marginTop: "2rem" , overflowX: "auto",boxSizing: "border-box"}}>
+      <Paper
+        sx={{
+          height: "auto",
+          width: "100%",
+          marginTop: "2rem",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}

@@ -29,8 +29,6 @@ const StockTable = ({ searchTerm }) => {
     pageSize: 5,
   });
 
-  console.log("loginUser", loginUser);
-
   // Function to fetch data from the API based on pagination model
   const callApi = async () => {
     try {
@@ -39,7 +37,6 @@ const StockTable = ({ searchTerm }) => {
         paginationModel.pageSize,
         searchTerm
       ); // +1 because API uses 1-based indexing
-      console.log(response, "API Response");
       setStock(response.data.data.items); // Set the items to orgData
       setTotalRows(response.data.data.totalCount); // Set the total count (rowCount) from API response
       setLoginUser(JSON.parse(localStorage.getItem("role")));
@@ -94,7 +91,7 @@ const StockTable = ({ searchTerm }) => {
     {
       field: "action",
       headerName: "Action",
-      flex : 1.5,
+      flex: 1.5,
       renderCell: (params) => (
         <>
           {((loginUser && loginUser.role === "admin") ||
@@ -108,9 +105,6 @@ const StockTable = ({ searchTerm }) => {
               <IconButton onClick={() => openDeleteDialog(params.row.id)}>
                 <DeleteIcon sx={{ color: "#6c5ce7" }} />
               </IconButton>
-              {/* <IconButton onClick={() => handlePaymentDialogOpen(params.row)}>
-                <MonetizationOnIcon sx={{ color: "#6c5ce7" }} />
-              </IconButton> */}
               <Link
                 to={
                   location.pathname.includes("stockPage")

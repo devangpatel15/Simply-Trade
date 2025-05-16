@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {
-  TextField,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Typography,
-  Box,
-  Alert,
-} from "@mui/material";
+import { TextField, Button, Typography, Box, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const SignInByOtp = () => {
@@ -84,18 +76,6 @@ const SignInByOtp = () => {
           value={formData.email}
           onChange={handleChange}
         />
-
-        {/* <FormControlLabel
-          control={
-            <Checkbox
-              name="rememberMe"
-              checked={formData.rememberMe}
-              onChange={handleChange}
-            />
-          }
-          label="Remember Me"
-          sx={{ display: "flex", justifyContent: "center" }}
-        /> */}
 
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
           Get OTP

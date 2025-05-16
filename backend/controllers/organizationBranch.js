@@ -7,7 +7,6 @@ const {
   findUserOrganizationBranchServices,
   softDeleteOrganizationBranchService,
   selectOrganizationBranchServices,
-  searchOrgBranchService,
   findOrganizationBranchByOrganizationService,
 } = require("../services/organizationBranch");
 const { createLogActivity } = require("../utils/logActivity");
@@ -192,26 +191,6 @@ exports.deleteOrganizationBranch = async (req, res) => {
       .json({ message: "Internal server error", error: err.message });
   }
 };
-
-// exports.searchOrgBranch = async (req, res) => {
-//   try {
-//     const orgText = req.query.text || "";
-
-//     const org = await searchOrgBranchService(orgText);
-
-//     if (!org) {
-//       return res.status(404).json({ message: "Organization branch not found" });
-//     }
-//     return res
-//       .status(200)
-//       .json({ message: "Organization branch searched successfully", data: org });
-//   } catch (err) {
-//     return res
-//       .status(500)
-//       .json({ message: "Internal server error", error: err.message });
-//   }
-// };
-
 exports.findOrganizationBranchByOrganization = async (req, res) => {
   const organizationId = req.params.id;
 

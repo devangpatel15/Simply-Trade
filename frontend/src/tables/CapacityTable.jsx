@@ -10,14 +10,11 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "../components/DeleteDialog";
 import DialogBox from "../components/DialogBox";
 import { deleteCapacity, getAllCapacity } from "../apis/CapacityApi";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import SearchIcon from "@mui/icons-material/Search";
 
 const CapacityTable = () => {
@@ -38,8 +35,6 @@ const CapacityTable = () => {
       paginationModel.pageSize,
       searchTerm
     );
-    console.log(response, "responss");
-    console.log(response.data.totalCount, "totalRows");
 
     setCapacity(response.data.items);
     setTotalRows(response.data.totalCount);
@@ -77,12 +72,9 @@ const CapacityTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex: 1 ,
+      flex: 1,
       renderCell: (params) => (
         <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
-            <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton> */}
           <Link to={`/capacityForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -125,13 +117,6 @@ const CapacityTable = () => {
     setSearchTerm(event.target.value);
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
-
-  // Filter categories based on search term
-  // const filteredDevice = rows.filter((row) => {
-  //   return row.capacityName.toLowerCase().includes(searchTerm.toLowerCase());
-  // });
-
-  // const paginationModel = { page: 0, pageSize: 5 };
 
   return (
     <Box>

@@ -9,8 +9,6 @@ const OrgInput = ({ onChange, value, error, role, readOnlyExp }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
-  // console.log("helllo org input");
-
   // Debounced API call wrapped in useCallback to avoid unnecessary recreations
   const fetchOrganizations = useCallback(
     debounce(async (query) => {

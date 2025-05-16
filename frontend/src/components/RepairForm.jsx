@@ -133,8 +133,6 @@ const RepairForm = () => {
   const handleSubmit = async () => {
     // if (!validateForm()) return;
 
-    console.log("Submitting form data: ", formData);
-
     const payload = {
       organization: formData.organization?.value || null,
       branch: formData.branch?.value || null,
@@ -156,7 +154,6 @@ const RepairForm = () => {
         await updateRepair(payload, id);
       } else {
         await createRepair(payload);
-        console.log("Final Payload:", payload);
       }
       navigate("/repairPage");
     } catch (error) {
@@ -406,12 +403,7 @@ const RepairForm = () => {
                 />
               </Grid>
               <Grid item xs={6}>
-                <FormControl
-                  fullWidth
-                  variant="outlined"
-                  // error={!!errors.role}
-                  required
-                >
+                <FormControl fullWidth variant="outlined" required>
                   <InputLabel id="status-label">Status</InputLabel>
                   <Select
                     labelId="status-label"
@@ -427,9 +419,6 @@ const RepairForm = () => {
                     <MenuItem value="InProcess">In-Process</MenuItem>
                     <MenuItem value="Completed">Completed</MenuItem>
                   </Select>
-                  {/* {errors.role && (
-                      <FormHelperText>{errors.role}</FormHelperText>
-                    )} */}
                 </FormControl>
               </Grid>
               <Grid item xs={6}>

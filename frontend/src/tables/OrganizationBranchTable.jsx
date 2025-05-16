@@ -19,8 +19,6 @@ import {
   deleteOrgBranch,
   getAllUserOrgBranch,
 } from "../apis/OrganizationBranchApi";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 
 const OrganizationBranchTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -42,7 +40,6 @@ const OrganizationBranchTable = () => {
         paginationModel.pageSize,
         searchTerm
       ); // +1 because API uses 1-based indexing
-      console.log(response, "API Response");
       setOrgData(response.data.data.items); // Set the items to orgData
       setTotalRows(response.data.data.totalCount); // Set the total count (rowCount) from API response
     } catch (error) {
@@ -93,9 +90,6 @@ const OrganizationBranchTable = () => {
       flex: 2,
       renderCell: (params) => (
         <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
-            <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton> */}
           <Link to={`/organizationBranchForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -126,10 +120,6 @@ const OrganizationBranchTable = () => {
     setSearchTerm(event.target.value);
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
-  // Filter the organization branches based on the search term
-  // const filteredOrganizationBranch = rows.filter((row) =>
-  //   row.branchName.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
 
   return (
     <Box>
@@ -172,7 +162,6 @@ const OrganizationBranchTable = () => {
           width: "100%",
           marginTop: "2rem",
           height: "auto",
-          // position: "sticky",
           overflowX: "auto",
           boxSizing: "border-box",
         }}

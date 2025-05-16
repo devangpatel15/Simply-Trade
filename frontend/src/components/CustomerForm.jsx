@@ -10,8 +10,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
@@ -65,7 +63,6 @@ const CustomerForm = () => {
     } else if (formData.customerPhone && formData.customerPhone.length !== 10) {
       newErrors.customerPhone = lengthMessage.mobile;
     }
-    console.log("newErrors", newErrors);
 
     setErrors(newErrors);
 

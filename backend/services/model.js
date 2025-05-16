@@ -29,7 +29,6 @@ exports.findOneModelServices = async (modelId) => {
   return data;
 };
 exports.selectModelByCatServices = async (catId, orgText) => {
-  // const data = await Model.find({ categoryId: catId, isDeleted: false }).lean();
   let findObject = { isDeleted: false };
 
   if (orgText.trim() !== "") {
@@ -49,7 +48,6 @@ exports.findUserModelServices = async (userId) => {
 };
 
 exports.createModelServices = async (modelData) => {
-  // console.log("in servise::::::::::", modelData);
   const data = await Model.create(modelData);
 
   return data;
@@ -85,13 +83,3 @@ exports.selectModelByBranchServices = async (branchId, orgText) => {
     .populate("organization branchName categoryId")
     .limit(5);
 };
-
-// exports.searchModelService = async (orgText) => {
-//   let findObject = { isDeleted: false };
-
-//   if (orgText.trim() !== "") {
-//     findObject.$or = [{ modelName: { $regex: `^${orgText}`, $options: "i" } }];
-//   }
-
-//   return await Model.find(findObject).limit(5); // Increase limit if needed
-// };

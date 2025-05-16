@@ -11,8 +11,6 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -28,7 +26,6 @@ import { getOneStock, updateStock } from "../apis/StockApi";
 import moment from "moment";
 
 const ExpenseForm = ({ stockId }) => {
-  console.log(stockId, "stockId+++++++++++++++++++++++++++++++++");
   const { id } = useParams();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
@@ -48,7 +45,6 @@ const ExpenseForm = ({ stockId }) => {
   const [branchId, setBranchId] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectedDevice, setSelectedDevice] = useState("");
-  const [catId, setCatId] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -84,8 +80,6 @@ const ExpenseForm = ({ stockId }) => {
       return;
     }
 
-    console.log("Submitting form data: ", formData);
-
     let payload;
     if (formData.category == "Phone") {
       payload = {
@@ -111,13 +105,7 @@ const ExpenseForm = ({ stockId }) => {
       };
     }
 
-    // const data = {
-    //   expenseAmount: formData.amount,
-    // };
-
     try {
-      console.log(payload, "payload");
-
       if (stockId) {
         if (!formData.expense) {
           await createExpense(payload);
@@ -126,33 +114,24 @@ const ExpenseForm = ({ stockId }) => {
           await updateExpense(payload, formData.expense);
           navigate("/expensePage");
         }
-        // toast.success("Expense added successfully!");
       } else if (id) {
         await updateExpense(payload, id);
         toast.success("Expense updated successfully!");
         navigate("/expensePage");
       } else {
         await createExpense(payload);
-        // toast.success("Expense added successfully!");
         navigate("/expensePage");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      // toast.error(
-      //   "An error occurred while submitting the form. Please try again."
-      // );
     }
   };
 
   const callApi = async () => {
-    console.log("call api by id...................");
     if (id) {
       let response;
       if (stockId) {
-        console.log("getOneStock api call");
-
         response = await getOneStock(id);
-        console.log(response.data.data);
 
         setFormData({
           ...response.data.data,
@@ -208,8 +187,6 @@ const ExpenseForm = ({ stockId }) => {
       }
     }
   };
-
-  console.log("formdata,,,,,,,,,,,,,,,,,,,,,,,", formData);
 
   useEffect(() => {
     callApi();
@@ -268,7 +245,6 @@ const ExpenseForm = ({ stockId }) => {
   };
 
   const handleModelChange = (selectedModel) => {
-    console.log(selectedModel);
     setSelectedModel(selectedModel?.value);
     setFormData((prev) => ({
       ...prev,

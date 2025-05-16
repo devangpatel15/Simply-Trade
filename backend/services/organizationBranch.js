@@ -85,16 +85,6 @@ exports.deleteOrganizationBranchServices = async (OrganizationBranchId) => {
   return data;
 };
 
-// exports.searchOrgBranchService = async (orgText) => {
-//   let findObject = { isDeleted: false };
-
-//   if (orgText.trim() !== "") {
-//     findObject.$or = [{ branchName: { $regex: `^${orgText}`, $options: "i" } }];
-//   }
-
-//   return await OrganizationBranch.find(findObject).limit(5); // Increase limit if needed
-// };
-
 exports.findOrganizationBranchByOrganizationService = async (
   organizationId
 ) => {

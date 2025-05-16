@@ -5,7 +5,6 @@ const { AuthUser } = require('../middleware/user')
 const deviceRoute=express.Router()
 
 deviceRoute.get('/findAllDevice',AuthUser,findAllDevice)
-// deviceRoute.get('/searchDevice',searchDevice)
 deviceRoute.get('/findOneDevice/:id',validateGetOneDeviceData,findOneDevice)
 deviceRoute.get('/selectDeviceByModel/:id',validateGetOneDeviceData,selectDeviceByModel)
 deviceRoute.post('/createDevice',AuthUser,validateCreateDeviceData,createDevice)

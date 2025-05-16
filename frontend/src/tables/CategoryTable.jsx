@@ -9,8 +9,6 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import SearchIcon from "@mui/icons-material/Search";
 import { deleteCategory, getAllCategory } from "../apis/CategoryApi";
 import { Link } from "react-router-dom";
@@ -37,8 +35,6 @@ const CategoryTable = () => {
       paginationModel.pageSize,
       searchTerm
     );
-    console.log(response, "responss");
-    console.log(response.data.totalCount, "totalRows");
 
     setCategory(response.data.items);
     setTotalRows(response.data.totalCount);
@@ -82,12 +78,9 @@ const CategoryTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex : 1,
+      flex: 1,
       renderCell: (params) => (
         <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
-            <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton> */}
           <Link to={`/categoryForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -99,9 +92,9 @@ const CategoryTable = () => {
         </>
       ),
     },
-    { field: "categoryName", headerName: "Category Name", flex : 1 },
-    { field: "orgId", headerName: "Organization", flex : 1 },
-    { field: "branchName", headerName: "Branch Name", flex : 1 },
+    { field: "categoryName", headerName: "Category Name", flex: 1 },
+    { field: "orgId", headerName: "Organization", flex: 1 },
+    { field: "branchName", headerName: "Branch Name", flex: 1 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -119,13 +112,6 @@ const CategoryTable = () => {
     setSearchTerm(event.target.value);
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
-
-  // Filter categories based on search term
-  // const filteredCategories = rows.filter((row) => {
-  //   return row.categoryName.toLowerCase().includes(searchTerm.toLowerCase());
-  // });
-
-  // const paginationModel = { page: 0, pageSize: 3 };
 
   return (
     <Box>

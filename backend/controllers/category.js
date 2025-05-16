@@ -8,7 +8,6 @@ const {
   selectCategoryByBranchService,
   getUserCategoryService,
   searchCategoryService,
-  selectCategoryServices,
 } = require("../services/category");
 const { createLogActivity } = require("../utils/logActivity");
 
@@ -153,22 +152,6 @@ exports.searchCategory = async (req, res) => {
       .json({ message: "Internal server error", error: err.message });
   }
 };
-
-// exports.selectCategoryByBranch = async (req, res) => {
-//   try {
-//     const branchId = req.params.id;
-//     const cat = await selectCategoryByBranchService(branchId);
-//     if (!cat) {
-//       return res.status(404).json({ message: "No category found" });
-//     }
-//     return res.status(200).json({
-//       message: "category retrieved successfully",
-//       data: cat,
-//     });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
 
 exports.selectCategory = async (req, res) => {
   try {

@@ -96,8 +96,6 @@ exports.getProfitLossService = async (userOrgId, role, userId, branchId) => {
     },
   ]);
 
-  console.log(generalTotal);
-
   const totalGeneralExpense = generalTotal[0]?.totalAmount || 0;
 
   const totalAfterExpense = totalProfitOrLoss - totalGeneralExpense;

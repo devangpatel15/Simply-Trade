@@ -36,7 +36,6 @@ const RepairTable = () => {
         paginationModel.pageSize,
         searchTerm
       );
-      console.log(response, "API Response");
       setRepair(response.data.items); // Set the items to orgData
       setTotalRows(response.data.totalCount); // Set the total count (rowCount) from API response
     } catch (error) {
@@ -93,9 +92,6 @@ const RepairTable = () => {
       flex: 1,
       renderCell: (params) => (
         <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
-                    <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-                  </IconButton> */}
           <Link to={`/repairForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -107,15 +103,15 @@ const RepairTable = () => {
         </>
       ),
     },
-    { field: "organization", headerName: "Organization", flex : 1 },
-    { field: "branch", headerName: "Branch", flex : 1 },
-    { field: "customerName", headerName: "customerName", flex : 1 },
-    { field: "email", headerName: "email", flex : 1 },
-    { field: "modelName", headerName: "modelName", flex : 1 },
-    { field: "deviceName", headerName: "deviceName", flex : 1 },
-    { field: "amount", headerName: "Amount", flex : 1 },
-    { field: "date", headerName: "Date", flex : 1 },
-    { field: "status", headerName: "status", flex : 1 },
+    { field: "organization", headerName: "Organization", flex: 1 },
+    { field: "branch", headerName: "Branch", flex: 1 },
+    { field: "customerName", headerName: "customerName", flex: 1 },
+    { field: "email", headerName: "email", flex: 1 },
+    { field: "modelName", headerName: "modelName", flex: 1 },
+    { field: "deviceName", headerName: "deviceName", flex: 1 },
+    { field: "amount", headerName: "Amount", flex: 1 },
+    { field: "date", headerName: "Date", flex: 1 },
+    { field: "status", headerName: "status", flex: 1 },
   ];
 
   // Prepare the rows for the DataGrid

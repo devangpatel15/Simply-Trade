@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-  Button,
   InputAdornment,
   Paper,
   TextField,
@@ -85,8 +84,6 @@ const ActivityLogTable = () => {
     },
   ];
 
-  console.log("logs", logs);
-
   const rows = Array.isArray(logs)
     ? logs.map((log) => ({
         id: log._id,
@@ -107,7 +104,6 @@ const ActivityLogTable = () => {
 
       <Box display="flex" gap={2} my={2}>
         <TextField
-          // label="Name"
           placeholder="Search by name"
           value={searchTerm}
           onChange={handleSearchChange}

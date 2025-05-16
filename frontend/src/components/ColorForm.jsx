@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, Grid, TextField } from "@mui/material";
-import { SketchPicker } from "react-color";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { createColor, getOneColor, updateColor } from "../apis/ColorApi";
 import OrgInput from "./common/OrgInput";
@@ -11,7 +8,6 @@ import CategoryInput from "./common/CategoryInput";
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 import { errorMessage } from "../../errorMessage";
-import { toast } from "react-toastify";
 
 function ColorForm() {
   const [formData, setFormData] = useState({

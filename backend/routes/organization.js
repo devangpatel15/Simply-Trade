@@ -22,7 +22,6 @@ const orgRouter = express.Router();
 orgRouter.get("/allOrg", AuthUser, getAllOrganization);
 orgRouter.get("/allUserOrg", AuthUser, getAllUserOrganization);
 orgRouter.get("/org/:id", AuthUser, getOrgValidation, getOrganization);
-// orgRouter.get("/searchOrg", AuthUser,searchOrganization);
 orgRouter.get("/searchOrg", AuthUser, searchOrganization);
 orgRouter.post("/createOrg", AuthUser, createValidation, createOrganization);
 orgRouter.put(

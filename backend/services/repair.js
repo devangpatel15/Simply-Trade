@@ -58,10 +58,6 @@ exports.updateRepairServices = async (repairId, repair) => {
   );
 
   return data;
-
-  // return await Repair.findByIdAndUpdate(repairId, repair, { new: true })
-  //   .populate("branch customerName modelName deviceName")
-  //   .lean();
 };
 
 exports.getRepairService = async (repairId) => {

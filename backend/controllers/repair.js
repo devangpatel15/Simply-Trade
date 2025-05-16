@@ -55,8 +55,6 @@ exports.getRepair = async (req, res) => {
 
 exports.createRepair = async (req, res) => {
   try {
-    // console.log(req.body, "777777777");
-
     const newData = req.body;
     const { device } = newData;
 

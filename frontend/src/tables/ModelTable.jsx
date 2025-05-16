@@ -16,8 +16,6 @@ import DeleteDialog from "../components/DeleteDialog";
 import axios from "axios";
 import DialogBox from "../components/DialogBox";
 import { deleteModel } from "../apis/ModelApi";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import SearchIcon from "@mui/icons-material/Search";
 
 const ModelTable = () => {
@@ -42,8 +40,7 @@ const ModelTable = () => {
     pageSize: 5,
   });
 
-  const api_call = import.meta.env.VITE_API_URL
-
+  const api_call = import.meta.env.VITE_API_URL;
 
   const callApi = async (page = 1, limit = 5, search) => {
     const response = await axios.get(`${api_call}/findAllModel`, {
@@ -92,12 +89,9 @@ const ModelTable = () => {
     {
       field: "action",
       headerName: "Action",
-    flex : 1,
+      flex: 1,
       renderCell: (params) => (
         <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
-            <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton> */}
           <Link to={`/modelForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -109,10 +103,10 @@ const ModelTable = () => {
         </>
       ),
     },
-    { field: "modelName", headerName: "Model Name", flex : 1 },
-    { field: "categoryId", headerName: "Category", flex : 1 },
-    { field: "organization", headerName: "Organization", flex : 1 },
-    { field: "branchName", headerName: "Branch Name", flex : 1 },
+    { field: "modelName", headerName: "Model Name", flex: 1 },
+    { field: "categoryId", headerName: "Category", flex: 1 },
+    { field: "organization", headerName: "Organization", flex: 1 },
+    { field: "branchName", headerName: "Branch Name", flex: 1 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -129,11 +123,6 @@ const ModelTable = () => {
     setSearchTerm(event.target.value);
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
-
-  // Filter categories based on search term
-  // const filteredDevice = rows.filter((row) => {
-  //   return row.modelName.toLowerCase().includes(searchTerm.toLowerCase());
-  // });
 
   return (
     <Box>
@@ -172,7 +161,15 @@ const ModelTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: "auto", width: "100%", marginTop: "2rem", overflowX: "auto",boxSizing: "border-box" }}>
+      <Paper
+        sx={{
+          height: "auto",
+          width: "100%",
+          marginTop: "2rem",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}

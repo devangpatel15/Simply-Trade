@@ -8,13 +8,7 @@ import {
   Typography,
   Box,
   Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
 } from "@mui/material";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import CategoryInput from "./common/CategoryInput";
@@ -27,7 +21,6 @@ import { createStock, getOneStock, updateStock } from "../apis/StockApi";
 import CustomerInput from "./common/CustomerInput";
 import { getOneCustomer } from "../apis/CustomerApi";
 import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
-import { toast } from "react-toastify";
 import PaymentInput from "./common/PaymentInput";
 
 const StockForm = () => {
@@ -155,7 +148,6 @@ const StockForm = () => {
 
   const handleOrganizationBranchChange = (selectedOrgBranch) => {
     setBranchId(selectedOrgBranch.value);
-    console.log("s branchis", branchId);
 
     setFormData((prev) => ({
       ...prev,
@@ -384,7 +376,6 @@ const StockForm = () => {
       }
 
       const data = response.data.data;
-      console.log("API Response Data:", data); // Debugging
 
       setFormData({
         organization: {
@@ -546,20 +537,6 @@ const StockForm = () => {
               }
             }
 
-            // if (!imei.imeiNo && !imei.srNo) {
-            //   // Ensure the device array exists in newErrors
-            //   if (!newErrors.device) newErrors.device = [];
-            //   if (!newErrors.device[index]) newErrors.device[index] = {};
-            //   if (!newErrors.device[index].imei)
-            //     newErrors.device[index].imei = [];
-            //   if (!newErrors.device[index].imei[imeiIndex])
-            //     newErrors.device[index].imei[imeiIndex] = {};
-
-            //   newErrors.device[index].imei[imeiIndex].imeiNo =
-            //     "At least one of IMEI Number or Serial Number is required.";
-            //   newErrors.device[index].imei[imeiIndex].srNo =
-            //     "At least one of IMEI Number or Serial Number is required.";
-            // }
             if (!imei.totalAmount) {
               if (!newErrors.device[index].imei)
                 newErrors.device[index].imei = [];
@@ -614,16 +591,12 @@ const StockForm = () => {
       });
     }
 
-    console.log("newErrors", newErrors);
-
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0; // Returns true if no errors
   };
 
   const handleSubmit = async () => {
-    // console.log(formData, "formData");
-
     if (!id) {
       if (!validateStockForm()) {
         return;
@@ -661,7 +634,6 @@ const StockForm = () => {
         payment: id ? null : formattedPayment,
       };
 
-      console.log("payload", payload);
       if (id) {
         await updateStock(payload, id);
       } else {
@@ -672,8 +644,6 @@ const StockForm = () => {
       console.log(error);
     }
   };
-
-  console.log("error", errors);
 
   return (
     <Box
@@ -849,17 +819,6 @@ const StockForm = () => {
                 }
               />
             </Grid>
-            {/* <Grid item xs={4}>
-                  <TextField
-                    type="number"
-                    fullWidth
-                    label="Quantity "
-                    variant="outlined"
-                    name="quantity"
-                    value={formData.quantity || ""}
-                    onChange={handleChange}
-                  />
-                </Grid> */}
           </Grid>
 
           {item.imei.map((imeiItem, imeiIndex) => (

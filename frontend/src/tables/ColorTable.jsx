@@ -15,8 +15,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import SearchIcon from "@mui/icons-material/Search";
 
 const ColorTable = () => {
@@ -37,8 +35,6 @@ const ColorTable = () => {
       paginationModel.pageSize,
       searchTerm
     );
-    console.log(response, "responss");
-    console.log(response.data.totalCount, "totalRows");
 
     setColor(response.data.items);
     setTotalRows(response.data.totalCount);
@@ -81,12 +77,9 @@ const ColorTable = () => {
     {
       field: "action",
       headerName: "Action",
-     flex:1,
+      flex: 1,
       renderCell: (params) => (
         <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
-            <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton> */}
           <Link to={`/colorForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -98,11 +91,11 @@ const ColorTable = () => {
         </>
       ),
     },
-    { field: "colorName", headerName: "Color Name",flex:1 },
-    { field: "modelId", headerName: "Model",flex:1 },
-    { field: "deviceId", headerName: "Device",flex:1 },
-    { field: "organization", headerName: "Organization",flex:1 },
-    { field: "branchName", headerName: "Branch", flex : 1 },
+    { field: "colorName", headerName: "Color Name", flex: 1 },
+    { field: "modelId", headerName: "Model", flex: 1 },
+    { field: "deviceId", headerName: "Device", flex: 1 },
+    { field: "organization", headerName: "Organization", flex: 1 },
+    { field: "branchName", headerName: "Branch", flex: 1 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -167,7 +160,15 @@ const ColorTable = () => {
           </Button>
         </Box>
       </Box>
-      <Paper sx={{ height: "auto", width: "100%", marginTop: "2rem", overflowX: "auto",boxSizing: "border-box" }}>
+      <Paper
+        sx={{
+          height: "auto",
+          width: "100%",
+          marginTop: "2rem",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}

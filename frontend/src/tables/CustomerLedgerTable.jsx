@@ -34,8 +34,8 @@ const CustomerLedgerTable = ({
         selectedOrganization && selectedOrganization?.value,
         selectedCustomer && selectedCustomer?.value,
         startDate,
-        endDate,);
-      console.log(response, "API Response");
+        endDate
+      );
 
       if (selectedRadioFilter == "all") {
         setStock(response.data.items.stockData);
@@ -59,8 +59,6 @@ const CustomerLedgerTable = ({
       console.error("Error fetching organization branch data:", error);
     }
   };
-
-  console.log("total:", total);
 
   useEffect(() => {
     callApi();
@@ -212,13 +210,21 @@ const CustomerLedgerTable = ({
                   fontWeight: 700,
                 }}
               >
-                Total Remaining Amount : {total?.remainingAmount || "0"}  
+                Total Remaining Amount : {total?.remainingAmount || "0"}
               </Typography>
             </Grid>
           </Grid>
         )}
       </Box>
-      <Paper sx={{ height: 400, width: "100%", marginTop: "2rem", overflowX: "auto",boxSizing: "border-box" }}>
+      <Paper
+        sx={{
+          height: 400,
+          width: "100%",
+          marginTop: "2rem",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}

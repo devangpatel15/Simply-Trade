@@ -7,7 +7,6 @@ const {
   findUserDeviceServices,
   softDeleteDeviceService,
   selectDeviceByModelServices,
-  searchDeviceService,
 } = require("../services/device");
 const { createLogActivity } = require("../utils/logActivity");
 
@@ -172,22 +171,3 @@ exports.deleteDevice = async (req, res) => {
       .json({ message: "Internal server error", error: err.message });
   }
 };
-
-// exports.searchDevice = async (req, res) => {
-//   try {
-//     const orgText = req.query.text || "";
-
-//     const org = await searchDeviceService(orgText);
-
-//     if (!org) {
-//       return res.status(404).json({ message: "searchDevice not found" });
-//     }
-//     return res
-//       .status(200)
-//       .json({ message: "searchDevice searched successfully", data: org });
-//   } catch (err) {
-//     return res
-//       .status(500)
-//       .json({ message: "Internal server error", error: err.message });
-//   }
-// };

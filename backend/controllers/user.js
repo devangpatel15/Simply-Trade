@@ -90,10 +90,7 @@ exports.loginUser = async (req, res) => {
       orgBranch: user?.orgBranch?._id,
     };
     if (isRightPassword) {
-      const token = jwt.sign(
-        jwtData,
-        process.env.JWT_SECRET
-      );
+      const token = jwt.sign(jwtData, process.env.JWT_SECRET);
       await createLogActivity(jwtData, `login ${user.name}`);
 
       return res
@@ -187,7 +184,7 @@ exports.createUser = async (req, res) => {
   try {
     const data = req.body;
     const userData = await createUserServices(data);
-    const log=await createLogActivity(req, `create user`);
+    const log = await createLogActivity(req, `create user`);
 
     return res.status(200).json({ message: "User created", data: userData });
   } catch (err) {
@@ -207,7 +204,6 @@ exports.updateUser = async (req, res) => {
       name,
       email,
       mobileNo,
-      // password: hashedPassword,
       organization,
       orgBranch,
     };

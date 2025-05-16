@@ -1,8 +1,6 @@
 const Capacity = require("../models/capacity");
 
 exports.getAllCapacityService = async (userId, req) => {
-  // return await Capacity.find({ isDeleted: false }).populate("organization branchName categoryId modelId deviceId").lean();
-
   const page = parseInt(req.query.page) || 1; // Default to page 1
   const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
   const search = req.query.search || "";

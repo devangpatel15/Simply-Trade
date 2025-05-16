@@ -4,7 +4,6 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { createCustomer, getOneCustomer } from "../apis/CustomerApi";
@@ -12,64 +11,7 @@ import { Box, Grid, IconButton, Typography } from "@mui/material";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
 import CloseIcon from "@mui/icons-material/Close";
-import axios from "axios";
 import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
-
-// const CustomerDialog = () => {
-//   const [open, setOpen] = React.useState(false);
-
-//   const handleClickOpen = () => {
-//     setOpen(true);
-//   };
-
-//   const handleClose = () => {
-//     setOpen(false);
-//   };
-
-//   return (
-//     <React.Fragment>
-//       <Button variant="outlined" onClick={handleClickOpen}>
-//         Open form dialog
-//       </Button>
-//       <Dialog
-//         open={open}
-//         onClose={handleClose}
-//         slotProps={{
-//           paper: {
-//             component: "form",
-//             onSubmit: (event) => {
-//               event.preventDefault();
-//               const formData = new FormData(event.currentTarget);
-//               const formJson = Object.fromEntries(formData.entries());
-//               const email = formJson.email;
-//               console.log(email);
-//               handleClose();
-//             },
-//           },
-//         }}
-//       >
-//         <DialogTitle>Customer</DialogTitle>
-//         <DialogContent>
-//           <TextField
-//             autoFocus
-//             required
-//             margin="dense"
-//             id="name"
-//             name="email"
-//             label="Email Address"
-//             type="email"
-//             fullWidth
-//             variant="standard"
-//           />
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleClose}>Cancel</Button>
-//           <Button type="submit">Subscribe</Button>
-//         </DialogActions>
-//       </Dialog>
-//     </React.Fragment>
-//   );
-// };
 
 const CustomerDialog = ({
   customerDialog,
@@ -77,7 +19,7 @@ const CustomerDialog = ({
   setOpen,
   customerData,
   field,
-  customerName
+  customerName,
 }) => {
   const navigate = useNavigate();
 
@@ -87,7 +29,6 @@ const CustomerDialog = ({
     customerName: "",
     customerPhone: "",
   });
-
 
   const [errors, setErrors] = React.useState({});
   const organization = customerData?.organization ?? null;
@@ -102,7 +43,7 @@ const CustomerDialog = ({
           value: organization?._id,
         },
         branchName: { label: branchName, value: branchId },
-        customerName:customerName || "",
+        customerName: customerName || "",
         customerPhone: customerData.customerPhone || "",
       });
     }
@@ -119,7 +60,6 @@ const CustomerDialog = ({
     }));
   };
 
-  
   const validateStockForm = () => {
     let newErrors = {};
 
@@ -135,18 +75,15 @@ const CustomerDialog = ({
     } else if (formData.customerPhone && formData.customerPhone.length !== 10) {
       newErrors.customerPhone = lengthMessage.mobile;
     }
-    console.log("newErrors", newErrors);
 
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0; // Returns true if no errors
   };
-  
 
   const handleSubmit = async () => {
     try {
       if (!validateStockForm()) {
-        
         return;
       }
       await createCustomer({
@@ -155,7 +92,6 @@ const CustomerDialog = ({
         organization: formData?.organization?.value,
         branchName: formData?.branchName?.value,
       });
-      // navigate("/customerPage");
       setOpen(false);
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -231,7 +167,6 @@ const CustomerDialog = ({
 
               <Grid item xs={12}>
                 <TextField
-                
                   fullWidth
                   label="Customer Name"
                   variant="outlined"

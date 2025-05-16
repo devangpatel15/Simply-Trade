@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const api_call = import.meta.env.VITE_API_URL
+const api_call = import.meta.env.VITE_API_URL;
 
 const createStock = async (formData) => {
   try {
@@ -48,7 +48,7 @@ const getOneStock = async (id) => {
   }
 };
 
-const getAllStocks = async (page = 1, limit = 5 , search) => {
+const getAllStocks = async (page = 1, limit = 5, search) => {
   try {
     const response = await axios.get(`${api_call}/allStock`, {
       params: { page, limit, search },

@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Grid,
-  MenuItem,
-  TextField,
-  Typography,
-} from "@mui/material";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -22,7 +13,6 @@ import CategoryInput from "./common/CategoryInput";
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 import { errorMessage } from "../../errorMessage";
-import { toast } from "react-toastify";
 
 const CapacityForm = () => {
   const { id } = useParams();

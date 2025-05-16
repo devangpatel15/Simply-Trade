@@ -12,7 +12,6 @@ const stockSchema = new mongoose.Schema(
       ref: "OrganizationBranch",
       required: true,
     },
-    // customerName: { type: String, required: true },
     customerName: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
     customerPhone: { type: String, required: true },
     categoryName: {
@@ -40,7 +39,6 @@ const stockSchema = new mongoose.Schema(
       ref: "Color",
       required: true,
     },
-    // payment: { type: mongoose.Schema.Types.ObjectId, ref: "Payment" },
     imeiNo: { type: String },
     srNo: { type: String },
     totalAmount: { type: Number, required: true },

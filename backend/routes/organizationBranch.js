@@ -1,18 +1,15 @@
 const express = require("express");
 const {
   findAllOrganizationBranch,
-  deleteOrganizationBranch,
   updateOrganizationBranch,
   findOneOrganizationBranch,
   createOrganizationBranch,
   findUserOrganizationBranch,
   softDeleteOrganizationBranch,
   selectOrganizationBranch,
-  searchOrgBranch,
   findOrganizationBranchByOrganization,
 } = require("../controllers/organizationBranch");
 const {
-  validateGetOneOrganizationBranchData,
   validateCreateOrganizationBranchData,
   validateUpdateOrganizationBranchData,
   validateDeleteOrganizationBranchData,
@@ -26,11 +23,6 @@ organizationBranchRoute.get(
   AuthUser,
   findAllOrganizationBranch
 );
-// organizationBranchRoute.get(
-//   "/findAllUserOrganizationBranch",
-//   AuthUser,
-//   findUserOrganizationBranch
-// );
 organizationBranchRoute.get(
   "/findAllUserOrganizationBranch",
   AuthUser,
@@ -48,9 +40,6 @@ organizationBranchRoute.get(
   AuthUser,
   findOrganizationBranchByOrganization
 );
-
-// organizationBranchRoute.get("/searchOrgBranch", searchOrgBranch);
-
 organizationBranchRoute.get(
   "/selectOrganizationBranch/:id",
   AuthUser,

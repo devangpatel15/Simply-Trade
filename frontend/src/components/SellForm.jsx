@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
   Typography,
   Box,
   Grid,
@@ -12,27 +9,21 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormHelperText,
 } from "@mui/material";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import OrgInput from "./common/OrgInput";
 import OrgBranchInput from "./common/OrgBranchInput";
-import CategoryInput from "./common/CategoryInput";
 import ModelInput from "./common/ModelInput";
 import DeviceInput from "./common/DeviceInput";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { createStock, getOneStock, updateStock } from "../apis/StockApi";
+import { getOneStock } from "../apis/StockApi";
 import CustomerInput from "./common/CustomerInput";
 import { getOneCustomer } from "../apis/CustomerApi";
 import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
-import { toast } from "react-toastify";
 import { createSell, getOneSell, updateSell } from "../apis/SellApi";
 import PaymentInput from "./common/PaymentInput";
 
 const SellForm = ({ stock }) => {
   const [errors, setErrors] = useState({});
-  console.log("stock", stock);
   const [formData, setFormData] = useState({
     organization: null,
     branch: null,
@@ -59,16 +50,11 @@ const SellForm = ({ stock }) => {
     stock: "",
   });
 
-  console.log("Payment", formData.payment);
-
   const [selectedOrganization, setSelectedOrganization] = useState("");
   const [branchId, setBranchId] = useState("");
   const [modelId, setModelId] = useState("");
   const [deviceId, setDeviceId] = useState("");
   const [paymentId, setPaymentId] = useState("");
-
-  // const [amount, setAmount] = useState(0);
-  // const [remainingAmount, setRemainingAmount] = useState(0);
 
   const [loggedUserData, setLoggedUserData] = useState({});
 
@@ -86,7 +72,6 @@ const SellForm = ({ stock }) => {
     const file = files[0];
     if (file) {
       const base64 = await convertToBase64(file);
-      console.log("Base64 String:", base64); // optional
       // Now you can store base64 in your form state or send it to your database
       setFormData((prev) => ({ ...prev, upload: base64 }));
     }
@@ -196,17 +181,6 @@ const SellForm = ({ stock }) => {
     });
   };
 
-  // const handleRemainingAmountChange = (index, remainingAmount) => {
-  //   setFormData((prev) => {
-  //     const updatedDevices = [...prev.device];
-  //     updatedDevices[index] = {
-  //       ...updatedDevices[index],
-  //       remainingAmount: remainingAmount,
-  //     };
-  //     return { ...prev, device: updatedDevices };
-  //   });
-  // };
-
   const handlePaymentTypeChange = (index, paymentType) => {
     setFormData((prev) => {
       const updatedDevices = [...prev.device];
@@ -282,15 +256,12 @@ const SellForm = ({ stock }) => {
   };
 
   const callApi = async () => {
-    // console.log("call api by id...................");
-
     if (!id) return;
 
     try {
       let data;
 
       if (stock) {
-        // console.log("getOneStock api call");
         const response = await getOneStock(id);
         data = response?.data?.data;
         setFormData({
@@ -303,11 +274,6 @@ const SellForm = ({ stock }) => {
             label: data?.branch?.branchName || "",
             value: data?.branch?._id || "",
           },
-          // customerName: {
-          //   label: data?.customerName?.customerName || "",
-          //   value: data?.customerName?._id || "",
-          // },
-          // customerPhone: data?.customerPhone || "",
           device: [
             {
               modelName: {
@@ -335,10 +301,8 @@ const SellForm = ({ stock }) => {
           ],
         });
       } else {
-        // console.log("getOneSell api call");
         const response = await getOneSell(id);
         data = response.data.data;
-        // console.log("dataaaaaaaaaaaa", data);
         setFormData({
           organization: {
             label: data?.organization?.organizationName || "",
@@ -386,8 +350,6 @@ const SellForm = ({ stock }) => {
         console.warn("No data found in response");
         return;
       }
-
-      console.log("API data loaded successfully.");
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -462,7 +424,6 @@ const SellForm = ({ stock }) => {
       });
     }
 
-    console.log("newErrors", newErrors);
     setErrors(newErrors);
 
     // Check if all error objects are empty
@@ -506,13 +467,10 @@ const SellForm = ({ stock }) => {
         payment: formattedPayment,
       };
 
-      console.log(payload, "payload");
-
       if (stock) {
         await createSell(payload);
       } else if (id) {
         const response = await updateSell(payload, id);
-        console.log(response, "updated Data");
       } else {
         await createSell(payload);
       }
@@ -651,7 +609,6 @@ const SellForm = ({ stock }) => {
                 fullWidth
                 variant="outlined"
                 error={!!errors.paymentType}
-                // helperText={errors.device?.[deviceIndex]?.paymentType || ""}
                 required
               >
                 <InputLabel id="paymentType-label">Payment Type</InputLabel>

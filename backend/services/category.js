@@ -11,7 +11,7 @@ exports.getAllCategoryService = async (userId, req) => {
 
   const query = { categoryName: { $regex: search, $options: "i" } };
 
-  const items = await Category.find({ ... query, isDeleted: false })
+  const items = await Category.find({ ...query, isDeleted: false })
     .populate({
       path: "orgId orgBranchId",
       match: { userId: userId },
@@ -24,24 +24,10 @@ exports.getAllCategoryService = async (userId, req) => {
 
   const totalCount = await Category.countDocuments({
     ...query,
-    isDeleted:false,
+    isDeleted: false,
   });
 
   return { totalCount, items };
-
-  // let findObject = { isDeleted: false };
-
-  // const userData = await UserSchema.findById(userId);
-
-  // console.log(userData.role, "userData");
-
-  // if (!userData.role || (userData && userData.role !== "admin")) {
-  //   findObject.orgId = userData.organization;
-  // }
-
-  // console.log(findObject);
-
-  // return await Category.find(findObject);
 };
 
 exports.getCategoryService = async (catId) => {
@@ -69,25 +55,6 @@ exports.softDeleteCategoryService = async (catId) => {
 exports.deleteCategoryService = async (catId) => {
   return await Category.findByIdAndDelete(catId);
 };
-
-// exports.searchCategoryService = async (orgText) => {
-//   let findObject = { isDeleted: false };
-
-//   if (orgText.trim() !== "") {
-//     findObject.$or = [
-//       { categoryName: { $regex: `^${orgText}`, $options: "i" } },
-//     ];
-//   }
-
-//   return await Category.find(findObject).limit(5); // Increase limit if needed
-
-// };
-// exports.selectCategoryByBranchService = async (branchId) => {
-//   return await Category.find({
-//     orgBranchId: branchId,
-//     isDeleted: false,
-//   }).lean();
-// };
 
 exports.selectCategoryByBranchService = async (branchId, orgText) => {
   let findObject = { isDeleted: false };

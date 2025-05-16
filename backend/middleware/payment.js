@@ -7,12 +7,23 @@ exports.createPaymentValidation = [
     .isMongoId()
     .notEmpty()
     .withMessage("organization is required"),
-  body("totalAmount").isNumeric().notEmpty().withMessage("totalAmount is required"),
-  body("paidToCustomer").isNumeric().notEmpty().withMessage("paidToCustomer is string"),
-  body("remainingAmount").isNumeric().notEmpty().withMessage("remainingAmount in string"),
+  body("totalAmount")
+    .isNumeric()
+    .notEmpty()
+    .withMessage("totalAmount is required"),
+  body("paidToCustomer")
+    .isNumeric()
+    .notEmpty()
+    .withMessage("paidToCustomer is string"),
+  body("remainingAmount")
+    .isNumeric()
+    .notEmpty()
+    .withMessage("remainingAmount in string"),
   body("account").isString().notEmpty().withMessage("account in string"),
-  body("paymentAmount").isNumeric().notEmpty().withMessage("paymentAmount in string"),
-  
+  body("paymentAmount")
+    .isNumeric()
+    .notEmpty()
+    .withMessage("paymentAmount in string"),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -24,7 +35,7 @@ exports.createPaymentValidation = [
 ];
 
 exports.getPaymentValidation = [
-    param("id").optional().isMongoId().withMessage("valid id required"),
+  param("id").optional().isMongoId().withMessage("valid id required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -35,7 +46,7 @@ exports.getPaymentValidation = [
   },
 ];
 exports.deletePaymentValidation = [
-    param("id").isMongoId().withMessage("valid id required"),
+  param("id").isMongoId().withMessage("valid id required"),
 
   (req, res, next) => {
     const errors = validationResult(req);
@@ -47,15 +58,27 @@ exports.deletePaymentValidation = [
 ];
 
 exports.updatePaymentValidation = [
-    body("organization")
+  body("organization")
     .isMongoId()
     .optional()
     .withMessage("organization is required"),
-  body("totalAmount").isNumeric().optional().withMessage("totalAmount is required"),
-  body("paidToCustomer").isNumeric().optional().withMessage("paidToCustomer is string"),
-  body("remainingAmount").isNumeric().optional().withMessage("remainingAmount in string"),
+  body("totalAmount")
+    .isNumeric()
+    .optional()
+    .withMessage("totalAmount is required"),
+  body("paidToCustomer")
+    .isNumeric()
+    .optional()
+    .withMessage("paidToCustomer is string"),
+  body("remainingAmount")
+    .isNumeric()
+    .optional()
+    .withMessage("remainingAmount in string"),
   body("account").isString().optional().withMessage("account in string"),
-  body("paymentAmount").isNumeric().optional().withMessage("paymentAmount in string"),
+  body("paymentAmount")
+    .isNumeric()
+    .optional()
+    .withMessage("paymentAmount in string"),
 
   (req, res, next) => {
     const errors = validationResult(req);

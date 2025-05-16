@@ -54,8 +54,6 @@ exports.selectModelByCat = async (req, res) => {
   try {
     const catId = req.params.id;
     const orgText = req?.query?.text || "";
-
-    // console.log("catID", catId);
     const modelData = await selectModelByCatServices(catId, orgText);
 
     if (!modelData) {
@@ -166,7 +164,6 @@ exports.selectModelByBranch = async (req, res) => {
     const branchId = req.params.id;
     const orgText = req?.query?.text || "";
 
-    // console.log("branchID", orgText);
     const modelData = await selectModelByBranchServices(branchId, orgText);
 
     if (!modelData) {
@@ -183,22 +180,3 @@ exports.selectModelByBranch = async (req, res) => {
       .json({ message: "Internal server error", error: err.message });
   }
 };
-
-// exports.searchModel = async (req, res) => {
-//   try {
-//     const orgText = req.query.text || "";
-
-//     const org = await searchModelService(orgText);
-
-//     if (!org) {
-//       return res.status(404).json({ message: "searchModel not found" });
-//     }
-//     return res
-//       .status(200)
-//       .json({ message: "searchModel searched successfully", data: org });
-//   } catch (err) {
-//     return res
-//       .status(500)
-//       .json({ message: "Internal server error", error: err.message });
-//   }
-// };

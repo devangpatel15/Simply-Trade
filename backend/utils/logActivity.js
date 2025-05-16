@@ -7,9 +7,6 @@ exports.createLogActivity = async (req, res) => {
     const userdata = await findUserServices(user.email || req?.email);
     const logMessage = req.body?.message;
 
-    console.log("res", res);
-    console.log("logMessage", logMessage);
-
     const activityLog = {
       userId: req?.id || user.id || null,
       name: userdata.name || null,
@@ -20,7 +17,6 @@ exports.createLogActivity = async (req, res) => {
     };
 
     const logs = await ActivityLog.create(activityLog);
-    console.log("Activity logged successfully");
 
     if (logMessage) {
       return res.status(200).json({
@@ -60,7 +56,6 @@ exports.getAllLogActivity = async (req, res) => {
     }
 
     const logs = await ActivityLog.find(filter)
-      // .populate("userId", "name")
       .populate("organization")
       .populate("branchName")
       .sort({ createdAt: -1 })

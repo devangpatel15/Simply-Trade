@@ -1,5 +1,4 @@
 import React from "react";
-import { Typography } from "@mui/material";
 import logo from "../assets/Group 18763.png";
 
 const Logo = () => {

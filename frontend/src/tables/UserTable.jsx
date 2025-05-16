@@ -9,8 +9,6 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import DialogBox from "../components/DialogBox";
@@ -37,7 +35,6 @@ const UserTable = () => {
       paginationModel.pageSize,
       searchTerm
     );
-    console.log(response.data.data.items, "API Response");
     setUserData(response.data.data.items); // Set the items to orgData
     setTotalRows(response.data.data.totalCount); // Set the total count (rowCount) from API response
   };
@@ -49,11 +46,6 @@ const UserTable = () => {
   // Handle pagination model change (page or pageSize)
   const handlePaginationModelChange = (newPaginationModel) => {
     setPaginationModel(newPaginationModel);
-  };
-
-  const handleOpen = (data) => {
-    setData(data);
-    setOpen(true);
   };
 
   const handleClose = () => setOpen(false);
@@ -82,12 +74,9 @@ const UserTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex : 1,
+      flex: 1,
       renderCell: (params) => (
         <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
-            <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-          </IconButton> */}
           <Link to={`/userForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -100,10 +89,10 @@ const UserTable = () => {
         </>
       ),
     },
-    { field: "userName", headerName: "User Name",flex : 1 },
-    { field: "email", headerName: "email",flex : 1 },
-    { field: "orgName", headerName: "Org Name",flex : 1 },
-    { field: "branchName", headerName: "Branch Name",flex : 1 },
+    { field: "userName", headerName: "User Name", flex: 1 },
+    { field: "email", headerName: "email", flex: 1 },
+    { field: "orgName", headerName: "Org Name", flex: 1 },
+    { field: "branchName", headerName: "Branch Name", flex: 1 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -122,11 +111,6 @@ const UserTable = () => {
     setSearchTerm(event.target.value);
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
-
-  // Filter categories based on search term
-  // const filteredCategories = rows.filter((row) => {
-  //   return row.userName.toLowerCase().includes(searchTerm.toLowerCase());
-  // });
 
   return (
     <Box>
@@ -165,7 +149,15 @@ const UserTable = () => {
         </Box>
       </Box>
 
-      <Paper sx={{ height: "auto", width: "100%", marginTop: "2rem", overflowX: "auto",boxSizing: "border-box"}}>
+      <Paper
+        sx={{
+          height: "auto",
+          width: "100%",
+          marginTop: "2rem",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}

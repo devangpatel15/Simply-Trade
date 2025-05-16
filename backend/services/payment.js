@@ -2,7 +2,6 @@ const Payment = require("../models/payment");
 
 exports.getAllPaymentService = async () => {
   const pay = await Payment.find({ isDeleted: false }).lean();
-  console.log(pay);
 
   return pay;
 };

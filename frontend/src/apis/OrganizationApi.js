@@ -1,20 +1,16 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const api_call = import.meta.env.VITE_API_URL
+const api_call = import.meta.env.VITE_API_URL;
 
 const createOrg = async (formData) => {
   try {
-    const response = await axios.post(
-      `${api_call}/createOrg`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.post(`${api_call}/createOrg`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     toast.success("Organization created successfully!");
   } catch (error) {
     toast.error("Organization not created ");
@@ -24,16 +20,12 @@ const createOrg = async (formData) => {
 
 const updateOrg = async (formData, id) => {
   try {
-    const response = await axios.put(
-      `${api_call}/updateOrg/${id}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.put(`${api_call}/updateOrg/${id}`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     toast.success("Organization updated successfully!");
   } catch (error) {
     toast.error("Organization not updated!");

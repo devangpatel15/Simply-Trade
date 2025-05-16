@@ -40,14 +40,12 @@ const ExpenseTable = () => {
         paginationModel.pageSize,
         searchTerm
       ); // +1 because API uses 1-based indexing
-      console.log(response.data.items, "API Response");
       setExpense(response.data.items); // Set the items to orgData
       setTotalRows(response.data.totalCount); // Set the total count (rowCount) from API response
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-  console.log(import.meta.env.VITE_API_URL, "API URL");
 
   const api_call = import.meta.env.VITE_API_URL;
 
@@ -116,12 +114,9 @@ const ExpenseTable = () => {
     {
       field: "action",
       headerName: "Action",
-      flex : 1,
+      flex: 1,
       renderCell: (params) => (
         <>
-          {/* <IconButton onClick={() => handleOpen(params.row)}>
-                <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-              </IconButton> */}
           <Link to={`/expenseForm/${params.row.id}`}>
             <IconButton>
               <EditIcon sx={{ color: "#6c5ce7" }} />
@@ -133,14 +128,14 @@ const ExpenseTable = () => {
         </>
       ),
     },
-    { field: "organization", headerName: "Organization", flex : 1 },
-    { field: "branchName", headerName: "Branch", flex : 1 },
-    { field: "category", headerName: "Category", flex : 1 },
-    { field: "modelName", headerName: "Model", flex : 1 },
-    { field: "deviceName", headerName: "Device", flex : 1 },
-    { field: "description", headerName: "Description", flex : 1 },
-    { field: "amount", headerName: "Amount", flex : 1 },
-    { field: "date", headerName: "Date", flex : 1 },
+    { field: "organization", headerName: "Organization", flex: 1 },
+    { field: "branchName", headerName: "Branch", flex: 1 },
+    { field: "category", headerName: "Category", flex: 1 },
+    { field: "modelName", headerName: "Model", flex: 1 },
+    { field: "deviceName", headerName: "Device", flex: 1 },
+    { field: "description", headerName: "Description", flex: 1 },
+    { field: "amount", headerName: "Amount", flex: 1 },
+    { field: "date", headerName: "Date", flex: 1 },
   ];
 
   // Prepare the rows for the DataGrid
@@ -162,137 +157,115 @@ const ExpenseTable = () => {
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
 
- 
-
   return (
     <>
-    <Box>
-      <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Typography variant="h4" sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
-          EXPENSE
-        </Typography>
+      <Box>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Typography
+            variant="h4"
+            sx={{ fontWeight: "bold", color: "#6c5ce7" }}
+          >
+            EXPENSE
+          </Typography>
 
-        <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
-          <TextField
-            fullWidth
-            type="date"
-            label="Start Date"
-            name="startDate"
-            value={dateRange.startDate}
-            onChange={(e) =>
-              setDateRange((prev) => ({
-                ...prev,
-                startDate: e.target.value,
-              }))
-            }
-            // value={formData.date}
-            // onChange={handleNativeDateChange}
-            sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
-            InputLabelProps={{
-              shrink: true,
-            }}
+          <Box display="flex" gap={2} width={"60%"} alignContent={"center"}>
+            <TextField
+              fullWidth
+              type="date"
+              label="Start Date"
+              name="startDate"
+              value={dateRange.startDate}
+              onChange={(e) =>
+                setDateRange((prev) => ({
+                  ...prev,
+                  startDate: e.target.value,
+                }))
+              }
+              sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
 
-          <TextField
-            fullWidth
-            type="date"
-            label="End Date"
-            name="endDate"
-            value={dateRange.endDate}
-            onChange={(e) =>
-              setDateRange((prev) => ({ ...prev, endDate: e.target.value }))
-            }
-            // value={formData.date}
-            // onChange={handleNativeDateChange}
-            sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            <TextField
+              fullWidth
+              type="date"
+              label="End Date"
+              name="endDate"
+              value={dateRange.endDate}
+              onChange={(e) =>
+                setDateRange((prev) => ({ ...prev, endDate: e.target.value }))
+              }
+              sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
-
-          {/* <TextField
-                variant="outlined"
-                placeholder="Search"
-                size="medium"
-                sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                    <SearchIcon sx={{ color: "#6c5ce7" }} />
-                    </InputAdornment>
-                    ),
-                    }}
-                    /> */}
-          <Button
-            variant="outlined"
-            sx={{
-              color: "#6c5ce7",
-              borderColor: "#6c5ce7",
-              textTransform: "none",
-              // fontWeight: "bold",
-              fontSize: "1rem",
-              width: "30%",
-            }}
-            component={Link}
-            to="/expenseForm"
+            <Button
+              variant="outlined"
+              sx={{
+                color: "#6c5ce7",
+                borderColor: "#6c5ce7",
+                textTransform: "none",
+                // fontWeight: "bold",
+                fontSize: "1rem",
+                width: "30%",
+              }}
+              component={Link}
+              to="/expenseForm"
             >
-            Add Expense
-          </Button>
-        </Box>
+              Add Expense
+            </Button>
+          </Box>
         </Box>
       </Box>
-      {/* <Box sx={{display:"flex"}}>  */}
 
       <Paper
-  sx={{
-    height: "auto",
-    width: "100%",
-    marginTop: "2rem",
-    overflowX: "auto",
-    boxSizing: "border-box",
-  }}
->
-  <DataGrid
-    rows={rows}
-    columns={columns}
-    pageSize={paginationModel.pageSize}
-    rowCount={totalRows}
-    paginationMode="server"
-    onPaginationModelChange={handlePaginationModelChange}
-    paginationModel={paginationModel}
-    pageSizeOptions={[5, 10]}
-    sx={{
-      border: 0,
-      minWidth: "100%",
-      "& .MuiDataGrid-columnHeader": {
-        background: "#C4BDFF",
-        // color: "#6d5de7",
-        color: "white",
-      },
-      "& .MuiDataGrid-columnHeaderTitle": {
-        fontWeight: "bold",
-        fontSize: "1.2rem",
-      },
-    }}
-  />
-</Paper>
-
-      {/* </Box> */}
-
+        sx={{
+          height: "auto",
+          width: "100%",
+          marginTop: "2rem",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={paginationModel.pageSize}
+          rowCount={totalRows}
+          paginationMode="server"
+          onPaginationModelChange={handlePaginationModelChange}
+          paginationModel={paginationModel}
+          pageSizeOptions={[5, 10]}
+          sx={{
+            border: 0,
+            minWidth: "100%",
+            "& .MuiDataGrid-columnHeader": {
+              background: "#C4BDFF",
+              color: "white",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",
+              fontSize: "1.2rem",
+            },
+          }}
+        />
+      </Paper>
       <DialogBox
         handleClose={handleClose}
         open={open}
         data={data}
         callApi={callApi}
         fieldName="expenseForm"
-        />
+      />
       <DeleteDialog
         deleteOpen={deleteOpen}
         handleClose={handleClose}
         handleDelete={handleDelete}
         closeDeleteDialog={closeDeleteDialog}
-        />
-        </>
+      />
+    </>
   );
 };
 

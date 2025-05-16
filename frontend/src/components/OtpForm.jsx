@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import OtpInput from "react-otp-input";
-import {
-  TextField,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Typography,
-  Box,
-  Alert,
-} from "@mui/material";
+import { Button, Typography, Box } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 

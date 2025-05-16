@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const DeviceInput = ({ onChange, value, modelId, error,readOnlyExp }) => {
+const DeviceInput = ({ onChange, value, modelId, error, readOnlyExp }) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);

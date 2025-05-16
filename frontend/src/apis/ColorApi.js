@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const api_call = import.meta.env.VITE_API_URL
+const api_call = import.meta.env.VITE_API_URL;
 
 const createColor = async (formData) => {
   try {
@@ -20,15 +20,12 @@ const createColor = async (formData) => {
 
 const getOneColor = async (id) => {
   try {
-    const response = await axios.get(
-      `${api_call}/findOneColor/${id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.get(`${api_call}/findOneColor/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log(error, "Create Color error");

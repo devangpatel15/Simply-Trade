@@ -8,7 +8,6 @@ const {
   softDeleteColorService,
   selectColorByDeviceServices,
   searchColorServices,
-  selectColorServices,
 } = require("../services/color");
 const { createLogActivity } = require("../utils/logActivity");
 

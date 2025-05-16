@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {
-  TextField,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Typography,
-  Box,
-  Alert,
-} from "@mui/material";
-import { toast } from "react-toastify"; 
+import { TextField, Button, Typography, Box, Alert } from "@mui/material";
+import { toast } from "react-toastify";
 
 const SigninForm = () => {
   const [formData, setFormData] = useState({
@@ -102,18 +94,6 @@ const SigninForm = () => {
           value={formData.password}
           onChange={handleChange}
         />
-
-        {/* <FormControlLabel
-          control={
-            <Checkbox
-              name="rememberMe"
-              checked={formData.rememberMe}
-              onChange={handleChange}
-            />
-          }
-          label="Remember Me"
-          sx={{ display: "flex", justifyContent: "center" }}
-        /> */}
 
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
           Sign In

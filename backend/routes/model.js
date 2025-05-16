@@ -20,20 +20,25 @@ const { AuthUser } = require("../middleware/user");
 const modelRoute = express.Router();
 
 modelRoute.get("/findAllModel", AuthUser, findAllModel);
-// modelRoute.get('/searchModel',searchModel)
 modelRoute.get("/findOneModel/:id", validateGetOneModelData, findOneModel);
 modelRoute.get(
   "/selectModelByCat/:id",
   validateGetOneModelData,
   selectModelByCat
 );
-modelRoute.post("/createModel",AuthUser, validateCreateModelData, createModel);
-modelRoute.put("/updateModel/:id",AuthUser, validateUpdateModelData, updateModel);
-modelRoute.put("/deleteModel/:id",AuthUser, validateDeleteModelData, softDeleteModel);
-modelRoute.get(
-  "/selectModelByBranch/:id",
-  // validateGetOneModelData,
-  selectModelByBranch
+modelRoute.post("/createModel", AuthUser, validateCreateModelData, createModel);
+modelRoute.put(
+  "/updateModel/:id",
+  AuthUser,
+  validateUpdateModelData,
+  updateModel
 );
+modelRoute.put(
+  "/deleteModel/:id",
+  AuthUser,
+  validateDeleteModelData,
+  softDeleteModel
+);
+modelRoute.get("/selectModelByBranch/:id", selectModelByBranch);
 
 module.exports = modelRoute;

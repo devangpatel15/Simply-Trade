@@ -21,18 +21,6 @@ exports.createValidation = [
     .notEmpty()
     .withMessage("customerName is required"),
 
-  // body("customerName")
-  //   .isString()
-  //   .notEmpty()
-  //   .withMessage("customerName is required"),
-
-  // // Validate customerPhone
-  // body("customerPhone")
-  //   .isString()
-  //   .notEmpty()
-  //   .withMessage("customerPhone is required")
-  //   .withMessage("customerPhone must be a valid 10-digit number"),
-
   // Validate device array
   check("device")
     .isArray({ min: 1 })

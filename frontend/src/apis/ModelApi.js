@@ -1,20 +1,16 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const api_call = import.meta.env.VITE_API_URL
+const api_call = import.meta.env.VITE_API_URL;
 
 const createModel = async (formData) => {
   try {
-    const response = await axios.post(
-      `${api_call}/createModel`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.post(`${api_call}/createModel`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     toast.success("Model created successfully!");
   } catch (error) {
     toast.error("Model not created ");
@@ -44,15 +40,12 @@ const updateModel = async (formData, id) => {
 
 const findOneModel = async (id) => {
   try {
-    const response = await axios.get(
-      `${api_call}/findOneModel/${id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.get(`${api_call}/findOneModel/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     return response;
   } catch (error) {
     console.log(error.message);

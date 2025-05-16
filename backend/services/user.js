@@ -19,7 +19,6 @@ exports.sendVerificationEmail = async (email, code) => {
     };
 
     await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully!");
   } catch (error) {
     console.error("Error sending email:", error);
   }
@@ -31,10 +30,6 @@ exports.findUserServices = async (email) => {
   );
   return userData;
 };
-
-// exports.findAllUserServices = async () => {
-//   const data = await User.find({ isDeleted: false }).lean();
-// };
 
 exports.findAllUserServices = async (req) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1

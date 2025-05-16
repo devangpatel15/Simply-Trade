@@ -1,20 +1,16 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const api_call = import.meta.env.VITE_API_URL
+const api_call = import.meta.env.VITE_API_URL;
 
 const createSell = async (formData) => {
   try {
-    const response = await axios.post(
-      `${api_call}/createSell`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.post(`${api_call}/createSell`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     toast.success("Sell created successfully!");
     return response;
   } catch (error) {
@@ -22,38 +18,31 @@ const createSell = async (formData) => {
     console.log(error, "createSell error");
   }
 };
- const getOneSell = async (id) => {
-    try {
-      const response = await axios.get(
-        `${api_call}/sell/${id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      return response;
-    } catch (error) {
-      console.log(error, "data not found");
-    }
-  };
+const getOneSell = async (id) => {
+  try {
+    const response = await axios.get(`${api_call}/sell/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(error, "data not found");
+  }
+};
 
 const updateSell = async (formData, id) => {
   try {
-    const response = await axios.put(
-      `${api_call}/updateSell/${id}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.put(`${api_call}/updateSell/${id}`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     toast.success("Sell updated successfully!");
     alert(response.data.message);
-    return response
+    return response;
   } catch (error) {
     toast.error("Sell not updated!");
     console.log(error, "updateSell error");
@@ -76,14 +65,21 @@ const allSell = async (page = 1, limit = 5, search) => {
     return { totalCount: 0, items: [] }; // Return empty data on error
   }
 };
-const allSellStockRepair = async (page = 1, limit = 5,type,orgId,cusId ,startDate , endDate) => {
-  
+const allSellStockRepair = async (
+  page = 1,
+  limit = 5,
+  type,
+  orgId,
+  cusId,
+  startDate,
+  endDate
+) => {
   try {
     const response = await axios.get(`${api_call}/allSellStockRepair`, {
-      params: { page, limit, type,orgId,cusId,startDate , endDate }, 
+      params: { page, limit, type, orgId, cusId, startDate, endDate },
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`, 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
 
@@ -113,4 +109,11 @@ const deleteSell = async (_id) => {
   }
 };
 
-export { createSell,getOneSell, updateSell, allSell,allSellStockRepair, deleteSell };
+export {
+  createSell,
+  getOneSell,
+  updateSell,
+  allSell,
+  allSellStockRepair,
+  deleteSell,
+};

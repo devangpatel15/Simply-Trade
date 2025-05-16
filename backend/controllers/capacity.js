@@ -6,8 +6,6 @@ const {
   deleteCapacityService,
   softDeleteCapacityService,
   selectCapacityByDeviceService,
-  searchCapacityService,
-  selectCapacityServices,
 } = require("../services/capacity");
 const { createLogActivity } = require("../utils/logActivity");
 
@@ -44,22 +42,6 @@ exports.getCapacity = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-// exports.selectCapacityByDevice = async (req, res) => {
-//   try {
-//     const deviceId = req.params.id;
-//     const cap = await selectCapacityByDeviceService(deviceId);
-//     if (!cap) {
-//       return res.status(404).json({ message: "No Capacity found" });
-//     }
-//     return res.status(200).json({
-//       message: "Capacity retrieved successfully",
-//       data: cap,
-//     });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
-
 exports.createCapacity = async (req, res) => {
   try {
     const newCap = req.body;
@@ -130,25 +112,6 @@ exports.deleteCapacity = async (req, res) => {
       .json({ message: "Internal server error", error: err.message });
   }
 };
-
-// exports.searchCapacity = async (req, res) => {
-//   try {
-//     const orgText = req.query.text || "";
-
-//     const org = await searchCapacityService(orgText);
-
-//     if (!org) {
-//       return res.status(404).json({ message: "searchCapacity not found" });
-//     }
-//     return res
-//       .status(200)
-//       .json({ message: "searchCapacity searched successfully", data: org });
-//   } catch (err) {
-//     return res
-//       .status(500)
-//       .json({ message: "Internal server error", error: err.message });
-//   }
-// };
 
 exports.selectCapacity = async (req, res) => {
   try {

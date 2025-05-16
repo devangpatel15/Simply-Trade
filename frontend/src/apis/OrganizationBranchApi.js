@@ -1,11 +1,10 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const api_call = import.meta.env.VITE_API_URL
+const api_call = import.meta.env.VITE_API_URL;
 
 const createOrgBranch = async (formData) => {
   try {
-    console.log(formData);
     const response = await axios.post(
       `${api_call}/createOrganizationBranch`,
       formData,
@@ -29,7 +28,7 @@ const getAllUserOrgBranch = async (page = 1, limit = 5, search) => {
     const response = await axios.get(
       `${api_call}/findAllUserOrganizationBranch`,
       {
-        params: { page, limit, search  },
+        params: { page, limit, search },
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -39,7 +38,7 @@ const getAllUserOrgBranch = async (page = 1, limit = 5, search) => {
     return response;
   } catch (error) {
     console.log(error, "createOrg error");
-    return { totalCount: 0, items: [] }
+    return { totalCount: 0, items: [] };
   }
 };
 const updateOrgBranch = async (formData, id) => {

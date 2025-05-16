@@ -10,8 +10,6 @@ const PaymentInput = ({ onChange, value, error, branchId }) => {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  console.log("branchId==========================================", branchId);
-
   // Debounced API call wrapped in useCallback to avoid unnecessary recreations
   const fetchOrganizations = useCallback(
     debounce(async (query) => {

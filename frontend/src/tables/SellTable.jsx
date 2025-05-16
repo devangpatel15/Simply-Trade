@@ -4,9 +4,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import DeleteDialog from "../components/DeleteDialog";
 import DialogBox from "../components/DialogBox";
-import SearchIcon from "@mui/icons-material/Search";
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import { allSell, deleteSell } from "../apis/SellApi";
 import moment from "moment";
 import axios from "axios";
@@ -32,8 +29,6 @@ const SellTable = () => {
       paginationModel.pageSize,
       searchTerm
     );
-    console.log(response, "responss");
-    console.log(response.data.totalCount, "totalRows");
 
     setSellData(response.data.items);
     setTotalRows(response.data.totalCount);
@@ -43,8 +38,7 @@ const SellTable = () => {
     callApi(); // +1 for 1-based API pagination
   }, [paginationModel.page, paginationModel.pageSize, searchTerm]);
 
-  const api_call = import.meta.env.VITE_API_URL
-
+  const api_call = import.meta.env.VITE_API_URL;
 
   const fetchExpenses = async () => {
     try {
@@ -95,46 +89,19 @@ const SellTable = () => {
     callApi();
   };
 
-  // const handlePaginationModelChange = (newPaginationModel) => {
-  //   setPaginationModel(newPaginationModel);
-  //   const currentPage = newPaginationModel.page;
-
-  //   console.log("Current page:", currentPage);
-  // };
-
   const handlePaginationModelChange = (newPaginationModel) => {
     setPaginationModel(newPaginationModel);
     callApi(newPaginationModel.page + 1, newPaginationModel.pageSize); // Pass page + 1 since API is likely 1-based
   };
 
   const columns = [
-    // {
-    //   field: "action",
-    //   headerName: "Action",
-    //   flex: 2,
-    //   renderCell: (params) => (
-    //     <>
-    //       {/* <IconButton onClick={() => handleOpen(params.row)}>
-    //         <VisibilityIcon sx={{ color: "#6c5ce7" }} />
-    //       </IconButton> */}
-    //       <Link to={`/sellForm/${params.row.id}`}>
-    //         <IconButton>
-    //           <EditIcon sx={{ color: "#6c5ce7" }} />
-    //         </IconButton>
-    //       </Link>
-    //       <IconButton onClick={() => openDeleteDialog(params.row.id)}>
-    //         <DeleteIcon sx={{ color: "#6c5ce7" }} />
-    //       </IconButton>
-    //     </>
-    //   ),
-    // },
-    { field: "organization", headerName: "Organization", flex : 1 },
-    { field: "organizationBranch", headerName: "Branch", flex : 1 },
-    { field: "model", headerName: "Model", flex : 1 },
-    { field: "device", headerName: "Device", flex : 1 },
-    { field: "purchaseAmount", headerName: "Purchase Amount", flex : 1 },
-    { field: "sellAmount", headerName: "Sell Amount", flex : 1 },
-    { field: "date", headerName: "Date", flex : 1 },
+    { field: "organization", headerName: "Organization", flex: 1 },
+    { field: "organizationBranch", headerName: "Branch", flex: 1 },
+    { field: "model", headerName: "Model", flex: 1 },
+    { field: "device", headerName: "Device", flex: 1 },
+    { field: "purchaseAmount", headerName: "Purchase Amount", flex: 1 },
+    { field: "sellAmount", headerName: "Sell Amount", flex: 1 },
+    { field: "date", headerName: "Date", flex: 1 },
   ];
 
   const rows = Array.isArray(sellData)
@@ -154,14 +121,6 @@ const SellTable = () => {
     setSearchTerm(event.target.value);
     setPaginationModel((prev) => ({ ...prev, page: 0 }));
   };
-
-  // const filteredOrganization = rows.filter((row) => {
-  //   return row.organizationName
-  //     .toLowerCase()
-  //     .includes(searchTerm.toLowerCase());
-  // });
-
-  // const paginationModel = { page: 0, pageSize: 5 };
   return (
     <Box>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -181,8 +140,6 @@ const SellTable = () => {
                 startDate: e.target.value,
               }))
             }
-            // value={formData.date}
-            // onChange={handleNativeDateChange}
             sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
             InputLabelProps={{
               shrink: true,
@@ -198,43 +155,22 @@ const SellTable = () => {
             onChange={(e) =>
               setDateRange((prev) => ({ ...prev, endDate: e.target.value }))
             }
-            // value={formData.date}
-            // onChange={handleNativeDateChange}
             sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
             InputLabelProps={{
               shrink: true,
             }}
           />
-          {/* <TextField
-            variant="outlined"
-            placeholder="Search"
-            size="medium"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            sx={{ backgroundColor: "white", borderRadius: 1, width: "50%" }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ color: "#6c5ce7" }} />
-                </InputAdornment>
-              ),
-            }}
-          /> */}
-          {/* <Button
-                variant="outlined"
-                sx={{
-                  color: "#6c5ce7",
-                  borderColor: "#6c5ce7",
-                  textTransform: "none",
-                }}
-                component={Link}
-                to="/sellForm"
-              >
-                Add TO DEVICES SELL
-              </Button> */}
         </Box>
       </Box>
-      <Paper sx={{ height: "auto", width: "100%", marginTop: "2rem" , overflowX: "auto",boxSizing: "border-box"}}>
+      <Paper
+        sx={{
+          height: "auto",
+          width: "100%",
+          marginTop: "2rem",
+          overflowX: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}
@@ -245,7 +181,6 @@ const SellTable = () => {
           paginationModel={paginationModel}
           pageSizeOptions={[5, 10]}
           sx={{
-            
             border: 0,
             "& .MuiDataGrid-columnHeader": {
               background: "#C4BDFF",
@@ -257,19 +192,6 @@ const SellTable = () => {
             },
           }}
         />
-        {/* <Button
-              sx={{
-                backgroundColor: "#6c5ce7",
-                color: "white",
-                marginTop: "1rem",
-                marginLeft: "1rem",
-              }}
-              variant="contained"
-              component={Link}
-              to="/stockPage"
-            >
-              StockPage
-            </Button> */}
       </Paper>
 
       <DialogBox
