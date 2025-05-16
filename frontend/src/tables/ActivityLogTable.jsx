@@ -70,7 +70,7 @@ const ActivityLogTable = () => {
   };
 
   const columns = [
-    { field: "user", headerName: "User", flex: 1 },
+    { field: "name", headerName: "Name", flex: 1 },
     { field: "role", headerName: "Role", flex: 1 },
     { field: "organization", headerName: "Organization", flex: 1 },
     { field: "branch", headerName: "Branch", flex: 1 },
@@ -87,7 +87,7 @@ const ActivityLogTable = () => {
   const rows = Array.isArray(logs)
     ? logs.map((log) => ({
         id: log._id,
-        user: log.name || "N/A",
+        name: log.name || "N/A",
         role: log.role || "N/A",
         organization: log.organization?.organizationName || "N/A",
         branch: log.branchName?.branchName || "N/A",
