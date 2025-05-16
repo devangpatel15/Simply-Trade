@@ -41,7 +41,6 @@ const updateSell = async (formData, id) => {
       },
     });
     toast.success("Sell updated successfully!");
-    alert(response.data.message);
     return response;
   } catch (error) {
     toast.error("Sell not updated!");

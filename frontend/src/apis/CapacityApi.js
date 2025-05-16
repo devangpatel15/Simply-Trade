@@ -48,7 +48,6 @@ const updateCapacity = async (formData, id) => {
       }
     );
     toast.success("Capacity updated successfully!");
-    alert(response.data.message);
   } catch (error) {
     toast.error("Capacity not updated!");
     console.log(error.message);

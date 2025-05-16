@@ -108,7 +108,6 @@ const OrganizationBranchForm = () => {
       navigate("/organizationBranchPage");
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Error submitting form");
     }
   };
 

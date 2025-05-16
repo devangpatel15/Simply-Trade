@@ -74,7 +74,6 @@ const CustomerLedgerPage = () => {
       window.URL.revokeObjectURL(url);
     } catch (err) {
       console.error(err);
-      alert("Failed to download PDF");
     }
   };
 

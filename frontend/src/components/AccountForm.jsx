@@ -73,7 +73,6 @@ const AccountForm = () => {
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("error");
     }
   };
 
