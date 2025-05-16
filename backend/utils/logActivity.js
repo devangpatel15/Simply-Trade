@@ -1,15 +1,34 @@
 const ActivityLog = require("../models/ActivityLog");
 
 exports.createLogActivity = async (req, message) => {
+  // try {
+  //   console.log("req", req);
+
+  //   const user = req?.user || {}; // Safely access req.user
+  //   const activityLog = {
+  //     userId: req?.id || user.id || null,
+  //     role: req?.role || user.role || null,
+  //     organization: req?.org || user.org || null,
+  //     branchName: req?.orgBranch || user.orgBranch || null,
+  //     message,
+  //   };
+
+  //   console.log("activityLog", activityLog);
+
+  //   // Ensure the ActivityLog schema is correctly imported
+  //   await ActivityLog.create(activityLog);
+  //   console.log("Activity logged successfully");
+  // } catch (err) {
+  //   console.error("Activity logging failed:", err.message);
+  // }
   try {
-    const activityLog = {
+    console.log("Logging activity:", req.user.org);
+    await ActivityLog.create({
       userId: req.user.id,
-      role: req.user.role,
-      organization: req.user.org || null,
-      branchName: req.user.orgBranch || null,
+      organization: req.user.org,
+      branchName: req.user.orgBranch,
       message,
-    };
-    await ActivityLog.create(activityLog);
+    });
     console.log("Activity logged successfully");
   } catch (err) {
     console.error("Activity logging failed:", err.message);

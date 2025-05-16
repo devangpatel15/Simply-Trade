@@ -82,17 +82,19 @@ exports.loginUser = async (req, res) => {
 
     const isRightPassword = await bcrypt.compare(password, user.password);
 
+    const jwtData = {
+      id: user._id,
+      email: user.email,
+      role: user.role || "",
+      org: user?.organization?._id,
+      orgBranch: user?.orgBranch?._id,
+    };
     if (isRightPassword) {
       const token = jwt.sign(
-        {
-          id: user._id,
-          email: user.email,
-          role: user.role || "",
-          org: user?.organization?._id,
-          orgBranch: user?.orgBranch?._id,
-        },
+        jwtData,
         process.env.JWT_SECRET
       );
+      // await createLogActivity(jwtData, `login ${jwtData.email}`);
 
       return res
         .status(200)
