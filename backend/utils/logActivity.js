@@ -1,35 +1,33 @@
 const ActivityLog = require("../models/ActivityLog");
+const { findUserServices } = require("../services/user");
 
-exports.createLogActivity = async (req, message) => {
-  // try {
-  //   console.log("req", req);
-
-  //   const user = req?.user || {}; // Safely access req.user
-  //   const activityLog = {
-  //     userId: req?.id || user.id || null,
-  //     role: req?.role || user.role || null,
-  //     organization: req?.org || user.org || null,
-  //     branchName: req?.orgBranch || user.orgBranch || null,
-  //     message,
-  //   };
-
-  //   console.log("activityLog", activityLog);
-
-  //   // Ensure the ActivityLog schema is correctly imported
-  //   await ActivityLog.create(activityLog);
-  //   console.log("Activity logged successfully");
-  // } catch (err) {
-  //   console.error("Activity logging failed:", err.message);
-  // }
+exports.createLogActivity = async (req, res) => {
   try {
-    console.log("Logging activity:", req.user.org);
-    await ActivityLog.create({
-      userId: req.user.id,
-      organization: req.user.org,
-      branchName: req.user.orgBranch,
-      message,
-    });
+    const user = req?.user || {};
+    const userdata = await findUserServices(user.email || req?.email);
+    const logMessage = req.body?.message;
+
+    console.log("res", res);
+    console.log("logMessage", logMessage);
+
+    const activityLog = {
+      userId: req?.id || user.id || null,
+      name: userdata.name || null,
+      role: req?.role || user.role || null,
+      organization: req?.org || user.org || null,
+      branchName: req?.orgBranch || user.orgBranch || null,
+      message: logMessage ? `${userdata.name} ${logMessage}` : res, //when its work as normal function res is a message for all logs or logMessage is a message for logout time
+    };
+
+    const logs = await ActivityLog.create(activityLog);
     console.log("Activity logged successfully");
+
+    if (logMessage) {
+      return res.status(200).json({
+        message: "Activity logged successfully",
+        data: logs,
+      });
+    }
   } catch (err) {
     console.error("Activity logging failed:", err.message);
   }
@@ -37,32 +35,50 @@ exports.createLogActivity = async (req, message) => {
 
 exports.getAllLogActivity = async (req, res) => {
   try {
-    // const { userId, startDate, endDate } = req.query;
+    const { startDate, endDate, search } = req.query;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
-    // let filter = {};
-    // if (userId) filter.userId = userId;
-    // if (startDate && endDate) {
-    //   filter.createdAt = {
-    //     $gte: new Date(startDate),
-    //     $lte: new Date(endDate),
-    //   };
-    // }
+    const end = new Date(endDate);
+    end.setHours(23, 59, 59, 999); // Include full end day
 
-    // const logs = await ActivityLog.find(filter)
-    //   .populate("userId", "name")
-    //   .populate("organization", "name")
-    //   .populate("branchName", "branchName")
-    //   .sort({ createdAt: -1 });
+    const filter = {
+      ...(req.user.role === "user" && { branchName: req.user.orgBranch }),
+    };
 
-    const logs = await ActivityLog.find()
-      .populate("userId", "name")
+    if (search) {
+      filter.name = { $regex: search, $options: "i" };
+    }
+
+    // Filter by date range
+    if (startDate && endDate) {
+      filter.createdAt = {
+        $gte: new Date(startDate),
+        $lte: end,
+      };
+    }
+
+    const logs = await ActivityLog.find(filter)
+      // .populate("userId", "name")
       .populate("organization")
-      .populate("branchName", "branchName")
-      .sort({ createdAt: -1 });
-    return res.status(200).json({ message: "mili gayiii", data: logs });
+      .populate("branchName")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    const totalCount = await ActivityLog.countDocuments(filter);
+
+    return res.status(200).json({
+      message: "Logs fetched",
+      data: logs,
+      totalCount,
+    });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Failed to fetch logs", error: err.message });
+    res.status(500).json({
+      message: "Failed to fetch logs",
+      error: err.message,
+    });
   }
 };

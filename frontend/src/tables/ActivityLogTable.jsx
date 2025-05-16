@@ -1,147 +1,15 @@
-// import React, { useEffect, useState } from "react";
-// import {
-//   Table,
-//   TableHead,
-//   TableRow,
-//   TableCell,
-//   TableBody,
-//   TextField,
-//   Button,
-//   Container,
-//   Typography,
-//   Box,
-// } from "@mui/material";
-// import axios from "axios";
-
-// const ActivityLogTable = () => {
-//   const [logs, setLogs] = useState([]);
-//   const [userId, setUserId] = useState("");
-//   const [startDate, setStartDate] = useState("");
-//   const [endDate, setEndDate] = useState("");
-
-// //   const  = async () => {
-// //     try {
-// //       const params = {};
-// //       if (userId) params.userId = userId;
-// //       if (startDate && endDate) {
-// //         params.startDate = startDate;
-// //         params.endDate = endDate;
-// //       }
-
-// //       const res = await axios.get("/api/activityLog");
-// //   console.log("Logs fetched successfully", res.data.logs);
-
-// //       setLogs(res.data.logs);
-// //     } catch (err) {
-// //       console.error("Error fetching logs:", err);
-// //     }
-// //   };
-
-// const api_call = import.meta.env.VITE_API_URL
-
-
-//   const fetchLogs = async () => {
-//       try {
-//         const response = await axios.get(`${api_call}/getActivityLog`, {
-          
-//           headers: {
-//             "Content-Type": "application/json",
-//             Authorization: `Bearer ${localStorage.getItem("token")}`,
-//           },
-//         });
-//         setLogs(response.data.data)
-//         console.log(response);
-        
-//       } catch (error) {
-//         console.log(error, "data not found");
-//       }
-//     };
-
-//   useEffect(() => {
-//     fetchLogs();
-//   }, []);
-
-
-//   return (
-//     <Container>
-//       <Typography variant="h5" gutterBottom>
-//         Activity Logs
-//       </Typography>
-
-//       <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
-//         <TextField
-//           label="User ID"
-//           value={userId}
-//           onChange={(e) => setUserId(e.target.value)}
-//         />
-//         <TextField
-//           type="date"
-//           label="Start Date"
-//           InputLabelProps={{ shrink: true }}
-//           value={startDate}
-//           onChange={(e) => setStartDate(e.target.value)}
-//         />
-//         <TextField
-//           type="date"
-//           label="End Date"
-//           InputLabelProps={{ shrink: true }}
-//           value={endDate}
-//           onChange={(e) => setEndDate(e.target.value)}
-//         />
-//         <Button variant="contained" onClick={fetchLogs}>
-//           Filter
-//         </Button>
-//       </Box>
-
-//       <Table>
-//         <TableHead>
-//           <TableRow>
-//             <TableCell>User</TableCell>
-//             <TableCell>Role</TableCell>
-//             <TableCell>Organization</TableCell>
-//             <TableCell>Branch</TableCell>
-//             <TableCell>Message</TableCell>
-//             <TableCell>Date</TableCell>
-//           </TableRow>
-//         </TableHead>
-//         <TableBody>
-//           {Array.isArray(logs) && logs.length > 0 ? (
-//             logs.map((log) => (
-//               <TableRow key={log._id}>
-//                 <TableCell>{log.userId?.name || "-"}</TableCell>
-//                 <TableCell>{log.role || "-"}</TableCell>
-//                 <TableCell>{log.organization?.organizationName || "-"}</TableCell>
-//                 <TableCell>{log.branchName?.branchName || "-"}</TableCell>
-//                 <TableCell>{log.message}</TableCell>
-//                 <TableCell>
-//                   {new Date(log.createdAt).toLocaleString()}
-//                 </TableCell>
-//               </TableRow>
-//             ))
-//           ) : (
-//             <TableRow>
-//               <TableCell colSpan={5} align="center">
-//                 No logs found.
-//               </TableCell>
-//             </TableRow>
-//           )}
-//         </TableBody>
-//       </Table>
-//     </Container>
-//   );
-// };
-
-// export default ActivityLogTable;
-
 import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
+  InputAdornment,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import SearchIcon from "@mui/icons-material/Search";
+
 import axios from "axios";
 import moment from "moment";
 
@@ -150,6 +18,7 @@ const ActivityLogTable = () => {
   const [userId, setUserId] = useState("");
   const [dateRange, setDateRange] = useState({ startDate: "", endDate: "" });
   const [totalRows, setTotalRows] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 5,
@@ -161,20 +30,22 @@ const ActivityLogTable = () => {
   const fetchLogs = async () => {
     try {
       const response = await axios.get(`${api_call}/getActivityLog`, {
-        // params: {
-        //   userId: userId || undefined,
-        //   startDate: dateRange.startDate,
-        //   endDate: dateRange.endDate,
-        //   page: paginationModel.page + 1,
-        //   pageSize: paginationModel.pageSize,
-        // },
+        params: {
+          userId: userId || undefined,
+          startDate: dateRange.startDate,
+          endDate: dateRange.endDate,
+          page: paginationModel.page + 1,
+          pageSize: paginationModel.pageSize,
+          limit: paginationModel.pageSize,
+          search: searchTerm,
+        },
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       setLogs(response.data.data);
-      setTotalRows(10);
+      setTotalRows(response.data.totalCount || 0);
     } catch (error) {
       console.error("Error fetching logs:", error);
     }
@@ -193,6 +64,12 @@ const ActivityLogTable = () => {
     setPaginationModel((prev) => ({ ...prev, page: 0 })); // Reset to first page
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+    // setUserId(event.target.value)
+    setPaginationModel((prev) => ({ ...prev, page: 0 }));
+  };
+
   const columns = [
     { field: "user", headerName: "User", flex: 1 },
     { field: "role", headerName: "Role", flex: 1 },
@@ -203,22 +80,24 @@ const ActivityLogTable = () => {
       field: "date",
       headerName: "Date",
       flex: 1,
-      renderCell: (params) => moment(params.row.date).format('DD-MM-YYYY, h:mm a'),
+      renderCell: (params) =>
+        moment(params.row.date).format("DD-MM-YYYY, h:mm a"),
     },
   ];
 
-  console.log("logs",logs);
-  
-  const rows =  Array.isArray(logs)?
-  logs.map((log) => ({
-    id: log._id,
-    user: log.userId?.name || "N/A",
-    role: log.role || "N/A",
-    organization: log.organization?.organizationName || "N/A",
-    branch: log.branchName?.branchName || "N/A",
-    message: log.message || "No message",
-    date: log.createdAt || null,
-  })):[];
+  console.log("logs", logs);
+
+  const rows = Array.isArray(logs)
+    ? logs.map((log) => ({
+        id: log._id,
+        user: log.name || "N/A",
+        role: log.role || "N/A",
+        organization: log.organization?.organizationName || "N/A",
+        branch: log.branchName?.branchName || "N/A",
+        message: log.message || "No message",
+        date: log.createdAt || null,
+      }))
+    : [];
 
   return (
     <Box>
@@ -228,10 +107,19 @@ const ActivityLogTable = () => {
 
       <Box display="flex" gap={2} my={2}>
         <TextField
-          label="User ID"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
+          // label="Name"
+          placeholder="Search by name"
+          value={searchTerm}
+          onChange={handleSearchChange}
           sx={{ flex: 1, backgroundColor: "white", borderRadius: 1 }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: "#6c5ce7" }} />{" "}
+                {/* Search icon color */}
+              </InputAdornment>
+            ),
+          }}
         />
         <TextField
           type="date"
@@ -249,13 +137,6 @@ const ActivityLogTable = () => {
           InputLabelProps={{ shrink: true }}
           sx={{ flex: 1, backgroundColor: "white", borderRadius: 1 }}
         />
-        <Button
-          variant="contained"
-          onClick={fetchLogs}
-          sx={{ textTransform: "none", backgroundColor: "#6c5ce7" }}
-        >
-          Filter
-        </Button>
       </Box>
 
       <Paper
@@ -272,7 +153,7 @@ const ActivityLogTable = () => {
           columns={columns}
           pageSize={paginationModel.pageSize}
           rowCount={totalRows}
-          paginationMode={'server'}
+          paginationMode="server"
           onPaginationModelChange={handlePaginationModelChange}
           paginationModel={paginationModel}
           pageSizeOptions={[5, 10]}
@@ -295,4 +176,3 @@ const ActivityLogTable = () => {
 };
 
 export default ActivityLogTable;
-

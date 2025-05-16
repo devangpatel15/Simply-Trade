@@ -57,9 +57,33 @@ const Header = () => {
     setOpen(false);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
+  const fetchLogOut = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:4000/api/createActivityLog",
+        { message: "logout" }, // Request body (empty if you're not sending any data)
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+      } else {
+        console.log("Error logging out");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleLogout = async () => {
+    await fetchLogOut();
     navigate("/signIn");
   };
 
@@ -140,7 +164,7 @@ const Header = () => {
             <ClickAwayListener onClickAway={handleClose}>
               <Paper sx={{ mt: 1, borderRadius: 2, boxShadow: 3 }}>
                 <List>
-                  <ListItem button onClick={()=>navigate("/activityLog")}>
+                  <ListItem button onClick={() => navigate("/activityLog")}>
                     <AccountCircleRoundedIcon>
                       <Business sx={{ color: "primary" }} />
                     </AccountCircleRoundedIcon>

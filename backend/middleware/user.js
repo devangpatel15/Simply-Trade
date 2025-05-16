@@ -3,7 +3,6 @@ const { body, param, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
 exports.AuthUser = (req, res, next) => {
-  // const token = req.headers("Authorization");
   const token = req.headers["authorization"] || req.headers["Authorization"];
 
   if (!token) {

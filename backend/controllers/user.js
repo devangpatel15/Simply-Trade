@@ -94,7 +94,7 @@ exports.loginUser = async (req, res) => {
         jwtData,
         process.env.JWT_SECRET
       );
-      // await createLogActivity(jwtData, `login ${jwtData.email}`);
+      await createLogActivity(jwtData, `login ${user.name}`);
 
       return res
         .status(200)
@@ -187,7 +187,7 @@ exports.createUser = async (req, res) => {
   try {
     const data = req.body;
     const userData = await createUserServices(data);
-    await createLogActivity(req, `create user`);
+    const log=await createLogActivity(req, `create user`);
 
     return res.status(200).json({ message: "User created", data: userData });
   } catch (err) {
