@@ -68,12 +68,7 @@ exports.createCategory = async (req, res) => {
     const newCat = req.body;
 
     const createdCat = await createCategoryService(newCat);
-<<<<<<< HEAD
     await createLogActivity(req, `Created Category`);
-=======
-
-    await logActivity(req, `Created category of ₹${amount} for stock ${stock}`);
->>>>>>> 4ff03798383245103dec0a91fbc6a4ae0b1eab3e
 
     return res
       .status(200)

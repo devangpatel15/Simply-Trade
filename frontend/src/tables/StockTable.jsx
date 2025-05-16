@@ -94,11 +94,7 @@ const StockTable = ({ searchTerm }) => {
     {
       field: "action",
       headerName: "Action",
-<<<<<<< HEAD
       flex : 1.5,
-=======
-      flex: 1.5,
->>>>>>> 4ff03798383245103dec0a91fbc6a4ae0b1eab3e
       renderCell: (params) => (
         <>
           {((loginUser && loginUser.role === "admin") ||
