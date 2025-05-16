@@ -78,8 +78,8 @@ const Home = () => {
                     {console.log(option, "option")}
 
                     {/* Branch Name */}
-                    <Typography variant="h6" color="primary" fontWeight="bold">
-                      {`${option?.modelName?.modelName} - ${option?.deviceName?.deviceName}(${option?.color?.colorName}) `}
+                    <Typography variant="h6" color="#6c5ce7" fontWeight="bold">
+                      {`${option?.modelName?.modelName} - ${option?.deviceName?.deviceName}(${option?.color?.colorName})`}
                     </Typography>
 
                     {/* Customer Name */}

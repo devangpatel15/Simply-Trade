@@ -188,8 +188,11 @@ const Sidebar = ({ setIsSidebarMinimized }) => {
           color: iconColor,
           height: "100vh",
           overflowX: "auto",
+          scrollbarGutter: "none",
           display: "flex",
           flexDirection: "column",
+          transition: "width 0.5s",
+          overflowY: "auto", // still allow vertical scroll if needed
         },
       }}
     >

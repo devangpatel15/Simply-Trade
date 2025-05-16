@@ -2,6 +2,7 @@ const Account = require("../models/account");
 const Stock = require("../models/stock");
 
 const mongoose = require("mongoose");
+const { uploadBase64ToS3 } = require("../utils/uploadToS3");
 
 exports.getAllStockService = async (userOrgId, role, userId, req) => {
   const page = parseInt(req.query.page) || 1;
@@ -169,22 +170,46 @@ exports.getStockService = async (stockId) => {
   return stockData;
 };
 
-exports.createStockService = async (newStock) => {
-  const { payment } = newStock;
+// exports.createStockService = async (newStock) => {
+//   const { payment } = newStock;
 
-  payment.forEach(
-    async (item) =>
-      await Account.findByIdAndUpdate(
+//   payment.forEach(
+//     async (item) =>
+//       await Account.findByIdAndUpdate(
+//         item.paymentAccount,
+//         {
+//           $inc: { balance: -item.paymentAmount },
+//         },
+//         { new: true }
+//       )
+//   );
+
+//   const stockData = await Stock.create(newStock);
+
+//   return stockData;
+// };
+
+exports.createStockService = async (newStock) => {
+  const { payment, upload } = newStock;
+
+  // Upload base64 image to S3 if available
+  if (upload) {
+    const imageUrl = await uploadBase64ToS3(upload);
+    newStock.upload = imageUrl; // Replace base64 with URL
+  }
+
+  // Deduct payment from accounts
+  await Promise.all(
+    payment.map((item) =>
+      Account.findByIdAndUpdate(
         item.paymentAccount,
-        {
-          $inc: { balance: -item.paymentAmount },
-        },
+        { $inc: { balance: -item.paymentAmount } },
         { new: true }
       )
+    )
   );
 
   const stockData = await Stock.create(newStock);
-
   return stockData;
 };
 
