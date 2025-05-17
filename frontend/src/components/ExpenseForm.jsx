@@ -116,7 +116,7 @@ const ExpenseForm = ({ stockId }) => {
         }
       } else if (id) {
         await updateExpense(payload, id);
-        toast.success("Expense updated successfully!");
+        // toast.success("Expense updated successfully!");
         navigate("/expensePage");
       } else {
         await createExpense(payload);
@@ -163,16 +163,16 @@ const ExpenseForm = ({ stockId }) => {
 
         setFormData({
           ...response.data.data,
-          stock: response.data.data.stock._id,
+          stock: response.data.data.stock?._id,
           date:
             moment(response.data?.data?.expenseDate).format("YYYY-MM-DD") || "",
           organization: {
-            label: response.data.data.organization.organizationName,
-            value: response.data.data.organization._id || "",
+            label: response.data.data.organization?.organizationName,
+            value: response.data.data.organization?._id || "",
           },
           branchName: {
-            label: response.data.data.branchName.branchName,
-            value: response.data.data.branchName._id || "",
+            label: response.data.data.branchName?.branchName,
+            value: response.data.data.branchName?._id || "",
           },
 
           modelName: {

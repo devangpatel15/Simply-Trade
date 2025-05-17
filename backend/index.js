@@ -21,6 +21,8 @@ const cusLeaderRouter = require("./routes/cusLeadger.js");
 const profitLossRouter = require("./routes/profitLoss.js");
 const activityLogRouter = require("./routes/activityLog.js");
 
+const deviceProxy = require("./routes/deviceImage"); // adjust path as needed
+
 const PORT = process.env.PORT;
 connectMongoDB();
 
@@ -44,6 +46,7 @@ app.use(
   repairRouter,
   cusLeaderRouter,
   profitLossRouter,
+  deviceProxy,
   activityLogRouter
 );
 

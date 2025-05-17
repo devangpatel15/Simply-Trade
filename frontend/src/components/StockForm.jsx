@@ -22,6 +22,10 @@ import CustomerInput from "./common/CustomerInput";
 import { getOneCustomer } from "../apis/CustomerApi";
 import { errorMessage, formatMessage, lengthMessage } from "../../errorMessage";
 import PaymentInput from "./common/PaymentInput";
+<<<<<<< HEAD
+=======
+import axios from "axios";
+>>>>>>> 57fdb6907a21bc6930d456db683bcceea22e82f8
 
 const StockForm = () => {
   const [errors, setErrors] = useState({});
@@ -71,27 +75,86 @@ const StockForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // const handleChange = async (e) => {
+  //   const { name, value, files } = e.target;
+
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+
+  //   const file = files[0];
+  //   if (file) {
+  //     const base64 = await convertToBase64(file);
+  //     console.log("Base64 String:", base64); // optional
+  //     // Now you can store base64 in your form state or send it to your database
+  //     setFormData((prev) => ({ ...prev, upload: base64 }));
+  //   }
+  // };
+
+  // const convertToBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file); // This returns base64 with data:[mime];base64,...
+  //     reader.onload = () => resolve(reader.result);
+  //     reader.onerror = (error) => reject(error);
+  //   });
+  // };
+
+  // const api_call = import.meta.env.VITE_API_URL;
+
+  // const handleChange = async (e) => {
+  //   const { name, value, files } = e.target;
+
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+
+  //   const file = files?.[0];
+  //   if (file) {
+  //     const base64 = await convertToBase64(file);
+
+  //     try {
+  //       const response = await axios.post(`${api_call}/upload-to-s3`, {
+  //         base64Image: base64,
+  //       });
+
+  //       const imageUrl = response.data.imageUrl;
+  //       setFormData((prev) => ({ ...prev, upload: imageUrl }));
+  //     } catch (error) {
+  //       console.error("Upload to S3 failed:", error);
+  //       // You can add toast/snackbar error here
+  //       toast.error("Not Uploaded");
+  //     }
+  //   }
+  // };
+
+  // const convertToBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => resolve(reader.result);
+  //     reader.onerror = (err) => reject(err);
+  //   });
+  // };
+
   const handleChange = async (e) => {
     const { name, value, files } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    const file = files[0];
-    if (file) {
-      const base64 = await convertToBase64(file);
-      console.log("Base64 String:", base64); // optional
-      // Now you can store base64 in your form state or send it to your database
-      setFormData((prev) => ({ ...prev, upload: base64 }));
+    if (files && files[0]) {
+      const base64 = await convertToBase64(files[0]);
+      setFormData((prev) => ({ ...prev, [name]: value, upload: base64 }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
+  // Convert File to base64 Data URL
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.readAsDataURL(file); // This returns base64 with data:[mime];base64,...
+      reader.readAsDataURL(file); // Outputs: data:image/png;base64,xxxx...
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
