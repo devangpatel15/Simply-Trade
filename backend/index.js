@@ -46,10 +46,7 @@ app.use(
   repairRouter,
   cusLeaderRouter,
   profitLossRouter,
-<<<<<<< HEAD
-=======
   deviceProxy,
->>>>>>> 57fdb6907a21bc6930d456db683bcceea22e82f8
   activityLogRouter
 );
 
